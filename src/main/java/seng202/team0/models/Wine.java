@@ -9,39 +9,39 @@ package seng202.team0.models;
 
 public class Wine {
     /**
-     * The name of the wine
+     * The name of the wine.
      */
     private String name;
     /**
-     * The description of the wine
+     * The description of the wine.
      */
     private String description;
     /**
-     * The price of the wine
+     * The price of the wine.
      */
     private int price;
     /**
-     * The province of the wine
+     * The province of the wine.
      */
     private String province;
     /**
-     * The main region of the wine
+     * The main region of the wine.
      */
     private String region1;
     /**
-     * The secondary region of the wine
+     * The secondary region of the wine.
      */
     private String region2;
     /**
-     * The variety of the wine
+     * The variety of the wine.
      */
     private String variety;
     /**
-     * The winery that produced the wine
+     * The winery that produced the wine.
      */
     private String winery;
     /**
-     * The taster of the wine that wrote the description
+     * The taster of the wine that wrote the description.
      */
     private String tasterName;
     /**
@@ -64,7 +64,8 @@ public class Wine {
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      */
-    public Wine(String name, String description, int price, String province, String region1, String region2, String variety, String winery,String tasterName, String tasterTwitter) {
+    public Wine(String name, String description, int price, String province, String region1, String region2,
+                String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -79,7 +80,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the name of the wine
+     * Getter for the name of the wine.
      * @return {@link Wine#name}
      */
     public String getName() {
@@ -87,7 +88,7 @@ public class Wine {
     }
 
     /**
-     * Sets the name of the wine
+     * Sets the name of the wine.
      * @param name String value for the wine's name
      */
     public void setName(String name) {
@@ -95,7 +96,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the string description of the wine
+     * Getter for the string description of the wine.
      * @return {@link Wine#description}
      */
     public String getDescription() {
@@ -103,7 +104,7 @@ public class Wine {
     }
 
     /**
-     * Sets the description of the wine
+     * Sets the description of the wine.
      * @param description String description of the wine
      */
     public void setDescription(String description) {
@@ -111,7 +112,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the int price of the wine
+     * Getter for the int price of the wine.
      * @return {@link Wine#price}
      */
     public int getPrice() {
@@ -119,7 +120,7 @@ public class Wine {
     }
 
     /**
-     * Sets the price of the wine to the int parameter
+     * Sets the price of the wine to the int parameter.
      * @param price Integer price
      */
     public void setPrice(int price) {
@@ -127,7 +128,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the String name of the province of the wine
+     * Getter for the String name of the province of the wine.
      * @return {@link Wine#province}
      */
     public String getProvince() {
@@ -135,7 +136,7 @@ public class Wine {
     }
 
     /**
-     * Sets the String name of province of the wine
+     * Sets the String name of province of the wine.
      * @param province String name of province
      */
     public void setProvince(String province) {
@@ -143,7 +144,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the main region of the wine
+     * Getter for the main region of the wine.
      * @return {@link Wine#region1}
      */
     public String getRegion1() {
@@ -151,7 +152,7 @@ public class Wine {
     }
 
     /**
-     * Sets the wine's main region to the String parameter
+     * Sets the wine's main region to the String parameter.
      * @param region1 region String name
      */
     public void setRegion1(String region1) {
@@ -159,7 +160,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the wine's secondary region
+     * Getter for the wine's secondary region.
      * @return {@link Wine#region2}
      */
     public String getRegion2() {
@@ -167,7 +168,7 @@ public class Wine {
     }
 
     /**
-     * Sets the wine's secondary region to the String parameter
+     * Sets the wine's secondary region to the String parameter.
      * @param region2 name of region
      */
     public void setRegion2(String region2) {
@@ -175,7 +176,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the wine's variety
+     * Getter for the wine's variety.
      * @return {@link Wine#variety}
      */
     public String getVariety() {
@@ -183,7 +184,7 @@ public class Wine {
     }
 
     /**
-     * Sets the variety of the wine to the String parameter
+     * Sets the variety of the wine to the String parameter.
      * @param variety String variety of the wine
      */
     public void setVariety(String variety) {
@@ -191,7 +192,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the wine's winery
+     * Getter for the wine's winery.
      * @return {@link Wine#winery}
      */
     public String getWinery() {
@@ -199,7 +200,7 @@ public class Wine {
     }
 
     /**
-     * Sets the winery's name to the String parameter
+     * Sets the winery's name to the String parameter.
      * @param winery Winery name
      */
     public void setWinery(String winery) {
@@ -207,7 +208,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the wine taster's name
+     * Getter for the wine taster's name.
      * @return {@link Wine#tasterName}
      */
     public String getTasterName() {
@@ -215,7 +216,7 @@ public class Wine {
     }
 
     /**
-     * Sets the wine taster's name to the String parameter
+     * Sets the wine taster's name to the String parameter.
      * @param tasterName name of wine taster
      */
     public void setTasterName(String tasterName) {
@@ -223,7 +224,7 @@ public class Wine {
     }
 
     /**
-     * Getter for the wine's taster's twitter handle
+     * Getter for the wine's taster's twitter handle.
      * @return {@link Wine#tasterTwitter}
      */
     public String getTasterTwitter() {
@@ -231,7 +232,7 @@ public class Wine {
     }
 
     /**
-     * Sets the wine taster's twitter handle to the String parameter
+     * Sets the wine taster's twitter handle to the String parameter.
      * @param tasterTwitter Wine taster's twitter handle
      */
     public void setTasterTwitter(String tasterTwitter) {
