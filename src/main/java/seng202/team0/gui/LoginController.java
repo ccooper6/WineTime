@@ -28,7 +28,7 @@ public class LoginController {
         String username = userNameTextField.getText();
         String password = passwordTextField.getText();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.validateAccount(username, password);
+        System.out.println(userLoginService.validateAccount(username, password));
     }
 
     /**
@@ -40,7 +40,7 @@ public class LoginController {
         String username = userNameTextField.getText();
         String password = passwordTextField.getText();
         UserLoginService userLoginService = new UserLoginService();
-        System.out.println(userLoginService.createAccount(username, password));
+        userLoginService.createAccount(username, password);
     }
 
 }

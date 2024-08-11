@@ -2,14 +2,6 @@ package seng202.team0.services;
 
 import seng202.team0.models.UserLogin;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-
 /**
  * Service class to handle user logins. Calls the UserLogin model and utilised methods within that to validate or
  * create user accounts
@@ -24,8 +16,7 @@ public class UserLoginService {
      * @param username The user's username
      * @param password The associated password
      */
-    public void createAccount(String username, String password) throws NoSuchPaddingException,
-            IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public void createAccount(String username, String password) {
         login.storeLogin(username, password);
     }
 
@@ -36,8 +27,7 @@ public class UserLoginService {
      * @param password The associated password
      * @return true if the username and password match, false otherwise
      */
-    public boolean validateAccount(String username, String password) throws NoSuchPaddingException,
-            IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public boolean validateAccount(String username, String password) {
         return login.checkLogin(username, password);
     }
 }
