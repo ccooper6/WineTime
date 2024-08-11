@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<?import com.gluonhq.charm.glisten.control.TextField?>-->
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.ProfileScreen">
+   <children>
+      <FontAwesomeIconView />
+      <FontAwesomeIconView fx:id="wishlist" fill="#70171e" glyphName="HEART" layoutX="502.0" layoutY="40.0" size="30" wrappingWidth="32.0" />
+      <FontAwesomeIconView fx:id="profile" glyphName="USER_CIRCLE" layoutX="549.0" layoutY="39.0" size="30" tabSize="30" text="" />
+      <FontAwesomeIconView fx:id="Reveiws" glyphName="COMMENT" layoutX="460.0" layoutY="38.0" selectionEnd="0" size="30" wrappingWidth="42.0" />
+<!--      <TextField layoutX="226.0" layoutY="17.0" />-->
+      <SubScene height="200.0" layoutX="181.0" layoutY="137.0" width="200.0">
+        <root>
+          <Region />
+        </root>
+      </SubScene>
+   </children>
+</AnchorPane>
