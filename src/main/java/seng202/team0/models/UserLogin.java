@@ -90,4 +90,10 @@ public class UserLogin {
         byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(text));
         return new String(decrypted);
     }
+
+    public boolean checkLogin(String username, String password) throws NoSuchPaddingException, IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+
+        return Objects.equals(getPassword(username), Objects.hash(password));
+
+    }
 }

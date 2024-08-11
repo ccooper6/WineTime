@@ -20,5 +20,14 @@ public class LogInPageController {
     @FXML
     Button logInButton;
 
+    @FXML
+    public void onLoginPressed(){
+
+    }
+
+    @FXML
+    public void onRegisterPressed(){
+
+    }
 
 }
