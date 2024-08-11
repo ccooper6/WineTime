@@ -1,6 +1,10 @@
 package seng202.team0.models;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -14,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Class to handle user login and register requests. Stores username as an encrypted value using AES encryption
  * and stores password as a hashed value as it is more secure.
- * @author Caleb Cooper
+ * @author Caleb Cooper - https://www.youtube.com/watch?v=IG6mkDgKSTg
  */
 public class UserLogin {
     private static final byte[] KEY = "1234567891112131".getBytes();
@@ -40,6 +44,17 @@ public class UserLogin {
         }
         writer.write(encrypt(username) + "," + Objects.hash(password) + "\n");
         writer.close();
+    }
+
+    /**
+     * Method to check if the password given matches the value returned by the getPassword() function.
+     * @param username value of username to search for
+     * @param password value of password to match
+     * @return true if the value returned by getPassword(username) is equal to the hashed value of password
+     */
+    public boolean checkLogin(String username, String password) throws NoSuchPaddingException,
+            IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        return Objects.equals(getPassword(username), Objects.hash(password));
     }
 
     /**
@@ -89,11 +104,5 @@ public class UserLogin {
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(text));
         return new String(decrypted);
-    }
-
-    public boolean checkLogin(String username, String password) throws NoSuchPaddingException, IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-
-        return Objects.equals(getPassword(username), Objects.hash(password));
-
     }
 }
