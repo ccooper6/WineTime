@@ -52,22 +52,22 @@ public class UserLogin {
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
     public boolean checkLogin(String username, String password) {
-        return Objects.equals(getPassword(username), Objects.hash(password));
+        return Objects.equals(getPassword(encrypt(username)), Objects.hash(password));
     }
 
     /**
      * Method that looks through the text file where the username and password pair is stored and returns the hashed
      * value of the password.
-     * @param username the username to search for
+     * @param encryptedUsername the username to search for
      * @return null if no username could be found, otherwise returns the hashed password value
      */
-    public Integer getPassword(String username) {
+    public Integer getPassword(String encryptedUsername) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
             String lookahead;
             while ((lookahead = reader.readLine()) != null) {
                 String[] login = lookahead.split(",");
-                if (login[0].equals(encrypt(username))) {
+                if (login[0].equals(encrypt(encryptedUsername))) {
                     return Integer.valueOf(login[1]);
                 }
             }
