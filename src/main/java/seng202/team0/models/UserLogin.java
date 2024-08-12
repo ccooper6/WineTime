@@ -1,10 +1,6 @@
 package seng202.team0.models;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -30,20 +26,23 @@ public class UserLogin {
      * @param username username value to be stored
      * @param password password value to be stored
      */
-    public void storeLogin(String username, String password) throws IOException, NoSuchPaddingException,
-            IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME,true));
-        BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
-        String lookahead;
-        while ((lookahead = reader.readLine()) != null) {
-            String[] login = lookahead.split(",");
-            if (login[0].equals(encrypt(username))) {
-                System.out.println("Username already exists, please try a different Username.");
-                return;
+    public void storeLogin(String username, String password) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true));
+            BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
+            String lookahead;
+            while ((lookahead = reader.readLine()) != null) {
+                String[] login = lookahead.split(",");
+                if (login[0].equals(encrypt(username))) {
+                    System.out.println("Username already exists, please try a different Username.");
+                    return;
+                }
             }
+            writer.write(encrypt(username) + "," + Objects.hash(password) + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        writer.write(encrypt(username) + "," + Objects.hash(password) + "\n");
-        writer.close();
     }
 
     /**
@@ -52,8 +51,7 @@ public class UserLogin {
      * @param password value of password to match
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
-    public boolean checkLogin(String username, String password) throws NoSuchPaddingException,
-            IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public boolean checkLogin(String username, String password) {
         return Objects.equals(getPassword(username), Objects.hash(password));
     }
 
@@ -63,15 +61,18 @@ public class UserLogin {
      * @param username the username to search for
      * @return null if no username could be found, otherwise returns the hashed password value
      */
-    public Integer getPassword(String username) throws IOException, NoSuchPaddingException, IllegalBlockSizeException,
-            NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
-        String lookahead;
-        while ((lookahead = reader.readLine()) != null) {
-            String[] login = lookahead.split(",");
-            if (login[0].equals(encrypt(username))) {
-                return Integer.valueOf(login[1]);
+    public Integer getPassword(String username) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
+            String lookahead;
+            while ((lookahead = reader.readLine()) != null) {
+                String[] login = lookahead.split(",");
+                if (login[0].equals(encrypt(username))) {
+                    return Integer.valueOf(login[1]);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -82,13 +83,18 @@ public class UserLogin {
      * @param text The text that needs to be encrypted
      * @return A string that contains the encrypted text
      */
-    public String encrypt(String text) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        SecretKeySpec key = new SecretKeySpec(KEY, ALGORITHM);
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encrypted = cipher.doFinal(text.getBytes());
-        return Base64.getEncoder().encodeToString(encrypted);
+    public String encrypt(String text) {
+        try {
+            SecretKeySpec key = new SecretKeySpec(KEY, ALGORITHM);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encrypted = cipher.doFinal(text.getBytes());
+            return Base64.getEncoder().encodeToString(encrypted);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
+                 | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -97,12 +103,17 @@ public class UserLogin {
      * @param text The text that needs to be decrypted
      * @return A string that contains the decrypted text
      */
-    public String decrypt(String text) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        SecretKeySpec key = new SecretKeySpec(KEY, ALGORITHM);
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(text));
-        return new String(decrypted);
+    public String decrypt(String text) {
+        try {
+            SecretKeySpec key = new SecretKeySpec(KEY, ALGORITHM);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(text));
+            return new String(decrypted);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
+                 | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
