@@ -26,23 +26,23 @@ public class UserLogin {
      * @param username username value to be stored
      * @param password password value to be stored
      */
-    public void storeLogin(String username, String password) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true));
-            BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
+    public int storeLogin(String username, String password) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true));
+                BufferedReader reader = new BufferedReader(new FileReader(FILENAME))) {
+
             String lookahead;
             while ((lookahead = reader.readLine()) != null) {
                 String[] login = lookahead.split(",");
                 if (login[0].equals(encrypt(username))) {
-                    System.out.println("Username already exists, please try a different Username.");
-                    return;
+                    return 0; // 0 = Username already exists
                 }
             }
             writer.write(encrypt(username) + "," + Objects.hash(password) + "\n");
-            writer.close();
+            return 1; // 1 = Account successfully created
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return 2; // 2 = An error has occurred
     }
 
     /**
@@ -67,7 +67,7 @@ public class UserLogin {
             String lookahead;
             while ((lookahead = reader.readLine()) != null) {
                 String[] login = lookahead.split(",");
-                if (login[0].equals(encrypt(encryptedUsername))) {
+                if (login[0].equals(encryptedUsername)) {
                     return Integer.valueOf(login[1]);
                 }
             }
