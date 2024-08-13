@@ -41,7 +41,7 @@ public class CounterServiceTest
      */
     @Test
     public void testIncrement() {
-        assertEquals(10, testCounterService.getCurrentCount());  // failing test here change back to 0:)
+        assertEquals(0, testCounterService.getCurrentCount());
         testCounterService.incrementCounter();
         assertEquals(1, testCounterService.getCurrentCount());
     }
