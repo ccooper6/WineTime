@@ -29,6 +29,7 @@ public class LoginController {
         String password = passwordTextField.getText();
         UserLoginService userLoginService = new UserLoginService();
         System.out.println(userLoginService.validateAccount(username, password));
+        FXWrapper.getInstance().launchPage("main");
     }
 
     /**

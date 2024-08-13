@@ -3,6 +3,7 @@ package seng202.team0;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team0.gui.FXWindow;
 import seng202.team0.gui.MainWindow;
 
 /**
@@ -24,6 +25,6 @@ public class App {
                 + "but is only an example!')");
         log.log(Level.INFO, "There are many ways to log!");
 
-        MainWindow.main(args);
+        FXWindow.launchWrapper(args);
     }
 }
