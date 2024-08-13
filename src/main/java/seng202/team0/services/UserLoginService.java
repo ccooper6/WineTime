@@ -16,8 +16,8 @@ public class UserLoginService {
      * @param username The user's username
      * @param password The associated password
      */
-    public void createAccount(String username, String password) {
-        login.storeLogin(username, password);
+    public int createAccount(String username, String password) {
+        return login.storeLogin(username, password);
     }
 
     /**
