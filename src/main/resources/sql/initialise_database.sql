@@ -15,6 +15,6 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
                                      id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      username TEXT UNIQUE,
-                                     password TEXT);
+                                     password INT);
 --SPLIT
 INSERT INTO users (username, password) VALUES ('admin', 'admin');

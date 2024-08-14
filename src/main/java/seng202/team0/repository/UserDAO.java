@@ -12,7 +12,10 @@ public class UserDAO implements DAOInterface<User> {
 
     private final DatabaseManager databaseManager;
 
-    public UserDAO() {databaseManager = DatabaseManager.getInstance();}
+    public UserDAO() {
+        databaseManager = DatabaseManager.getInstance();
+    }
+
     @Override
     public List getAll() {
         throw new NotImplementedException();
@@ -29,8 +32,8 @@ public class UserDAO implements DAOInterface<User> {
      * @param password the hashed password
      * @return whether the user was already in the database and the password matched.
      */
-    public boolean tryLogin(String username, String password) {
-        String sql = "SELECT hashed_password FROM users WHERE username = ?";
+    public boolean tryLogin(String username, int password) {
+        String sql = "SELECT password FROM users WHERE username = ?";
         try (
                 Connection conn = databaseManager.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -41,13 +44,9 @@ public class UserDAO implements DAOInterface<User> {
             if (!rs.next()) {
                 return false;
             }
+            int hashedPassword = rs.getInt("password");
 
-            String hashed_password = rs.getString("hashed_password");
-
-            return Objects.equals(hashed_password, password);
-
-
-
+            return Objects.equals(hashedPassword, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -59,17 +58,19 @@ public class UserDAO implements DAOInterface<User> {
     public int add(User toAdd) throws DuplicateEntryException {
         String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setString(1, toAdd.getEncryptedUserName());
-            ps.setString(2, toAdd.getHashedPassword());
-            ps.executeUpdate();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ResultSet rs = ps.getGeneratedKeys();
-            int insertId = -1;
-            if (rs.next()) {
-                insertId = rs.getInt(1);
+            ps.setString(1, toAdd.getEncryptedUserName());
+            ps.setInt(2, toAdd.getHashedPassword());
+            ps.executeUpdate();
+            System.out.println("Added user: " + toAdd.getEncryptedUserName());
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // Return the generated key
+                } else {
+                    return -1; // No key was generated
+                }
             }
-            return insertId;
         } catch (SQLException sqlException) {
             if (sqlException.getErrorCode() == 19) {
                 throw new DuplicateEntryException("Duplicate username");

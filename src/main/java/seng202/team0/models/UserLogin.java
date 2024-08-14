@@ -1,5 +1,8 @@
 package seng202.team0.models;
 
+import seng202.team0.exceptions.DuplicateEntryException;
+import seng202.team0.repository.UserDAO;
+
 import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +23,7 @@ public class UserLogin {
     private static final byte[] KEY = "1234567891112131".getBytes();
     private static final String ALGORITHM = "AES";
     private static final String FILENAME = "src/main/resources/logins/login.txt";
+    private final UserDAO userDAO = new UserDAO();
 
     /**
      * Takes a username and password input and stores it as long as the username is unique.
@@ -37,10 +41,13 @@ public class UserLogin {
                     return 0; // 0 = Username already exists
                 }
             }
-            writer.write(encrypt(username) + "," + Objects.hash(password) + "\n");
+            User newUser = new User(encrypt(username), Objects.hash(password));
+            userDAO.add(newUser);
             return 1; // 1 = Account successfully created
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (DuplicateEntryException e) {
+            throw new RuntimeException(e);
         }
         return 2; // 2 = An error has occurred
     }
@@ -52,7 +59,7 @@ public class UserLogin {
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
     public boolean checkLogin(String username, String password) {
-        return Objects.equals(getPassword(encrypt(username)), Objects.hash(password));
+        return userDAO.tryLogin(encrypt(username), Objects.hash(password));
     }
 
     /**
@@ -79,7 +86,7 @@ public class UserLogin {
 
     /**
      * Method that takes a string as input, for example a username, and returns a string that is no longer readable.
-     * Uses a fixed key.
+     * Uses a fixed key. Functionality
      * @param text The text that needs to be encrypted
      * @return A string that contains the encrypted text
      */

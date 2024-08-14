@@ -23,16 +23,20 @@ public class DatabaseManager {
      * Creates database if it does not already exist in specified location
      */
     private DatabaseManager(String urlIn) {
-        if (urlIn==null || urlIn.isEmpty()){
+        if (urlIn == null || urlIn.isEmpty()) {
             this.url = getDatabasePath();
         } else {
             this.url = urlIn;
         }
-        if(!checkDatabaseExists(url)){
+        log.info("Using database path: " + this.url);
+
+        if (!checkDatabaseExists(url)) {
+            log.info("Database does not exist. Creating new database.");
             createDatabaseFile(url);
             resetDB();
         }
     }
+
 
     /**
      * Singleton method to get current Instance if exists otherwise create it

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class User {
     private String encryptedUserName;
-    private String hashedPassword;
+    private int hashedPassword;
     private ArrayList<Wine> favouritedWines;
     private ArrayList<Wine> dislikedWines;
     private ArrayList<String> favouritedTags;
 
-    public User(String userName, String hashedPassword) {
+    public User(String userName, int hashedPassword) {
         this.encryptedUserName = userName;
         this.hashedPassword = hashedPassword;
     }
@@ -21,11 +21,11 @@ public class User {
     public void setEncryptedUserName(String userName) {
         this.encryptedUserName = userName;
     }
-    public String getHashedPassword() {
+    public int getHashedPassword() {
         return hashedPassword;
     }
 
-    public void setHashedPassword(String hashedPassword) {
+    public void setHashedPassword(int hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
 
