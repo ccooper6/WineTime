@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -21,7 +22,8 @@ public class FXWindow extends Application {
         FXWrapper fxWrapper = FXWrapper.getInstance();
         fxWrapper.init(primaryStage);
 
-        primaryStage.setTitle("WineTime App");
+        primaryStage.setTitle("Wine Time");
+        primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo.png").toExternalForm()));
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
