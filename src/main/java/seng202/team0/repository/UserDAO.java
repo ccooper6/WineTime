@@ -63,19 +63,20 @@ public class UserDAO implements DAOInterface<User> {
             ps.setString(1, toAdd.getEncryptedUserName());
             ps.setInt(2, toAdd.getHashedPassword());
             ps.executeUpdate();
-            System.out.println("Added user: " + toAdd.getEncryptedUserName());
-            try (ResultSet rs = ps.getGeneratedKeys()) {
+            System.out.println("Added user: " + toAdd.getEncryptedUserName()); // Can delete this in the future...
+            return 1; // Username created successfully
+            /*try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     return rs.getInt(1); // Return the generated key
                 } else {
                     return -1; // No key was generated
                 }
-            }
+            }*/
         } catch (SQLException sqlException) {
             if (sqlException.getErrorCode() == 19) {
-                throw new DuplicateEntryException("Duplicate username");
+                return 0; // Duplicate username
             }
-            return -1;
+            return 2; // Other error occurred
         }
     }
 

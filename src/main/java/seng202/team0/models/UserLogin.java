@@ -33,8 +33,7 @@ public class UserLogin {
     public int storeLogin(String username, String password) {
         try {
             User newUser = new User(encrypt(username), Objects.hash(password));
-            userDAO.add(newUser);
-            return 1; // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
+            return userDAO.add(newUser); // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
         } catch (DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
@@ -58,6 +57,7 @@ public class UserLogin {
      */
     public Integer getPassword(String encryptedUsername) {
         try {
+            //Hook up to SQL if this is needed - shouldn't be needed though.
             BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
             String lookahead;
             while ((lookahead = reader.readLine()) != null) {
