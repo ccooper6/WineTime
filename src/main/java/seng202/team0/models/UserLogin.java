@@ -31,25 +31,13 @@ public class UserLogin {
      * @param password password value to be stored
      */
     public int storeLogin(String username, String password) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true));
-                BufferedReader reader = new BufferedReader(new FileReader(FILENAME))) {
-
-            String lookahead;
-            while ((lookahead = reader.readLine()) != null) {
-                String[] login = lookahead.split(",");
-                if (login[0].equals(encrypt(username))) {
-                    return 0; // 0 = Username already exists
-                }
-            }
+        try {
             User newUser = new User(encrypt(username), Objects.hash(password));
             userDAO.add(newUser);
-            return 1; // 1 = Account successfully created
-        } catch (IOException e) {
-            e.printStackTrace();
+            return 1; // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
         } catch (DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
-        return 2; // 2 = An error has occurred
     }
 
     /**
