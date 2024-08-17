@@ -1,6 +1,9 @@
 package seng202.team0.repository;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team0.App;
 import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.models.User;
 
@@ -11,6 +14,8 @@ import java.util.Objects;
 public class UserDAO implements DAOInterface<User> {
 
     private final DatabaseManager databaseManager;
+
+    private static final Logger log = LogManager.getLogger(App.class);
 
     public UserDAO() {
         databaseManager = DatabaseManager.getInstance();
@@ -33,7 +38,7 @@ public class UserDAO implements DAOInterface<User> {
      * @return whether the user was already in the database and the password matched.
      */
     public boolean tryLogin(String username, int password) {
-        String sql = "SELECT password FROM users WHERE username = ?";
+        String sql = "SELECT password FROM user WHERE username = ?";
         try (
                 Connection conn = databaseManager.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -56,10 +61,14 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int add(User toAdd) throws DuplicateEntryException {
-        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        String sql = "INSERT INTO user (username, password) VALUES (?, ?)";
+
+        System.out.println("logging");
+
         try (Connection conn = databaseManager.connect();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            System.out.println("connected");
             ps.setString(1, toAdd.getEncryptedUserName());
             ps.setInt(2, toAdd.getHashedPassword());
             ps.executeUpdate();
@@ -76,6 +85,7 @@ public class UserDAO implements DAOInterface<User> {
             if (sqlException.getErrorCode() == 19) {
                 return 0; // Duplicate username
             }
+            log.error(sqlException.getMessage());
             return 2; // Other error occurred
         }
     }

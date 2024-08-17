@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import seng202.team0.repository.DatabaseManager;
 import seng202.team0.services.UserLoginService;
 
 import java.util.Objects;
@@ -58,6 +59,10 @@ public class LoginController {
         UserLoginService userLoginService = new UserLoginService();
         if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
                 && password.matches(".*[a-zA-Z0-9]+.*")) {
+            boolean exists = DatabaseManager.getInstance().checkDatabaseExists(DatabaseManager.getInstance().url);
+
+            System.out.println("Database exists: " + exists);
+
             int outcome = userLoginService.createAccount(username, password);
             clearFields();
             accountCreatedSuccessfully(outcome);
