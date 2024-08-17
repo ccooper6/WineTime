@@ -16,7 +16,7 @@ import java.sql.*;
 public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
-    private final String url;
+    public final String url;
 
     /**
      * Private constructor for singleton purposes
@@ -117,7 +117,7 @@ public class DatabaseManager {
      * @param url expected location to check for database
      * @return True if database exists else false
      */
-    private boolean checkDatabaseExists(String url) {
+    public boolean checkDatabaseExists(String url) {
         File f = new File(url.substring(12));
         return f.exists();
     }
@@ -141,9 +141,9 @@ public class DatabaseManager {
 
     /**
      * Reads and executes all statements within the sql file provided
-     * Note that each statement must be separated by '--SPLIT' this is not a desired limitation but allows for a much
+     * Note that each statement must be separated by 'SPLIT' this is not a desired limitation but allows for a much
      * wider range of statement types.
-     * @param sqlFile input stream of file containing sql statements for execution (separated by --SPLIT)
+     * @param sqlFile input stream of file containing sql statements for execution (separated by SPLIT)
      */
     private void executeSQLScript(InputStream sqlFile) {
         String s;
@@ -153,7 +153,7 @@ public class DatabaseManager {
                 sb.append(s);
             }
 
-            String[] individualStatements = sb.toString().split("--SPLIT");
+            String[] individualStatements = sb.toString().split("/* SPLIT */");
             try (Connection conn = this.connect();
                  Statement statement = conn.createStatement()) {
                 for (String singleStatement : individualStatements) {
