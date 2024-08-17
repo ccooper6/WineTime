@@ -16,23 +16,7 @@ import java.sql.*;
 public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
-    public
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    final String url;
+    private final String url;
 
     /**
      * Private constructor for singleton purposes
@@ -133,7 +117,7 @@ public class DatabaseManager {
      * @param url expected location to check for database
      * @return True if database exists else false
      */
-    public boolean checkDatabaseExists(String url) {
+    private boolean checkDatabaseExists(String url) {
         File f = new File(url.substring(12));
         return f.exists();
     }

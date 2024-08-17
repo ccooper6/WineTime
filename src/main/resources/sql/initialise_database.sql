@@ -1,78 +1,20 @@
-DROP TABLE IF EXISTS wine;
+DROP TABLE IF EXISTS wines;
 --SPLIT
-CREATE TABLE IF NOT EXISTS wine (
-                                     id INTEGER PRIMARY KEY NOT NULL,
-                                     name TEXT NOT NULL,
-                                     year INTEGER,
-                                     winery TEXT,
+CREATE TABLE IF NOT EXISTS wines (
+                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                     item TEXT,
+                                     buyer_first_name TEXT,
+                                     buyer_last_name TEXT,
                                      price REAL,
-                                     description TEXT,
-                                     UNIQUE (name, year, winery));
+                                     lat REAL,
+                                     lng REAL,
+                                     UNIQUE (lat, lng));
 --SPLIT
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS users;
 --SPLIT
-CREATE TABLE IF NOT EXISTS user (
-                                     id INTEGER PRIMARY KEY NOT NULL,
-                                     username TEXT UNIQUE NOT NULL,
-                                     password INT NOT NULL);
+CREATE TABLE IF NOT EXISTS users (
+                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                     username TEXT UNIQUE,
+                                     password INT);
 --SPLIT
-DROP TABLE IF EXISTS tag;
---SPLIT
-CREATE TABLE IF NOT EXISTS tag (
-                                     id INTEGER PRIMARY KEY NOT NULL,
-                                     name TEXT UNIQUE NOT NULL,
-                                     type TEXT);
---SPLIT
-DROP TABLE IF EXISTS competition;
---SPLIT
-CREATE TABLE IF NOT EXISTS competition (
-                                     id INTEGER PRIMARY KEY NOT NULL,
-                                     name TEXT NOT NULL,
-                                     year INTEGER,
-                                     UNIQUE (name, year));
---SPLIT
-DROP TABLE IF EXISTS likes;
---SPLIT
-CREATE TABLE IF NOT EXISTS likes (
-                                     uid INTEGER NOT NULL,
-                                     tid INTEGER NOT NULL,
-                                     value INTEGER NOT NULL,
-                                     FOREIGN KEY (uid) REFERENCES user(id),
-                                     FOREIGN KEY (tid) REFERENCES tag(id));
---SPLIT
-DROP TABLE IF EXISTS logs;
---SPLIT
-CREATE TABLE IF NOT EXISTS logs (
-                                     uid INTEGER NOT NULL,
-                                     wid INTEGER NOT NULL,
-                                     date DATE NOT NULL,
-                                     FOREIGN KEY (uid) REFERENCES user(id),
-                                     FOREIGN KEY (wid) REFERENCES wine(id));
---SPLIT
-DROP TABLE IF EXISTS reviews;
---SPLIT
-CREATE TABLE IF NOT EXISTS reviews (
-                                     uid INTEGER NOT NULL,
-                                     wid INTEGER NOT NULL,
-                                     rating REAL,
-                                     description TEXT,
-                                     date DATE,
-                                     FOREIGN KEY (uid) REFERENCES user(id),
-                                     FOREIGN KEY (wid) REFERENCES wine(id));
---SPLIT
-DROP TABLE IF EXISTS owned_by;
---SPLIT
-CREATE TABLE IF NOT EXISTS owned_by (
-                                     wid INTEGER NOT NULL,
-                                     tid INTEGER NOT NULL,
-                                     FOREIGN KEY (wid) REFERENCES wine(id),
-                                     FOREIGN KEY (tid) REFERENCES tag(id));
---SPLIT
-DROP TABLE IF EXISTS participated_in;
---SPLIT
-CREATE TABLE IF NOT EXISTS participated_in (
-                                     wid INTEGER NOT NULL,
-                                     cid INTEGER NOT NULL,
-                                     award TEXT,
-                                     FOREIGN KEY (wid) REFERENCES wine(id),
-                                     FOREIGN KEY (cid) REFERENCES competition(id));
+INSERT INTO users (username, password) VALUES ('admin', 'admin');
