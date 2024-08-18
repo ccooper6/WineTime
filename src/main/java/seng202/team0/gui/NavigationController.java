@@ -56,6 +56,11 @@ public class NavigationController {
             //setting var here
         }
     }
+    public void closePopUp() {
+        if (overlayContent != null) {
+            overlayContent.setVisible(false);
+        }
+    }
 
     public void onHomeClicked(MouseEvent actionEvent) {
         FXWrapper.getInstance().launchSubPage("mainpage");

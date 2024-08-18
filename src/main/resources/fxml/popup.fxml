@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.PopUpController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.PopUpController">
    <children>
       <Pane prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
          <children>
@@ -30,9 +27,9 @@
                </font>
             </Text>
             <Text fx:id="region2" layoutX="327.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Region2" />
-            <Button layoutX="431.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
+            <Button fx:id="popUpCloseButton" layoutX="431.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
                <graphic>
-                  <FontAwesomeIconView fill="#7c7c7c" glyphName="CLOSE" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
+                  <FontAwesomeIconView fill="#7c7c7c" glyphName="CLOSE" onMouseClicked="#closePopUp" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
                </graphic>
             </Button>
          </children>
