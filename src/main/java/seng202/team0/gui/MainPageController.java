@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -14,7 +15,14 @@ import java.io.IOException;
 
 public class MainPageController {
     @FXML
-    Button wineButton;
+    AnchorPane mainWine1;
+    @FXML
+    AnchorPane mainWine2;
+    @FXML
+    AnchorPane mainWine3;
+    @FXML
+    AnchorPane mainWine4;
+
 
     @FXML
     public void onWineButtonClicked() { // From advanced java fx tutorial
