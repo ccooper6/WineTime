@@ -39,10 +39,6 @@ public class MainController {
      */
     @FXML
     public void onButtonClicked() {
-        log.info("Button has been clicked");
-        counterService.incrementCounter();
-
-        int count = counterService.getCurrentCount();
-        defaultLabel.setText(Integer.toString(count));
+        FXWrapper.getInstance().launchSubPage("mainpage");
     }
 }

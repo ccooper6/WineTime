@@ -52,4 +52,23 @@ public class FXWrapper {
             e.printStackTrace();
         }
     }
+
+    /**Used for all pages with a navigation bar, navigation fxml is a parent to the variable fxml.
+     * @param name is the name of the inner fxml in lowercase (no type)
+     */
+    public void launchSubPage(String name) {
+        try {
+            FXMLLoader navigationLoader = new FXMLLoader(getClass().getResource("/fxml/navigation.fxml"));
+            Parent navigationRoot = navigationLoader.load();
+            NavigationController navigationController = navigationLoader.getController();
+            navigationController.loadPageContent(name);
+            Scene scene = new Scene(navigationRoot);
+            stage.setScene(scene);
+            stage.setTitle(name);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
