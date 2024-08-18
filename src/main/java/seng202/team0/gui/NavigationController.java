@@ -1,11 +1,10 @@
 package seng202.team0.gui;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -15,13 +14,13 @@ import java.io.IOException;
 
 public class NavigationController {
     @FXML
-    public Button homeExampleButton;
+    public FontAwesomeIconView homeExampleButton;
     @FXML
-    public Button savesExampleButton;
+    public FontAwesomeIconView savesExampleButton;
     @FXML
-    public Button likesExampleButton;
+    public FontAwesomeIconView likesExampleButton;
     @FXML
-    public Button userExampleButton;
+    public FontAwesomeIconView userExampleButton;
     private Parent overlayContent;
     @FXML
     public AnchorPane mainContent;
@@ -29,8 +28,6 @@ public class NavigationController {
     public Pane StackPanePane;
     @FXML
     private StackPane contentHere;
-
-
 
     /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
@@ -58,7 +55,7 @@ public class NavigationController {
         }
     }
 
-    public void onHomeClicked(ActionEvent actionEvent) {
+    public void onHomeClicked(MouseEvent actionEvent) {
         FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
@@ -67,12 +64,12 @@ public class NavigationController {
         FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
-    public void onLikesClicked(ActionEvent actionEvent) {
+    public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
         FXWrapper.getInstance().launchSubPage("main");
     }
 
-    public void onUserClicked(ActionEvent actionEvent) {
+    public void onUserClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
         FXWrapper.getInstance().launchSubPage("profile");
     }

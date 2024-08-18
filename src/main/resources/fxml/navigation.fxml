@@ -6,15 +6,35 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.awt.Insets?>
+<?import javafx.scene.control.TextField?>
 <AnchorPane fx:id="NavigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.NavigationController">
    <BorderPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0">
       <top>
          <Pane prefHeight="118.0" prefWidth="1200.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER">
             <children>
-               <Button fx:id="homeExampleButton" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#onHomeClicked" text="Home" />
-               <Button fx:id="savesExampleButton" layoutX="371.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSavesClicked" text="Saves" />
-               <Button fx:id="likesExampleButton" layoutX="437.0" layoutY="21.0" mnemonicParsing="false" onAction="#onLikesClicked" text="Likes" />
-               <Button fx:id="userExampleButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#onUserClicked" text="User" />
+               <FontAwesomeIconView fx:id="likesExampleButton" fill="#70171e" glyphName="HEART" layoutX="536.0" layoutY="42.0" size="25" text="" wrappingWidth="32.0" onMouseClicked="#onLikesClicked"/>
+               <FontAwesomeIconView fx:id="userExampleButton" glyphName="USER_CIRCLE_ALT" layoutX="568.0" layoutY="42.0" size="25" tabSize="30" text="" onMouseClicked="#onUserClicked"/>
+               <FontAwesomeIconView fx:id="savesExampleButton" glyphName="COMMENT" layoutX="504.0" layoutY="42.0" selectionEnd="0" size="25" text="" wrappingWidth="32.0" />
+               <ImageView fx:id="homeExampleButton" fitHeight="42.0" fitWidth="67.0" layoutX="6.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#onHomeClicked">
+                  <image>
+                     <Image url="@../images/winetime.png" />
+                  </image>
+               </ImageView>
+               <TextField fx:id="searchBar" layoutX="98.0" layoutY="20.0" opacity="0.98" prefHeight="26.0" prefWidth="338.0" promptText="SEARCH" style="-fx-background-color: #d9d9d9;">
+<!--                  <opaqueInsets>-->
+<!--                     <Insets />-->
+<!--                  </opaqueInsets>-->
+               </TextField>
+               <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="80.0" layoutY="38.0" text="" wrappingWidth="17.85714340209961" />
+
+<!--               <Button fx:id="homeExampleButton" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#onHomeClicked" text="Home" />-->
+<!--               <Button fx:id="savesExampleButton" layoutX="371.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSavesClicked" text="Saves" />-->
+<!--               <Button fx:id="likesExampleButton" layoutX="437.0" layoutY="21.0" mnemonicParsing="false" onAction="#onLikesClicked" text="Likes" />-->
+<!--               <Button fx:id="userExampleButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#onUserClicked" text="User" />-->
             </children>
          </Pane>
       </top>
