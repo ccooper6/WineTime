@@ -1,15 +1,20 @@
 package seng202.team0.models;
 
-import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Objects;
+import seng202.team0.exceptions.DuplicateEntryException;
+import seng202.team0.repository.UserDAO;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Objects;
 
 /**
  * Class to handle user login and register requests. Stores username as an encrypted value using AES encryption
@@ -20,6 +25,7 @@ public class UserLogin {
     private static final byte[] KEY = "1234567891112131".getBytes();
     private static final String ALGORITHM = "AES";
     private static final String FILENAME = "src/main/resources/logins/login.txt";
+    private final UserDAO userDAO = new UserDAO();
 
     /**
      * Takes a username and password input and stores it as long as the username is unique.
@@ -27,22 +33,12 @@ public class UserLogin {
      * @param password password value to be stored
      */
     public int storeLogin(String username, String password) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true));
-                BufferedReader reader = new BufferedReader(new FileReader(FILENAME))) {
-
-            String lookahead;
-            while ((lookahead = reader.readLine()) != null) {
-                String[] login = lookahead.split(",");
-                if (login[0].equals(encrypt(username))) {
-                    return 0; // 0 = Username already exists
-                }
-            }
-            writer.write(encrypt(username) + "," + Objects.hash(password) + "\n");
-            return 1; // 1 = Account successfully created
-        } catch (IOException e) {
-            e.printStackTrace();
+        try {
+            User newUser = new User(encrypt(username), Objects.hash(password));
+            return userDAO.add(newUser); // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
+        } catch (DuplicateEntryException e) {
+            throw new RuntimeException(e);
         }
-        return 2; // 2 = An error has occurred
     }
 
     /**
@@ -52,7 +48,7 @@ public class UserLogin {
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
     public boolean checkLogin(String username, String password) {
-        return Objects.equals(getPassword(encrypt(username)), Objects.hash(password));
+        return userDAO.tryLogin(encrypt(username), Objects.hash(password));
     }
 
     /**
@@ -63,6 +59,7 @@ public class UserLogin {
      */
     public Integer getPassword(String encryptedUsername) {
         try {
+            //Hook up to SQL if this is needed - shouldn't be needed though.
             BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
             String lookahead;
             while ((lookahead = reader.readLine()) != null) {
@@ -79,7 +76,7 @@ public class UserLogin {
 
     /**
      * Method that takes a string as input, for example a username, and returns a string that is no longer readable.
-     * Uses a fixed key.
+     * Uses a fixed key. Functionality
      * @param text The text that needs to be encrypted
      * @return A string that contains the encrypted text
      */
