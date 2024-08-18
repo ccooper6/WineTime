@@ -24,7 +24,7 @@ public class FXWindow extends Application {
 
         primaryStage.setTitle("Wine Time");
         primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo.png").toExternalForm()));
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
