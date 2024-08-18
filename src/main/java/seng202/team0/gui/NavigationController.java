@@ -41,7 +41,7 @@ public class NavigationController {
             contentHere.getChildren().addFirst(pageContent);
 
             if (overlayContent == null) {
-                FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popUp.fxml"));
+                FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
                 overlayContent = paneLoader.load();
                 overlayContent.setVisible(false); // Initially invisible
                 contentHere.getChildren().add(overlayContent);
