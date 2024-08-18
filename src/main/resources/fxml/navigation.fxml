@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane fx:id="NavigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.NavigationController">
+   <BorderPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0">
+      <top>
+         <Pane prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER">
+            <children>
+               <Button fx:id="homeExampleButton" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#onHomeClicked" text="Home" />
+               <Button fx:id="savesExampleButton" layoutX="371.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSavesClicked" text="Saves" />
+               <Button fx:id="likesExampleButton" layoutX="437.0" layoutY="21.0" mnemonicParsing="false" onAction="#onLikesClicked" text="Likes" />
+               <Button fx:id="userExampleButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#onUserClicked" text="User" />
+            </children>
+         </Pane>
+      </top>
+      <center>
+         <StackPane fx:id = "contentHere" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: cyan;" BorderPane.alignment="CENTER">
+            <children>
+               <Pane fx:id="StackPanePane" prefHeight="183.0" prefWidth="600.0" visible="false">
+                  <children>
+                     <Pane layoutX="200.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                  </children>
+               </Pane>
+            </children>
+         </StackPane>
+      </center>
+   </BorderPane>
+</AnchorPane>

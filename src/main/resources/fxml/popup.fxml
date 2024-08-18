@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.PopupControllerTEST">
+   <children>
+      <Pane prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
+         <children>
+            <ImageView fx:id="wineImage" fitHeight="200.0" fitWidth="200.0" layoutX="250.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="wineName" layoutX="25.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wine Name">
+               <font>
+                  <Font name="PT Serif" size="25.0" />
+               </font>
+            </Text>
+            <Text fx:id="description" layoutX="24.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description... teaadfaa fa sfas dasfa sf" wrappingWidth="200.0" />
+            <Text fx:id="province" layoutX="273.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Province" />
+            <Text fx:id="region1" layoutX="275.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Region1" />
+            <Text fx:id="variety" layoutX="331.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Variety" />
+            <Text fx:id="winery" layoutX="25.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Winery">
+               <font>
+                  <Font name="PT Serif" size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="region2" layoutX="327.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Region2" />
+            <Button layoutX="431.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
+               <graphic>
+                  <FontAwesomeIconView fill="#7c7c7c" glyphName="CLOSE" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</VBox>
