@@ -81,6 +81,9 @@ public class ProfileScreen {
         List<AnchorPane> wishlistWineView = List.of(wishlistWine1, wishlistWine2, wishlistWine3, wishlistWine4);
     }
 
+//    on wineView clicked, open wine pop up, pass the relevant information from the wine. make a method to do this,
+//    this functionality will be needed for mulitple screens.
+
 
     @FXML
     public void onWishlistRefreshed() {
