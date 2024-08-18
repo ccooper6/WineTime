@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS wine;
 /* SPLIT */
 CREATE TABLE IF NOT EXISTS wine (
-                                     id INTEGER PRIMARY KEY NOT NULL,
+                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      name TEXT NOT NULL,
                                      year INTEGER,
                                      winery TEXT,
@@ -12,21 +12,21 @@ CREATE TABLE IF NOT EXISTS wine (
 DROP TABLE IF EXISTS user;
 /* SPLIT */
 CREATE TABLE IF NOT EXISTS user (
-                                     id INTEGER PRIMARY KEY NOT NULL,
+                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      username TEXT UNIQUE NOT NULL,
                                      password INT NOT NULL);
 /* SPLIT */
 DROP TABLE IF EXISTS tag;
 /* SPLIT */
 CREATE TABLE IF NOT EXISTS tag (
-                                     id INTEGER PRIMARY KEY NOT NULL,
+                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      name TEXT UNIQUE NOT NULL,
                                      type TEXT);
 /* SPLIT */
 DROP TABLE IF EXISTS competition;
 /* SPLIT */
 CREATE TABLE IF NOT EXISTS competition (
-                                     id INTEGER PRIMARY KEY NOT NULL,
+                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      name TEXT NOT NULL,
                                      year INTEGER,
                                      UNIQUE (name, year));
