@@ -63,7 +63,7 @@ public class NavigationController {
 
     public void onUserClicked(ActionEvent actionEvent) {
         //example navigation subpage - to change when made
-        FXWrapper.getInstance().launchPage("login");
+        FXWrapper.getInstance().launchSubPage("profile");
     }
 
 

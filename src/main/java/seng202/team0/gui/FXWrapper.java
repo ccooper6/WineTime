@@ -77,8 +77,6 @@ public class FXWrapper {
     public NavigationController getNavigationController() {
         return navigationController;
     }
-    public void initPopUp(String name, String wine) {
 
-    }
 
 }

@@ -38,7 +38,7 @@ public class LoginController {
         if (userLoginService.validateAccount(username, password)
                 && !username.isEmpty() && !password.isEmpty()
                 && username.matches(".*[a-zA-Z0-9]+.*") && password.matches(".*[a-zA-Z0-9]+.*")) {
-            FXWrapper.getInstance().launchPage("mainpage");
+            FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
             clearFields();
