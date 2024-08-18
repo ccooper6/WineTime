@@ -5,7 +5,7 @@ import seng202.team0.models.UserLogin;
 /**
  * Service class to handle user logins. Calls the UserLogin model and utilised methods within that to validate or
  * create user accounts
- * @author Issac Macdonald, Caleb Cooper
+ * @author Isaac Macdonald, Caleb Cooper
  */
 public class UserLoginService {
 
