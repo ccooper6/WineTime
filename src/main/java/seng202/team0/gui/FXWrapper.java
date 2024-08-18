@@ -3,6 +3,8 @@ package seng202.team0.gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,8 +15,7 @@ public class FXWrapper {
     private static FXWrapper instance = null;
     private Stage stage;
     private String currentFXML = "login";
-
-    private FXWrapper() {}
+    private NavigationController navigationController;
 
     /** Gets the singleton.
      * @return the FXWrapper singleton
@@ -38,6 +39,7 @@ public class FXWrapper {
     }
 
     /**Loads the FXML and controller listed in the fx:controller.
+     * This page type cannot launch popUps yet.
      * @param name is the name of the fxml in lowercase with no type.
      */
     public void launchPage(String name) {
@@ -52,4 +54,31 @@ public class FXWrapper {
             e.printStackTrace();
         }
     }
+
+    /**Used for all pages with a navigation bar, navigation fxml is a parent to the variable fxml.
+     * This page layout can launch popUps.
+     * @param name is the name of the inner fxml in lowercase (no type)
+     */
+    public void launchSubPage(String name) {
+        try {
+            FXMLLoader navigationLoader = new FXMLLoader(getClass().getResource("/fxml/navigation.fxml"));
+            Parent navigationRoot = navigationLoader.load();
+            navigationController = navigationLoader.getController();
+            navigationController.loadPageContent(name);
+            Scene scene = new Scene(navigationRoot);
+            stage.setScene(scene);
+            stage.setTitle(name);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public NavigationController getNavigationController() {
+        return navigationController;
+    }
+    public void initPopUp(String name, String wine) {
+
+    }
+
 }
