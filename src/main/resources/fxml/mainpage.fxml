@@ -48,7 +48,7 @@
           <RowConstraints minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="wineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="wineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Text layoutX="29.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catagory Title" />
