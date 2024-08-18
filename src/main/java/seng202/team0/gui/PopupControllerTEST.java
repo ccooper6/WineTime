@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import seng202.team0.models.testWines.wine1;
 
-public class PopupController {
+public class PopupControllerTEST {
     @FXML
     ImageView wineImage;
     @FXML
