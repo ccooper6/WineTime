@@ -8,7 +8,6 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InstanceAlreadyExistsException;
 import seng202.team0.models.User;
 import seng202.team0.models.UserLogin;
-import seng202.team0.services.UserLoginService;
 import seng202.team0.repository.DatabaseManager;
 import seng202.team0.repository.UserDAO;
 
@@ -21,7 +20,7 @@ public class UserDAOTest {
     static DatabaseManager databaseManager;
     static UserDAO userDAO;
 
-    private UserLogin userLogin = new UserLogin();
+    private final UserLogin userLogin = new UserLogin();
 
     /**
      * This creates a new database file for the test databases
@@ -61,8 +60,45 @@ public class UserDAOTest {
         User user = new User(userLogin.encrypt(username), Objects.hash(password));
         User user1 = new User(userLogin.encrypt(username), Objects.hash(password2));
         userDAO.add(user);
-        int result = userDAO.add(user);
+        int result = userDAO.add(user1);
         assertEquals(0, result);
+    }
+
+    @Test
+    public void testTryLoginGood() throws DuplicateEntryException {
+
+        String username = "IsaacTheBest";
+        String password = "password";
+        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        userDAO.add(user);
+        boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(username), Objects.hash(password));
+        Assertions.assertTrue(wasInDB);
+
+    }
+    @Test
+    public void testTryLoginBad1() throws DuplicateEntryException {
+
+        String username = "IsaacTheBest";
+        String password = "password";
+        String notPassword = "notPassword";
+        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        userDAO.add(user);
+        boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(username), Objects.hash(notPassword));
+        Assertions.assertFalse(wasInDB);
+
+    }
+
+    @Test
+    public void testTryLoginBad2() throws DuplicateEntryException {
+
+        String username = "IsaacTheBest";
+        String password = "password";
+        String notUsername = "IsaacTheCoolest";
+        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        userDAO.add(user);
+        boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(notUsername), Objects.hash(password));
+        Assertions.assertFalse(wasInDB);
+
     }
 
 
