@@ -37,6 +37,7 @@ public class UserLogin {
         } catch (DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
+        return 2; // 2 = An error has occurred
     }
 
     /**
