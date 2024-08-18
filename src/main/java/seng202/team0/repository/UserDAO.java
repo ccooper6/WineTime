@@ -1,23 +1,28 @@
 package seng202.team0.repository;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.models.User;
+import seng202.team0.models.Wine;
 
 import java.sql.*;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class UserDAO implements DAOInterface<User> {
 
     private final DatabaseManager databaseManager;
 
+    private static final Logger log = LogManager.getLogger(UserDAO.class);
+
     public UserDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
 
     @Override
-    public List getAll() {
+    public ArrayList getAll() {
         throw new NotImplementedException();
     }
 
@@ -33,10 +38,10 @@ public class UserDAO implements DAOInterface<User> {
      * @return whether the user was already in the database and the password matched.
      */
     public boolean tryLogin(String username, int password) {
-        String sql = "SELECT password FROM users WHERE username = ?";
+        String sql = "SELECT password FROM USER WHERE username = ?";
         try (
                 Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
+                PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
@@ -56,7 +61,7 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int add(User toAdd) throws DuplicateEntryException {
-        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        String sql = "INSERT INTO user (username, password) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -76,6 +81,8 @@ public class UserDAO implements DAOInterface<User> {
             if (sqlException.getErrorCode() == 19) {
                 return 0; // Duplicate username
             }
+
+            log.error(sqlException.getMessage());
             return 2; // Other error occurred
         }
     }
