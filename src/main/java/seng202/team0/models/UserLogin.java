@@ -3,16 +3,18 @@ package seng202.team0.models;
 import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.repository.UserDAO;
 
-import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Objects;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Objects;
 
 /**
  * Class to handle user login and register requests. Stores username as an encrypted value using AES encryption
@@ -37,7 +39,6 @@ public class UserLogin {
         } catch (DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
-        return 2; // 2 = An error has occurred
     }
 
     /**
