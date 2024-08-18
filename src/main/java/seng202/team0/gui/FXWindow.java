@@ -16,7 +16,7 @@ public class FXWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));   // change this back to login when done
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));   // change this back to login when done
         Parent root = loader.load();
 
         FXWrapper fxWrapper = FXWrapper.getInstance();
@@ -24,7 +24,7 @@ public class FXWindow extends Application {
 
         primaryStage.setTitle("Wine Time");
         primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo.png").toExternalForm()));
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
