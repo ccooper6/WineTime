@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
@@ -13,6 +14,14 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 public class NavigationController {
+    @FXML
+    public Button homeExampleButton;
+    @FXML
+    public Button savesExampleButton;
+    @FXML
+    public Button likesExampleButton;
+    @FXML
+    public Button userExampleButton;
     private Parent overlayContent;
     @FXML
     public AnchorPane mainContent;
@@ -20,6 +29,8 @@ public class NavigationController {
     public Pane StackPanePane;
     @FXML
     private StackPane contentHere;
+
+
 
     /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
