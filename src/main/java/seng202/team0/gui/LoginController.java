@@ -3,6 +3,7 @@ package seng202.team0.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import seng202.team0.services.UserLoginService;
@@ -24,6 +25,20 @@ public class LoginController {
     Button logInButton;
     @FXML
     Text errorText;
+
+    @FXML
+    public void initialize() {
+        userNameTextField.setOnKeyPressed( event -> {
+            if(event.getCode() == KeyCode.ENTER ) {
+                onLoginPressed();
+            }
+        });
+        passwordTextField.setOnKeyPressed( event -> {
+            if(event.getCode() == KeyCode.ENTER ) {
+                onLoginPressed();
+            }
+        });
+    }
 
     /**
      * Very simple method to handle when the login button is pressed. Validates the user account using the inputs
