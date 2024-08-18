@@ -3,27 +3,47 @@ package seng202.team0.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
 public class NavigationController {
+    private Parent overlayContent;
     @FXML
     public AnchorPane mainContent;
+    @FXML
+    public Pane StackPanePane;
+    @FXML
+    private StackPane contentHere;
 
+    /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
+     * @param name is the fxml main content which is loaded
+     */
     public void loadPageContent(String name) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent pageContent = loader.load();
-            mainContent.getChildren().clear();
-            mainContent.getChildren().add(pageContent);
-            AnchorPane.setTopAnchor(pageContent, 0.0);
-            AnchorPane.setBottomAnchor(pageContent, 0.0);
-            AnchorPane.setLeftAnchor(pageContent, 0.0);
-            AnchorPane.setRightAnchor(pageContent, 0.0);
+            contentHere.getChildren().clear();
+            contentHere.getChildren().addFirst(pageContent);
+
+            if (overlayContent == null) {
+                FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popUp.fxml"));
+                overlayContent = paneLoader.load();
+                overlayContent.setVisible(false); // Initially invisible
+                contentHere.getChildren().add(overlayContent);
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    public void initPopUp(String name, String wine) {
+        if (overlayContent != null) {
+            overlayContent.setVisible(true);
         }
     }
 
@@ -45,4 +65,6 @@ public class NavigationController {
         //example navigation subpage - to change when made
         FXWrapper.getInstance().launchPage("login");
     }
+
+
 }
