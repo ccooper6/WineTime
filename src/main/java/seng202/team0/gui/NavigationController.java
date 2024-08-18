@@ -53,6 +53,7 @@ public class NavigationController {
     public void initPopUp(String name, String wine) {
         if (overlayContent != null) {
             overlayContent.setVisible(true);
+            //setting var here
         }
     }
 

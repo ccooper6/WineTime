@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.MainPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.MainPageController">
    <children>
       <Text layoutX="29.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catagory Title" y="-120.0" />
       <GridPane alignment="CENTER" layoutX="29.0" layoutY="161.0" prefWidth="639.0" translateY="-110.0">
@@ -18,10 +18,10 @@
           <RowConstraints minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="wineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" prefHeight="83.0" prefWidth="105.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Button fx:id="wineButton2" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="1" />
-            <Button fx:id="wineButton21" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="2" />
-            <Button fx:id="wineButton211" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="3" />
+            <Button fx:id="wineButton2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" prefHeight="83.0" prefWidth="105.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="wineButton21" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="1" />
+            <Button fx:id="wineButton22" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="2" />
+            <Button fx:id="wineButton23" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="3" />
          </children>
       </GridPane>
       <Text layoutX="29.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catagory Title" translateY="-100.0" />
@@ -38,9 +38,9 @@
          </rowConstraints>
          <children>
             <Button fx:id="wineButton1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" prefHeight="83.0" prefWidth="105.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Button fx:id="wineButton21" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="1" />
-            <Button fx:id="wineButton211" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="2" />
-            <Button fx:id="wineButton2111" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="3" />
+            <Button fx:id="wineButton12" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="1" />
+            <Button fx:id="wineButton13" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="2" />
+            <Button fx:id="wineButton14" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onWineButtonClicked" onMouseEntered="#darkenButton" onMouseExited="#lightenButton" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </children>
