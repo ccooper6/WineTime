@@ -92,7 +92,7 @@ public class ProfileScreen {
     public String getWineInfo(Wine wine) {
         return("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
     }
-    // ******************ENDS HERE********************
+    // ******************Test stuff ENDS HERE********************
 
 
 
