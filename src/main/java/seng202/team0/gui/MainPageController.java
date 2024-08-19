@@ -87,9 +87,9 @@ public class MainPageController {
     @FXML
     public void onRefresh(List<AnchorPane> wineView, List<Label> wineInfo, List<ImageView> wineIcon) {
         scrollArrow.setOnMouseClicked(event -> {
-            Wine firtWine = winesTest.get(0);
+            Wine firstWine = winesTest.get(0);
             winesTest.remove(0);
-            winesTest.add(firtWine);
+            winesTest.add(firstWine);
             displayWines(wineView, wineInfo, wineIcon);
         });
 //
