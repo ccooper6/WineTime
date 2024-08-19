@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -8,12 +9,16 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.MainPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.MainPageController">
    <children>
-      <Text layoutX="29.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catagory Title" y="-120.0" />
-      <GridPane alignment="CENTER" layoutX="29.0" layoutY="180.0" prefHeight="83.0" prefWidth="836.0" translateY="-110.0">
+      <Text layoutX="29.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catagory Title" y="-120.0">
+         <font>
+            <Font name="PT Serif" size="25.0" />
+         </font></Text>
+      <GridPane alignment="CENTER" layoutX="29.0" layoutY="180.0" prefHeight="83.0" prefWidth="892.0" translateY="-110.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -24,40 +29,40 @@
           <RowConstraints minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane fx:id="mainWine4" onMouseClicked="#onWineButtonClicked" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;" GridPane.columnIndex="3">
+            <AnchorPane fx:id="mainWine4" onMouseClicked="#onWineButtonClicked" onMouseEntered="#darkenPane" onMouseExited="#lightenPane" prefHeight="126.0" prefWidth="238.0" style="-fx-border-color: #d9d9d9;" GridPane.columnIndex="3">
                <children>
-                  <Label fx:id="wishlistWineInfo1" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
-                  <ImageView fx:id="wishlistWineImage1" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                  <Label fx:id="wineInfo4" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
+                  <ImageView fx:id="mainWineIcon4" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/red_wine.png" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="mainWine3" onMouseClicked="#onWineButtonClicked" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;" GridPane.columnIndex="2">
+            <AnchorPane fx:id="mainWine3" onMouseClicked="#onWineButtonClicked" onMouseEntered="#darkenPane" onMouseExited="#lightenPane" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;" GridPane.columnIndex="2">
                <children>
-                  <Label fx:id="wishlistWineInfo11" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
-                  <ImageView fx:id="wishlistWineImage11" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                  <Label fx:id="wineInfo3" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
+                  <ImageView fx:id="mainWineIcon3" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Rose%20Wine.jpg" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="mainWine2" onMouseClicked="#onWineButtonClicked" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;" GridPane.columnIndex="1">
+            <AnchorPane fx:id="mainWine2" onMouseClicked="#onWineButtonClicked" onMouseEntered="#darkenPane" onMouseExited="#lightenPane" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;" GridPane.columnIndex="1">
                <children>
-                  <Label fx:id="wishlistWineInfo12" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
-                  <ImageView fx:id="wishlistWineImage12" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                  <Label fx:id="wineInfo2" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
+                  <ImageView fx:id="mainWineIcon2" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/White%20Wine.jpg" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="mainWine1" onMouseClicked="#onWineButtonClicked" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;">
+            <AnchorPane fx:id="mainWine1" onMouseClicked="#onWineButtonClicked" onMouseEntered="#darkenPane" onMouseExited="#lightenPane" prefHeight="126.0" prefWidth="98.0" style="-fx-border-color: #d9d9d9;">
                <children>
-                  <Label fx:id="wishlistWineInfo13" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
-                  <ImageView fx:id="wishlistWineImage13" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                  <Label fx:id="wineInfo1" layoutX="9.0" layoutY="72.0" prefHeight="56.0" prefWidth="80.0" text="Name:&#10;Variety:&#10;Origin:" />
+                  <ImageView fx:id="mainWineIcon1" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/red_wine.png" />
                      </image>
@@ -66,5 +71,6 @@
             </AnchorPane>
          </children>
       </GridPane>
+      <FontAwesomeIconView fx:id="scrollArrow" glyphName="ANGLE_RIGHT" layoutX="946.0" layoutY="131.0" onMouseClicked="#scroll" size="60" text="" wrappingWidth="22.285714149475098" />
    </children>
 </Pane>
