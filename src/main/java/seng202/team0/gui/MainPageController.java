@@ -97,21 +97,9 @@ public class MainPageController {
 
 
     @FXML
-    public void onWineButtonClicked() { // From advanced java fx tutorial
+    public void onWineClicked() { // From advanced java fx tutorial
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.initPopUp("name", "wine");
-
-//            FXMLLoader winePopupLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
-//            VBox root = winePopupLoader.load();
-//            Scene modalScene = new Scene(root);
-//            Stage modal = new Stage();
-//            modal.setScene(modalScene);
-//            modal.setWidth(500);
-//            modal.setHeight(400);
-//            modal.setResizable(false);
-//            modal.setTitle("Info");
-//            modal.initModality(Modality.WINDOW_MODAL);
-//            modal.showAndWait();
     }
 
     @FXML
