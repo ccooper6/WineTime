@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import seng202.team0.models.Wine;
 
 import java.io.IOException;
 
@@ -30,6 +31,8 @@ public class NavigationController {
     @FXML
     private StackPane contentHere;
 
+    private Wine wine;
+
     /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */
@@ -40,22 +43,29 @@ public class NavigationController {
             contentHere.getChildren().clear();
             contentHere.getChildren().addFirst(pageContent);
 
-            if (overlayContent == null) {
-                FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
-                overlayContent = paneLoader.load();
-                overlayContent.setVisible(false); // Initially invisible
-                contentHere.getChildren().add(overlayContent);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void initPopUp(String name, String wine) {
-        if (overlayContent != null) {
-            overlayContent.setVisible(true);
-            //setting var here
+
+    public Wine getWine() { return this.wine; }
+
+    private void loadPopUpContent() {
+        try {
+            FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
+            overlayContent = paneLoader.load();
+            overlayContent.setVisible(true); // Initially invisible
+            contentHere.getChildren().add(overlayContent);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    public void initPopUp(Wine wine) {
+        this.wine = wine;
+        loadPopUpContent();
+    }
+
     public void closePopUp() {
         if (overlayContent != null) {
             overlayContent.setVisible(false);

@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team0.models.testWines.wine1;
 import seng202.team0.services.CounterService;
 
 
@@ -44,7 +45,7 @@ public class MainController{
     @FXML
     public void onButton1Clicked() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp("name", "wine");
+        navigationController.initPopUp(new wine1());
     }
 
     @FXML

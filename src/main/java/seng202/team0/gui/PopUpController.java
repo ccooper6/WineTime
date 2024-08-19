@@ -1,11 +1,13 @@
 package seng202.team0.gui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.wine1;
 
 public class PopUpController {
@@ -29,8 +31,17 @@ public class PopUpController {
 
     @FXML
     public void initialize() {
-        wine1 wine = new wine1();
-        //wineImage.setImage(new Image(getClass().getResourceAsStream("/images/red_wine.png")));
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        Wine wine = navigationController.getWine();
+        if (wine == null) {
+            wine = new wine1();
+        }
+        populatePopup(wine);
+    }
+
+    @FXML
+    private void populatePopup(Wine wine) {
+        wineImage.setImage(new Image(wine.getImagePath()));
         wineName.setText(wine.getName());
         description.setText(wine.getDescription());
         province.setText(wine.getProvince());
@@ -40,7 +51,7 @@ public class PopUpController {
         variety.setText(wine.getVariety());
     }
 
-    public void closePopUp(MouseEvent mouseEvent) {
+    public void closePopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
     }

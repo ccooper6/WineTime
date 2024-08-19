@@ -97,9 +97,14 @@ public class MainPageController {
 
 
     @FXML
-    public void onWineClicked() { // From advanced java fx tutorial
+    public void onWineClicked(MouseEvent event) { // From advanced java fx tutorial
+        AnchorPane pane = (AnchorPane) event.getSource();
+        String[] name = pane.getId().split("");
+        Integer paneNum = Integer.valueOf(name[8]);
+        Wine wine = winesTest.get(paneNum - 1);
+
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp("name", "wine");
+        navigationController.initPopUp(wine);
     }
 
     @FXML
