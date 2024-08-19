@@ -14,6 +14,11 @@ import java.io.IOException;
  */
 public class FXWindow extends Application {
 
+    /**
+     * Creates a login page and initialises fxWrapper
+     * @param primaryStage is the first stage initialised
+     * @throws IOException when
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));   // change this back to login when done
