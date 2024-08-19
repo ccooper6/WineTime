@@ -1,5 +1,6 @@
 package seng202.team0.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.Button;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import seng202.team0.models.User;
 import seng202.team0.models.Wine;
@@ -130,6 +132,10 @@ public class ProfileScreen {
         });
 //
     }
+
+    public void onQuizClicked(ActionEvent actionEvent) { FXWrapper.getInstance().launchSubPage("quizscreen");}
+
+
 }
 
 
