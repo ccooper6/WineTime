@@ -50,6 +50,9 @@ public class NavigationController {
 
     public Wine getWine() { return this.wine; }
 
+    /**
+     * Creates a popup
+     */
     private void loadPopUpContent() {
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));

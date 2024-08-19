@@ -39,8 +39,7 @@ public class MainController{
     }
 
     /**
-     * Method to call when our counter button is clicked
-     *
+     * Method to call when the popup button is clicked
      */
     @FXML
     public void onButton1Clicked() {
@@ -48,6 +47,9 @@ public class MainController{
         navigationController.initPopUp(new wine1());
     }
 
+    /**
+     * A second example button which when clicked launches homepage
+     */
     @FXML
     public void onButtonClicked() {
         FXWrapper.getInstance().launchSubPage("mainpage");
