@@ -5,9 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import seng202.team0.repository.WineDAO;
 import seng202.team0.services.UserLoginService;
 
-import java.util.Objects;
+import java.io.IOException;
 
 /**
  * Controller class to look after the login.fxml page
@@ -98,6 +99,11 @@ public class LoginController {
                 errorText.setText("An error has occurred, try again.");
         }
 
+    }
+
+    public void initialize() throws IOException {
+        WineDAO wineDAO = new WineDAO();
+        wineDAO.initializeAllWines();
     }
 
 }
