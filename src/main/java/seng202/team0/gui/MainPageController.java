@@ -116,7 +116,7 @@ public class MainPageController {
     @FXML
     public void lightenPane(MouseEvent event) {
         AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-border-color: 1#d9d9d9");
+        pane.setStyle("-fx-border-color: #d9d9d9");
     }
 
     @FXML
