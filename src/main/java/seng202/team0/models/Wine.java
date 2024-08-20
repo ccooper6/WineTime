@@ -238,4 +238,23 @@ public class Wine {
     public void setTasterTwitter(String tasterTwitter) {
         this.tasterTwitter = tasterTwitter;
     }
+
+    public String getImagePath() {
+        String imagePath = "";
+        switch (getVariety()) {
+            case "Red":
+                imagePath = "/images/Red Wine.jpg";
+                break;
+            case "White":
+                imagePath = "/images/White Wine.jpg";
+                break;
+            case "Rosé":
+                imagePath = "/images/Rose Wine.jpg";
+                break;
+            default:
+                imagePath = "/images/wine-bottle_pic.jpg";
+                break;
+        }
+        return getClass().getResource(imagePath).toExternalForm();
+    }
 }

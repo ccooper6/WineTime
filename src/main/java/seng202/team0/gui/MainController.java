@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team0.models.testWines.wine1;
 import seng202.team0.services.CounterService;
 
 
@@ -38,15 +39,17 @@ public class MainController{
     }
 
     /**
-     * Method to call when our counter button is clicked
-     *
+     * Method to call when the popup button is clicked
      */
     @FXML
     public void onButton1Clicked() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp("name", "wine");
+        navigationController.initPopUp(new wine1());
     }
 
+    /**
+     * A second example button which when clicked launches homepage
+     */
     @FXML
     public void onButtonClicked() {
         FXWrapper.getInstance().launchSubPage("mainpage");

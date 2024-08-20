@@ -74,11 +74,14 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Getter function for the navigation controller
+     * @return the current navigation controller
+     */
     public NavigationController getNavigationController() {
         return navigationController;
     }
-    public void initPopUp(String name, String wine) {
 
-    }
+
 
 }

@@ -3,11 +3,10 @@ DROP TABLE IF EXISTS wine;
 CREATE TABLE IF NOT EXISTS wine (
                                      id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      name TEXT NOT NULL,
-                                     year INTEGER,
-                                     winery TEXT,
+                                     vintage INTEGER,
                                      price REAL,
                                      description TEXT,
-                                     UNIQUE (name, year, winery));
+                                     UNIQUE (name));
 /* SPLIT */
 DROP TABLE IF EXISTS user;
 /* SPLIT */
@@ -35,10 +34,10 @@ DROP TABLE IF EXISTS likes;
 /* SPLIT */
 CREATE TABLE IF NOT EXISTS likes (
                                      uid INTEGER NOT NULL,
-                                     tid INTEGER NOT NULL,
+                                     tname INTEGER NOT NULL,
                                      value INTEGER NOT NULL,
                                      FOREIGN KEY (uid) REFERENCES user(id),
-                                     FOREIGN KEY (tid) REFERENCES tag(id));
+                                     FOREIGN KEY (tname) REFERENCES tag(name));
 /* SPLIT */
 DROP TABLE IF EXISTS logs;
 /* SPLIT */
@@ -64,9 +63,9 @@ DROP TABLE IF EXISTS owned_by;
 /* SPLIT */
 CREATE TABLE IF NOT EXISTS owned_by (
                                      wid INTEGER NOT NULL,
-                                     tid INTEGER NOT NULL,
+                                     tname TEXT NOT NULL,
                                      FOREIGN KEY (wid) REFERENCES wine(id),
-                                     FOREIGN KEY (tid) REFERENCES tag(id));
+                                     FOREIGN KEY (tname) REFERENCES tag(name));
 /* SPLIT */
 DROP TABLE IF EXISTS participated_in;
 /* SPLIT */

@@ -1,13 +1,19 @@
 package seng202.team0.gui;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import seng202.team0.repository.WineDAO;
 import seng202.team0.services.UserLoginService;
 
-import java.util.Objects;
+import java.io.IOException;
 
 /**
  * Controller class to look after the login.fxml page
@@ -17,13 +23,37 @@ public class LoginController {
     @FXML
     TextField userNameTextField;
     @FXML
-    TextField passwordTextField;
+    PasswordField passwordField;
     @FXML
     Button registerButton;
     @FXML
     Button logInButton;
     @FXML
     Text errorText;
+    @FXML
+    FontAwesomeIconView passwordVisibilityToggle;
+    @FXML
+    private TextField visiblePasswordTextField;
+
+    @FXML
+    public void initialize() {
+//        WineDAO wineDAO = new WineDAO();
+//        wineDAO.initializeAllWines();
+
+        userNameTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onLoginPressed();
+            }
+        });
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onLoginPressed();
+            }
+        });
+
+        visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+        visiblePasswordTextField.setVisible(false);
+    }
 
     /**
      * Very simple method to handle when the login button is pressed. Validates the user account using the inputs
@@ -33,12 +63,12 @@ public class LoginController {
     public void onLoginPressed() {
         clearErrors();
         String username = userNameTextField.getText();
-        String password = passwordTextField.getText();
+        String password = passwordField.getText();
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.validateAccount(username, password)
                 && !username.isEmpty() && !password.isEmpty()
                 && username.matches(".*[a-zA-Z0-9]+.*") && password.matches(".*[a-zA-Z0-9]+.*")) {
-            FXWrapper.getInstance().launchPage("mainpage");
+            FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
             clearFields();
@@ -54,7 +84,7 @@ public class LoginController {
     public void onRegisterPressed() {
         clearErrors();
         String username = userNameTextField.getText();
-        String password = passwordTextField.getText();
+        String password = passwordField.getText();
         UserLoginService userLoginService = new UserLoginService();
         if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
                 && password.matches(".*[a-zA-Z0-9]+.*")) {
@@ -68,21 +98,38 @@ public class LoginController {
         }
     }
 
+    @FXML
+    public void toggleShowPassword() {
+        if (passwordField.isVisible()) {
+            passwordField.setVisible(false);
+            visiblePasswordTextField.setVisible(true);
+            visiblePasswordTextField.setManaged(true);
+            passwordVisibilityToggle.setGlyphName("EYE");
+        } else {
+            passwordField.setVisible(true);
+            visiblePasswordTextField.setVisible(false);
+            visiblePasswordTextField.setManaged(false);
+            passwordVisibilityToggle.setGlyphName("EYE_SLASH");
+        }
+    }
+
     private void clearFields() {
         userNameTextField.clear();
-        passwordTextField.clear();
+        passwordField.clear();
     }
 
     private void setErrorFieldBorder() {
         userNameTextField.setStyle("-fx-border-color: RED");
-        passwordTextField.setStyle("-fx-border-color: RED");
+        passwordField.setStyle("-fx-border-color: RED");
+        visiblePasswordTextField.setStyle("-fx-border-color: RED");
     }
 
     private void clearErrors() {
         errorText.setText("");
         errorText.setFill(Paint.valueOf("Red"));
         userNameTextField.setStyle("-fx-border-color: None");
-        passwordTextField.setStyle("-fx-border-color: None");
+        passwordField.setStyle("-fx-border-color: None");
+        visiblePasswordTextField.setStyle("-fx-border-color: None");
     }
 
     private void accountCreatedSuccessfully(int outcome) {

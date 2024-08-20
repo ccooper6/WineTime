@@ -1,5 +1,6 @@
 package seng202.team0.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.Button;
@@ -7,9 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import seng202.team0.models.User;
 import seng202.team0.models.Wine;
+import seng202.team0.models.testWines.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,30 +87,12 @@ public class ProfileScreen {
 
 
     // ***********TEST CASE WINE OBJECTS***************
-    List<Wine> favWinesTest = new ArrayList<>(List.of(new Wine("1 Fave wine 1", "great red wine", 10,
-            "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("2 Fave wine 2", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("3 Fave wine 3", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("4 Fave wine 4", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("5 Fave wine 5", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("6 Fave wine 6", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("7 Fave wine 7", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("8 Fave wine 8", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a"),
-            new Wine("9 Fave wine 9", "great red wine", 10,
-                    "timbuktu", "antarctica", "the world", "grape", "winners wine", "user a", "a")));
-
+    List<Wine> favWinesTest = new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6()));
     // consider adding a wine info aspect to wine class so u can get the string description from wines
     public String getWineInfo(Wine wine) {
         return("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
     }
-    // ******************ENDS HERE********************
+    // ******************Test stuff ENDS HERE********************
 
 
 
@@ -147,6 +132,10 @@ public class ProfileScreen {
         });
 //
     }
+
+    public void onQuizClicked(ActionEvent actionEvent) { FXWrapper.getInstance().launchSubPage("quizscreen");}
+
+
 }
 
 
