@@ -1,10 +1,5 @@
 package seng202.team0.services;
 
-import seng202.team0.gui.FXWrapper;
-import seng202.team0.gui.NavigationController;
-import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.wine1;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -86,14 +81,5 @@ public class QuizService {
      */
     public ArrayList<String> getAnswer4answers() {
         return answer4answers;
-    }
-
-    public void launchWinePopup() {
-
-        Wine wine = new wine1();
-        FXWrapper.getInstance().launchSubPage("profile");
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
-
     }
 }
