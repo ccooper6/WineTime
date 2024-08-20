@@ -7,6 +7,10 @@ import seng202.team0.exceptions.InstanceAlreadyExistsException;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 
 /**
@@ -16,25 +20,28 @@ import java.sql.*;
 public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
-    public final String url;
+    public String url;
 
     /**
      * Private constructor for singleton purposes
      * Creates database if it does not already exist in specified location
      */
     private DatabaseManager(String urlIn) {
-        if (urlIn == null || urlIn.isEmpty()) {
-            this.url = getDatabasePath();
-        } else {
-            this.url = urlIn;
-        }
-        log.info("Using database path: " + this.url);
-
-        if (!checkDatabaseExists(url)) {
-            log.info("Database does not exist. Creating new database.");
-            createDatabaseFile(url);
-            resetDB();
-        }
+//        if (urlIn == null || urlIn.isEmpty()) {
+//            this.url = getDatabasePath();
+//        } else {
+//            this.url = urlIn;
+//        }
+//        log.info("Using database path: " + this.url);
+//
+//        if (!checkDatabaseExists(url)) {
+//            log.info("Database does not exist. Creating new database.");
+////            createDatabaseFile(url);
+//            inititaliseDB();
+//            resetDB();
+//        }
+        inititaliseDB();
+        this.url = getDatabasePath();
     }
 
 
@@ -109,7 +116,7 @@ public class DatabaseManager {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
-        return "jdbc:sqlite:"+jarDir.getParentFile()+"/database.db";
+        return "jdbc:sqlite:"+jarDir.getParentFile()+"/copy.db";
     }
 
     /**
@@ -166,6 +173,25 @@ public class DatabaseManager {
             log.error("Error working with database initialisation file", e);
         } catch (SQLException e) {
             log.error("Error executing sql statements in database initialisation file", e);
+        }
+    }
+
+    public void inititaliseDB() {
+        String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        path = URLDecoder.decode(path, StandardCharsets.UTF_8);
+        File jarDir = new File(path);
+        String copyPath = jarDir.getParentFile() + "/copy.db";
+        String ogPath = getClass().getResource("/sql/og.db").toString();
+        ogPath = Paths.get("src/main/resources/sql/og.db").toString();
+
+        Path copy = Paths.get(copyPath);
+        Path og = Paths.get(ogPath);
+        try{
+            Files.copy(og,copy);
+        } catch (FileAlreadyExistsException e) {
+            log.info("DB File already exists. - Did not replace");
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
     }
 }
