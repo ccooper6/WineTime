@@ -22,6 +22,8 @@ public class QuizController {
     Button answer3Button;
     @FXML
     Button answer4Button;
+    @FXML
+    Button showWineButton;
 
     QuizService quizService = new QuizService();
 
@@ -41,29 +43,35 @@ public class QuizController {
             answer3Button.setText(answer3answers.get(questionNumber));
             answer4Button.setText(answer4answers.get(questionNumber));
         } else {
-            questionLabel.setOpacity(0);
+            questionLabel.setText("Your wine has been carefully selected.");
+            showWineButton.setDisable(false);
             answer1Button.setDisable(true);
             answer2Button.setDisable(true);
             answer3Button.setDisable(true);
             answer4Button.setDisable(true);
+            showWineButton.setOpacity(1);
             answer1Button.setOpacity(0);
             answer2Button.setOpacity(0);
             answer3Button.setOpacity(0);
             answer4Button.setOpacity(0);
+
         }
     }
     @FXML
     public void initialize() {
 
         questionLabel.setOpacity(1);
+        showWineButton.setDisable(true);
         answer1Button.setDisable(false);
         answer2Button.setDisable(false);
         answer3Button.setDisable(false);
         answer4Button.setDisable(false);
+        showWineButton.setOpacity(0);
         answer1Button.setOpacity(1);
         answer2Button.setOpacity(1);
         answer3Button.setOpacity(1);
         answer4Button.setOpacity(1);
+
         this.questions = quizService.getQuestions();
         this.answer1answers = quizService.getAnswer1answers();
         this.answer2answers = quizService.getAnswer2answers();
@@ -71,6 +79,14 @@ public class QuizController {
         this.answer4answers = quizService.getAnswer4answers();
 
         setLabels();
+    }
+
+    @FXML
+    public void onShowWineClicked() {
+
+        questionLabel.setOpacity(0);
+        showWineButton.setDisable(true);
+        quizService.launchWinePopup();
     }
 
     @FXML
