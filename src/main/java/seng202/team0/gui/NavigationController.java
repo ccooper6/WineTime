@@ -10,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team0.App;
 import seng202.team0.models.Wine;
 
 import java.io.IOException;
@@ -91,7 +94,9 @@ public class NavigationController {
 
     public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
-        FXWrapper.getInstance().launchSubPage("main");
+        Logger log = LogManager.getLogger(App.class);
+        log.info("Needs Implementing");
+        FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
     public void onUserClicked(MouseEvent actionEvent) {

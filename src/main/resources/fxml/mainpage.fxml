@@ -71,6 +71,6 @@
             </AnchorPane>
          </children>
       </GridPane>
-      <FontAwesomeIconView fx:id="scrollArrow" glyphName="ANGLE_RIGHT" layoutX="946.0" layoutY="131.0" onMouseClicked="#scroll" size="60" text="" wrappingWidth="22.285714149475098" />
+      <FontAwesomeIconView fx:id="scrollArrow" glyphName="ANGLE_RIGHT" layoutX="946.0" layoutY="131.0" size="60" text="" wrappingWidth="22.285714149475098" />
    </children>
 </Pane>
