@@ -27,19 +27,6 @@ public class DatabaseManager {
      * Creates database if it does not already exist in specified location
      */
     private DatabaseManager(String urlIn) {
-//        if (urlIn == null || urlIn.isEmpty()) {
-//            this.url = getDatabasePath();
-//        } else {
-//            this.url = urlIn;
-//        }
-//        log.info("Using database path: " + this.url);
-//
-//        if (!checkDatabaseExists(url)) {
-//            log.info("Database does not exist. Creating new database.");
-////            createDatabaseFile(url);
-//            inititaliseDB();
-//            resetDB();
-//        }
         inititaliseDB();
         this.url = getDatabasePath();
     }
@@ -181,8 +168,7 @@ public class DatabaseManager {
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
         String copyPath = jarDir.getParentFile() + "/copy.db";
-        String ogPath = getClass().getResource("/sql/og.db").toString();
-        ogPath = Paths.get("src/main/resources/sql/og.db").toString();
+        String ogPath = Paths.get("src/main/resources/sql/og.db").toString();
 
         Path copy = Paths.get(copyPath);
         Path og = Paths.get(ogPath);

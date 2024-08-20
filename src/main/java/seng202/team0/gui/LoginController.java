@@ -37,6 +37,9 @@ public class LoginController {
 
     @FXML
     public void initialize() {
+//        WineDAO wineDAO = new WineDAO();
+//        wineDAO.initializeAllWines();
+
         userNameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 onLoginPressed();
@@ -142,11 +145,6 @@ public class LoginController {
                 errorText.setText("An error has occurred, try again.");
         }
 
-    }
-
-    public void initialize() throws IOException {
-        WineDAO wineDAO = new WineDAO();
-        wineDAO.initializeAllWines();
     }
 
 }
