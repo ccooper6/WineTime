@@ -1,22 +1,17 @@
 package seng202.team0.gui;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import seng202.team0.repository.WineDAO;
 import seng202.team0.services.UserLoginService;
 
-import java.io.IOException;
-
 /**
- * Controller class to look after the login.fxml page
+ * Controller class to look after the login.fxml page.
  * @author Isaac Macdonald, Caleb Cooper
  */
 public class LoginController {
@@ -37,14 +32,12 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-//        WineDAO wineDAO = new WineDAO();
-//        wineDAO.initializeAllWines();
-
         userNameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 onLoginPressed();
             }
         });
+
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 onLoginPressed();
@@ -98,6 +91,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method that is used to toggle between the password being visible and hidden.
+     */
     @FXML
     public void toggleShowPassword() {
         if (passwordField.isVisible()) {
@@ -113,17 +109,28 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method that clears the username and password text fields.
+     */
     private void clearFields() {
         userNameTextField.clear();
         passwordField.clear();
     }
 
+    /**
+     * Sets the borders of all the possible text fields to hava a red border to indicate
+     * an error.
+     */
     private void setErrorFieldBorder() {
         userNameTextField.setStyle("-fx-border-color: RED");
         passwordField.setStyle("-fx-border-color: RED");
         visiblePasswordTextField.setStyle("-fx-border-color: RED");
     }
 
+    /**
+     * Clears the error text, sets the error text to be coloured red and sets the border of the text
+     * fields to not have a red border anymore.
+     */
     private void clearErrors() {
         errorText.setText("");
         errorText.setFill(Paint.valueOf("Red"));
@@ -132,6 +139,10 @@ public class LoginController {
         visiblePasswordTextField.setStyle("-fx-border-color: None");
     }
 
+    /**
+     * Sets the error text message based on the output that is returned from creating a new account in the database.
+     * @param outcome the code of what error the sql function has returned to differentiate error messages
+     */
     private void accountCreatedSuccessfully(int outcome) {
         switch (outcome) {
             case 0:

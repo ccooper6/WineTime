@@ -6,10 +6,11 @@ import javafx.scene.control.Label;
 import seng202.team0.services.QuizService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-
-
+/**
+ * Controller class for the quiz.fxml page.
+ * @author Isaac
+ */
 public class QuizController {
 
     @FXML

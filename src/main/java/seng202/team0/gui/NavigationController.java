@@ -4,16 +4,20 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import seng202.team0.models.Wine;
 
 import java.io.IOException;
 
+/**
+ * Controller class for the navigation.fxml page.
+ * @author Elise
+ */
 public class NavigationController {
     @FXML
     public ImageView homeExampleButton;
@@ -33,7 +37,8 @@ public class NavigationController {
 
     private Wine wine;
 
-    /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
+    /**
+     * Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */
     public void loadPageContent(String name) {
