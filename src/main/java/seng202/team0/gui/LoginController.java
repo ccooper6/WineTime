@@ -16,9 +16,17 @@ import seng202.team0.services.UserLoginService;
  */
 public class LoginController {
     @FXML
+    Text usernameText;
+    @FXML
     TextField userNameTextField;
     @FXML
+    Text passwordText;
+    @FXML
     PasswordField passwordField;
+    @FXML
+    FontAwesomeIconView passwordVisibilityToggle;
+    @FXML
+    TextField visiblePasswordTextField;
     @FXML
     Button registerButton;
     @FXML
@@ -26,21 +34,47 @@ public class LoginController {
     @FXML
     Text errorText;
     @FXML
-    FontAwesomeIconView passwordVisibilityToggle;
+    Text nameText;
     @FXML
-    private TextField visiblePasswordTextField;
+    TextField nameTextField;
+    @FXML
+    Button createUserButton;
 
     @FXML
     public void initialize() {
         userNameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                onLoginPressed();
+                if (nameTextField.isVisible()) {
+                    onCreateUserPressed();
+                } else {
+                    onLoginPressed();
+                }
             }
         });
 
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                onLoginPressed();
+                if (nameTextField.isVisible()) {
+                    onCreateUserPressed();
+                } else {
+                    onLoginPressed();
+                }
+            }
+        });
+
+        visiblePasswordTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (nameTextField.isVisible()) {
+                    onCreateUserPressed();
+                } else {
+                    onLoginPressed();
+                }
+            }
+        });
+
+        nameTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onCreateUserPressed();
             }
         });
 
@@ -55,7 +89,7 @@ public class LoginController {
     @FXML
     public void onLoginPressed() {
         clearErrors();
-        String username = userNameTextField.getText();
+        String username = userNameTextField.getText().toLowerCase();
         String password = passwordField.getText();
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.validateAccount(username, password)
@@ -76,14 +110,28 @@ public class LoginController {
     @FXML
     public void onRegisterPressed() {
         clearErrors();
-        String username = userNameTextField.getText();
+        toggleShowCreateAccount();
+    }
+
+    /**
+     * . Method to register a new user account.
+     */
+    @FXML
+    public void onCreateUserPressed() {
+        String username = userNameTextField.getText().toLowerCase();
         String password = passwordField.getText();
+        String name = nameTextField.getText();
+        clearErrors();
+        errorText.setTranslateY(72);
         UserLoginService userLoginService = new UserLoginService();
         if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
-                && password.matches(".*[a-zA-Z0-9]+.*")) {
-            int outcome = userLoginService.createAccount(username, password);
+                && password.matches(".*[a-zA-Z0-9]+.*") && !name.isEmpty()) {
+            int outcome = userLoginService.createAccount(name, username, password);
             clearFields();
             accountCreatedSuccessfully(outcome);
+        } else if (name.isEmpty()) {
+            errorText.setText("Please enter a name and try again");
+            setErrorFieldBorder(nameTextField);
         } else {
             errorText.setText("Invalid username or password, please try again");
             clearFields();
@@ -114,7 +162,10 @@ public class LoginController {
      */
     private void clearFields() {
         userNameTextField.clear();
-        passwordField.clear();
+        passwordField.clear(); // Linked to visiblePasswordTextField, so we don't need to clear both
+        if (!nameTextField.isVisible()) { // Only clear the name field if it is hidden
+            nameTextField.clear();
+        }
     }
 
     /**
@@ -127,6 +178,10 @@ public class LoginController {
         visiblePasswordTextField.setStyle("-fx-border-color: RED");
     }
 
+    private void setErrorFieldBorder(TextField textField) {
+        textField.setStyle("-fx-border-color: RED");
+    }
+
     /**
      * Clears the error text, sets the error text to be coloured red and sets the border of the text
      * fields to not have a red border anymore.
@@ -137,6 +192,9 @@ public class LoginController {
         userNameTextField.setStyle("-fx-border-color: None");
         passwordField.setStyle("-fx-border-color: None");
         visiblePasswordTextField.setStyle("-fx-border-color: None");
+        if (nameTextField.isVisible()) {
+            nameTextField.setStyle("-fx-border-color: None");
+        }
     }
 
     /**
@@ -147,8 +205,11 @@ public class LoginController {
         switch (outcome) {
             case 0:
                 errorText.setText("Username already exists.");
+                setErrorFieldBorder(userNameTextField);
                 break;
             case 1:
+                toggleShowCreateAccount();
+                errorText.setTranslateY(0);
                 errorText.setText("Account created!");
                 errorText.setFill(Paint.valueOf("Green"));
                 break;
@@ -158,4 +219,37 @@ public class LoginController {
 
     }
 
+    private void toggleShowCreateAccount() {
+        if (nameText.isVisible()) {
+            nameText.setVisible(false);
+            nameTextField.setVisible(false);
+            createUserButton.setVisible(false);
+            registerButton.setVisible(true);
+            logInButton.setVisible(true);
+
+            usernameText.setTranslateY(0);
+            userNameTextField.setTranslateY(0);
+            passwordText.setTranslateY(0);
+            passwordField.setTranslateY(0);
+            visiblePasswordTextField.setTranslateY(0);
+            passwordVisibilityToggle.setTranslateY(0);
+            nameText.setTranslateY(0);
+            nameTextField.setTranslateY(0);
+        } else {
+            nameText.setVisible(true);
+            nameTextField.setVisible(true);
+            createUserButton.setVisible(true);
+            registerButton.setVisible(false);
+            logInButton.setVisible(false);
+
+            usernameText.setTranslateY(62);
+            userNameTextField.setTranslateY(62);
+            passwordText.setTranslateY(62);
+            passwordField.setTranslateY(62);
+            visiblePasswordTextField.setTranslateY(62);
+            passwordVisibilityToggle.setTranslateY(62);
+            nameText.setTranslateY(-124);
+            nameTextField.setTranslateY(-124);
+        }
+    }
 }
