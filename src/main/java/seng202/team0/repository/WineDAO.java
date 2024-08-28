@@ -6,13 +6,11 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
 import seng202.team0.models.Wine;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.List;
@@ -31,9 +29,43 @@ public class WineDAO implements DAOInterface<Wine> {
         return null;
     }
 
+    /**
+     * T
+     * @param id id of object to get
+     * @return
+     */
     @Override
     public Wine getOne(int id) {
-        return null;
+
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE id= ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    return wine;
+                }
+            }
+            return null;
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
+
     }
 
     @Override
@@ -254,6 +286,8 @@ public class WineDAO implements DAOInterface<Wine> {
     public static void main(String[] args) {
         WineDAO wineDAO = new WineDAO();
         wineDAO.initializeAllWines();
+        Wine win = wineDAO.getOne(72);
+        System.out.println(win.getName() + "\n" + win.getDescription());
     }
 
 }
