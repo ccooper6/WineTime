@@ -21,7 +21,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     private final DatabaseManager databaseManager;
 
-    private static final Logger log = LogManager.getLogger(UserDAO.class);
+    private static final Logger log = LogManager.getLogger(WineDAO.class);
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
 
