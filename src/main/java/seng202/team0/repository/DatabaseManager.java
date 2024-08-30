@@ -103,7 +103,7 @@ public class DatabaseManager {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
-        return "jdbc:sqlite:"+jarDir.getParentFile()+"/copy.db";
+        return "jdbc:sqlite:" + jarDir.getParentFile() + "/copy.db";
     }
 
     /**
@@ -172,7 +172,7 @@ public class DatabaseManager {
 
         Path copy = Paths.get(copyPath);
         Path og = Paths.get(ogPath);
-        try{
+        try {
             Files.copy(og,copy);
         } catch (FileAlreadyExistsException e) {
             log.info("DB File already exists. - Did not replace");
