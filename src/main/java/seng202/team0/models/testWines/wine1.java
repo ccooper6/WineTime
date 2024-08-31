@@ -4,6 +4,6 @@ import seng202.team0.models.Wine;
 
 public class wine1 extends Wine {
     public wine1() {
-        super("Red Wine", "Tasty", 50, "France", "French", "French1", "Red", "Wine Time", null, null);
+        super("Red Wine", "Tasty", 50, 2000, "France", "French", "French1", "Red", "Wine Time", null, null);
     }
 }

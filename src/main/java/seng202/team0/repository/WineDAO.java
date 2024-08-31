@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WineDAO implements DAOInterface<Wine> {
@@ -30,7 +31,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * T
+     * This method get a wine based on it's name
      * @param id id of object to get
      * @return
      */
@@ -48,6 +49,7 @@ public class WineDAO implements DAOInterface<Wine> {
                             rs.getString("name"),
                             rs.getString("description"),
                             rs.getInt("price"),
+                            rs.getInt("vintage"),
                             "",
                             "",
                             "",
@@ -65,6 +67,47 @@ public class WineDAO implements DAOInterface<Wine> {
             return null;
         }
 
+    }
+
+    /**
+     * This method take in two years and return all wines between those two years.
+     * @param earliest the earliest vintage
+     * @param latest the latest vintage
+     * @return an arraylist of all wines between the two vintages.
+     */
+    public ArrayList<Wine> getWinesFromVintage(int earliest, int latest) {
+
+        ArrayList<Wine> wines = new ArrayList<>();
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE vintage>=? and vintage<=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, earliest);
+            ps.setInt(2, latest);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    wines.add(wine);
+                }
+                return wines;
+            }
+
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
 
     }
 
@@ -286,8 +329,10 @@ public class WineDAO implements DAOInterface<Wine> {
     public static void main(String[] args) {
         WineDAO wineDAO = new WineDAO();
         wineDAO.initializeAllWines();
-        Wine win = wineDAO.getOne(72);
-        System.out.println(win.getName() + "\n" + win.getDescription());
+        ArrayList<Wine> wines = wineDAO.getWinesFromVintage(0, 2030);
+        for (Wine wine: wines) {
+            System.out.println(wine.getVintage());
+        }
     }
 
 }

@@ -1,0 +1,48 @@
+package seng202.team0.unittests.services;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import seng202.team0.exceptions.DuplicateEntryException;
+import seng202.team0.exceptions.InstanceAlreadyExistsException;
+import seng202.team0.models.User;
+import seng202.team0.models.UserLogin;
+import seng202.team0.models.Wine;
+import seng202.team0.repository.DatabaseManager;
+import seng202.team0.repository.UserDAO;
+import seng202.team0.repository.WineDAO;
+
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class WineDAOTest {
+
+    static DatabaseManager databaseManager;
+    static WineDAO wineDAO;
+    @BeforeAll
+    static void setUp() throws InstanceAlreadyExistsException{
+        DatabaseManager.REMOVE_INSTANCE();
+        databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        wineDAO = new WineDAO();
+    }
+
+    @BeforeEach
+    void resetDB(){
+        databaseManager.resetDB();
+    }
+
+    @Test
+    public void testGetOneGoodID(){
+        wineDAO.initializeAllWines();
+        assertNotNull(wineDAO.getOne(72));
+    }
+
+    @Test
+    public void testGetOneBadID(){
+        wineDAO.initializeAllWines();
+        assertNull(wineDAO.getOne(72727272));
+
+    }
+}
