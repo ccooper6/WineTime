@@ -102,7 +102,21 @@ public class QuizService {
 
     public void launchWinePopup() {
 
-        Wine wine = new wine1();
+        Wine wine = null;
+        switch (getRecordOfAnswers().get(0)) {
+            case 1:
+                wine = wineDAO.getWinesFromVintage(1990, 1999).get(0);
+                break;
+            case 2:
+                wine = wineDAO.getWinesFromVintage(2000, 2009).get(0);
+                break;
+            case 3:
+                wine = wineDAO.getWinesFromVintage(2010, 2019).get(0);
+                break;
+            case 4:
+                wine = wineDAO.getWinesFromVintage(2020, 2029).get(0);
+                break;
+        }
         FXWrapper.getInstance().launchSubPage("profile");
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.initPopUp(wine);
