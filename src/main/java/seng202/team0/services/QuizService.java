@@ -4,49 +4,53 @@ import seng202.team0.gui.FXWrapper;
 import seng202.team0.gui.NavigationController;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.wine1;
+import seng202.team0.repository.WineDAO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class QuizService {
 
+    WineDAO wineDAO = new WineDAO();
     ArrayList<String> questions = new ArrayList<>(Arrays.asList(
-            "You just robbed a chocolate store, what was your choice of poison?",
-            "It’s a Saturday night. What are you doing?",
+            "Pick a movie from this great selection",
+            "What is your go to food",
             "If you could only pick one fruit for the rest of your life what would it be?",
-            "What burger are you getting at McDonalds?",
+            "What is the coolest bird.",
             "What Hogwarts house are you?"
     ));
 
     ArrayList<String> answer1answers = new ArrayList<>(Arrays.asList(
-            "White chocolate",
-            "In bed with a book",
+            "The Shawshank Redemption",
+            "Steak",
             "Banana",
-            "Quarter pounder",
+            "Bald Eagle",
             "Hufflepuff"
     ));
     ArrayList<String> answer2answers = new ArrayList<>(Arrays.asList(
-            "Milk chocolate",
-            "Asleep",
+            "The Dark Knight",
+            "Fish",
             "Pear",
-            "McChicken",
+            "Kiwi",
             "Ravenclaw"
     ));
     ArrayList<String> answer3answers = new ArrayList<>(Arrays.asList(
-            "Dark chocolate",
-            "Out on the town",
+            "Parasite",
+            "Cheesecake",
             "Plum",
-            "Big Mac",
+            "Iberial Imperial Eagle",
             "Gryffindor"
 
     ));
     ArrayList<String> answer4answers = new ArrayList<>(Arrays.asList(
-            "The till",
-            "Casino",
+            "Dune: Part Two",
+            "Sushi",
             "Peach",
-            "Filet o' Fish",
+            "Gallic Rooster",
             "Slytherin"
     ));
+
+    ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
 
     /**
      * The getter for the question labels.
@@ -87,6 +91,14 @@ public class QuizService {
     public ArrayList<String> getAnswer4answers() {
         return answer4answers;
     }
+
+    public ArrayList<Integer> getRecordOfAnswers() {
+        return recordOfAnswers;
+    }
+
+    /**
+     * The getter for the record of answers.
+     */
 
     public void launchWinePopup() {
 

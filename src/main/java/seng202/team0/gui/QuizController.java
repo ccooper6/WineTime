@@ -86,30 +86,31 @@ public class QuizController {
 
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
+        System.out.println(quizService.getRecordOfAnswers());
         quizService.launchWinePopup();
     }
 
     @FXML
     public void onAnswer1Clicked() {
-        questionNumber++;
+        quizService.getRecordOfAnswers().set(questionNumber++, 1);
         setLabels();
     }
 
     @FXML
     public void onAnswer2Clicked() {
-        questionNumber++;
+        quizService.getRecordOfAnswers().set(questionNumber++, 2);
         setLabels();
     }
 
     @FXML
     public void onAnswer3Clicked() {
-        questionNumber++;
+        quizService.getRecordOfAnswers().set(questionNumber++, 3);
         setLabels();
     }
 
     @FXML
     public void onAnswer4Clicked() {
-        questionNumber++;
+        quizService.getRecordOfAnswers().set(questionNumber++, 4);
         setLabels();
     }
 
