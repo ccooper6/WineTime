@@ -5,18 +5,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team0.App;
 import seng202.team0.models.Wine;
 import seng202.team0.services.WineService;
 
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller class for the navigation.fxml page.
+ * @author Elise
+ */
 public class NavigationController {
     @FXML
     public ImageView homeExampleButton;
@@ -41,6 +48,8 @@ public class NavigationController {
     private Wine wine;
     private WineService wineService = new WineService();
 
+    /**
+     * Loads in content from desired fxml and initates a blank, invisible overlay popup.
     /**
      * Initializes the controller
      */
@@ -119,7 +128,9 @@ public class NavigationController {
 
     public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
-        FXWrapper.getInstance().launchSubPage("main");
+        Logger log = LogManager.getLogger(App.class);
+        log.info("Needs Implementing");
+        FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
     public void onUserClicked(MouseEvent actionEvent) {
