@@ -13,7 +13,9 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user (
                                      id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      username TEXT UNIQUE NOT NULL,
-                                     password INT NOT NULL);
+                                     password INT NOT NULL,
+                                     name TEXT NOT NULL);
+
 /* SPLIT */
 DROP TABLE IF EXISTS tag;
 /* SPLIT */
