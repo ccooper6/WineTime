@@ -9,12 +9,10 @@ import seng202.team0.models.Wine;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WineDAO implements DAOInterface<Wine> {
@@ -70,6 +68,29 @@ public class WineDAO implements DAOInterface<Wine> {
             log.error(e.getMessage());
         }
         return Integer.parseInt(wineValues[0]);
+    }
+
+    public List<Wine> findWinesByName(String wineName) {
+        List<Wine> wines = new ArrayList<>();
+        String query = "SELECT * FROM wine WHERE name LIKE ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, "%" + wineName + "%");
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    Wine wine = new Wine();
+                    wine.setName(rs.getString("name"));
+                    wine.setVintage(rs.getInt("vintage"));
+                    wine.setPrice(rs.getInt("price"));
+                    wine.setDescription(rs.getString("description"));
+
+                    wines.add(wine);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wines;
     }
 
     /**

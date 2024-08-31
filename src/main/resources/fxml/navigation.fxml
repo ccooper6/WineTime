@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="NavigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.NavigationController">
+<AnchorPane fx:id="NavigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.NavigationController">
    <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0">
       <top>
-         <Pane prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
             <children>
                <FontAwesomeIconView fx:id="likesExampleButton" fill="#70171e" glyphName="HEART" layoutX="877.0" layoutY="55.0" onMouseClicked="#onLikesClicked" size="40" text="" wrappingWidth="51.0" />
                <FontAwesomeIconView fx:id="userExampleButton" glyphName="USER_CIRCLE_ALT" layoutX="928.0" layoutY="55.0" onMouseClicked="#onUserClicked" size="40" tabSize="30" text="" />
@@ -19,7 +23,7 @@
                      <Image url="@../images/winetime.png" />
                   </image>
                </ImageView>
-               <TextField fx:id="searchBar" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="512.0" promptText="SEARCH" style="-fx-background-color: #d9d9d9;">
+               <TextField fx:id="searchBar" focusTraversable="false" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="512.0" promptText="SEARCH" style="-fx-background-color: #d9d9d9;">
 <!--                  <opaqueInsets>-->
 <!--                     <Insets />-->
 <!--                  </opaqueInsets>-->

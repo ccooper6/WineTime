@@ -49,6 +49,8 @@ public class Wine {
      */
     private String tasterTwitter;
 
+    private int vintage;
+
     /**
      *The constructor for the Wine object.
      * <br><br>
@@ -64,11 +66,12 @@ public class Wine {
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      */
-    public Wine(String name, String description, int price, String province, String region1, String region2,
+    public Wine(String name, String description, int price, int vintage, String province, String region1, String region2,
                 String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.vintage = vintage;
         this.province = province;
         this.region1 = region1;
         this.region2 = region2;
@@ -77,6 +80,20 @@ public class Wine {
         this.tasterName = tasterName;
         this.tasterTwitter = tasterTwitter;
 
+    }
+
+    public Wine() {
+        this.name = "";
+        this.description = "";
+        this.price = 0;
+        this.vintage = 0;
+        this.province = "";
+        this.region1 = "";
+        this.region2 = "";
+        this.variety = "";
+        this.winery = "";
+        this.tasterName = "";
+        this.tasterTwitter = "";
     }
 
     /**
@@ -125,6 +142,14 @@ public class Wine {
      */
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getVintage() {
+        return vintage;
+    }
+
+    public void setVintage(int vintage) {
+        this.vintage = vintage;
     }
 
     /**
@@ -252,7 +277,7 @@ public class Wine {
                 imagePath = "/images/Rose Wine.jpg";
                 break;
             default:
-                imagePath = "/images/wine-bottle_pic.jpg";
+                imagePath = "/images/wine-bottle_pic.png";
                 break;
         }
         return getClass().getResource(imagePath).toExternalForm();

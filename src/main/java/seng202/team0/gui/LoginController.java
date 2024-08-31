@@ -16,9 +16,17 @@ import seng202.team0.services.UserLoginService;
  */
 public class LoginController {
     @FXML
+    Text usernameText;
+    @FXML
     TextField userNameTextField;
     @FXML
+    Text passwordText;
+    @FXML
     PasswordField passwordField;
+    @FXML
+    FontAwesomeIconView passwordVisibilityToggle;
+    @FXML
+    TextField visiblePasswordTextField;
     @FXML
     Button registerButton;
     @FXML
@@ -26,21 +34,73 @@ public class LoginController {
     @FXML
     Text errorText;
     @FXML
-    FontAwesomeIconView passwordVisibilityToggle;
+    Text nameText;
     @FXML
-    private TextField visiblePasswordTextField;
+    TextField nameTextField;
+    @FXML
+    Text confirmPasswordText;
+    @FXML
+    PasswordField confirmPasswordField;
+    @FXML
+    Button goBackButton;
+    @FXML
+    Button createUserButton;
 
     @FXML
     public void initialize() {
         userNameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                onLoginPressed();
+                if (nameTextField.isVisible()) {
+                    onCreateUserPressed();
+                } else {
+                    onLoginPressed();
+                }
             }
         });
 
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                onLoginPressed();
+                if (nameTextField.isVisible()) {
+                    onCreateUserPressed();
+                } else {
+                    onLoginPressed();
+                }
+            }
+        });
+
+        visiblePasswordTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (nameTextField.isVisible()) {
+                    onCreateUserPressed();
+                } else {
+                    onLoginPressed();
+                }
+            }
+        });
+
+        confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(passwordField.getText())) {
+                passwordField.setStyle("-fx-border-color: GREEN");
+                confirmPasswordField.setStyle("-fx-border-color: GREEN");
+                createUserButton.setDisable(false);
+            } else {
+                passwordField.setStyle("-fx-border-color: RED");
+                confirmPasswordField.setStyle("-fx-border-color: RED");
+                createUserButton.setDisable(true);
+            }
+        });
+
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (confirmPasswordField.isVisible()) {
+                if (newValue.equals(confirmPasswordField.getText())) {
+                    passwordField.setStyle("-fx-border-color: GREEN");
+                    confirmPasswordField.setStyle("-fx-border-color: GREEN");
+                    createUserButton.setDisable(false);
+                } else {
+                    passwordField.setStyle("-fx-border-color: RED");
+                    confirmPasswordField.setStyle("-fx-border-color: RED");
+                    createUserButton.setDisable(true);
+                }
             }
         });
 
@@ -55,7 +115,7 @@ public class LoginController {
     @FXML
     public void onLoginPressed() {
         clearErrors();
-        String username = userNameTextField.getText();
+        String username = userNameTextField.getText().toLowerCase();
         String password = passwordField.getText();
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.validateAccount(username, password)
@@ -76,19 +136,49 @@ public class LoginController {
     @FXML
     public void onRegisterPressed() {
         clearErrors();
-        String username = userNameTextField.getText();
+        toggleShowCreateAccount();
+    }
+
+    /**
+     * . Method to register a new user account.
+     */
+    @FXML
+    public void onCreateUserPressed() {
+        String username = userNameTextField.getText().toLowerCase();
         String password = passwordField.getText();
+        String name = nameTextField.getText();
+        clearErrors();
+        errorText.setTranslateY(130);
         UserLoginService userLoginService = new UserLoginService();
         if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
-                && password.matches(".*[a-zA-Z0-9]+.*")) {
-            int outcome = userLoginService.createAccount(username, password);
-            clearFields();
-            accountCreatedSuccessfully(outcome);
+                && password.matches(".*[a-zA-Z0-9]+.*") && !name.isEmpty()) {
+            int outcome = userLoginService.createAccount(name, username, password);
+
+            if (outcome == 1) {
+                FXWrapper.getInstance().launchSubPage("mainpage");
+            } else {
+                clearFields();
+                accountCreatedSuccessfully(outcome);
+            }
+        } else if (name.isEmpty()) {
+            errorText.setText("Please enter a name and try again");
+            setErrorFieldBorder(nameTextField);
+        } else if (username.isEmpty() || !username.matches(".*[a-zA-Z0-9]+.*")) {
+            errorText.setText("Please enter a valid username and try again");
+            setErrorFieldBorder(userNameTextField);
+        } else if (password.isEmpty() || !password.matches(".*[a-zA-Z0-9]+.*")) {
+            errorText.setText("Please enter a valid password and try again");
+            setErrorFieldBorder(passwordField);
         } else {
             errorText.setText("Invalid username or password, please try again");
             clearFields();
             setErrorFieldBorder();
         }
+    }
+
+    @FXML
+    public void onGoBackPressed() {
+        FXWrapper.getInstance().launchPage("login");
     }
 
     /**
@@ -114,7 +204,11 @@ public class LoginController {
      */
     private void clearFields() {
         userNameTextField.clear();
-        passwordField.clear();
+        passwordField.clear(); // Linked to visiblePasswordTextField, so we don't need to clear both
+        confirmPasswordField.clear();
+        if (!nameTextField.isVisible()) { // Only clear the name field if it is hidden
+            nameTextField.clear();
+        }
     }
 
     /**
@@ -125,6 +219,13 @@ public class LoginController {
         userNameTextField.setStyle("-fx-border-color: RED");
         passwordField.setStyle("-fx-border-color: RED");
         visiblePasswordTextField.setStyle("-fx-border-color: RED");
+        if (confirmPasswordField.isVisible()) {
+            confirmPasswordField.setStyle("-fx-border-color: RED");
+        }
+    }
+
+    private void setErrorFieldBorder(TextField textField) {
+        textField.setStyle("-fx-border-color: RED");
     }
 
     /**
@@ -137,6 +238,12 @@ public class LoginController {
         userNameTextField.setStyle("-fx-border-color: None");
         passwordField.setStyle("-fx-border-color: None");
         visiblePasswordTextField.setStyle("-fx-border-color: None");
+        if (nameTextField.isVisible()) {
+            nameTextField.setStyle("-fx-border-color: None");
+        }
+        if (confirmPasswordField.isVisible()) {
+            confirmPasswordField.setStyle("-fx-border-color: None");
+        }
     }
 
     /**
@@ -144,18 +251,39 @@ public class LoginController {
      * @param outcome the code of what error the sql function has returned to differentiate error messages
      */
     private void accountCreatedSuccessfully(int outcome) {
-        switch (outcome) {
-            case 0:
-                errorText.setText("Username already exists.");
-                break;
-            case 1:
-                errorText.setText("Account created!");
-                errorText.setFill(Paint.valueOf("Green"));
-                break;
-            default:
-                errorText.setText("An error has occurred, try again.");
+        if (outcome == 0) {
+            errorText.setText("Username already exists.");
+            setErrorFieldBorder(userNameTextField);
+        } else {
+            errorText.setText("An error has occurred, try again.");
+            setErrorFieldBorder();
+            setErrorFieldBorder(nameTextField);
         }
 
     }
 
+    private void toggleShowCreateAccount() {
+        nameText.setVisible(true);
+        nameTextField.setVisible(true);
+        confirmPasswordText.setVisible(true);
+        confirmPasswordField.setVisible(true);
+        goBackButton.setVisible(true);
+        createUserButton.setVisible(true);
+        registerButton.setVisible(false);
+        logInButton.setVisible(false);
+
+        if (visiblePasswordTextField.isVisible()) {
+            toggleShowPassword();
+        }
+        passwordVisibilityToggle.setVisible(false);
+
+        usernameText.setTranslateY(62);
+        userNameTextField.setTranslateY(62);
+        passwordText.setTranslateY(62);
+        passwordField.setTranslateY(62);
+        visiblePasswordTextField.setTranslateY(62);
+        passwordVisibilityToggle.setTranslateY(62);
+        nameText.setTranslateY(-124);
+        nameTextField.setTranslateY(-124);
+    }
 }
