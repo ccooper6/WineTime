@@ -6,6 +6,7 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
 import seng202.team0.models.Wine;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -29,9 +30,109 @@ public class WineDAO implements DAOInterface<Wine> {
         return null;
     }
 
+    /**
+     * This method get a wine based on it's name
+     * @param id id of object to get
+     * @return
+     */
     @Override
     public Wine getOne(int id) {
-        return null;
+
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE id= ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    return wine;
+                }
+            }
+            return null;
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
+    }
+
+    public List<Wine> findWinesByName(String wineName) {
+        List<Wine> wines = new ArrayList<>();
+        String query = "SELECT * FROM wine WHERE name LIKE ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, "%" + wineName + "%");
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    Wine wine = new Wine();
+                    wine.setName(rs.getString("name"));
+                    wine.setVintage(rs.getInt("vintage"));
+                    wine.setPrice(rs.getInt("price"));
+                    wine.setDescription(rs.getString("description"));
+
+                    wines.add(wine);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wines;
+    }
+
+
+    /**
+     * This method take in two years and return all wines between those two years.
+     * @param earliest the earliest vintage
+     * @param latest the latest vintage
+     * @return an arraylist of all wines between the two vintages.
+     */
+    public ArrayList<Wine> getWinesFromVintage(int earliest, int latest) {
+
+        ArrayList<Wine> wines = new ArrayList<>();
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE vintage>=? and vintage<=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, earliest);
+            ps.setInt(2, latest);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    wines.add(wine);
+                }
+                return wines;
+            }
+
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
     }
 
     @Override
@@ -68,29 +169,6 @@ public class WineDAO implements DAOInterface<Wine> {
             log.error(e.getMessage());
         }
         return Integer.parseInt(wineValues[0]);
-    }
-
-    public List<Wine> findWinesByName(String wineName) {
-        List<Wine> wines = new ArrayList<>();
-        String query = "SELECT * FROM wine WHERE name LIKE ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, "%" + wineName + "%");
-                ResultSet rs = stmt.executeQuery();
-                while (rs.next()) {
-                    Wine wine = new Wine();
-                    wine.setName(rs.getString("name"));
-                    wine.setVintage(rs.getInt("vintage"));
-                    wine.setPrice(rs.getInt("price"));
-                    wine.setDescription(rs.getString("description"));
-
-                    wines.add(wine);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return wines;
     }
 
     /**
@@ -275,6 +353,10 @@ public class WineDAO implements DAOInterface<Wine> {
     public static void main(String[] args) {
         WineDAO wineDAO = new WineDAO();
         wineDAO.initializeAllWines();
+        ArrayList<Wine> wines = wineDAO.getWinesFromVintage(0, 2030);
+        for (Wine wine: wines) {
+            System.out.println(wine.getVintage());
+        }
     }
 
 }
