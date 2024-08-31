@@ -114,7 +114,7 @@ public class QuizService {
                 wine = wineDAO.getWinesFromVintage(2010, 2019).get(0);
                 break;
             case 4:
-                wine = wineDAO.getWinesFromVintage(2020, 2029).get(0);
+                wine = wineDAO.getWinesFromVintage(2015, 2029).get(0);
                 break;
         }
         FXWrapper.getInstance().launchSubPage("profile");
