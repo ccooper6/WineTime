@@ -167,16 +167,29 @@ public class DatabaseManager {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
+
+        alterSchema();
         String copyPath = jarDir.getParentFile() + "/copy.db";
         String ogPath = Paths.get("src/main/resources/sql/og.db").toString();
 
         Path copy = Paths.get(copyPath);
         Path og = Paths.get(ogPath);
-        try{
+        try {
             Files.copy(og,copy);
         } catch (FileAlreadyExistsException e) {
             log.info("DB File already exists. - Did not replace");
         } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    //create something that alters the schema of the og.db schema only in the user table to have a third column called "name" that is a string and not null
+    public void alterSchema() {
+        String sql = "ALTER TABLE user ADD COLUMN name TEXT NOT NULL DEFAULT 'User';";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/sql/og.db");
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
             log.error(e.getMessage());
         }
     }

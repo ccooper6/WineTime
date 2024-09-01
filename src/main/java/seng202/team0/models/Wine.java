@@ -53,6 +53,8 @@ public class Wine {
      */
     private String tasterTwitter;
 
+    private int vintage;
+
     /**
      *The constructor for the Wine object.
      * <br><br>
@@ -83,6 +85,20 @@ public class Wine {
         this.tasterName = tasterName;
         this.tasterTwitter = tasterTwitter;
 
+    }
+
+    public Wine() {
+        this.name = "";
+        this.description = "";
+        this.price = 0;
+        this.vintage = 0;
+        this.province = "";
+        this.region1 = "";
+        this.region2 = "";
+        this.variety = "";
+        this.winery = "";
+        this.tasterName = "";
+        this.tasterTwitter = "";
     }
 
     /**
@@ -131,6 +147,14 @@ public class Wine {
      */
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getVintage() {
+        return vintage;
+    }
+
+    public void setVintage(int vintage) {
+        this.vintage = vintage;
     }
 
     /**
@@ -274,7 +298,7 @@ public class Wine {
                 imagePath = "/images/Rose Wine.jpg";
                 break;
             default:
-                imagePath = "/images/wine-bottle_pic.jpg";
+                imagePath = "/images/wine-bottle_pic.png";
                 break;
         }
         return getClass().getResource(imagePath).toExternalForm();

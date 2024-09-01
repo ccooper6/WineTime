@@ -4,18 +4,19 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 /**
- * Creates the window for the scene, loads the login page and initiates the FXWrapper
+ * Creates the window for the scene, loads the login page and initiates the FXWrapper.
+ * @author Elise
  */
 public class FXWindow extends Application {
 
     /**
-     * Creates a login page and initialises fxWrapper
+     * Creates a login page and initialises fxWrapper.
      * @param primaryStage is the first stage initialised
      * @throws IOException when
      */
@@ -35,7 +36,7 @@ public class FXWindow extends Application {
     }
 
     /**
-     * Launches the FXWrapper class
+     * Launches the FXWrapper class.
      * @param args from Application
      */
     public static void launchWrapper(String[] args) {
