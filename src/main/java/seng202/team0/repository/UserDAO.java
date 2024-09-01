@@ -87,6 +87,24 @@ public class UserDAO implements DAOInterface<User> {
         }
     }
 
+    public String getName(String username) {
+        String sql = "SELECT name FROM user WHERE username = ?";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+            return rs.getString("name");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void delete(int id) {
 

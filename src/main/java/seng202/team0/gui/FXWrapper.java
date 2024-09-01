@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import seng202.team0.models.User;
 
 import java.io.IOException;
 
@@ -17,6 +18,7 @@ public class FXWrapper {
     private static FXWrapper instance = null;
     private Stage stage;
     private NavigationController navigationController;
+    private User currentUser;
 
     /**
      * Gets the singleton.
@@ -54,6 +56,9 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.setTitle(name);
             stage.show();
+
+            System.out.println(currentUser);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,6 +79,8 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.setTitle(name);
             stage.show();
+
+            System.out.println(currentUser);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,6 +94,13 @@ public class FXWrapper {
         return navigationController;
     }
 
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
 
 }

@@ -30,4 +30,8 @@ public class UserLoginService {
     public boolean validateAccount(String username, String password) {
         return login.checkLogin(username, password);
     }
+
+    public String getName(String username) {
+        return login.getName(username);
+    }
 }
