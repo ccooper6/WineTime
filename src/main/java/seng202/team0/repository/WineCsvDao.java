@@ -40,9 +40,10 @@ public class WineCsvDao {
             }
         } catch (SQLException e) {
             if (e.getErrorCode() == 19) {
-                log.error("DUPLICATE WINE FOUND AT ROW " + wineValues[0]);
+                log.info("DUPLICATE WINE FOUND AT ROW " + wineValues[0]);
+            } else {
+                log.error(e.getMessage());
             }
-            log.error(e.getMessage());
             return wineID; //wine not added, reuse unused wineID
         }
         return wineID + 1;
@@ -131,8 +132,9 @@ public class WineCsvDao {
             if (e.getErrorCode() == 19) {
                 //tag already exists, link via owned_by anyway.
                 executeOwnedByPs(ownedByPs, wineId, tagName);
+            } else {
+                log.error(e.getMessage());
             }
-            log.error(e.getMessage());
         }
     }
 
@@ -149,7 +151,9 @@ public class WineCsvDao {
             ownedByPs.setString(2, tagName);
             ownedByPs.executeUpdate();
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            if (e.getErrorCode() != 19) {
+                log.info(e.getMessage());
+            }
         }
     }
 
@@ -184,6 +188,19 @@ public class WineCsvDao {
         }
         return 0;
     }
+
+    private int getLines(String filename) throws IOException
+    {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+        int count = 0;
+        while((bufferedReader.readLine()) != null)
+        {
+            count++;
+        }
+
+        return count;
+    }
+
     /**
      * Reads through each line of the 130k wine csv file and processes them. Takes in the csv file location as inputs as
      * well as a designated output ArrayList for any wine row that is erroneous.
@@ -191,13 +208,16 @@ public class WineCsvDao {
      */
 
     public void wineCsvReader(String winePath) throws IOException, CsvValidationException {
+        int totalRows = getLines(winePath);
+
         String[] wineValues;
         CSVReader csv = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(winePath), StandardCharsets.UTF_8)).withSkipLines(1).build();
         int wineID = 1;
         while ((wineValues = csv.readNext()) != null) {
             wineID = add(wineValues, wineID);
-            System.out.println(wineValues[11]);
+            System.out.println(wineID + "/" + totalRows + ":" + wineValues[11]);
         }
+        csv.close();
     }
     /**
      * Connects to the empty database
