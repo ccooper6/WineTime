@@ -82,8 +82,6 @@ public class SearchWineController {
 
         scrollPane.setVvalue(0);
 
-        pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size() - 1, MAXSIZE)));
-
         int columns = wineGrid.getColumnCount();
 
 //        setup grid
@@ -92,6 +90,12 @@ public class SearchWineController {
         int gridRows = Math.ceilDiv(end - start, columns);
         wineGrid.setMinHeight(gridRows * 130 - 10);
         scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
+
+//        page navigation management at bottom
+        pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size() - 1, MAXSIZE)));
+        prevArrowButton.getParent().setVisible(start > 0);
+        nextArrowButton.getParent().setVisible(end < allWines.size());
+
 
 //        add wines
         for (int i = start; i < end; i++) {

@@ -1,15 +1,12 @@
 package seng202.team0.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import seng202.team0.models.Wine;
 import seng202.team0.services.SearchWineService;
-
-import java.io.IOException;
 
 public class WineDisplayController {
     @FXML

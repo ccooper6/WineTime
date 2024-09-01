@@ -23,7 +23,7 @@
                      <Image url="@../images/winetime.png" />
                   </image>
                </ImageView>
-               <TextField fx:id="searchBar" focusTraversable="false" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="512.0" promptText="SEARCH" style="-fx-background-color: #d9d9d9;">
+               <TextField fx:id="searchBar" focusTraversable="false" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="512.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
 <!--                  <opaqueInsets>-->
 <!--                     <Insets />-->
 <!--                  </opaqueInsets>-->
