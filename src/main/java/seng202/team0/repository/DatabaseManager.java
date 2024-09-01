@@ -96,7 +96,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Gets path to the database relative to the jar file
+     * Gets path to the database relative to the jarfile
      * @return jdbc encoded url location of database
      */
     private String getDatabasePath() {
