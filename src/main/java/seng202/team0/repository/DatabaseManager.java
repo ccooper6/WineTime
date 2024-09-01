@@ -183,7 +183,6 @@ public class DatabaseManager {
         }
     }
 
-    //create something that alters the schema of the og.db schema only in the user table to have a third column called "name" that is a string and not null
     public void alterSchema() {
         String sql = "ALTER TABLE user ADD COLUMN name TEXT NOT NULL DEFAULT 'User';";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/sql/og.db");
