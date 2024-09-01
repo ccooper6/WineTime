@@ -51,6 +51,10 @@ public class QuizService {
     ));
 
     ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
+    int earliestYear;
+    int latestYear;
+    String type;
+    String country;
 
     /**
      * The getter for the question labels.
@@ -102,21 +106,55 @@ public class QuizService {
 
     public void launchWinePopup() {
 
-        Wine wine = null;
+        Wine wine = new wine1();
         switch (getRecordOfAnswers().get(0)) {
             case 1:
-                wine = wineDAO.getWinesFromVintage(1990, 1999).get(0);
+                earliestYear = 1990;
+                latestYear = 1999;
                 break;
             case 2:
-                wine = wineDAO.getWinesFromVintage(2000, 2009).get(0);
+                earliestYear = 2000;
+                latestYear = 2009;
                 break;
             case 3:
-                wine = wineDAO.getWinesFromVintage(2010, 2019).get(0);
+                earliestYear = 2010;
+                latestYear = 2019;
                 break;
             case 4:
-                wine = wineDAO.getWinesFromVintage(2020, 2029).get(0);
+                earliestYear = 2020;
+                latestYear = 2025;
                 break;
         }
+        switch (getRecordOfAnswers().get(1)) {
+            case 1:
+                type = "Red";
+                break;
+            case 2:
+                type = "White";
+                break;
+            case 3:
+                type = "Rosé";
+                break;
+            case 4:
+                type = "Sparkling";
+                break;
+        }
+        switch (getRecordOfAnswers().get(3)) {
+            case 1:
+                country = "US";
+                break;
+            case 2:
+                country = "New Zealand";
+                break;
+            case 3:
+                country = "Spain";
+                break;
+            case 4:
+                country = "France";
+                break;
+        }
+
+        System.out.println(earliestYear + " - "  + latestYear + ", " + type + " Wine, from " + country);
         FXWrapper.getInstance().launchSubPage("profile");
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.initPopUp(wine);
