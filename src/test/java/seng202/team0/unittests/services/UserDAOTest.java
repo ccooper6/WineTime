@@ -43,10 +43,10 @@ public class UserDAOTest {
      */
     @Test
     public void testStoreGood() throws DuplicateEntryException {
-
+        String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
-        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
         int result = userDAO.add(user);
         assertEquals(1, result);
 
@@ -54,11 +54,12 @@ public class UserDAOTest {
 
     @Test
     public void testStoreDuplicate() throws DuplicateEntryException {
+        String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String password2 = "password2";
-        User user = new User(userLogin.encrypt(username), Objects.hash(password));
-        User user1 = new User(userLogin.encrypt(username), Objects.hash(password2));
+        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
+        User user1 = new User(name, userLogin.encrypt(username), Objects.hash(password2));
         userDAO.add(user);
         int result = userDAO.add(user1);
         assertEquals(0, result);
@@ -66,10 +67,10 @@ public class UserDAOTest {
 
     @Test
     public void testTryLoginGood() throws DuplicateEntryException {
-
+        String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
-        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
         userDAO.add(user);
         boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(username), Objects.hash(password));
         Assertions.assertTrue(wasInDB);
@@ -77,11 +78,11 @@ public class UserDAOTest {
     }
     @Test
     public void testTryLoginBad1() throws DuplicateEntryException {
-
+        String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String notPassword = "notPassword";
-        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
         userDAO.add(user);
         boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(username), Objects.hash(notPassword));
         Assertions.assertFalse(wasInDB);
@@ -90,11 +91,11 @@ public class UserDAOTest {
 
     @Test
     public void testTryLoginBad2() throws DuplicateEntryException {
-
+        String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String notUsername = "IsaacTheCoolest";
-        User user = new User(userLogin.encrypt(username), Objects.hash(password));
+        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
         userDAO.add(user);
         boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(notUsername), Objects.hash(password));
         Assertions.assertFalse(wasInDB);
