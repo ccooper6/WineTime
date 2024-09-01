@@ -8,9 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import seng202.team0.models.User;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.*;
 
@@ -18,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller class for the profile.fxml page
+ * Controller class for the profile.fxml page.
  * @author Lydia Jackson
  */
-public class ProfileScreen {
+public class ProfileController {
 
 
     @FXML

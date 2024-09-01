@@ -61,12 +61,13 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int add(User toAdd) throws DuplicateEntryException {
-        String sql = "INSERT INTO user (username, password) VALUES (?, ?)";
+        String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, toAdd.getEncryptedUserName());
             ps.setInt(2, toAdd.getHashedPassword());
+            ps.setString(3, toAdd.getName());
             ps.executeUpdate();
             System.out.println("Added user: " + toAdd.getEncryptedUserName()); // Can delete this in the future...
             return 1; // Username created successfully
@@ -83,6 +84,24 @@ public class UserDAO implements DAOInterface<User> {
             }
             log.error(sqlException.getMessage());
             return 2; // Other error occurred
+        }
+    }
+
+    public String getName(String username) {
+        String sql = "SELECT name FROM user WHERE username = ?";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+            return rs.getString("name");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

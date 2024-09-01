@@ -6,18 +6,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import seng202.team0.models.User;
 
 import java.io.IOException;
 
-/** A singleton class which launches the FXML pages.
+/**
+ * A singleton class which launches the FXML pages.
+ * @author Elise
  */
 public class FXWrapper {
     private static FXWrapper instance = null;
     private Stage stage;
-    private String currentFXML = "login";
     private NavigationController navigationController;
+    private User currentUser;
 
-    /** Gets the singleton.
+    /**
+     * Gets the singleton.
      * @return the FXWrapper singleton
      */
     public static FXWrapper getInstance() {
@@ -31,14 +35,16 @@ public class FXWrapper {
         return instance;
     }
 
-    /**Stores the stage from the FXWindow.
+    /**
+     * Stores the stage from the FXWindow.
      * @param stage is not changed.
      */
     public void init(Stage stage) {
         this.stage = stage;
     }
 
-    /**Loads the FXML and controller listed in the fx:controller.
+    /**
+     * Loads the FXML and controller listed in the fx:controller.
      * This page type cannot launch popUps yet.
      * @param name is the name of the fxml in lowercase with no type.
      */
@@ -50,12 +56,16 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.setTitle(name);
             stage.show();
+
+            System.out.println(currentUser);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**Used for all pages with a navigation bar, navigation fxml is a parent to the variable fxml.
+    /**
+     * Used for all pages with a navigation bar, navigation fxml is a parent to the variable fxml.
      * This page layout can launch popUps.
      * @param name is the name of the inner fxml in lowercase (no type)
      */
@@ -69,19 +79,28 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.setTitle(name);
             stage.show();
+
+            System.out.println(currentUser);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Getter function for the navigation controller
+     * Getter function for the navigation controller.
      * @return the current navigation controller
      */
     public NavigationController getNavigationController() {
         return navigationController;
     }
 
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
 
 }
