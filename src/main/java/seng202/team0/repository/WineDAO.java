@@ -6,6 +6,7 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
 import seng202.team0.models.Wine;
 
+import javax.lang.model.type.ArrayType;
 import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.URLDecoder;
@@ -45,6 +46,35 @@ public class WineDAO implements DAOInterface<Wine> {
     Set<String> rose = new HashSet<>(Arrays.asList("Rosé", "Rosato", "Moscato", "Sherry", "Rosado"));
     Set<String> sparkling = new HashSet<>(Arrays.asList("Champagne Blend", "Prosecco", "Sparkling Blend", "Portuguese Sparkling"));
 
+    /**
+     * Getter method for the set of white tags
+     * @return set of white tags
+     */
+    public Set<String> getWhite() {
+        return white;
+    }
+    /**
+     * Getter method for the set of red tags
+     * @return set of red tags
+     */
+    public Set<String> getRed() {
+        return red;
+    }
+    /**
+     * Getter method for the set of rose tags
+     * @return set of rose tags
+     */
+    public Set<String> getRose() {
+        return rose;
+    }
+    /**
+     * Getter method for the set of sparkling tags
+     * @return set of sparkling tags
+     */
+    public Set<String> getSparkling() {
+        return sparkling;
+    }
+
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
 
@@ -55,7 +85,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * This method get a wine based on it's name
+     * This method get a wine based on it's id
      * @param id id of object to get
      * @return
      */
@@ -133,6 +163,22 @@ public class WineDAO implements DAOInterface<Wine> {
             return null;
         }
 
+    }
+    public ArrayList<String> getVarietyTags() {
+        ArrayList<String> tags = new ArrayList<>();
+        String sql = "SELECT name FROM tag";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tags.add(rs.getString("name"));
+                }
+                return tags;
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -351,8 +397,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     public static void main(String[] args) {
-        WineDAO wineDAO = new WineDAO();
-        System.out.println(wineDAO.red.size()+wineDAO.white.size()+wineDAO.rose.size()+wineDAO.sparkling.size());
+
     }
 
 }

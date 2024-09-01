@@ -45,4 +45,14 @@ public class WineDAOTest {
         assertNull(wineDAO.getOne(72727272));
 
     }
+
+    @Test
+    public void testVarietyTagsInSet(){
+        wineDAO.initializeAllWines();
+        for (String tag: wineDAO.getVarietyTags()) {
+            if (!(wineDAO.getWhite().contains(tag) || wineDAO.getRed().contains(tag) || wineDAO.getRose().contains(tag) || wineDAO.getSparkling().contains(tag))) {
+                System.out.println(tag);
+            }
+        }
+    }
 }
