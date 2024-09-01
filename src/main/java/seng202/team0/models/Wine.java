@@ -53,7 +53,7 @@ public class Wine {
      */
     private String tasterTwitter;
 
-    private int vintage;
+
 
     /**
      *The constructor for the Wine object.
@@ -149,13 +149,7 @@ public class Wine {
         this.price = price;
     }
 
-    public int getVintage() {
-        return vintage;
-    }
 
-    public void setVintage(int vintage) {
-        this.vintage = vintage;
-    }
 
     /**
      * Getter for the int vintage of the wine.
