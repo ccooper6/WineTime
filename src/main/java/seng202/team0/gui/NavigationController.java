@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.App;
@@ -34,6 +36,11 @@ public class NavigationController {
     public FontAwesomeIconView likesExampleButton;
     @FXML
     public FontAwesomeIconView userExampleButton;
+    @FXML
+    private VBox userDropDownMenu;
+    @FXML
+    private Button logOutButton;
+    @FXML
     private Parent overlayContent;
     @FXML
     public AnchorPane mainContent;
@@ -68,7 +75,27 @@ public class NavigationController {
                 searchBar.getParent().requestFocus();
             }
         });
+
+        userExampleButton.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
+        userExampleButton.setOnMouseExited(event -> {
+            if (!userDropDownMenu.isHover()) {
+                userDropDownMenu.setVisible(false);
+            }
+        });
+        userDropDownMenu.setOnMouseExited(event -> {
+            if (!userExampleButton.isHover()) {
+                userDropDownMenu.setVisible(false);
+            }
+        });
+        userDropDownMenu.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
     }
+
+    @FXML
+    public void onLogOutClicked(ActionEvent actionEvent) {
+        FXWrapper.getInstance().setCurrentUser(null);
+        FXWrapper.getInstance().launchPage("login");
+    }
+
     /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */
