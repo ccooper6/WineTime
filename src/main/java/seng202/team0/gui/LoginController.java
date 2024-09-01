@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import seng202.team0.models.User;
 import seng202.team0.services.UserLoginService;
 
 /**
@@ -121,6 +122,8 @@ public class LoginController {
         if (userLoginService.validateAccount(username, password)
                 && !username.isEmpty() && !password.isEmpty()
                 && username.matches(".*[a-zA-Z0-9]+.*") && password.matches(".*[a-zA-Z0-9]+.*")) {
+            User user = new User(userLoginService.getName(username), username);
+            FXWrapper.getInstance().setCurrentUser(user);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
@@ -155,6 +158,8 @@ public class LoginController {
             int outcome = userLoginService.createAccount(name, username, password);
 
             if (outcome == 1) {
+                User user = new User(name, username);
+                FXWrapper.getInstance().setCurrentUser(user);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
                 clearFields();
