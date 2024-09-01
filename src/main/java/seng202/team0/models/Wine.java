@@ -21,6 +21,10 @@ public class Wine {
      */
     private int price;
     /**
+     * The vintage of the wine
+     */
+    private int vintage;
+    /**
      * The province of the wine.
      */
     private String province;
@@ -49,7 +53,7 @@ public class Wine {
      */
     private String tasterTwitter;
 
-    private int vintage;
+
 
     /**
      *The constructor for the Wine object.
@@ -58,6 +62,7 @@ public class Wine {
      * @param name String {@link Wine#name}
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
+     * @param vintage int {@link Wine#vintage}
      * @param province String {@link Wine#province}
      * @param region1 String {@link Wine#region1}
      * @param region2 String {@link Wine#region2}
@@ -144,10 +149,20 @@ public class Wine {
         this.price = price;
     }
 
+
+
+    /**
+     * Getter for the int vintage of the wine.
+     * @return {@link Wine#vintage}
+     */
     public int getVintage() {
         return vintage;
     }
 
+    /**
+     * Sets the price of the wine to the int parameter.
+     * @param vintage Integer vintage
+     */
     public void setVintage(int vintage) {
         this.vintage = vintage;
     }
