@@ -6,22 +6,75 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
 import seng202.team0.models.Wine;
 
+import javax.lang.model.type.ArrayType;
+import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
-import java.util.List;
+import java.util.*;
 
 public class WineDAO implements DAOInterface<Wine> {
 
     private final DatabaseManager databaseManager;
 
     private static final Logger log = LogManager.getLogger(UserDAO.class);
+
+    Set<String> white = new HashSet<>(Arrays.asList("White Blend", "Pinot Gris", "Riesling", "Gewürztraminer", "Chardonnay", "Chenin Blanc", "Sauvignon Blanc", "Viognier-Chardonnay",
+                                                    "Catarratto", "Inzolia", "Bordeaux-style White Blend", "Grillo", "Petit Manseng", "Vernaccia", "Grüner Veltliner", "Viognier",
+                                                    "Vermentino", "Grenache Blanc", "Pinot Blanc", "Alsace white blend", "Portuguese White", "Sauvignon", "Torrontés", "Verdejo",
+                                                    "Fumé Blanc", "Furmint", "Pinot Bianco", "Ugni Blanc-Colombard", "Friulano", "Assyrtico", "Savagnin", "Vignoles", "Muscat",
+                                                    "Muscadelle", "Garganega", "Pinot Grigo", "Zierfandler", "Cortese", "Melon", "Rhône-style White Blend", "Vidal", "Verdelho",
+                                                    "Mersanne", "Scheurebe", "Kerner", "Vilana", "Glera", "Viura", "Roter Veltliner", "Sémillon", "Antão Vaz", "Verdejo-Viura",
+                                                    "Verduzzo", "Verdicchio", "Silvaner", "Colombard", "Carricante", "Sylvaner", "Fiano", "Roussanne", "Avesso", "Chinuri",
+                                                    "Muscat Blanc à Petits Grains", "Xarel-lo", "Greco", "Trebbiano", "Chenin Blanc-Chardonnay", "Insolia", "Ribolla Gialla",
+                                                    "Weissburgunder", "Roditis", "Traminer", "Marsanne-Roussanne", "Prié Blanc", "Zibibbo", "Falanghina", "Müller-Thurgau",
+                                                    "Pinot Meunier", "Pansa Blanca", "Muskat Ottonel", "Sauvignon Blanc-Semillon", "Semillon-Sauvignon Blanc", "Bical", "Moscatel",
+                                                    "Viura-Chardonnay", "Malvasia Bianca", "Gelber Muskateller"));
+    Set<String> red = new HashSet<>(Arrays.asList("Portuguese Red", "Pinot Noir", "Tempranillo-Merlot", "Frappato", "Cabernet Sauvignon", "Nerello Mascalese", "Malbec", "Tempranillo Blend",
+                                                    "Meritage", "Red Blend", "Merlot", "Nero d'Avola", "Gamay", "Primitivo", "Petit Verdot", "Monica", "Gangiovese", "Cabernet Franc",
+                                                    "Bordeaux-style Red Blend", "Aglianco", "Zinfandel", "Syrah", "Nebbiolo", "Shiraz-Cabernet Sauvignon", "Barbera", "Rhône-style Red Blend",
+                                                    "Graciano", "Tannat-Cabernet", "Sangiovese Grosso", "Prugnolo Gentile","G-S-M", "Bonarda", "Shiraz", "Montepulciano", "Grenache",
+                                                    "Syrah-Viognier", "Blaufränkisch", "Carignan-Grenache", "Sagrantino", "Cabernet Sauvignon-Syrah", "Shiraz-Viognier", "Tempranillo",
+                                                    "Mencía", "Zweigelt", "Cannonau", "Syrah-Grenache", "Dolcetto", "Garnacha Tintorera", "Pinot Nero", "Pinotage", "Pinot Noir-Gamay",
+                                                    "Cabernet Sauvignon-Carmenére", " Früburgunder", "Sousão", "Cinsault", "Tinta Miúda", "Monastrell", "Port", "Merlot-Malbec",
+                                                    "Cabernet Sauvignon-Merlot", "Duras", "Papaskarasi", "Tannat-Syrah", "Charbono", "Merlot-Argaman", "Provence red blend", "Tannat",
+                                                    "Garnacha", "Negroamaro", "Mourvèdre", "Syrah-Cabernet", "Cabernet Sauvignon-Sangiovese", "Austrian Red Blend", "Teroldego",
+                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc"));
+    Set<String> rose = new HashSet<>(Arrays.asList("Rosé", "Rosato", "Moscato", "Sherry", "Rosado"));
+    Set<String> sparkling = new HashSet<>(Arrays.asList("Champagne Blend", "Prosecco", "Sparkling Blend", "Portuguese Sparkling"));
+
+    /**
+     * Getter method for the set of white tags
+     * @return set of white tags
+     */
+    public Set<String> getWhite() {
+        return white;
+    }
+    /**
+     * Getter method for the set of red tags
+     * @return set of red tags
+     */
+    public Set<String> getRed() {
+        return red;
+    }
+    /**
+     * Getter method for the set of rose tags
+     * @return set of rose tags
+     */
+    public Set<String> getRose() {
+        return rose;
+    }
+    /**
+     * Getter method for the set of sparkling tags
+     * @return set of sparkling tags
+     */
+    public Set<String> getSparkling() {
+        return sparkling;
+    }
+
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
 
@@ -31,9 +84,101 @@ public class WineDAO implements DAOInterface<Wine> {
         return null;
     }
 
+    /**
+     * This method get a wine based on it's id
+     * @param id id of object to get
+     * @return
+     */
     @Override
     public Wine getOne(int id) {
-        return null;
+
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE id= ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    return wine;
+                }
+            }
+            return null;
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
+    }
+
+    /**
+     * This method take in two years and return all wines between those two years.
+     * @param earliest the earliest vintage
+     * @param latest the latest vintage
+     * @return an arraylist of all wines between the two vintages.
+     */
+    public ArrayList<Wine> getWinesFromVintage(int earliest, int latest) {
+
+        ArrayList<Wine> wines = new ArrayList<>();
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE vintage>=? and vintage<=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, earliest);
+            ps.setInt(2, latest);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    wines.add(wine);
+                }
+                return wines;
+            }
+
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+
+    }
+    public ArrayList<String> getVarietyTags() {
+        ArrayList<String> tags = new ArrayList<>();
+        String sql = "SELECT name FROM tag";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tags.add(rs.getString("name"));
+                }
+                return tags;
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -252,8 +397,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     public static void main(String[] args) {
-        WineDAO wineDAO = new WineDAO();
-        wineDAO.initializeAllWines();
+
     }
 
 }
