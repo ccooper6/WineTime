@@ -26,23 +26,24 @@ public class WineDAO implements DAOInterface<Wine> {
                                                     "Catarratto", "Inzolia", "Bordeaux-style White Blend", "Grillo", "Petit Manseng", "Vernaccia", "Grüner Veltliner", "Viognier",
                                                     "Vermentino", "Grenache Blanc", "Pinot Blanc", "Alsace white blend", "Portuguese White", "Sauvignon", "Torrontés", "Verdejo",
                                                     "Fumé Blanc", "Furmint", "Pinot Bianco", "Ugni Blanc-Colombard", "Friulano", "Assyrtico", "Savagnin", "Vignoles", "Muscat",
-                                                    "Muscadelle", "Garganega", "Pinot Grigo", "Zierfandler", "Cortese", "Melon", "Rhône-style White Blend", "Vidal", "Verdelho",
+                                                    "Muscadelle", "Garganega", "Pinot Grigio", "Zierfandler", "Cortese", "Melon", "Rhône-style White Blend", "Vidal", "Verdelho",
                                                     "Mersanne", "Scheurebe", "Kerner", "Vilana", "Glera", "Viura", "Roter Veltliner", "Sémillon", "Antão Vaz", "Verdejo-Viura",
                                                     "Verduzzo", "Verdicchio", "Silvaner", "Colombard", "Carricante", "Sylvaner", "Fiano", "Roussanne", "Avesso", "Chinuri",
                                                     "Muscat Blanc à Petits Grains", "Xarel-lo", "Greco", "Trebbiano", "Chenin Blanc-Chardonnay", "Insolia", "Ribolla Gialla",
                                                     "Weissburgunder", "Roditis", "Traminer", "Marsanne-Roussanne", "Prié Blanc", "Zibibbo", "Falanghina", "Müller-Thurgau",
                                                     "Pinot Meunier", "Pansa Blanca", "Muskat Ottonel", "Sauvignon Blanc-Semillon", "Semillon-Sauvignon Blanc", "Bical", "Moscatel",
-                                                    "Viura-Chardonnay", "Malvasia Bianca", "Gelber Muskateller"));
+                                                    "Viura-Chardonnay", "Malvasia Bianca", "Gelber Muskateller", "Albariño", "Marsanne"));
     Set<String> red = new HashSet<>(Arrays.asList("Portuguese Red", "Pinot Noir", "Tempranillo-Merlot", "Frappato", "Cabernet Sauvignon", "Nerello Mascalese", "Malbec", "Tempranillo Blend",
                                                     "Meritage", "Red Blend", "Merlot", "Nero d'Avola", "Gamay", "Primitivo", "Petit Verdot", "Monica", "Gangiovese", "Cabernet Franc",
-                                                    "Bordeaux-style Red Blend", "Aglianco", "Zinfandel", "Syrah", "Nebbiolo", "Shiraz-Cabernet Sauvignon", "Barbera", "Rhône-style Red Blend",
+                                                    "Bordeaux-style Red Blend", "Aglianico", "Zinfandel", "Syrah", "Nebbiolo", "Shiraz-Cabernet Sauvignon", "Barbera", "Rhône-style Red Blend",
                                                     "Graciano", "Tannat-Cabernet", "Sangiovese Grosso", "Prugnolo Gentile","G-S-M", "Bonarda", "Shiraz", "Montepulciano", "Grenache",
                                                     "Syrah-Viognier", "Blaufränkisch", "Carignan-Grenache", "Sagrantino", "Cabernet Sauvignon-Syrah", "Shiraz-Viognier", "Tempranillo",
                                                     "Mencía", "Zweigelt", "Cannonau", "Syrah-Grenache", "Dolcetto", "Garnacha Tintorera", "Pinot Nero", "Pinotage", "Pinot Noir-Gamay",
-                                                    "Cabernet Sauvignon-Carmenére", " Früburgunder", "Sousão", "Cinsault", "Tinta Miúda", "Monastrell", "Port", "Merlot-Malbec",
+                                                    "Cabernet Sauvignon-Carmenère", "Früburgunder", "Sousão", "Cinsault", "Tinta Miúda", "Monastrell", "Port", "Merlot-Malbec",
                                                     "Cabernet Sauvignon-Merlot", "Duras", "Papaskarasi", "Tannat-Syrah", "Charbono", "Merlot-Argaman", "Provence red blend", "Tannat",
                                                     "Garnacha", "Negroamaro", "Mourvèdre", "Syrah-Cabernet", "Cabernet Sauvignon-Sangiovese", "Austrian Red Blend", "Teroldego",
-                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc"));
+                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc", "Petite Sirah", "Sangiovese",
+                                                    "Touriga Nacional", "Carmenère"));
     Set<String> rose = new HashSet<>(Arrays.asList("Rosé", "Rosato", "Moscato", "Sherry", "Rosado"));
     Set<String> sparkling = new HashSet<>(Arrays.asList("Champagne Blend", "Prosecco", "Sparkling Blend", "Portuguese Sparkling"));
 
@@ -77,7 +78,6 @@ public class WineDAO implements DAOInterface<Wine> {
 
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
-
     }
     @Override
     public List getAll() {
@@ -349,7 +349,7 @@ public class WineDAO implements DAOInterface<Wine> {
         BufferedReader br2 = new BufferedReader(new FileReader(wineDescriptionPath));
         int i = 0;
         while ((line = br.readLine()) != null) {
-            if (i != 0 && i < 1000) {
+            if (i != 0 && i < 2000) {
                 try {
                     String[] wineValues = splitWineRow(line, i);
                     String wineDescription = br2.readLine();
@@ -397,7 +397,8 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     public static void main(String[] args) {
-
+        WineDAO wineDAO = new WineDAO();
+        System.out.println(wineDAO.red.size() + wineDAO.white.size() + wineDAO.sparkling.size() +wineDAO.rose.size());
     }
 
 }
