@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.*;
 
@@ -18,6 +19,8 @@ import java.util.List;
  * @author Caleb Cooper
  */
 public class MainController {
+    @FXML
+    Text helloText;
     @FXML
     AnchorPane mainWine1;
     @FXML
@@ -63,6 +66,7 @@ public class MainController {
      * Initializes the controller.
      */
     public void initialize() {
+        helloText.setText("Hello, " + FXWrapper.getInstance().getCurrentUser().getName() + "!");
         List<AnchorPane> wineViews = List.of(mainWine1, mainWine2, mainWine3, mainWine4);
         List<Label> wineInfos = List.of(wineInfo1, wineInfo2, wineInfo3, wineInfo4);
         List<ImageView> wineIcons = List.of(mainWineIcon1, mainWineIcon2, mainWineIcon3, mainWineIcon4);
