@@ -20,8 +20,6 @@ public class WineDAO implements DAOInterface<Wine> {
 
     private final DatabaseManager databaseManager;
 
-    private static final Logger log = LogManager.getLogger(UserDAO.class);
-
     Set<String> white = new HashSet<>(Arrays.asList("White Blend", "Pinot Gris", "Riesling", "Gewürztraminer", "Chardonnay", "Chenin Blanc", "Sauvignon Blanc", "Viognier-Chardonnay",
                                                     "Catarratto", "Inzolia", "Bordeaux-style White Blend", "Grillo", "Petit Manseng", "Vernaccia", "Grüner Veltliner", "Viognier",
                                                     "Vermentino", "Grenache Blanc", "Pinot Blanc", "Alsace white blend", "Portuguese White", "Sauvignon", "Torrontés", "Verdejo",
@@ -75,6 +73,7 @@ public class WineDAO implements DAOInterface<Wine> {
         return sparkling;
     }
 
+    private static final Logger log = LogManager.getLogger(WineDAO.class);
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
 
@@ -397,7 +396,8 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     public static void main(String[] args) {
-
+        WineDAO wineDAO = new WineDAO();
+        wineDAO.initializeAllWines();
     }
 
 }
