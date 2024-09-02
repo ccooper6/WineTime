@@ -59,6 +59,7 @@ public class NavigationController {
                 //searchForWine(searchBar.getText());
                 searchBar.clear();
                 searchBar.getParent().requestFocus();
+                FXWrapper.getInstance().launchSubPage("searchWine");
             }
         });
 
