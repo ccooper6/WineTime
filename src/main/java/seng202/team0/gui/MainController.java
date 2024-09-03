@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.*;
+import seng202.team0.services.WineService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +49,8 @@ public class MainController {
     @FXML
     FontAwesomeIconView scrollArrow;
 
-    // ***********TEST CASE WINE OBJECTS***************
-    List<Wine> winesTest = new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6()));
-    // consider adding a wine info aspect to wine class so u can get the string description from wines
+    private WineService wineService = new WineService();
+    private List<Wine> winesTest;
 
     /**
      * Class to format wine information to display on main page.
@@ -60,7 +60,6 @@ public class MainController {
     public String getWineInfo(Wine wine) {
         return ("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
     }
-    // ******************ENDS HERE********************
 
     /**
      * Initializes the controller.
@@ -70,6 +69,7 @@ public class MainController {
         List<AnchorPane> wineViews = List.of(mainWine1, mainWine2, mainWine3, mainWine4);
         List<Label> wineInfos = List.of(wineInfo1, wineInfo2, wineInfo3, wineInfo4);
         List<ImageView> wineIcons = List.of(mainWineIcon1, mainWineIcon2, mainWineIcon3, mainWineIcon4);
+        winesTest = wineService.getRandomWines(10);
         displayWines(wineViews, wineInfos, wineIcons);
         onRefresh(wineViews, wineInfos, wineIcons);
     }

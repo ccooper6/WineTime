@@ -1,5 +1,10 @@
 package seng202.team0.models;
 
+import seng202.team0.repository.WineDAO;
+import seng202.team0.services.WineService;
+
+import java.util.ArrayList;
+
 /**
  * The model for the Wine Object.
  *<br><br>
@@ -8,49 +13,18 @@ package seng202.team0.models;
  */
 
 public class Wine {
-    /**
-     * The name of the wine.
-     */
+
     private String name;
-    /**
-     * The description of the wine.
-     */
     private String description;
-    /**
-     * The price of the wine.
-     */
     private int price;
-    /**
-     * The vintage of the wine
-     */
     private int vintage;
-    /**
-     * The province of the wine.
-     */
-    private String province;
-    /**
-     * The main region of the wine.
-     */
-    private String region1;
-    /**
-     * The secondary region of the wine.
-     */
-    private String region2;
-    /**
-     * The variety of the wine.
-     */
     private String variety;
-    /**
-     * The winery that produced the wine.
-     */
+    private String country;
+    private String province;
+    private String region;
     private String winery;
-    /**
-     * The taster of the wine that wrote the description.
-     */
+
     private String tasterName;
-    /**
-     * The taster's Twitter username.
-     */
     private String tasterTwitter;
 
 
@@ -71,20 +45,13 @@ public class Wine {
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      */
-    public Wine(String name, String description, int price, int vintage, String province, String region1, String region2,
-                String variety, String winery, String tasterName, String tasterTwitter) {
+    public Wine(String name, String description, int price) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.vintage = vintage;
-        this.province = province;
-        this.region1 = region1;
-        this.region2 = region2;
-        this.variety = variety;
-        this.winery = winery;
-        this.tasterName = tasterName;
-        this.tasterTwitter = tasterTwitter;
 
+        WineService wineService = new WineService();
+        wineService.populateDataUsingTags(this);
     }
 
     public Wine() {
@@ -92,13 +59,11 @@ public class Wine {
         this.description = "";
         this.price = 0;
         this.vintage = 0;
-        this.province = "";
-        this.region1 = "";
-        this.region2 = "";
         this.variety = "";
+        this.country = "";
+        this.province = "";
         this.winery = "";
-        this.tasterName = "";
-        this.tasterTwitter = "";
+        this.region = "";
     }
 
     /**
@@ -168,6 +133,40 @@ public class Wine {
     }
 
     /**
+     * Getter for the wine's variety.
+     * @return {@link Wine#variety}
+     */
+    public String getVariety() {
+        return variety;
+    }
+
+    /**
+     * Sets the variety of the wine to the String parameter.
+     * @param variety String variety of the wine
+     */
+    public void setVariety(String variety) {
+        this.variety = variety;
+    }
+
+
+    /**
+     * Getter for the String name of the country of the wine.
+     * @return {@link Wine#country}
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * Sets the String name of country of the wine.
+     * @param country String name of country
+     */
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    /**
      * Getter for the String name of the province of the wine.
      * @return {@link Wine#province}
      */
@@ -184,52 +183,21 @@ public class Wine {
     }
 
     /**
-     * Getter for the main region of the wine.
-     * @return {@link Wine#region1}
+     * Getter for the String name of the region of the wine.
+     * @return {@link Wine#region}
      */
-    public String getRegion1() {
-        return region1;
+    public String getRegion() {
+        return region;
     }
 
     /**
-     * Sets the wine's main region to the String parameter.
-     * @param region1 region String name
+     * Sets the String name of region of the wine.
+     * @param region String name of region
      */
-    public void setRegion1(String region1) {
-        this.region1 = region1;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    /**
-     * Getter for the wine's secondary region.
-     * @return {@link Wine#region2}
-     */
-    public String getRegion2() {
-        return region2;
-    }
-
-    /**
-     * Sets the wine's secondary region to the String parameter.
-     * @param region2 name of region
-     */
-    public void setRegion2(String region2) {
-        this.region2 = region2;
-    }
-
-    /**
-     * Getter for the wine's variety.
-     * @return {@link Wine#variety}
-     */
-    public String getVariety() {
-        return variety;
-    }
-
-    /**
-     * Sets the variety of the wine to the String parameter.
-     * @param variety String variety of the wine
-     */
-    public void setVariety(String variety) {
-        this.variety = variety;
-    }
 
     /**
      * Getter for the wine's winery.
@@ -280,21 +248,21 @@ public class Wine {
     }
 
     public String getImagePath() {
-        String imagePath = "";
-        switch (getVariety()) {
-            case "Red":
-                imagePath = "/images/Red Wine.jpg";
-                break;
-            case "White":
-                imagePath = "/images/White Wine.jpg";
-                break;
-            case "Rosé":
-                imagePath = "/images/Rose Wine.jpg";
-                break;
-            default:
-                imagePath = "/images/wine-bottle_pic.png";
-                break;
+        String imagePath;
+
+        WineDAO wineDao = new WineDAO();
+        if (wineDao.getWhite().contains(getVariety())) {
+            imagePath = "/images/White Wine.jpg";
+        } else if (wineDao.getRed().contains(getVariety())) {
+            imagePath = "/images/Red Wine.jpg";
+        } else if (wineDao.getRose().contains(getVariety())) {
+            imagePath = "/images/Rose Wine.jpg";
+        } else if (wineDao.getSparkling().contains(getVariety())) {
+            imagePath = "/images/Sparkling Wine.jpg";
+        } else {
+            imagePath = "/images/wine-bottle_pic.png";
         }
+
         return getClass().getResource(imagePath).toExternalForm();
     }
 }

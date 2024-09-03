@@ -2,11 +2,16 @@ package seng202.team0.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.wine1;
+import seng202.team0.services.WineService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller class for the popup.fxml popup.
@@ -22,15 +27,23 @@ public class PopUpController {
     @FXML
     Text description;
     @FXML
-    Text province;
-    @FXML
-    Text region1;
-    @FXML
-    Text variety;
-    @FXML
     Text winery;
     @FXML
-    Text region2;
+    Button logWine;
+    @FXML
+    Button addToWishlist;
+    @FXML
+    Button vintageTag;
+    @FXML
+    Button varietyTag;
+    @FXML
+    Button countryTag;
+    @FXML
+    Button provinceTag;
+    @FXML
+    Button wineryTag;
+    @FXML
+    Button regionTag;
 
     /**
      * Initializes the controller.
@@ -54,11 +67,13 @@ public class PopUpController {
         wineImage.setImage(new Image(wine.getImagePath()));
         wineName.setText(wine.getName());
         description.setText(wine.getDescription());
-        province.setText(wine.getProvince());
-        region1.setText(wine.getRegion1());
-        region2.setText(wine.getRegion2());
         winery.setText(wine.getWinery());
-        variety.setText(wine.getVariety());
+        vintageTag.setText(Integer.toString(wine.getVintage()));
+        varietyTag.setText(wine.getVariety());
+        countryTag.setText(wine.getCountry());
+        provinceTag.setText(wine.getProvince());
+        wineryTag.setText(wine.getWinery());
+        regionTag.setText(wine.getRegion());
     }
 
     /**
