@@ -4,9 +4,9 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -17,10 +17,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.App;
 import seng202.team0.models.Wine;
-//import seng202.team0.services.WineService;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Controller class for the navigation.fxml page.
@@ -52,6 +50,7 @@ public class NavigationController {
     @FXML
     TextField searchBar;
 
+    private static final Logger log = LogManager.getLogger(NavigationController.class);
     private Wine wine;
     //private WineService wineService = new WineService();
 
@@ -117,10 +116,16 @@ public class NavigationController {
         }
     }*/
 
-    public Wine getWine() { return this.wine; }
+    /**
+     * Returns the currently viewed wine object
+     * @return Wine object
+     */
+    public Wine getWine() {
+        return this.wine;
+    }
 
     /**
-     * Creates a popup
+     * Loads the wine popup when a wine is clicked by the user.
      */
     private void loadPopUpContent() {
         try {
@@ -129,7 +134,21 @@ public class NavigationController {
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load wine pop up\n" + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads the wine logging popup page when the log wine button is clicked in the wine popup page
+     */
+    public void loadWineLoggingPopUpContent() {
+        try {
+            FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/wineLoggingPopup.fxml"));
+            overlayContent = paneLoader.load();
+            overlayContent.setVisible(true);
+            contentHere.getChildren().add(overlayContent);
+        } catch (IOException e) {
+            log.error("Failed to load wine logging pop up\n" + e.getMessage());
         }
     }
 
