@@ -122,7 +122,7 @@ public class LoginController {
         if (userLoginService.validateAccount(username, password)
                 && !username.isEmpty() && !password.isEmpty()
                 && username.matches(".*[a-zA-Z0-9]+.*") && password.matches(".*[a-zA-Z0-9]+.*")) {
-            User user = new User(userLoginService.getName(username), username);
+            User user = new User(userLoginService.getName(username), username); // Not encrypted
             FXWrapper.getInstance().setCurrentUser(user);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
@@ -159,7 +159,7 @@ public class LoginController {
             int outcome = userLoginService.createAccount(name, username, password);
 
             if (outcome == 1) {
-                User user = new User(name, username);
+                User user = new User(name, username); // Not encrypted
                 FXWrapper.getInstance().setCurrentUser(user);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {

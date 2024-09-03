@@ -56,9 +56,6 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.setTitle(name);
             stage.show();
-
-            System.out.println(currentUser);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,8 +76,6 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.setTitle(name);
             stage.show();
-
-            System.out.println(currentUser);
         } catch (IOException e) {
             e.printStackTrace();
         }

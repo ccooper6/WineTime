@@ -219,6 +219,11 @@ public class WineDAO implements DAOInterface<Wine> {
         }
     }
 
+    /**
+     * This method takes in a wine and returns all tags associated with the wine.
+     * @param wine the wine object to get the tags of
+     * @return an arraylist of all tags of the given wine
+     */
     public ArrayList<Tag> getWineTags(Wine wine) {
         ArrayList<Tag> tags = new ArrayList<>();
         String sql = "select tag.name, tag.type from wine join owned_by on " +
@@ -231,7 +236,6 @@ public class WineDAO implements DAOInterface<Wine> {
                 while (rs.next()) {
                     String name = rs.getString("name");
                     String type = rs.getString("type");
-                    System.out.println(name + " " + type);
                     tags.add(new Tag(name, type));
                 }
                 return tags;
