@@ -58,6 +58,14 @@ public class UserLogin {
     }
 
     /**
+     * Returns the encrypted username
+     * @param username the raw unencrypted username
+     * @return encrypted username
+     */
+    public String getEncryptedUsername(String username) {
+        return encrypt(username);
+    }
+    /**
      * Method that looks through the text file where the username and password pair is stored and returns the hashed
      * value of the password.
      * @param encryptedUsername the username to search for
