@@ -98,8 +98,8 @@ public class SearchWineController {
 
 
 //        add wines
-        for (int i = start; i < end; i++) {
-             SearchWineService.getInstance().setCurrentWine(allWines.get(i));
+        for (int i = 0; i < end - start; i++) {
+             SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
 
              int currentRow = i / columns;
              int currentCol = i % columns;
@@ -149,7 +149,7 @@ public class SearchWineController {
      */
     @FXML
     public void pageEnd() {
-        currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE);
+        currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
         displayCurrentPage();
     }
 
