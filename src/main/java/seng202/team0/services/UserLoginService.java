@@ -34,4 +34,13 @@ public class UserLoginService {
     public String getName(String username) {
         return login.getName(username);
     }
+
+    /**
+     * Returns the encrypted username
+     * @param username the raw unencrypted username
+     * @return encrypted username
+     */
+    public String getEncryptedName(String username) {
+        return login.getEncryptedUsername(username);
+    }
 }
