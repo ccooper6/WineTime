@@ -75,6 +75,9 @@ public class WineDAO implements DAOInterface<Wine> {
         return sparkling;
     }
 
+    /**
+     * Constructor class for WineDAO.
+     */
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
 
@@ -100,10 +103,12 @@ public class WineDAO implements DAOInterface<Wine> {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     wine = new Wine(
+                            id,
                             rs.getString("name"),
                             rs.getString("description"),
                             rs.getInt("price"),
                             rs.getInt("vintage"),
+                            "",
                             "",
                             "",
                             "",
@@ -141,10 +146,12 @@ public class WineDAO implements DAOInterface<Wine> {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     wine = new Wine(
+                            rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("description"),
                             rs.getInt("price"),
                             rs.getInt("vintage"),
+                            "",
                             "",
                             "",
                             "",

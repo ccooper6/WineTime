@@ -59,6 +59,11 @@ public class SearchWineController {
 
         allWines = SearchWineService.getInstance().getWineList();
 
+        if (allWines == null) {
+            log.error("Wine list is null");
+            allWines = new ArrayList<>();
+        }
+
 //        System.out.println(allWines.size());
 //        System.out.println(Math.ceilDiv(allWines.size() - 1, MAXSIZE));
 
@@ -71,6 +76,11 @@ public class SearchWineController {
     @FXML
     public void displayCurrentPage()
     {
+        if (allWines == null || allWines.size() == 0) {
+            log.error("Wine list is null");
+            return;
+        }
+
         int start = currentPage * MAXSIZE;
 
         if (start < 0 || start >= allWines.size()) {

@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.*;
+import seng202.team0.services.SearchWineService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,7 @@ public class MainController {
     @FXML
     FontAwesomeIconView scrollArrow;
 
-    // ***********TEST CASE WINE OBJECTS***************
-    List<Wine> winesTest = new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6()));
-    // consider adding a wine info aspect to wine class so u can get the string description from wines
+    ArrayList<Wine> wineList;
 
     /**
      * Class to format wine information to display on main page.
@@ -78,13 +76,16 @@ public class MainController {
      */
     @FXML
     public void displayWines(List<AnchorPane> wineView, List<Label> wineInfo, List<ImageView> wineIcon) {
-        if(winesTest.size() >= wineView.size()) {
+        SearchWineService.getInstance().searchWinesByName("Rainstorm");
+        wineList = SearchWineService.getInstance().getWineList();
+        if(wineList.size() >= wineView.size()) {
             for (int i = 0; i < wineView.size(); i++) {
-                wineInfo.get(i).setText(getWineInfo(winesTest.get(i)));
-                wineIcon.get(i).setImage(new Image(winesTest.get(i).getImagePath()));
+                System.out.println(wineList.get(i).getImagePath());
+                wineInfo.get(i).setText(getWineInfo(wineList.get(i)));
+                wineIcon.get(i).setImage(new Image(wineList.get(i).getImagePath()));
             }
         } else {
-            for (int i = winesTest.size(); i < wineView.size(); i++) {
+            for (int i = wineList.size(); i < wineView.size(); i++) {
                 wineInfo.get(i).setText("No wine available.");
                 wineIcon.get(i).setImage(null);
             }
@@ -100,9 +101,9 @@ public class MainController {
     @FXML
     public void onRefresh(List<AnchorPane> wineView, List<Label> wineInfo, List<ImageView> wineIcon) {
         scrollArrow.setOnMouseClicked(event -> {
-            Wine firstWine = winesTest.get(0);
-            winesTest.remove(0);
-            winesTest.add(firstWine);
+            Wine firstWine = wineList.get(0);
+            wineList.removeFirst();
+            wineList.add(firstWine);
             displayWines(wineView, wineInfo, wineIcon);
         });
     }
@@ -117,7 +118,7 @@ public class MainController {
         AnchorPane pane = (AnchorPane) event.getSource();
         String[] name = pane.getId().split("");
         Integer paneNum = Integer.valueOf(name[8]);
-        Wine wine = winesTest.get(paneNum - 1);
+        Wine wine = wineList.get(paneNum - 1);
 
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.initPopUp(wine);

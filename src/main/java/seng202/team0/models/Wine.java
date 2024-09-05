@@ -8,6 +8,7 @@ package seng202.team0.models;
  */
 
 public class Wine {
+    private int id;
     /**
      * The name of the wine.
      */
@@ -27,6 +28,7 @@ public class Wine {
     /**
      * The province of the wine.
      */
+    private String country;
     private String province;
     /**
      * The main region of the wine.
@@ -59,6 +61,7 @@ public class Wine {
      *The constructor for the Wine object.
      * <br><br>
      * Takes in the mentioned values.
+     * @param id int {@link Wine#id}
      * @param name String {@link Wine#name}
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
@@ -71,12 +74,13 @@ public class Wine {
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      */
-    public Wine(String name, String description, int price, int vintage, String province, String region1, String region2,
+    public Wine(int id, String name, String description, int price, int vintage, String country, String province, String region1, String region2,
                 String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.vintage = vintage;
+        this.country = country;
         this.province = province;
         this.region1 = region1;
         this.region2 = region2;
@@ -281,19 +285,23 @@ public class Wine {
 
     public String getImagePath() {
         String imagePath = "";
-        switch (getVariety()) {
-            case "Red":
-                imagePath = "/images/Red Wine.jpg";
-                break;
-            case "White":
-                imagePath = "/images/White Wine.jpg";
-                break;
-            case "Rosé":
-                imagePath = "/images/Rose Wine.jpg";
-                break;
-            default:
-                imagePath = "/images/wine-bottle_pic.png";
-                break;
+        if (variety == null) {
+            imagePath = "/images/wine-bottle_pic.png";
+        } else {
+            switch (variety) {
+                case "Red":
+                    imagePath = "/images/Red Wine.jpg";
+                    break;
+                case "White":
+                    imagePath = "/images/White Wine.jpg";
+                    break;
+                case "Rosé":
+                    imagePath = "/images/Rose Wine.jpg";
+                    break;
+                default:
+                    imagePath = "/images/wine-bottle_pic.png";
+                    break;
+            }
         }
         return getClass().getResource(imagePath).toExternalForm();
     }

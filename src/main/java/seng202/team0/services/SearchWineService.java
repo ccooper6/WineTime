@@ -1,8 +1,18 @@
 package seng202.team0.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.*;
+import seng202.team0.models.WineBuilder;
+import seng202.team0.repository.DatabaseManager;
+import seng202.team0.repository.SearchDAO;
+import seng202.team0.repository.UserDAO;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +21,8 @@ public class SearchWineService {
     private ArrayList<Wine> wineList;
 
     private static SearchWineService instance;
+
+    private static final Logger log = LogManager.getLogger(SearchWineService.class);
 
     /**
     Returns the instance and creates one if none exists.
@@ -21,39 +33,6 @@ public class SearchWineService {
     {
         if (instance == null) {
             instance = new SearchWineService();
-
-//            TEST WINES
-            instance.setWineList(new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6(),
-                    new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6())));
         }
         return instance;
     }
@@ -86,11 +65,32 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the stored wine list
+     * to be done
      *
      * @param wineList {@link ArrayList<Wine>} wines
      */
     public void setWineList(ArrayList<Wine> wineList) {
         this.wineList = wineList;
+    }
+
+    public ArrayList<Wine> searchWinesByTags(ArrayList<String> tags)
+    {
+        return null;
+    }
+
+    /**
+     * Fetches a list of all wines that contains the filterString within
+     * the normalised name from the wines table in database and sets it to
+     * the wineList variable.
+     *
+     * @param filterString A normalised {@link String} that contains what to search by
+     */
+    public void searchWinesByName(String filterString) {
+//        get from db
+        DatabaseManager dbm = DatabaseManager.getInstance();
+
+        filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+
+        wineList = SearchDAO.getInstance().searchWineByName(filterString);
     }
 }
