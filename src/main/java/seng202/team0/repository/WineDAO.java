@@ -6,8 +6,6 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
 import seng202.team0.models.Wine;
 
-import javax.lang.model.type.ArrayType;
-import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -109,7 +107,8 @@ public class WineDAO implements DAOInterface<Wine> {
                             "",
                             "",
                             "",
-                            ""
+                            "",
+                            rs.getInt("id")
                     );
                     return wine;
                 }
@@ -150,7 +149,8 @@ public class WineDAO implements DAOInterface<Wine> {
                             "",
                             "",
                             "",
-                            ""
+                            "",
+                            rs.getInt("id")
                     );
                     wines.add(wine);
                 }

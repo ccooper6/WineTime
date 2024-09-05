@@ -52,8 +52,10 @@ public class Wine {
      * The taster's Twitter username.
      */
     private String tasterTwitter;
-
-
+    /**
+     * The wine id of the wine in the db
+     */
+    private int wineId;
 
     /**
      *The constructor for the Wine object.
@@ -70,9 +72,10 @@ public class Wine {
      * @param winery String {@link Wine#winery}
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
+     * @param wineId int {@link Wine#wineId}
      */
     public Wine(String name, String description, int price, int vintage, String province, String region1, String region2,
-                String variety, String winery, String tasterName, String tasterTwitter) {
+                String variety, String winery, String tasterName, String tasterTwitter, int wineId) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -84,7 +87,7 @@ public class Wine {
         this.winery = winery;
         this.tasterName = tasterName;
         this.tasterTwitter = tasterTwitter;
-
+        this.wineId = wineId;
     }
 
     public Wine() {
@@ -296,5 +299,13 @@ public class Wine {
                 break;
         }
         return getClass().getResource(imagePath).toExternalForm();
+    }
+
+    /**
+     * Returns the wine's wine id
+     * @return wine id
+     */
+    public int getWineId() {
+        return this.wineId;
     }
 }
