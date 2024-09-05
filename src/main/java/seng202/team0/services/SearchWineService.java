@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchWineService {
@@ -73,9 +74,14 @@ public class SearchWineService {
         this.wineList = wineList;
     }
 
-    public ArrayList<Wine> searchWinesByTags(ArrayList<String> tags)
+    public void searchWinesByTags(String tags)
     {
-        return null;
+        String[] tagsArray = tags.split(",");
+        ArrayList<String> tagList = new ArrayList<>();
+        for (String tag : tagsArray) {
+            tagList.add(tag.trim());
+        }
+        wineList = SearchDAO.getInstance().searchWineByTags(tagList);
     }
 
     /**
@@ -86,8 +92,6 @@ public class SearchWineService {
      * @param filterString A normalised {@link String} that contains what to search by
      */
     public void searchWinesByName(String filterString) {
-//        get from db
-        DatabaseManager dbm = DatabaseManager.getInstance();
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
 

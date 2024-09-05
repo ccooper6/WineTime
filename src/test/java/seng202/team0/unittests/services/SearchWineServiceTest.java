@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class SearchWineServiceTest {
 
     private static DatabaseManager databaseManager;
@@ -30,7 +33,42 @@ public class SearchWineServiceTest {
     @Test
     public void searchWinesByTagGeneral1()
     {
-        ArrayList<String> tags = new ArrayList<>(List.of("pinot noir", "oregon"));
-        ArrayList<Wine> fromDB = SearchWineService.getInstance().searchWinesByTags(tags);
+        String tags = "Oregon,Pinot Noir";
+        SearchWineService.getInstance().searchWinesByTags(tags);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+        assertEquals(2557, fromDB.size());
+        assertNotNull(fromDB);
+    }
+
+    @Test
+    public void searchWinesByTagGeneral2()
+    {
+        String tags = "  Oregon  , Pinot Noir  ";
+        SearchWineService.getInstance().searchWinesByTags(tags);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+        assertEquals(2557, fromDB.size());
+        assertNotNull(fromDB);
+    }
+
+    @Test
+    public void searchWinesByTagGeneral3()
+    {
+        String tags = "2030";
+        SearchWineService.getInstance().searchWinesByTags(tags);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+        assertEquals(0, fromDB.size());
+        assertNotNull(fromDB);
+
+    }
+
+    @Test
+    public void searchWinesByTagGeneral4()
+    {
+        String tags = "2001,2002";
+        SearchWineService.getInstance().searchWinesByTags(tags);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+        assertEquals(0, fromDB.size());
+        assertNotNull(fromDB);
+
     }
 }

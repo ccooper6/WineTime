@@ -5,12 +5,10 @@ import org.apache.logging.log4j.Logger;
 import seng202.team0.models.Wine;
 import seng202.team0.models.WineBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SearchDAO {
 
@@ -150,16 +148,61 @@ public class SearchDAO {
         return wineList;
     }
 
+
     public ArrayList<Wine> searchWineByTags (ArrayList<String> tagList)
     {
-//        select id, name from (select wine.id, wine.name, count(owned_by.wid) as c from wine
-//            join owned_by on wine.id = owned_by.wid
-//            join tag on owned_by.tname = tag.name
-//            where tag.normalised_name = 'oregon' collate NOCASE
-//            or tag.normalised_name = 'pinot noir' collate NOCASE
-//            group by wine.id)
-//        where c = 2;
+        for (String tag : tagList) {
+            if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
+                log.error("{} is not normalised!", tag);
+            }
+        }
 
-        return null;
+//        String stmt = "select id, name from (select wine.id, wine.name, count(owned_by.wid) as c from wine\n" +
+//            "join owned_by on wine.id = owned_by.wid\n"+
+//            "join tag on owned_by.tname = tag.name\n"+
+//            "where tag.normalised_name IN (?)\n"+
+//            "group by wine.id)\n"+
+//            "where c = ?";
+
+        // Build the SQL query with dynamic placeholders
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+                .append("FROM (SELECT id as temp_id\n")
+                .append("        FROM (SELECT id, count(wid) as c\n")
+                .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
+                .append("                        JOIN tag on owned_by.tname = tag.name\n")
+                .append("              WHERE tag.name IN (");
+
+        // Add placeholders
+        for (int i = 0; i < tagList.size(); i++) {
+            if (i > 0) {
+                sqlBuilder.append(",");
+            }
+            sqlBuilder.append("?");
+        }
+        sqlBuilder.append(")\n")
+                .append("              GROUP BY wid)\n")
+                .append("        WHERE c = ?)\n")
+                .append("JOIN wine on wine.id = temp_id\n")
+                .append("JOIN owned_by on id = owned_by.wid\n")
+                .append("JOIN tag on owned_by.tname = tag.name\n")
+                .append("ORDER BY id;");
+
+        ArrayList<Wine> wineList = new ArrayList<>();
+        String sql = sqlBuilder.toString();
+        System.out.println(sql);
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql) ) {
+            for (int i = 0; i < tagList.size(); i++) {
+                ps.setString(i + 1, tagList.get(i));
+            }
+            ps.setInt(tagList.size()+1, tagList.size());
+            try (ResultSet rs = ps.executeQuery()) {
+                wineList = processResultSetIntoWines(rs);
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return wineList;
     }
 }
