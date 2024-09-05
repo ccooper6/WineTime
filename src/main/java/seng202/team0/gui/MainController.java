@@ -32,13 +32,18 @@ public class MainController {
         SearchWineService.getInstance().searchWinesByName("Rainstorm");
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
-            Parent parent = fxmlLoader.load();
-
-            contentsGrid.add(parent, 0, 0);
+            FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent1 = fxmlLoader1.load();
+            contentsGrid.add(parent1, 0, 0);
+//            SearchWineService.getInstance().searchWinesByName("New Zealand, Sauvignon Blanc");
+//            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+//            Parent parent2 = fxmlLoader2.load();
+//            contentsGrid.add(parent2, 1, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
     /**
