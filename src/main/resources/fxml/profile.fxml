@@ -42,7 +42,6 @@
                   <Label fx:id="wishlistSeeMore" layoutX="911.0" layoutY="103.0" text="see more..." />
                   <Label fx:id="wishlistLabel" layoutX="13.0" layoutY="103.0" text="Wishlist:" />
                   <Label fx:id="challengeLabel" layoutX="11.0" layoutY="5.0" text="Challenge tracker:" />
-                  <ScrollPane fx:id="challengePane" layoutX="16.0" layoutY="30.0" prefHeight="58.0" prefWidth="898.0" />
                   <Label fx:id="reviewsLabel" layoutX="15.0" layoutY="300.0" text="Recent Reveiws:" />
                   <Label fx:id="reviewsSeeMore" layoutX="911.0" layoutY="319.0" text="see more..." />
                   <FontAwesomeIconView fx:id="wishlistMoreArrow" glyphName="ANGLE_RIGHT" layoutX="939.0" layoutY="229.0" size="60" text="" wrappingWidth="22.285714149475098" />
@@ -76,6 +75,12 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
+                  <Button fx:id="StartChallengeButton" layoutX="459.0" layoutY="34.0" mnemonicParsing="false" text="Start Challenge!">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="challengeLabeltext" layoutX="10.0" layoutY="40.0" text="No active challenges." />
                </children>
             </AnchorPane>
          </content>
