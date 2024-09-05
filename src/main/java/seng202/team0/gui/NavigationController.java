@@ -56,7 +56,9 @@ public class NavigationController {
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
                 //searchForWine(searchBar.getText());
-                SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                //SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+
                 FXWrapper.getInstance().launchSubPage("searchWine");
 //                searchBar.clear();
                 searchBar.getParent().requestFocus();
