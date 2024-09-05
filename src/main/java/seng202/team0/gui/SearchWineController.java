@@ -50,6 +50,8 @@ public class SearchWineController {
     FontAwesomeIconView nextArrowButton;
     @FXML
     FontAwesomeIconView endArrowButton;
+    @FXML
+    Text Title;
 
     /**
      * Initialises the controller using wines from SearchWineService instance.
@@ -77,6 +79,22 @@ public class SearchWineController {
     public void displayCurrentPage()
     {
         if (allWines == null || allWines.size() == 0) {
+            Title.setText("Sorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
+            startArrowButton.setDisable(true);
+            prevArrowButton.setDisable(true);
+            prevTextButton.setDisable(true);
+            pageCounterText.setDisable(true);
+            nextTextButton.setDisable(true);
+            nextArrowButton.setDisable(true);
+            endArrowButton.setDisable(true);
+
+            startArrowButton.setOpacity(0.2);
+            prevArrowButton.setOpacity(0.2);
+            prevTextButton.setOpacity(0.2);
+            pageCounterText.setOpacity(0.2);
+            nextTextButton.setOpacity(0.2);
+            nextArrowButton.setOpacity(0.2);
+            endArrowButton.setOpacity(0.2);
             log.error("Wine list is null");
             return;
         }
