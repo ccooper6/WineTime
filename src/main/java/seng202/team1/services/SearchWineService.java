@@ -57,15 +57,13 @@ public class SearchWineService {
     }
 
     /**
-     * to be done
+     * Searches the database for wines that matches all tags provided and sets
+     * it to the wineList variable.
      *
-     * @param wineList {@link ArrayList<Wine>} wines
+     * @param tags A {@link String} of tags seperated by commas
+     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
-    public void setWineList(ArrayList<Wine> wineList) {
-        this.wineList = wineList;
-    }
-
-    public void searchWinesByTags(String tags)
+    public void searchWinesByTags(String tags, int limit)
     {
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         String[] tagsArray = tags.split(",");
@@ -74,20 +72,21 @@ public class SearchWineService {
         for (String tag : tagsArray) {
             tagList.add(tag.trim());
         }
-        wineList = SearchDAO.getInstance().searchWineByTags(tagList);
+        wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
     }
 
     /**
-     * Fetches a list of all wines that contains the filterString within
+     * Fetches a list of wines up to a limit that contains the filterString within
      * the normalised name from the wines table in database and sets it to
      * the wineList variable.
      *
      * @param filterString A normalised {@link String} that contains what to search by
+     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
-    public void searchWinesByName(String filterString) {
+    public void searchWinesByName(String filterString, int limit) {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
 
-        wineList = SearchDAO.getInstance().searchWineByName(filterString);
+        wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
     }
 }

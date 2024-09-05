@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DatabaseManager;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class SearchWineServiceTest {
     public void searchWinesByTagGeneral1()
     {
         String tags = "Oregon,Pinot Noir";
-        SearchWineService.getInstance().searchWinesByTags(tags);
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
         assertEquals(2557, fromDB.size());
         assertNotNull(fromDB);
@@ -45,7 +46,7 @@ public class SearchWineServiceTest {
     public void searchWinesByTagGeneral2()
     {
         String tags = "  Oregon  , Pinot Noir  ";
-        SearchWineService.getInstance().searchWinesByTags(tags);
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
         assertEquals(2557, fromDB.size());
         assertNotNull(fromDB);
@@ -55,7 +56,7 @@ public class SearchWineServiceTest {
     public void searchWinesByTagGeneral3()
     {
         String tags = "2030";
-        SearchWineService.getInstance().searchWinesByTags(tags);
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
         assertEquals(0, fromDB.size());
         assertNotNull(fromDB);
@@ -66,7 +67,7 @@ public class SearchWineServiceTest {
     public void searchWinesByTagGeneral4()
     {
         String tags = "2001,2002";
-        SearchWineService.getInstance().searchWinesByTags(tags);
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
         assertEquals(0, fromDB.size());
         assertNotNull(fromDB);
@@ -76,7 +77,7 @@ public class SearchWineServiceTest {
     @Test
     public void searchWinesByName() {
         String name = "Chardonnay";
-        SearchWineService.getInstance().searchWinesByName(name);
+        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
         assertEquals(8886, fromDB.size());
         assertNotNull(fromDB);

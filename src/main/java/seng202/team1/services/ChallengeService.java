@@ -21,8 +21,8 @@ public class ChallengeService {
         for (int i = 0; i < 5; i++) {
             ArrayList<String> tag = new ArrayList<>();
             tag.add(varietyTags.get(i));
-            ArrayList<Wine> tagWines = searchDAO.searchWineByTags(tag);
-            System.out.println(tagWines.get(0));
+            ArrayList<Wine> tagWines = searchDAO.searchWineByTags(tag, 1);
+            System.out.println(tagWines.getFirst());
         }
     }
 
