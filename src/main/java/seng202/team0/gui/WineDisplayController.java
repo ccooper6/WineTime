@@ -15,13 +15,15 @@ public class WineDisplayController {
     @FXML
     ImageView wineImage;
 
+    Wine wine;
+
     /**
      * Displays the wine card using SearchWineService instances' current wine
      */
     @FXML
     public void initialize()
     {
-        Wine wine = SearchWineService.getInstance().getCurrentWine();
+        wine = SearchWineService.getInstance().getCurrentWine();
 
         wineImage.setImage(new Image(wine.getImagePath()));
 
@@ -30,6 +32,14 @@ public class WineDisplayController {
         infoText += "\nVariety: " + wine.getVariety();
         wineInfo.setText(infoText);
 
+    }
+
+    @FXML
+    public void popUp()
+    {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+
+        navigationController.initPopUp(wine);
     }
 
 }
