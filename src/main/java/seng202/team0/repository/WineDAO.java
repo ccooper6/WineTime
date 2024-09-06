@@ -121,6 +121,47 @@ public class WineDAO implements DAOInterface<Wine> {
 
     }
 
+
+    /**
+     * This method takes in the tag you wish to sort the wines by and returns an arraylist of wines with that tag.
+     * @param varietyTag
+     * @return
+     */
+    public ArrayList<Wine> getWinesFromTags(String varietyTag) {
+        ArrayList<Wine> tagWines = new ArrayList<>();
+        String sqlTag = "SELECT wine.* FROM wine "
+                + "JOIN owned_by ON wine.id = owned_by.wid "
+                + "JOIN tag ON owned_by.tname = tag.name "
+                + "WHERE tag.name = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sqlTag)) {
+            ps.setString(1, varietyTag);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Wine tagWine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            rs.getInt("id")
+                    );
+                    tagWines.add(tagWine);
+                }
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return tagWines;
+    }
+
+
     /**
      * This method take in two years and return all wines between those two years.
      * @param earliest the earliest vintage
@@ -163,6 +204,8 @@ public class WineDAO implements DAOInterface<Wine> {
         }
 
     }
+
+
     public ArrayList<String> getVarietyTags() {
         ArrayList<String> tags = new ArrayList<>();
         String sql = "SELECT name FROM tag";
