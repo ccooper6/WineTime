@@ -76,7 +76,9 @@ public class SearchWineService {
 
     public void searchWinesByTags(String tags)
     {
+        tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         String[] tagsArray = tags.split(",");
+
         ArrayList<String> tagList = new ArrayList<>();
         for (String tag : tagsArray) {
             tagList.add(tag.trim());

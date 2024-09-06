@@ -217,9 +217,13 @@ public class WineCsvDao {
         String[] wineValues;
         CSVReader csv = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(winePath), StandardCharsets.UTF_8)).withSkipLines(1).build();
         int wineID = 1;
+        int num = -1;
         while ((wineValues = csv.readNext()) != null) {
             wineID = add(wineValues, wineID);
-            System.out.println(wineID + "/" + totalRows + ":" + wineValues[11]);
+            if (wineID > num + 1000) {
+                System.out.println(wineID + "/" + totalRows);
+                num += 1000;
+            }
         }
         csv.close();
     }

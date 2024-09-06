@@ -171,7 +171,7 @@ public class SearchDAO {
                 .append("        FROM (SELECT id, count(wid) as c\n")
                 .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
                 .append("                        JOIN tag on owned_by.tname = tag.name\n")
-                .append("              WHERE tag.name IN (");
+                .append("              WHERE tag.normalised_name IN (");
 
         // Add placeholders
         for (int i = 0; i < tagList.size(); i++) {
@@ -190,7 +190,8 @@ public class SearchDAO {
 
         ArrayList<Wine> wineList = new ArrayList<>();
         String sql = sqlBuilder.toString();
-        System.out.println(sql);
+
+        // get results
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql) ) {
             for (int i = 0; i < tagList.size(); i++) {
