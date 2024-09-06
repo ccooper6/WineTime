@@ -22,6 +22,9 @@ import java.util.List;
 public class ProfileController {
 
 
+    public Button quizButton;
+    public Label challengeLabeltext;
+    public Button StartChallengeButton;
     @FXML
     private Button changePasswordButton;
     @FXML
@@ -134,6 +137,10 @@ public class ProfileController {
     public void onQuizClicked(ActionEvent actionEvent) { FXWrapper.getInstance().launchSubPage("quizscreen");}
 
 
+    public void onChallengeClicked(ActionEvent actionEvent) {
+//        launch pop up to take you to challenge menu
+
+    }
 }
 
 

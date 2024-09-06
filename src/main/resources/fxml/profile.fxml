@@ -75,7 +75,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <Button fx:id="StartChallengeButton" layoutX="459.0" layoutY="34.0" mnemonicParsing="false" text="Start Challenge!">
+                  <Button fx:id="StartChallengeButton" layoutX="459.0" layoutY="34.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
                      <font>
                         <Font size="14.0" />
                      </font>
