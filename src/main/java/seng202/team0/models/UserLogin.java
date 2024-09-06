@@ -31,10 +31,12 @@ public class UserLogin {
      * Takes a username and password input and stores it as long as the username is unique.
      * @param username username value to be stored
      * @param password password value to be stored
+     * @param name name value to be stored
+     * @return 1 if the account was successfully created, 0 if the username already exists, 2 if an error occurred
      */
-    public int storeLogin(String username, String password) {
+    public int storeLogin(String name, String username, String password) {
         try {
-            User newUser = new User(encrypt(username), Objects.hash(password));
+            User newUser = new User(name, encrypt(username), Objects.hash(password));
             return userDAO.add(newUser); // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
         } catch (DuplicateEntryException e) {
             throw new RuntimeException(e);
@@ -51,6 +53,18 @@ public class UserLogin {
         return userDAO.tryLogin(encrypt(username), Objects.hash(password));
     }
 
+    public String getName(String username) {
+        return userDAO.getName(encrypt(username));
+    }
+
+    /**
+     * Returns the encrypted username
+     * @param username the raw unencrypted username
+     * @return encrypted username
+     */
+    public String getEncryptedUsername(String username) {
+        return encrypt(username);
+    }
     /**
      * Method that looks through the text file where the username and password pair is stored and returns the hashed
      * value of the password.

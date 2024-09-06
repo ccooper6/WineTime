@@ -21,6 +21,10 @@ public class Wine {
      */
     private int price;
     /**
+     * The vintage of the wine
+     */
+    private int vintage;
+    /**
      * The province of the wine.
      */
     private String province;
@@ -48,6 +52,10 @@ public class Wine {
      * The taster's Twitter username.
      */
     private String tasterTwitter;
+    /**
+     * The wine id of the wine in the db
+     */
+    private int wineId;
 
     /**
      *The constructor for the Wine object.
@@ -56,6 +64,7 @@ public class Wine {
      * @param name String {@link Wine#name}
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
+     * @param vintage int {@link Wine#vintage}
      * @param province String {@link Wine#province}
      * @param region1 String {@link Wine#region1}
      * @param region2 String {@link Wine#region2}
@@ -63,12 +72,14 @@ public class Wine {
      * @param winery String {@link Wine#winery}
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
+     * @param wineId int {@link Wine#wineId}
      */
-    public Wine(String name, String description, int price, String province, String region1, String region2,
-                String variety, String winery, String tasterName, String tasterTwitter) {
+    public Wine(String name, String description, int price, int vintage, String province, String region1, String region2,
+                String variety, String winery, String tasterName, String tasterTwitter, int wineId) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.vintage = vintage;
         this.province = province;
         this.region1 = region1;
         this.region2 = region2;
@@ -76,7 +87,21 @@ public class Wine {
         this.winery = winery;
         this.tasterName = tasterName;
         this.tasterTwitter = tasterTwitter;
+        this.wineId = wineId;
+    }
 
+    public Wine() {
+        this.name = "";
+        this.description = "";
+        this.price = 0;
+        this.vintage = 0;
+        this.province = "";
+        this.region1 = "";
+        this.region2 = "";
+        this.variety = "";
+        this.winery = "";
+        this.tasterName = "";
+        this.tasterTwitter = "";
     }
 
     /**
@@ -125,6 +150,24 @@ public class Wine {
      */
     public void setPrice(int price) {
         this.price = price;
+    }
+
+
+
+    /**
+     * Getter for the int vintage of the wine.
+     * @return {@link Wine#vintage}
+     */
+    public int getVintage() {
+        return vintage;
+    }
+
+    /**
+     * Sets the price of the wine to the int parameter.
+     * @param vintage Integer vintage
+     */
+    public void setVintage(int vintage) {
+        this.vintage = vintage;
     }
 
     /**
@@ -252,9 +295,17 @@ public class Wine {
                 imagePath = "/images/Rose Wine.jpg";
                 break;
             default:
-                imagePath = "/images/wine-bottle_pic.jpg";
+                imagePath = "/images/wine-bottle_pic.png";
                 break;
         }
         return getClass().getResource(imagePath).toExternalForm();
+    }
+
+    /**
+     * Returns the wine's wine id
+     * @return wine id
+     */
+    public int getWineId() {
+        return this.wineId;
     }
 }
