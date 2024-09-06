@@ -5,6 +5,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import seng202.team0.models.testWines.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,9 +86,9 @@ public class MainPageController {
     public void displayWines(List<Label> wineInfo, List<ImageView> wineIcon) {
         if(winesTest.size() >= wineViews.size()) {
             for (int i = 0; i < wineViews.size(); i++) {
-                wineInfo.get(i).setText(String.valueOf(getId(i)));
+                wineInfo.get(getId(i)).setText(String.valueOf(getId(i)));
                 //wineInfo.get(i).setText(getWineInfo(winesTest.get(i)));
-                wineIcon.get(i).setImage(new Image(winesTest.get(i).getImagePath()));
+                wineIcon.get(getId(i)).setImage(new Image(winesTest.get(getId(i)).getImagePath()));
             }
         } else {
             for (int i = winesTest.size(); i < wineViews.size(); i++) {
@@ -100,63 +102,78 @@ public class MainPageController {
     public void onRefresh( List<Label> wineInfo, List<ImageView> wineIcon) {
         scrollArrow.setOnMouseClicked(event -> {
             transition();
-            /*Wine firstWine = winesTest.get(first);
-            winesTest.remove(0);
-            winesTest.add(firstWine);*/
             displayWines(wineInfo, wineIcon);
         });
 //
     }
 
+    /**
+     * @param id is the position of the view pane.
+     * @return id of the wineView which should be displayed at that position.
+     */
     public int getId(int id) {
         return (firstWine + id) % wineViews.size();
     }
 
+    /**
+     * The indexing of the wine views is reset
+     */
     public void resetFirst() {
-        TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1), wineViews.get(firstWine));
-        transition1.setByX(-225);
-        transition1.setInterpolator(Interpolator.LINEAR);
-        transition1.play();
-        fadeOut();
-        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(0), wineViews.get(firstWine));
-        transitionReturn.setByX(900);
-        transitionReturn.setInterpolator(Interpolator.LINEAR);
-        transitionReturn.play();
         if (firstWine >= wineViews.size() - 1) {
             firstWine = 0;
         } else {
             firstWine ++;
         }
+        scrollArrow.setDisable(false);
     }
-    public void fadeOut(){
-        FadeTransition  fadeTransitionOut = new FadeTransition(Duration.seconds(1), wineViews.get(firstWine));
+
+    /**
+     * As the first wine moves to the left, it decreases in opacity, is disabled and then teleports to the right;
+     */
+    public void fadeOut() {
+        FadeTransition fadeTransitionOut = new FadeTransition(Duration.seconds(0.5), wineViews.get(firstWine));
         fadeTransitionOut.setFromValue(1);
-        fadeTransitionOut.setToValue(0.5);
+        fadeTransitionOut.setToValue(0);
         fadeTransitionOut.play();
         wineViews.get(firstWine).setDisable(true);
+        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(0.1), wineViews.get(firstWine));
+        transitionReturn.setByX(1125);
+        transitionReturn.setInterpolator(Interpolator.DISCRETE);
+        fadeTransitionOut.setOnFinished(event -> transitionReturn.play());
+        transitionReturn.setOnFinished(event -> resetFirst());
     }
+
+    /**
+     * As the last wine moves in from the right, it increases in opacity and is enabled.
+     */
     public void fadeIn() {
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), wineViews.get(getId(4)));
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), wineViews.get(getId(4)));
         fadeTransition.setFromValue(0);
         fadeTransition.setToValue(1);
         fadeTransition.play();
-        wineViews.get(getId(4)).setDisable(false);
+        fadeTransition.setOnFinished(event -> wineViews.get(getId(4)).setDisable(false));
     }
 
+    /**
+     * Controls all the horizontal transitions of each category, triggered by onRefresh
+     */
     @FXML
     public void transition() {
-        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(1), wineViews.get(getId(1)));
-        TranslateTransition transition3 = new TranslateTransition(Duration.seconds(1), wineViews.get(getId(2)));
-        TranslateTransition transition4 = new TranslateTransition(Duration.seconds(1), wineViews.get(getId(3)));
-        TranslateTransition transition5 = new TranslateTransition(Duration.seconds(1), wineViews.get(getId(4)));
-        List<TranslateTransition> wineTransitions = List.of(transition2, transition3, transition4, transition5);
+        scrollArrow.setDisable(true);
+        TranslateTransition transition1 = new TranslateTransition(Duration.seconds(0.5), wineViews.get(getId(0)));
+        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(0.5), wineViews.get(getId(1)));
+        TranslateTransition transition3 = new TranslateTransition(Duration.seconds(0.5), wineViews.get(getId(2)));
+        TranslateTransition transition4 = new TranslateTransition(Duration.seconds(0.5), wineViews.get(getId(3)));
+        TranslateTransition transition5 = new TranslateTransition(Duration.seconds(0.5), wineViews.get(getId(4)));
+        List<TranslateTransition> wineTransitions = List.of(transition1, transition2, transition3, transition4, transition5);
         for (int i = 0; i < wineTransitions.size(); i++) {
             wineTransitions.get(i).setByX(-225);
             wineTransitions.get(i).setInterpolator(Interpolator.LINEAR);
             wineTransitions.get(i).play();
         }
+        //below all occur at the same time as wineTransitions
         fadeIn();
-        resetFirst();
+        fadeOut();
     }
 
     @FXML
