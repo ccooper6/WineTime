@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.*;
+import seng202.team0.services.SearchWineService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +84,7 @@ public class ProfileController {
     private  FontAwesomeIconView wishlistMoreArrow;
 
 
-    // ***********TEST CASE WINE OBJECTS***************
-    List<Wine> favWinesTest = new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6()));
+    List<Wine> wineList;
     // consider adding a wine info aspect to wine class so u can get the string description from wines
     public String getWineInfo(Wine wine) {
         return("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
@@ -108,12 +107,14 @@ public class ProfileController {
 
     @FXML
     public void displayWishlist(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
-        if(favWinesTest.size() >= wishlistWineView.size()) {
+        SearchWineService.getInstance().searchWinesByName("Stemmari");
+        wineList = SearchWineService.getInstance().getWineList();
+        if(wineList.size() >= wishlistWineView.size()) {
             for (int i = 0; i < wishlistWineView.size(); i++) {
-                wishlistWineInfo.get(i).setText(getWineInfo(favWinesTest.get(i)));
+                wishlistWineInfo.get(i).setText(getWineInfo(wineList.get(i)));
             }
         } else {
-            for (int i = favWinesTest.size(); i < wishlistWineView.size(); i++) {
+            for (int i = wineList.size(); i < wishlistWineView.size(); i++) {
                 wishlistWineInfo.get(i).setText("No wine available.");
             }
         }
@@ -123,9 +124,9 @@ public class ProfileController {
     @FXML
     public void onWishlistRefreshed(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
         wishlistMoreArrow.setOnMouseClicked(event -> {
-            Wine firtWine = favWinesTest.get(0);
-            favWinesTest.remove(0);
-            favWinesTest.add(firtWine);
+            Wine firtWine = wineList.getFirst();
+            wineList.removeFirst();
+            wineList.add(firtWine);
             displayWishlist(wishlistWineView, wishlistWineInfo);
         });
 //

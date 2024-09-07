@@ -53,6 +53,10 @@ public class UserLogin {
         return userDAO.tryLogin(encrypt(username), Objects.hash(password));
     }
 
+    public String getName(String username) {
+        return userDAO.getName(encrypt(username));
+    }
+
     /**
      * Method that looks through the text file where the username and password pair is stored and returns the hashed
      * value of the password.

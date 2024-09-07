@@ -11,6 +11,11 @@ public class User {
     private ArrayList<Wine> dislikedWines;
     private ArrayList<String> favouritedTags;
 
+    public User(String name, String userName) {
+        this.name = name;
+        this.encryptedUserName = userName;
+    }
+
     public User(String name, String userName, int hashedPassword) {
         this.name = name;
         this.encryptedUserName = userName;

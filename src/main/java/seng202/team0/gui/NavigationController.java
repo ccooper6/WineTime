@@ -15,11 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.App;
 import seng202.team0.models.Wine;
-import seng202.team0.services.WineService;
-//import seng202.team0.services.WineService;
+import seng202.team0.services.SearchWineService;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Controller class for the navigation.fxml page.
@@ -47,7 +45,7 @@ public class NavigationController {
     TextField searchBar;
 
     private Wine wine;
-    private WineService wineService = new WineService();
+    //private WineService wineService = new WineService();
 
     /**
      * Loads in content from desired fxml and initates a blank, invisible overlay popup.
@@ -57,8 +55,12 @@ public class NavigationController {
     public void initialize() {
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
-                searchForWine(searchBar.getText());
-                searchBar.clear();
+                //searchForWine(searchBar.getText());
+                //SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+
+                FXWrapper.getInstance().launchSubPage("searchWine");
+//                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
         });
@@ -84,12 +86,12 @@ public class NavigationController {
         }
     }
 
-    private void searchForWine(String wineName) {
+    /*private void searchForWine(String wineName) {
         List<Wine> wines = wineService.searchWineByName(wineName);
         if (!wines.isEmpty()) {
             initPopUp(wines.get(0));
         }
-    }
+    }*/
 
     public Wine getWine() { return this.wine; }
 
