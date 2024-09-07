@@ -1,8 +1,9 @@
 package seng202.team0.services;
 
 import com.sun.java.accessibility.util.SwingEventMonitor;
-import seng202.team0.repository.WineDAO;
 import seng202.team0.models.Wine;
+import seng202.team0.repository.DatabaseManager;
+import seng202.team0.repository.WineDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +13,20 @@ public class ChallengeService {
 
     WineDAO wineDAO = new WineDAO();
 
-    List<String> varietyTags = List.of("Pinot Gris", "Chardonnay", "Fumé Blanc", "Merlot", "Mourvèdre",
-            "Port", "Cabernet Franc", "Rosé", "Sherry", "Prosecco");
+    List<String> varietyTags = List.of("red", "white", "rose");
+//    "Pinot Gris", "Chardonnay", "Fumé Blanc", "Merlot", "Mourvèdre",
+//            "Port", "Cabernet Franc", "Rosé", "Sherry", "Prosecco"
 
     private final ArrayList<Wine> wines = new ArrayList<>();
 //    this is the tags of white wines, need to get the wines from the db using these tags.
     public void getTheWines() {
         for(int i = 0; i < varietyTags.size(); i++) {
-            wines.add(wineDAO.getWinesFromTags(varietyTags.get(i)).getFirst());
+            ArrayList<Wine> tagWines = wineDAO.getWinesFromTags(varietyTags.get(i));
+            System.out.println(tagWines);
+            if (tagWines.size() >0) {
+                System.out.print(tagWines.get(0).getName());
+                wines.add(tagWines.get(0));
+            }
 //            needs the wines id not just the tags, probably need to make method in wineDAO to get the wines with the
 //            correct tags.
         }
@@ -32,6 +39,7 @@ public class ChallengeService {
 
 
     public static void main(String[] args) {
+
         ChallengeService challengeService = new ChallengeService();
         try {
             challengeService.getTheWines();

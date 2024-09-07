@@ -6,6 +6,7 @@ import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
 import seng202.team0.models.Wine;
 
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -129,6 +130,7 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     public ArrayList<Wine> getWinesFromTags(String varietyTag) {
         ArrayList<Wine> tagWines = new ArrayList<>();
+        Wine tagWine = null;
         String sqlTag = "SELECT wine.* FROM wine "
                 + "JOIN owned_by ON wine.id = owned_by.wid "
                 + "JOIN tag ON owned_by.tname = tag.name "
@@ -138,7 +140,7 @@ public class WineDAO implements DAOInterface<Wine> {
             ps.setString(1, varietyTag);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Wine tagWine = new Wine(
+                    tagWine = new Wine(
                             rs.getString("name"),
                             rs.getString("description"),
                             rs.getInt("price"),
@@ -152,13 +154,17 @@ public class WineDAO implements DAOInterface<Wine> {
                             "",
                             rs.getInt("id")
                     );
+//                    System.out.println(tagWine.getName());
                     tagWines.add(tagWine);
                 }
+                System.out.println("Found " + tagWines.size() + " wines for tag: " + varietyTag);  //for debugging purposes
+                return tagWines;
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
+            return null;
         }
-        return tagWines;
+
     }
 
 
