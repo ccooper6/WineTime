@@ -2,16 +2,22 @@ package seng202.team0.gui;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.*;
+import seng202.team0.services.SearchWineService;
+import seng202.team0.services.WineCategoryService;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,128 +28,57 @@ public class MainController {
     @FXML
     Text helloText;
     @FXML
-    AnchorPane mainWine1;
-    @FXML
-    AnchorPane mainWine2;
-    @FXML
-    AnchorPane mainWine3;
-    @FXML
-    AnchorPane mainWine4;
-    @FXML
-    Label wineInfo1;
-    @FXML
-    Label wineInfo2;
-    @FXML
-    Label wineInfo3;
-    @FXML
-    Label wineInfo4;
-    @FXML
-    ImageView mainWineIcon1;
-    @FXML
-    ImageView mainWineIcon2;
-    @FXML
-    ImageView mainWineIcon3;
-    @FXML
-    ImageView mainWineIcon4;
-    @FXML
-    FontAwesomeIconView scrollArrow;
-
-    // ***********TEST CASE WINE OBJECTS***************
-    List<Wine> winesTest = new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6()));
-    // consider adding a wine info aspect to wine class so u can get the string description from wines
-
-    /**
-     * Class to format wine information to display on main page.
-     * @param wine wine to get data of
-     * @return formatted wine data string
-     */
-    public String getWineInfo(Wine wine) {
-        return ("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
-    }
-    // ******************ENDS HERE********************
+    GridPane contentsGrid;
 
     /**
      * Initializes the controller.
      */
     public void initialize() {
+        WineCategoryService.getInstance().resetCurrentCategory();
+        SearchWineService.getInstance().searchWinesByTags("Bordeaux, Merlot");
         helloText.setText("Hello, " + FXWrapper.getInstance().getCurrentUser().getName() + "!");
-        List<AnchorPane> wineViews = List.of(mainWine1, mainWine2, mainWine3, mainWine4);
-        List<Label> wineInfos = List.of(wineInfo1, wineInfo2, wineInfo3, wineInfo4);
-        List<ImageView> wineIcons = List.of(mainWineIcon1, mainWineIcon2, mainWineIcon3, mainWineIcon4);
-        displayWines(wineViews, wineInfos, wineIcons);
-        onRefresh(wineViews, wineInfos, wineIcons);
-    }
+        try {
+            FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent1 = fxmlLoader1.load();
+            contentsGrid.add(parent1, 0, 0);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("Marlborough, Sauvignon Blanc");
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent2 = fxmlLoader2.load();
+            contentsGrid.add(parent2, 0, 1);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("Tuscany, Sangiovese");
+            FXMLLoader fxmlLoader3 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent3 = fxmlLoader3.load();
+            contentsGrid.add(parent3, 0, 2);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("Hawke's Bay, Syrah");
+            FXMLLoader fxmlLoader4 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent4 = fxmlLoader4.load();
+            contentsGrid.add(parent4, 0, 3);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("Spain, Rioja, Tempranillo");
+            FXMLLoader fxmlLoader5 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent5 = fxmlLoader5.load();
+            contentsGrid.add(parent5, 0, 4);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("New Zealand, Gisborne, Chardonnay");
+            FXMLLoader fxmlLoader6 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent6 = fxmlLoader6.load();
+            contentsGrid.add(parent6, 0, 5);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("US, Napa Valley, Cabernet Sauvignon");
+            FXMLLoader fxmlLoader7 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent7 = fxmlLoader7.load();
+            contentsGrid.add(parent7, 0, 6);
+            WineCategoryService.getInstance().incrementCurrentCategory();
+            SearchWineService.getInstance().searchWinesByTags("Central Otago, Pinot Noir, New Zealand");
+            FXMLLoader fxmlLoader8 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent8 = fxmlLoader8.load();
+            contentsGrid.add(parent8, 0, 7);
 
-    /**
-     * Sets each anchor pane to include the wine data of the corresponding wine object.
-     * @param wineView list of anchor panes
-     * @param wineInfo list text boxes for the wine data
-     * @param wineIcon list of wine icons corresponding to each wine
-     */
-    @FXML
-    public void displayWines(List<AnchorPane> wineView, List<Label> wineInfo, List<ImageView> wineIcon) {
-        if(winesTest.size() >= wineView.size()) {
-            for (int i = 0; i < wineView.size(); i++) {
-                wineInfo.get(i).setText(getWineInfo(winesTest.get(i)));
-                wineIcon.get(i).setImage(new Image(winesTest.get(i).getImagePath()));
-            }
-        } else {
-            for (int i = winesTest.size(); i < wineView.size(); i++) {
-                wineInfo.get(i).setText("No wine available.");
-                wineIcon.get(i).setImage(null);
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    /**
-     * Refreshes the wine list in preparation to be displayed on the main page.
-     * @param wineView list of anchor panes
-     * @param wineInfo list text boxes for the wine data
-     * @param wineIcon list of wine icons corresponding to each wine
-     */
-    @FXML
-    public void onRefresh(List<AnchorPane> wineView, List<Label> wineInfo, List<ImageView> wineIcon) {
-        scrollArrow.setOnMouseClicked(event -> {
-            Wine firstWine = winesTest.get(0);
-            winesTest.remove(0);
-            winesTest.add(firstWine);
-            displayWines(wineView, wineInfo, wineIcon);
-        });
-    }
-
-    /**
-     * Calls the initialize popup function from navigation controller to display the data of the
-     * corresponding wine.
-     * @param event the anchor pane of the wine that was clicked
-     */
-    @FXML
-    public void onWineClicked(MouseEvent event) { // From advanced java fx tutorial
-        AnchorPane pane = (AnchorPane) event.getSource();
-        String[] name = pane.getId().split("");
-        Integer paneNum = Integer.valueOf(name[8]);
-        Wine wine = winesTest.get(paneNum - 1);
-
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
-    }
-
-    /**
-     * Darkens the anchor pane to indicate the cursor is hovering.
-     * @param event the anchor pane of the wine that was hovered over
-     */
-    @FXML
-    public void darkenPane(MouseEvent event) {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15");
-    }
-
-    /**
-     * Lightens the anchor pane to indicate the cursor is no longer hovering.
-     * @param event the anchor pane of the wine that was hovered over
-     */
-    @FXML
-    public void lightenPane(MouseEvent event) {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-border-color: #d9d9d9; -fx-border-radius: 15");
     }
 }

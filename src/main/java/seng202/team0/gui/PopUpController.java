@@ -5,8 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.wine1;
+import seng202.team0.models.WineBuilder;
+
 
 /**
  * Controller class for the popup.fxml popup.
@@ -34,6 +37,8 @@ public class PopUpController {
     @FXML
     Button logWine;
 
+    private static final Logger log = LogManager.getLogger(PopUpController.class);
+
     /**
      * Initializes the controller.
      */
@@ -44,7 +49,8 @@ public class PopUpController {
         logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
         Wine wine = navigationController.getWine();
         if (wine == null) {
-            wine = new wine1();
+            log.error("Wine is null");
+            wine = WineBuilder.generaicSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
         populatePopup(wine);
     }
