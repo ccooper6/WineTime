@@ -8,7 +8,6 @@ package seng202.team0.models;
  */
 
 public class Wine {
-    private int id;
     /**
      * The name of the wine.
      */
@@ -54,18 +53,20 @@ public class Wine {
      * The taster's Twitter username.
      */
     private String tasterTwitter;
-
-
+    /**
+     * The wine id of the wine in the db
+     */
+    private int wineId;
 
     /**
      *The constructor for the Wine object.
      * <br><br>
      * Takes in the mentioned values.
-     * @param id int {@link Wine#id}
      * @param name String {@link Wine#name}
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
      * @param vintage int {@link Wine#vintage}
+     * @param country String
      * @param province String {@link Wine#province}
      * @param region1 String {@link Wine#region1}
      * @param region2 String {@link Wine#region2}
@@ -73,9 +74,10 @@ public class Wine {
      * @param winery String {@link Wine#winery}
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
+     * @param wineId int {@link Wine#wineId}
      */
-    public Wine(int id, String name, String description, int price, int vintage, String country, String province, String region1, String region2,
-                String variety, String winery, String tasterName, String tasterTwitter) {
+    public Wine(String name, String description, int price, int vintage, String country, String province, String region1, String region2,
+                String variety, String winery, String tasterName, String tasterTwitter, int wineId) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -88,7 +90,7 @@ public class Wine {
         this.winery = winery;
         this.tasterName = tasterName;
         this.tasterTwitter = tasterTwitter;
-
+        this.wineId = wineId;
     }
 
     public Wine() {
@@ -304,5 +306,13 @@ public class Wine {
             }
         }
         return getClass().getResource(imagePath).toExternalForm();
+    }
+
+    /**
+     * Returns the wine's wine id
+     * @return wine id
+     */
+    public int getWineId() {
+        return this.wineId;
     }
 }

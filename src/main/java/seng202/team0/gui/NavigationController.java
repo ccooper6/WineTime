@@ -4,13 +4,15 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextField;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.App;
@@ -32,6 +34,11 @@ public class NavigationController {
     public FontAwesomeIconView likesExampleButton;
     @FXML
     public FontAwesomeIconView userExampleButton;
+    @FXML
+    private VBox userDropDownMenu;
+    @FXML
+    private Button logOutButton;
+    @FXML
     private Parent overlayContent;
     @FXML
     public AnchorPane mainContent;
@@ -44,6 +51,7 @@ public class NavigationController {
     @FXML
     TextField searchBar;
 
+    private static final Logger log = LogManager.getLogger(NavigationController.class);
     private Wine wine;
     //private WineService wineService = new WineService();
 
@@ -70,7 +78,27 @@ public class NavigationController {
                 searchBar.getParent().requestFocus();
             }
         });
+
+        userExampleButton.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
+        userExampleButton.setOnMouseExited(event -> {
+            if (!userDropDownMenu.isHover()) {
+                userDropDownMenu.setVisible(false);
+            }
+        });
+        userDropDownMenu.setOnMouseExited(event -> {
+            if (!userExampleButton.isHover()) {
+                userDropDownMenu.setVisible(false);
+            }
+        });
+        userDropDownMenu.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
     }
+
+    @FXML
+    public void onLogOutClicked(ActionEvent actionEvent) {
+        FXWrapper.getInstance().setCurrentUser(null);
+        FXWrapper.getInstance().launchPage("login");
+    }
+
     /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */
@@ -93,10 +121,16 @@ public class NavigationController {
         }
     }*/
 
-    public Wine getWine() { return this.wine; }
+    /**
+     * Returns the currently viewed wine object
+     * @return Wine object
+     */
+    public Wine getWine() {
+        return this.wine;
+    }
 
     /**
-     * Creates a popup
+     * Loads the wine popup when a wine is clicked by the user.
      */
     private void loadPopUpContent() {
         try {
@@ -105,7 +139,21 @@ public class NavigationController {
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load wine pop up\n" + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads the wine logging popup page when the log wine button is clicked in the wine popup page
+     */
+    public void loadWineLoggingPopUpContent() {
+        try {
+            FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/wineLoggingPopup.fxml"));
+            overlayContent = paneLoader.load();
+            overlayContent.setVisible(true);
+            contentHere.getChildren().add(overlayContent);
+        } catch (IOException e) {
+            log.error("Failed to load wine logging pop up\n" + e.getMessage());
         }
     }
 

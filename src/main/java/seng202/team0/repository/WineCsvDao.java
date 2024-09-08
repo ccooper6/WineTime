@@ -220,6 +220,7 @@ public class WineCsvDao {
         int num = -1;
         while ((wineValues = csv.readNext()) != null) {
             wineID = add(wineValues, wineID);
+            System.out.println(wineID + "/" + totalRows + ":" + wineValues[11]);
             if (wineID > num + 1000) {
                 System.out.println(wineID + "/" + totalRows);
                 num += 1000;

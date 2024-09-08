@@ -52,7 +52,7 @@
             <Font name="Noto Serif Myanmar Black" size="13.0" />
          </font>
       </Text>
-      <PasswordField fx:id="confirmPasswordField" layoutX="369.0" layoutY="474.0" prefWidth="262.0" promptText="Confirm Password" visible="false" />
+      <PasswordField fx:id="confirmPasswordField" layoutX="369.0" layoutY="474.0" prefWidth="262.0" visible="false" />
       <Button fx:id="goBackButton" layoutX="369.0" layoutY="525.0" mnemonicParsing="false" onAction="#onGoBackPressed" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: #808080;" text="Go Back" textFill="WHITE" visible="false" />
       <Button fx:id="createUserButton" disable="true" layoutX="516.0" layoutY="525.0" mnemonicParsing="false" onAction="#onCreateUserPressed" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: #70171e;" text="Create User" textFill="WHITE" visible="false" />
    </children>

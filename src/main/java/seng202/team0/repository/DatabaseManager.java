@@ -103,7 +103,7 @@ public class DatabaseManager {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
-        return "jdbc:sqlite:"+jarDir.getParentFile()+"/copy.db";
+        return "jdbc:sqlite:" + jarDir.getParentFile() + "/copy.db";
     }
 
     /**
@@ -168,6 +168,7 @@ public class DatabaseManager {
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
 
+        alterSchema();
         String copyPath = jarDir.getParentFile() + "/copy.db";
         String ogPath = Paths.get("src/main/resources/sql/og.db").toString();
 

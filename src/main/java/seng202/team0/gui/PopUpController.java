@@ -34,6 +34,8 @@ public class PopUpController {
     Text winery;
     @FXML
     Text region2;
+    @FXML
+    Button logWine;
 
     private static final Logger log = LogManager.getLogger(PopUpController.class);
 
@@ -43,6 +45,8 @@ public class PopUpController {
     @FXML
     public void initialize() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        popUpCloseButton.setOnAction(actionEvent -> { closePopUp(); });
+        logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
         Wine wine = navigationController.getWine();
         if (wine == null) {
             log.error("Wine is null");
@@ -73,5 +77,11 @@ public class PopUpController {
     public void closePopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
+    }
+
+    public void loadWineLoggingPopUp() {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadWineLoggingPopUpContent();
     }
 }

@@ -122,7 +122,7 @@ public class LoginController {
         if (userLoginService.validateAccount(username, password)
                 && !username.isEmpty() && !password.isEmpty()
                 && username.matches(".*[a-zA-Z0-9]+.*") && password.matches(".*[a-zA-Z0-9]+.*")) {
-            User user = new User(userLoginService.getName(username), username);
+            User user = new User(userLoginService.getName(username), userLoginService.getEncryptedName(username));
             FXWrapper.getInstance().setCurrentUser(user);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
@@ -151,6 +151,7 @@ public class LoginController {
         String password = passwordField.getText();
         String name = nameTextField.getText();
         clearErrors();
+        errorText.setTranslateX(-85);
         errorText.setTranslateY(130);
         UserLoginService userLoginService = new UserLoginService();
         if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
@@ -233,6 +234,11 @@ public class LoginController {
         textField.setStyle("-fx-border-color: RED");
     }
 
+    private void resetPasswordBorders() {
+        passwordField.setStyle("-fx-border-color: None");
+        confirmPasswordField.setStyle("-fx-border-color: None");
+    }
+
     /**
      * Clears the error text, sets the error text to be coloured red and sets the border of the text
      * fields to not have a red border anymore.
@@ -259,6 +265,7 @@ public class LoginController {
         if (outcome == 0) {
             errorText.setText("Username already exists.");
             setErrorFieldBorder(userNameTextField);
+            resetPasswordBorders();
         } else {
             errorText.setText("An error has occurred, try again.");
             setErrorFieldBorder();
