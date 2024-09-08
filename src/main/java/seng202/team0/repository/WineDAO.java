@@ -135,8 +135,8 @@ public class WineDAO implements DAOInterface<Wine> {
                 + "JOIN owned_by ON wine.id = owned_by.wid "
                 + "JOIN tag ON owned_by.tname = tag.name "
                 + "WHERE tag.name = ?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sqlTag)) {
+        try (Connection conne = databaseManager.connect();
+             PreparedStatement ps = conne.prepareStatement(sqlTag)) {
             ps.setString(1, varietyTag);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

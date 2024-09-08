@@ -9,6 +9,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import org.apache.commons.collections.functors.FalsePredicate;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.*;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class ProfileController {
 
 
+    String challengeName;
     public Button quizButton;
     public Label challengeLabeltext;
     public Button StartChallengeButton;
@@ -47,8 +50,7 @@ public class ProfileController {
     private  Label wishlistLabel;
     @FXML
     private  Label challengeLabel;
-    @FXML
-    private  ScrollPane challengePane;
+
     @FXML
     private  Label reviewsLabel;
     @FXML
@@ -86,6 +88,18 @@ public class ProfileController {
     @FXML
     private  FontAwesomeIconView wishlistMoreArrow;
 
+    @FXML
+    private Pane winesPane;
+
+    @FXML
+    private Pane noChallengePane;
+
+    @FXML
+    private Pane challengePane;
+
+    @FXML
+    private Label challengeIntro;
+
 
     // ***********TEST CASE WINE OBJECTS***************
     List<Wine> favWinesTest = new ArrayList<>(List.of(new wine1(), new wine2(), new wine3(), new wine4(), new wine5(), new wine6()));
@@ -103,6 +117,15 @@ public class ProfileController {
         List<Label> wishlistWineInfo = List.of(wishlistWineInfo1, wishlistWineInfo2, wishlistWineInfo3, wishlistWineInfo4);
         displayWishlist(wishlistWineView, wishlistWineInfo);
         onWishlistRefreshed(wishlistWineView,  wishlistWineInfo);
+        challengePane.setVisible(false);
+//        FXWrapper.getInstance().setChallenge(1);
+        System.out.println(FXWrapper.getInstance().getChallenge());
+        if (FXWrapper.getInstance().getChallenge() == 1) {
+            System.out.println("calls moveWine");
+            moveWinesPane();
+            activateChallenge();
+
+        }
 
     }
 
@@ -139,6 +162,25 @@ public class ProfileController {
 
     public void onChallengeClicked(ActionEvent actionEvent) {
 //        launch pop up to take you to challenge menu
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadSelectChallengePopUpContent();
+
+
+    }
+
+    public void activateChallenge() {
+        System.out.println("challenge tracker is activated.");
+        noChallengePane.setVisible(false);
+        challengePane.setVisible(true);
+        challengeName = "Variety challenge"; // change to relevant.
+        challengeIntro.setText("you have started the " + challengeName);
+    }
+
+    public void moveWinesPane() {
+        System.out.println("moveWinesPane was called");
+        System.out.println(winesPane.getLayoutY());
+        winesPane.setLayoutY(190);
 
     }
 }

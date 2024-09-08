@@ -1,6 +1,9 @@
 package seng202.team0.services;
 
 import com.sun.java.accessibility.util.SwingEventMonitor;
+import seng202.team0.gui.FXWrapper;
+import seng202.team0.gui.NavigationController;
+import seng202.team0.gui.ProfileController;
 import seng202.team0.models.Wine;
 import seng202.team0.repository.DatabaseManager;
 import seng202.team0.repository.WineDAO;
@@ -13,9 +16,9 @@ public class ChallengeService {
 
     WineDAO wineDAO = new WineDAO();
 
-    List<String> varietyTags = List.of("red", "white", "rose");
-//    "Pinot Gris", "Chardonnay", "Fumé Blanc", "Merlot", "Mourvèdre",
-//            "Port", "Cabernet Franc", "Rosé", "Sherry", "Prosecco"
+    List<String> varietyTags = List.of("Pinot Gris", "Chardonnay", "Fumé Blanc", "Merlot", "Mourvèdre",
+            "Port", "Cabernet Franc", "Rosé", "Sherry", "Prosecco");
+//
 
     private final ArrayList<Wine> wines = new ArrayList<>();
 //    this is the tags of white wines, need to get the wines from the db using these tags.
@@ -35,6 +38,25 @@ public class ChallengeService {
         }
 
     }
+
+
+    /*
+  when a challenge is started.
+  move the winespane down on the profile screen
+  activate the challenge pane on the profile screen
+  setVisible(true)
+  update the users database with a challenge they have joined and their progress
+*/
+    public void startChallenge() {
+//        need to make sure i actually am initializing profile controller
+//        when this is called, the current sub page is the profile, need to use the contriller for this.
+
+        System.out.println("start challenge was called and tried to move window");
+//        profileController.activateChallengPane();
+//        update database
+
+    }
+
 
 
 

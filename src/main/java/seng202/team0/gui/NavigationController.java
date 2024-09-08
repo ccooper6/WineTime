@@ -51,6 +51,8 @@ public class NavigationController {
     TextField searchBar;
 
     private static final Logger log = LogManager.getLogger(NavigationController.class);
+
+
     private Wine wine;
     //private WineService wineService = new WineService();
 
@@ -109,6 +111,8 @@ public class NavigationController {
         }
     }
 
+
+
     /*private void searchForWine(String wineName) {
         List<Wine> wines = wineService.searchWineByName(wineName);
         if (!wines.isEmpty()) {
@@ -152,6 +156,17 @@ public class NavigationController {
         }
     }
 
+    public void loadSelectChallengePopUpContent() {
+        try {
+            FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/selectChallengePopup.fxml"));
+            overlayContent = paneLoader.load();
+            overlayContent.setVisible(true);
+            contentHere.getChildren().add(overlayContent);
+        } catch (IOException e) {
+            log.error("Failed to load select challenge pop up\n" + e.getMessage());
+        }
+    }
+
     public void initPopUp(Wine wine) {
         this.wine = wine;
         loadPopUpContent();
@@ -161,6 +176,8 @@ public class NavigationController {
         if (overlayContent != null) {
             overlayContent.setVisible(false);
         }
+//        refresh the page under it,
+
     }
 
     public void onHomeClicked(MouseEvent actionEvent) {

@@ -3,6 +3,7 @@ package seng202.team0.gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -19,6 +20,11 @@ public class FXWrapper {
     private Stage stage;
     private NavigationController navigationController;
     private User currentUser;
+    private int challenge = 0;
+
+//    private ProfileController profileController;
+
+//    private Object curSubPageController;
 
     /**
      * Gets the singleton.
@@ -75,6 +81,8 @@ public class FXWrapper {
             Parent navigationRoot = navigationLoader.load();
             navigationController = navigationLoader.getController();
             navigationController.loadPageContent(name);
+
+//            curSubPageController = navigationLoader.getController();
             Scene scene = new Scene(navigationRoot);
             stage.setScene(scene);
             stage.setTitle(name);
@@ -94,6 +102,8 @@ public class FXWrapper {
         return navigationController;
     }
 
+//    public  getProfileController() { return profileController; }
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
@@ -102,5 +112,18 @@ public class FXWrapper {
         return currentUser;
     }
 
+    public void setChallenge(int chalNum) {
+        System.out.println("updated challenge number");
+        challenge = chalNum;
+    }
 
+    public int getChallenge() {
+        return challenge;
+    }
+
+
+
+//    public Object getCurPageController() {
+//        return curSubPageController;
+//    }
 }
