@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -21,14 +22,30 @@
                   <FontAwesomeIconView fill="GREY" glyphName="CLOSE" onMouseClicked="#closePopUp" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
                </graphic>
             </Button>
-            <FlowPane layoutX="14.0" layoutY="15.0" prefHeight="200.0" prefWidth="280.0" vgap="10.0">
+            <FlowPane layoutX="14.0" layoutY="15.0" prefHeight="350.0" prefWidth="220.0" vgap="10.0">
                <children>
-                  <Text fx:id="wineName" text="Wine Name..." wrappingWidth="280.0">
-                     <font>
-                        <Font name="PT Serif" size="25.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" text="Description... teaadfaa fa sfas dasfa sf" wrappingWidth="226.0" />
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="95.0" prefWidth="225.0" style="-fx-background: white; -fx-border-color: white;">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="212.0" style="-fx-background-color: white;">
+                           <children>
+                              <Text fx:id="wineName" layoutY="25.0" text="Wine Name..." wrappingWidth="212.0">
+                                 <font>
+                                    <Font name="PT Serif" size="18.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="175.0" prefWidth="225.0" style="-fx-background: white; -fx-border-color: white;">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="212.0" style="-fx-background-color: white;">
+                           <children>
+                              <Text fx:id="description" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description..." wrappingWidth="212.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
                </children>
             </FlowPane>
             <ImageView fx:id="wineImage" fitHeight="172.0" fitWidth="200.0" layoutX="296.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
