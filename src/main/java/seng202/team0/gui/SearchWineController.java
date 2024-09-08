@@ -18,6 +18,11 @@ import seng202.team0.services.SearchWineService;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controller for the Search Wines Page.
+ *
+ * @author yxh428
+ */
 public class SearchWineController {
     private static final Logger log = LogManager.getLogger(SearchWineController.class);
 
@@ -73,33 +78,28 @@ public class SearchWineController {
     }
 
     /**
-     * Displays the current page of wines in a scrollable grid format
+     * Displays the current page of wines in a scrollable grid format.
+     * Using wines from allWines.
      */
     @FXML
     public void displayCurrentPage()
     {
         if (allWines == null || allWines.size() == 0) {
             Title.setText("Sorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
-            startArrowButton.setDisable(true);
-            prevArrowButton.setDisable(true);
-            prevTextButton.setDisable(true);
-            pageCounterText.setDisable(true);
-            nextTextButton.setDisable(true);
-            nextArrowButton.setDisable(true);
-            endArrowButton.setDisable(true);
 
-            startArrowButton.setOpacity(0.2);
-            prevArrowButton.setOpacity(0.2);
-            prevTextButton.setOpacity(0.2);
-            pageCounterText.setOpacity(0.2);
-            nextTextButton.setOpacity(0.2);
-            nextArrowButton.setOpacity(0.2);
-            endArrowButton.setOpacity(0.2);
+            pageCounterText.getParent().setVisible(false);
+
             log.error("Wine list is null");
             return;
         }
 
         int start = currentPage * MAXSIZE;
+
+        if (allWines.isEmpty() || start < 0 || start > allWines.size()) {
+            pageCounterText.getParent().setVisible(false);
+        } else {
+            pageCounterText.getParent().setVisible(true);
+        }
 
         if (start < 0 || start >= allWines.size()) {
             log.error("Cannot display wines out of bounds.");
@@ -123,6 +123,8 @@ public class SearchWineController {
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size() - 1, MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);
         nextArrowButton.getParent().setVisible(end < allWines.size());
+
+        pageCounterText.getParent().setVisible(true);
 
 
 //        add wines
@@ -179,36 +181,5 @@ public class SearchWineController {
     public void pageEnd() {
         currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
         displayCurrentPage();
-    }
-
-
-    /**
-     * Functions below based off main page. Currently does not work
-     */
-    @FXML
-    public void onWineClicked(MouseEvent event)
-    { // From advanced java fx tutorial
-        AnchorPane pane = (AnchorPane) event.getSource();
-        String[] name = pane.getId().split("");
-        Integer paneNum = Integer.valueOf(name[8]);
-//        Wine wine = winesTest.get(paneNum - 1);
-        Wine wine = allWines.getFirst();
-
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
-    }
-
-    @FXML
-    public void darkenPane(MouseEvent event)
-    {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15");
-    }
-
-    @FXML
-    public void lightenPane(MouseEvent event)
-    {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-border-color: #d9d9d9; -fx-border-radius: 15");
     }
 }
