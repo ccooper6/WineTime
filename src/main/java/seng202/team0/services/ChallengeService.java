@@ -22,22 +22,22 @@ public class ChallengeService {
 
     private final ArrayList<Wine> wines = new ArrayList<>();
 //    this is the tags of white wines, need to get the wines from the db using these tags.
-    public void getTheWines() {
-        for(int i = 0; i < varietyTags.size(); i++) {
-            ArrayList<Wine> tagWines = wineDAO.getWinesFromTags(varietyTags.get(i));
-            System.out.println(tagWines);
-            if (tagWines.size() >0) {
-                System.out.print(tagWines.get(0).getName());
-                wines.add(tagWines.get(0));
-            }
-//            needs the wines id not just the tags, probably need to make method in wineDAO to get the wines with the
-//            correct tags.
-        }
-        for(int i = 0; i <wines.size(); i++) {
-            System.out.println(wines.get(i).getName());
-        }
+//    public void getTheWines() {
+//        for(int i = 0; i < varietyTags.size(); i++) {
+//            ArrayList<Wine> tagWines = wineDAO.getWinesFromTags(varietyTags.get(i));
+//            System.out.println(tagWines);
+//            if (tagWines.size() >0) {
+//                System.out.print(tagWines.get(0).getName());
+//                wines.add(tagWines.get(0));
+//            }
+////            needs the wines id not just the tags, probably need to make method in wineDAO to get the wines with the
+////            correct tags.
+//        }
+//        for(int i = 0; i <wines.size(); i++) {
+//            System.out.println(wines.get(i).getName());
+//        }
 
-    }
+//    }
 
 
     /*
@@ -60,14 +60,14 @@ public class ChallengeService {
 
 
 
-    public static void main(String[] args) {
-
-        ChallengeService challengeService = new ChallengeService();
-        try {
-            challengeService.getTheWines();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public static void main(String[] args) {
+//
+//        ChallengeService challengeService = new ChallengeService();
+//        try {
+//            challengeService.getTheWines();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }
