@@ -11,7 +11,7 @@ version = '1.0-SNAPSHOT'
 mainClassName = 'seng202.team0.App'
 
 def javaVersion = '21'
-def javafxVersion = '21'
+def javafxVersion = '22'
 def log4jVersion = '2.17.2'
 def cucumberVersion = "7.5.0"
 def junitVersion = "5.8.1"

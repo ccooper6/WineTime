@@ -49,4 +49,12 @@ public class WineCategoryService {
     {
         currentCategory++;
     }
+
+    /**
+     * This method resets the current category to 0.
+     */
+    public void resetCurrentCategory()
+    {
+        currentCategory = 0;
+    }
 }

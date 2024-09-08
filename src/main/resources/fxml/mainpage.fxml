@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -17,14 +13,14 @@
     <children>
         <ScrollPane depthTest="ENABLE" hbarPolicy="NEVER" prefHeight="500.0" prefWidth="1000.0">
             <content>
-                <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1600.0" prefWidth="1000.0">
+                <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1700.0" prefWidth="968.0">
                     <children>
                         <Text fx:id="helloText" layoutX="9.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello [Name]!">
                             <font>
                                 <Font name="PT Serif" size="36.0" />
                             </font>
                         </Text>
-                        <GridPane fx:id="contentsGrid" layoutX="50.0" layoutY="7.0" prefHeight="1600.0" prefWidth="900.0">
+                        <GridPane fx:id="contentsGrid" layoutX="50.0" layoutY="63.0" prefHeight="1600.0" prefWidth="873.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             </columnConstraints>

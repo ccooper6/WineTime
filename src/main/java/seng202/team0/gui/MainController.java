@@ -34,6 +34,7 @@ public class MainController {
      * Initializes the controller.
      */
     public void initialize() {
+        WineCategoryService.getInstance().resetCurrentCategory();
         SearchWineService.getInstance().searchWinesByTags("Bordeaux, Merlot");
         helloText.setText("Hello, " + FXWrapper.getInstance().getCurrentUser().getName() + "!");
         try {
@@ -76,42 +77,9 @@ public class MainController {
             Parent parent8 = fxmlLoader8.load();
             contentsGrid.add(parent8, 0, 7);
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Refreshes the wine list in preparation to be displayed on the main page.
-     * @param wineView list of anchor panes
-     * @param wineInfo list text boxes for the wine data
-     * @param wineIcon list of wine icons corresponding to each wine
-     */
-    @FXML
-    public void onRefresh(List<AnchorPane> wineView, List<Label> wineInfo, List<ImageView> wineIcon) {
-        scrollArrow.setOnMouseClicked(event -> {
-            Wine firstWine = winesTest.get(0);
-            winesTest.remove(0);
-            winesTest.add(firstWine);
-            displayWines(wineView, wineInfo, wineIcon);
-        });
-    }
-
-    /**
-     * Calls the initialize popup function from navigation controller to display the data of the
-     * corresponding wine.
-     * @param event the anchor pane of the wine that was clicked
-     */
-    @FXML
-    public void onWineClicked(MouseEvent event) { // From advanced java fx tutorial
-        AnchorPane pane = (AnchorPane) event.getSource();
-        String[] name = pane.getId().split("");
-        Integer paneNum = Integer.valueOf(name[8]);
-        Wine wine = winesTest.get(paneNum - 1);
-
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
     }
 
     /**

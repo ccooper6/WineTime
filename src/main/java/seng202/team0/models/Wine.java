@@ -8,6 +8,7 @@ package seng202.team0.models;
  */
 
 public class Wine {
+    private int wineId;
     /**
      * The name of the wine.
      */
@@ -56,7 +57,6 @@ public class Wine {
     /**
      * The wine id of the wine in the db
      */
-    private int wineId;
 
     /**
      *The constructor for the Wine object.
@@ -76,8 +76,8 @@ public class Wine {
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      * @param wineId int {@link Wine#wineId}
      */
-    public Wine(String name, String description, int price, int vintage, String country, String province, String region1, String region2,
-                String variety, String winery, String tasterName, String tasterTwitter, int wineId) {
+    public Wine(int wineId, String name, String description, int price, int vintage, String country, String province, String region1, String region2,
+                String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
