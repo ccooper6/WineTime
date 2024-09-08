@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
@@ -44,6 +45,9 @@ public class NavigationController {
     @FXML
     TextField searchBar;
 
+    @FXML
+    ComboBox<String> sortByComboBox;
+
     private Wine wine;
     //private WineService wineService = new WineService();
 
@@ -53,17 +57,9 @@ public class NavigationController {
      * Initializes the controller
      */
     public void initialize() {
-        searchBar.setOnAction(e -> {
-            if (!searchBar.getText().isEmpty()) {
-                //searchForWine(searchBar.getText());
-                //SearchWineService.getInstance().searchWinesByName(searchBar.getText());
-                SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+        initialseSortByComboBox();
 
-                FXWrapper.getInstance().launchSubPage("searchWine");
-//                searchBar.clear();
-                searchBar.getParent().requestFocus();
-            }
-        });
+        initialiseSearchBar();
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
             if (searchBar.isFocused()) {
@@ -71,6 +67,40 @@ public class NavigationController {
             }
         });
     }
+
+    /**
+     * Inserts options into sort by combo box and selects first
+     */
+    private void initialseSortByComboBox()
+    {
+        sortByComboBox.getItems().add("In Name");
+        sortByComboBox.getItems().add("In Tags");
+
+        sortByComboBox.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Sets action events to when to search. Searches by name / tag depending on combo box
+     */
+    private void initialiseSearchBar()
+    {
+        searchBar.setOnAction(e -> {
+            if (!searchBar.getText().isEmpty()) {
+                //searchForWine(searchBar.getText());
+
+                if (sortByComboBox.getValue().equals("In Name")) {
+                    SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                } else {
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+                }
+
+                FXWrapper.getInstance().launchSubPage("searchWine");
+//                searchBar.clear();
+                searchBar.getParent().requestFocus();
+            }
+        });
+    }
+
     /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */

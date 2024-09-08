@@ -10,6 +10,12 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Data Access Object for the Search Wines functionality
+ * Allows for searching by wine names or tags
+ *
+ * @author yzh428
+ */
 public class SearchDAO {
 
     private static final Logger log = LogManager.getLogger(SearchDAO.class);
@@ -148,7 +154,12 @@ public class SearchDAO {
         return wineList;
     }
 
-
+    /**
+     * Searches for wines given a String of tags
+     *
+     * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
+     * @return {@link ArrayList} of Wine objects for all wines that matched the given string
+     */
     public ArrayList<Wine> searchWineByTags (ArrayList<String> tagList)
     {
         for (String tag : tagList) {
@@ -157,6 +168,7 @@ public class SearchDAO {
             }
         }
 
+//        in case we need it again
 //        String stmt = "select id, name from (select wine.id, wine.name, count(owned_by.wid) as c from wine\n" +
 //            "join owned_by on wine.id = owned_by.wid\n"+
 //            "join tag on owned_by.tname = tag.name\n"+

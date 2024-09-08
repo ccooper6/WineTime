@@ -40,40 +40,4 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Calls the initialize popup function from navigation controller to display the data of the
-     * corresponding wine.
-     * @param event the anchor pane of the wine that was clicked
-     */
-//    @FXML
-//    public void onWineClicked(MouseEvent event) { // From advanced java fx tutorial
-//        AnchorPane pane = (AnchorPane) event.getSource();
-//        String[] name = pane.getId().split("");
-//        Integer paneNum = Integer.valueOf(name[8]);
-//        Wine wine = wineList.get(paneNum - 1);
-//
-//        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-//        navigationController.initPopUp(wine);
-//    }
-
-    /**
-     * Darkens the anchor pane to indicate the cursor is hovering.
-     * @param event the anchor pane of the wine that was hovered over
-     */
-    @FXML
-    public void darkenPane(MouseEvent event) {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15");
-    }
-
-    /**
-     * Lightens the anchor pane to indicate the cursor is no longer hovering.
-     * @param event the anchor pane of the wine that was hovered over
-     */
-    @FXML
-    public void lightenPane(MouseEvent event) {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-border-color: #d9d9d9; -fx-border-radius: 15");
-    }
 }
