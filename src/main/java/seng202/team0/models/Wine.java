@@ -13,11 +13,31 @@ import java.util.ArrayList;
  */
 
 public class Wine {
+    private int wineId;
+    /**
+     * The name of the wine.
+     */
 
     private String name;
     private String description;
     private int price;
     private int vintage;
+    /**
+     * The province of the wine.
+     */
+    private String country;
+    private String province;
+    /**
+     * The main region of the wine.
+     */
+    private String region1;
+    /**
+     * The secondary region of the wine.
+     */
+    private String region2;
+    /**
+     * The variety of the wine.
+     */
     private String variety;
     private String country;
     private String province;
@@ -26,8 +46,9 @@ public class Wine {
 
     private String tasterName;
     private String tasterTwitter;
-
-
+    /**
+     * The wine id of the wine in the db
+     */
 
     /**
      *The constructor for the Wine object.
@@ -37,6 +58,7 @@ public class Wine {
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
      * @param vintage int {@link Wine#vintage}
+     * @param country String
      * @param province String {@link Wine#province}
      * @param region1 String {@link Wine#region1}
      * @param region2 String {@link Wine#region2}
@@ -44,11 +66,23 @@ public class Wine {
      * @param winery String {@link Wine#winery}
      * @param tasterName String {@link Wine#tasterName}
      * @param tasterTwitter String {@link Wine#tasterTwitter}
+     * @param wineId int {@link Wine#wineId}
      */
-    public Wine(String name, String description, int price) {
+    public Wine(int wineId, String name, String description, int price, int vintage, String country, String province, String region1, String region2,
+                String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.vintage = vintage;
+        this.country = country;
+        this.province = province;
+        this.region1 = region1;
+        this.region2 = region2;
+        this.variety = variety;
+        this.winery = winery;
+        this.tasterName = tasterName;
+        this.tasterTwitter = tasterTwitter;
+        this.wineId = wineId;
 
         WineService wineService = new WineService();
         wineService.populateDataUsingTags(this);
@@ -251,18 +285,31 @@ public class Wine {
         String imagePath;
 
         WineDAO wineDao = new WineDAO();
-        if (wineDao.getWhite().contains(getVariety())) {
-            imagePath = "/images/White Wine.jpg";
-        } else if (wineDao.getRed().contains(getVariety())) {
-            imagePath = "/images/Red Wine.jpg";
-        } else if (wineDao.getRose().contains(getVariety())) {
-            imagePath = "/images/Rose Wine.jpg";
-        } else if (wineDao.getSparkling().contains(getVariety())) {
-            imagePath = "/images/Sparkling Wine.jpg";
-        } else {
+        if (variety == null) {
             imagePath = "/images/wine-bottle_pic.png";
+        } else {
+
+            if (wineDao.getWhite().contains(getVariety())) {
+                imagePath = "/images/White Wine.jpg";
+            } else if (wineDao.getRed().contains(getVariety())) {
+                imagePath = "/images/Red Wine.jpg";
+            } else if (wineDao.getRose().contains(getVariety())) {
+                imagePath = "/images/Rose Wine.jpg";
+            } else if (wineDao.getSparkling().contains(getVariety())) {
+                imagePath = "/images/Sparkling Wine.jpg";
+            } else {
+                imagePath = "/images/wine-bottle_pic.png";
+            }
         }
 
         return getClass().getResource(imagePath).toExternalForm();
+    }
+
+    /**
+     * Returns the wine's wine id
+     * @return wine id
+     */
+    public int getWineId() {
+        return this.wineId;
     }
 }

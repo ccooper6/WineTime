@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team0.models.Wine;
 import seng202.team0.models.testWines.wine1;
 import seng202.team0.services.WineService;
@@ -15,6 +17,8 @@ import seng202.team0.services.WineService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import seng202.team0.models.WineBuilder;
+
 
 /**
  * Controller class for the popup.fxml popup.
@@ -50,15 +54,21 @@ public class PopUpController {
     @FXML
     private FlowPane tagFlowPane;
 
+    private static final Logger log = LogManager.getLogger(PopUpController.class);
+
+
     /**
      * Initializes the controller.
      */
     @FXML
     public void initialize() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        popUpCloseButton.setOnAction(actionEvent -> { closePopUp(); });
+        logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
         Wine wine = navigationController.getWine();
         if (wine == null) {
-            wine = new wine1();
+            log.error("Wine is null");
+            wine = WineBuilder.generaicSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
         populatePopup(wine);
 
@@ -106,5 +116,11 @@ public class PopUpController {
     public void closePopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
+    }
+
+    public void loadWineLoggingPopUp() {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadWineLoggingPopUpContent();
     }
 }

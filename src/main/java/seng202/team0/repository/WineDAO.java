@@ -21,6 +21,8 @@ public class WineDAO implements DAOInterface<Wine> {
 
     private final DatabaseManager databaseManager;
 
+    private static final Logger log = LogManager.getLogger(UserDAO.class);
+
     Set<String> white = new HashSet<>(Arrays.asList("White Blend", "Pinot Gris", "Riesling", "Gewürztraminer", "Chardonnay", "Chenin Blanc", "Sauvignon Blanc", "Viognier-Chardonnay",
                                                     "Catarratto", "Inzolia", "Bordeaux-style White Blend", "Grillo", "Petit Manseng", "Vernaccia", "Grüner Veltliner", "Viognier",
                                                     "Vermentino", "Grenache Blanc", "Pinot Blanc", "Alsace white blend", "Portuguese White", "Sauvignon", "Torrontés", "Verdejo",
@@ -74,7 +76,9 @@ public class WineDAO implements DAOInterface<Wine> {
         return sparkling;
     }
 
-    private static final Logger log = LogManager.getLogger(WineDAO.class);
+    /**
+     * Constructor class for WineDAO.
+     */
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
 
@@ -100,9 +104,19 @@ public class WineDAO implements DAOInterface<Wine> {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     wine = new Wine(
+                            id,
                             rs.getString("name"),
                             rs.getString("description"),
-                            rs.getInt("price")
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
                     );
                     return wine;
                 }
@@ -155,9 +169,19 @@ public class WineDAO implements DAOInterface<Wine> {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     wine = new Wine(
+                            rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("description"),
-                            rs.getInt("price")
+                            rs.getInt("price"),
+                            rs.getInt("vintage"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
                     );
                     wines.add(wine);
                 }
@@ -459,11 +483,6 @@ public class WineDAO implements DAOInterface<Wine> {
             log.error(e.getMessage());
 //            System.exit(0);
         }
-    }
-
-    public static void main(String[] args) {
-        WineDAO wineDAO = new WineDAO();
-        wineDAO.initializeAllWines();
     }
 
 }
