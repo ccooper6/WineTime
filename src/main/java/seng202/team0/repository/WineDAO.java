@@ -23,6 +23,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     private static final Logger log = LogManager.getLogger(UserDAO.class);
 
+    //TODO: Hook up to text files...
     Set<String> white = new HashSet<>(Arrays.asList("White Blend", "Pinot Gris", "Riesling", "Gewürztraminer", "Chardonnay", "Chenin Blanc", "Sauvignon Blanc", "Viognier-Chardonnay",
                                                     "Catarratto", "Inzolia", "Bordeaux-style White Blend", "Grillo", "Petit Manseng", "Vernaccia", "Grüner Veltliner", "Viognier",
                                                     "Vermentino", "Grenache Blanc", "Pinot Blanc", "Alsace white blend", "Portuguese White", "Sauvignon", "Torrontés", "Verdejo",
@@ -43,7 +44,7 @@ public class WineDAO implements DAOInterface<Wine> {
                                                     "Cabernet Sauvignon-Carmenére", " Früburgunder", "Sousão", "Cinsault", "Tinta Miúda", "Monastrell", "Port", "Merlot-Malbec",
                                                     "Cabernet Sauvignon-Merlot", "Duras", "Papaskarasi", "Tannat-Syrah", "Charbono", "Merlot-Argaman", "Provence red blend", "Tannat",
                                                     "Garnacha", "Negroamaro", "Mourvèdre", "Syrah-Cabernet", "Cabernet Sauvignon-Sangiovese", "Austrian Red Blend", "Teroldego",
-                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc"));
+                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc", "Sangiovese"));
     Set<String> rose = new HashSet<>(Arrays.asList("Rosé", "Rosato", "Moscato", "Sherry", "Rosado"));
     Set<String> sparkling = new HashSet<>(Arrays.asList("Champagne Blend", "Prosecco", "Sparkling Blend", "Portuguese Sparkling"));
 
@@ -129,7 +130,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     }
 
-    public List<Wine> getRandomWines(int numberToGet) {
+    /*public List<Wine> getRandomWines(int numberToGet) {
         List<Wine> wines = new ArrayList<>();
         String query = "SELECT * FROM wine ORDER BY RANDOM() LIMIT ?";
         try (Connection conn = databaseManager.connect();
@@ -149,7 +150,7 @@ public class WineDAO implements DAOInterface<Wine> {
             e.printStackTrace();
         }
         return wines;
-    }
+    }*/
 
     /**
      * This method take in two years and return all wines between those two years.
@@ -200,7 +201,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param name the name of the wine
      * @return an arraylist of all wines with the given name.
      */
-    public ArrayList<Wine> getWinesByName(String name) {
+    /*public ArrayList<Wine> getWinesByName(String name) {
 
         ArrayList<Wine> wines = new ArrayList<>();
         Wine wine = null;
@@ -224,7 +225,7 @@ public class WineDAO implements DAOInterface<Wine> {
             log.error(e.getMessage());
             return null;
         }
-    }
+    }*/
 
     public ArrayList<String> getVarietyTags() {
         ArrayList<String> tags = new ArrayList<>();

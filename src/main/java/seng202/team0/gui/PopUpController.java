@@ -11,8 +11,7 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.wine1;
-import seng202.team0.services.WineService;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +55,8 @@ public class PopUpController {
 
     private static final Logger log = LogManager.getLogger(PopUpController.class);
 
+    //todo: fix panning of long regions and titles.
+    //todo: fix selectable main page scroll pane
 
     /**
      * Initializes the controller.
@@ -91,12 +92,16 @@ public class PopUpController {
         wineImage.setImage(new Image(wine.getImagePath()));
         wineName.setText(wine.getName());
         description.setText(wine.getDescription());
-        vintageTag.setText(Integer.toString(wine.getVintage()));
+        if (wine.getVintage() > 0) {
+            vintageTag.setText(Integer.toString(wine.getVintage()));
+        } else {
+            vintageTag.setText(null);
+        }
         varietyTag.setText(wine.getVariety());
         countryTag.setText(wine.getCountry());
         provinceTag.setText(wine.getProvince());
         wineryTag.setText(wine.getWinery());
-        regionTag.setText(wine.getRegion());
+        regionTag.setText(wine.getRegion1()); //todo: fix this to add region 1 and 2
         hideNullTags();
     }
 
