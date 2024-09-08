@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.App;
 import seng202.team0.models.Wine;
+import seng202.team0.services.SearchWineService;
 
 import java.io.IOException;
 
@@ -63,7 +64,11 @@ public class NavigationController {
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
                 //searchForWine(searchBar.getText());
-                searchBar.clear();
+                //SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+
+                FXWrapper.getInstance().launchSubPage("searchWine");
+//                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
         });

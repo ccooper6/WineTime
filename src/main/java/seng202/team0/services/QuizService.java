@@ -3,7 +3,6 @@ package seng202.team0.services;
 import seng202.team0.gui.FXWrapper;
 import seng202.team0.gui.NavigationController;
 import seng202.team0.models.Wine;
-import seng202.team0.models.testWines.wine1;
 import seng202.team0.repository.WineDAO;
 
 import java.util.ArrayList;

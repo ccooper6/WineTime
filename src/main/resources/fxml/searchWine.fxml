@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.SearchWineController">
+   <children>
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="32.0" layoutY="45.0" prefHeight="400.0" prefWidth="932.0" style="-fx-background: #FFFFFF; -fx-background-color: transparent;">
+        <content>
+          <AnchorPane fx:id="scrollAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="960.0">
+               <children>
+                  <GridPane fx:id="wineGrid" alignment="CENTER" hgap="10.0" prefHeight="135.0" prefWidth="890.0" vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Text fx:id="Title" layoutX="42.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Results" wrappingWidth="800" y="-120.0">
+         <font>
+            <Font name="PT Serif" size="25.0" />
+         </font></Text>
+      <AnchorPane layoutX="542.0" layoutY="453.0" prefHeight="30.0" prefWidth="76.0">
+         <children>
+            <Button fx:id="nextTextButton" mnemonicParsing="false" onMouseClicked="#pageNext" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: none;" text="Next Page" underline="true">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <FontAwesomeIconView fx:id="nextArrowButton" glyphName="ANGLE_RIGHT" layoutX="75.0" layoutY="25.0" onMouseClicked="#pageNext" size="30" wrappingWidth="12.714285850524902" />
+            <FontAwesomeIconView fx:id="endArrowButton" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="89.0" layoutY="25.0" onMouseClicked="#pageEnd" size="30" wrappingWidth="12.714285850524902" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="338.0" layoutY="453.0" prefHeight="30.0" prefWidth="76.0">
+         <children>
+            <Button fx:id="prevTextButton" layoutX="27.0" mnemonicParsing="false" onMouseClicked="#pagePrev" prefHeight="30.0" prefWidth="101.0" style="-fx-background-color: none;" text="Previous Page" underline="true">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <FontAwesomeIconView fx:id="prevArrowButton" glyphName="ANGLE_LEFT" layoutX="21.0" layoutY="25.0" onMouseClicked="#pagePrev" size="30" wrappingWidth="12.714285850524902" />
+            <FontAwesomeIconView fx:id="startArrowButton" glyphName="ANGLE_DOUBLE_LEFT" layoutY="25.0" onMouseClicked="#pageStart" size="30" text="" wrappingWidth="12.714285850524902" />
+         </children>
+      </AnchorPane>
+      <Text fx:id="pageCounterText" layoutX="478.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="??/????">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
