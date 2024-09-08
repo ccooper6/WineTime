@@ -4,6 +4,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.App;
 import seng202.team0.models.Wine;
+import seng202.team0.services.SearchWineService;
 
 import java.io.IOException;
 
@@ -50,6 +53,9 @@ public class NavigationController {
     @FXML
     TextField searchBar;
 
+    @FXML
+    ComboBox<String> sortByComboBox;
+
     private static final Logger log = LogManager.getLogger(NavigationController.class);
     private Wine wine;
     //private WineService wineService = new WineService();
@@ -60,10 +66,45 @@ public class NavigationController {
      * Initializes the controller
      */
     public void initialize() {
+        initialseSortByComboBox();
+
+        initialiseSearchBar();
+
+        topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
+            if (searchBar.isFocused()) {
+                searchBar.getParent().requestFocus();
+            }
+        });
+    }
+
+    /**
+     * Inserts options into sort by combo box and selects first
+     */
+    private void initialseSortByComboBox()
+    {
+        sortByComboBox.getItems().add("In Name");
+        sortByComboBox.getItems().add("In Tags");
+
+        sortByComboBox.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Sets action events to when to search. Searches by name / tag depending on combo box
+     */
+    private void initialiseSearchBar()
+    {
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
                 //searchForWine(searchBar.getText());
-                searchBar.clear();
+
+                if (sortByComboBox.getValue().equals("In Name")) {
+                    SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                } else {
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+                }
+
+                FXWrapper.getInstance().launchSubPage("searchWine");
+//                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
         });

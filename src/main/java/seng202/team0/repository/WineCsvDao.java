@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.text.CharacterIterator;
+import java.text.Normalizer;
 import java.text.StringCharacterIterator;
 
 public class WineCsvDao {
@@ -26,8 +27,8 @@ public class WineCsvDao {
      */
 
     public int add(String[] wineValues, int wineID) {
-        String wineSql = "INSERT INTO wine (id, name, price, description, points) VALUES ( ?, ?, ?, ?, ?)";
-        String tagSql = "INSERT INTO tag (name, type) VALUES (?, ?)";
+        String wineSql = "INSERT INTO wine (id, name, price, description, points, normalised_name) VALUES (?, ?, ?, ?, ?, ?)";
+        String tagSql = "INSERT INTO tag (name, type, normalised_name) VALUES (?, ?, ?)";
         String ownedBySql = "INSERT INTO owned_by (wid, tname) VALUES (?, ?)";
         try (Connection conn = emptyConnect()) {
             try (PreparedStatement winePs = conn.prepareStatement(wineSql)) {
@@ -108,6 +109,8 @@ public class WineCsvDao {
         } else {
             winePs.setNull(5, Types.INTEGER);
         }
+
+        winePs.setString(6, Normalizer.normalize(wineValues[10], Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase());
         winePs.executeUpdate();
     }
 
@@ -124,6 +127,7 @@ public class WineCsvDao {
             if (!tagName.isEmpty()) {
                 tagPs.setString(1, tagName);
                 tagPs.setString(2, tagType);
+                tagPs.setString(3, Normalizer.normalize(tagName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase());
                 tagPs.executeUpdate();
                 executeOwnedByPs(ownedByPs, wineId, tagName);
 //                System.out.println("Successfully added " + tagType +tagName);
@@ -213,9 +217,14 @@ public class WineCsvDao {
         String[] wineValues;
         CSVReader csv = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(winePath), StandardCharsets.UTF_8)).withSkipLines(1).build();
         int wineID = 1;
+        int num = -1;
         while ((wineValues = csv.readNext()) != null) {
             wineID = add(wineValues, wineID);
             System.out.println(wineID + "/" + totalRows + ":" + wineValues[11]);
+            if (wineID > num + 1000) {
+                System.out.println(wineID + "/" + totalRows);
+                num += 1000;
+            }
         }
         csv.close();
     }
