@@ -8,6 +8,10 @@ import javafx.scene.image.ImageView;
 import seng202.team0.models.Wine;
 import seng202.team0.services.SearchWineService;
 
+/**
+ * Controller for displaying wine cards
+ * @author yzh428
+ */
 public class WineDisplayController {
     @FXML
     Label wineInfo;
@@ -34,6 +38,11 @@ public class WineDisplayController {
 
     }
 
+    /**
+     * Shows the wine in more detail with a popUp that overlays the screen.
+     * <p>
+     * Calls {@link NavigationController#initPopUp(Wine)} using this wine as the base.
+     */
     @FXML
     public void popUp()
     {

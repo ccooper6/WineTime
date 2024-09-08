@@ -18,6 +18,11 @@ import seng202.team0.services.SearchWineService;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controller for the Search Wines Page.
+ *
+ * @author yxh428
+ */
 public class SearchWineController {
     private static final Logger log = LogManager.getLogger(SearchWineController.class);
 
@@ -176,36 +181,5 @@ public class SearchWineController {
     public void pageEnd() {
         currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
         displayCurrentPage();
-    }
-
-
-    /**
-     * Functions below based off main page. Currently does not work
-     */
-    @FXML
-    public void onWineClicked(MouseEvent event)
-    { // From advanced java fx tutorial
-        AnchorPane pane = (AnchorPane) event.getSource();
-        String[] name = pane.getId().split("");
-        Integer paneNum = Integer.valueOf(name[8]);
-//        Wine wine = winesTest.get(paneNum - 1);
-        Wine wine = allWines.getFirst();
-
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
-    }
-
-    @FXML
-    public void darkenPane(MouseEvent event)
-    {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15");
-    }
-
-    @FXML
-    public void lightenPane(MouseEvent event)
-    {
-        AnchorPane pane = (AnchorPane) event.getSource();
-        pane.setStyle("-fx-border-color: #d9d9d9; -fx-border-radius: 15");
     }
 }
