@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.exceptions.DuplicateEntryException;
 import seng202.team0.exceptions.InvalidWineException;
+import seng202.team0.models.Tag;
 import seng202.team0.models.Wine;
 
 import javax.lang.model.type.ArrayType;
@@ -22,6 +23,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     private static final Logger log = LogManager.getLogger(UserDAO.class);
 
+    //TODO: Hook up to text files...
     Set<String> white = new HashSet<>(Arrays.asList("White Blend", "Pinot Gris", "Riesling", "Gewürztraminer", "Chardonnay", "Chenin Blanc", "Sauvignon Blanc", "Viognier-Chardonnay",
                                                     "Catarratto", "Inzolia", "Bordeaux-style White Blend", "Grillo", "Petit Manseng", "Vernaccia", "Grüner Veltliner", "Viognier",
                                                     "Vermentino", "Grenache Blanc", "Pinot Blanc", "Alsace white blend", "Portuguese White", "Sauvignon", "Torrontés", "Verdejo",
@@ -42,7 +44,7 @@ public class WineDAO implements DAOInterface<Wine> {
                                                     "Cabernet Sauvignon-Carmenére", " Früburgunder", "Sousão", "Cinsault", "Tinta Miúda", "Monastrell", "Port", "Merlot-Malbec",
                                                     "Cabernet Sauvignon-Merlot", "Duras", "Papaskarasi", "Tannat-Syrah", "Charbono", "Merlot-Argaman", "Provence red blend", "Tannat",
                                                     "Garnacha", "Negroamaro", "Mourvèdre", "Syrah-Cabernet", "Cabernet Sauvignon-Sangiovese", "Austrian Red Blend", "Teroldego",
-                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc"));
+                                                    "Claret", "Baga", "Malbec-Merlot", "Monastrell-Syrah", "Malbec-Tannat", "Malbec-Cabernet Franc", "Sangiovese"));
     Set<String> rose = new HashSet<>(Arrays.asList("Rosé", "Rosato", "Moscato", "Sherry", "Rosado"));
     Set<String> sparkling = new HashSet<>(Arrays.asList("Champagne Blend", "Prosecco", "Sparkling Blend", "Portuguese Sparkling"));
 
@@ -128,6 +130,28 @@ public class WineDAO implements DAOInterface<Wine> {
 
     }
 
+    /*public List<Wine> getRandomWines(int numberToGet) {
+        List<Wine> wines = new ArrayList<>();
+        String query = "SELECT * FROM wine ORDER BY RANDOM() LIMIT ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, numberToGet);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Wine wine = new Wine(
+                        rs.getString("name"),
+
+                        rs.getString("description"),
+                        rs.getInt("price")
+                );
+                wines.add(wine);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return wines;
+    }*/
+
     /**
      * This method take in two years and return all wines between those two years.
      * @param earliest the earliest vintage
@@ -171,6 +195,38 @@ public class WineDAO implements DAOInterface<Wine> {
         }
 
     }
+
+    /**
+     * This method takes in a wine name and returns all wines with that name.
+     * @param name the name of the wine
+     * @return an arraylist of all wines with the given name.
+     */
+    /*public ArrayList<Wine> getWinesByName(String name) {
+
+        ArrayList<Wine> wines = new ArrayList<>();
+        Wine wine = null;
+        String sql = "SELECT * FROM wine WHERE name=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    wine = new Wine(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price")
+                    );
+                    wines.add(wine);
+                }
+                return wines;
+            }
+
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }*/
+
     public ArrayList<String> getVarietyTags() {
         ArrayList<String> tags = new ArrayList<>();
         String sql = "SELECT name FROM tag";
@@ -179,6 +235,33 @@ public class WineDAO implements DAOInterface<Wine> {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     tags.add(rs.getString("name"));
+                }
+                return tags;
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * This method takes in a wine and returns all tags associated with the wine.
+     * @param wine the wine object to get the tags of
+     * @return an arraylist of all tags of the given wine
+     */
+    public ArrayList<Tag> getWineTags(Wine wine) {
+        ArrayList<Tag> tags = new ArrayList<>();
+        String sql = "select tag.name, tag.type from wine join owned_by on " +
+                "owned_by.wid = wine.id join tag on tag.name = " +
+                "owned_by.tname where wine.name = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, wine.getName());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    String type = rs.getString("type");
+                    tags.add(new Tag(name, type));
                 }
                 return tags;
             }

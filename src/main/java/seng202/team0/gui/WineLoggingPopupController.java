@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import org.apache.commons.lang3.ObjectUtils;
 import seng202.team0.models.User;
 import seng202.team0.models.Wine;
 import seng202.team0.repository.DatabaseManager;
@@ -25,6 +26,8 @@ import static java.sql.Types.NULL;
  * log wine button is pressed.
  */
 public class WineLoggingPopupController {
+    @FXML
+    public Button popUpCloseButton;
     /**
      * The label which shows how many characters are left in the character limit of the description text area
      */
@@ -113,23 +116,23 @@ public class WineLoggingPopupController {
             tagCheckBoxArray.add(new CheckBox(Integer.toString(wine.getVintage()) + " Vintage"));
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
-        if (!wine.getProvince().isBlank()) {
+        if (wine.getProvince() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));
             tagNameArray.add(wine.getProvince());
         }
-        if (!wine.getRegion1().isBlank()) {
+        if (wine.getRegion1() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getRegion1() + " region"));
             tagNameArray.add(wine.getRegion1());
         }
-        if (!wine.getRegion2().isBlank()) {
+        if (wine.getRegion2() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getRegion2() + " region"));
             tagNameArray.add(wine.getRegion2());
         }
-        if (!wine.getVariety().isBlank()) {
+        if (wine.getVariety() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getVariety()));
             tagNameArray.add(wine.getVariety());
         }
-        if (!wine.getWinery().isBlank()) {
+        if (wine.getWinery() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getWinery() + " winery"));
             tagNameArray.add(wine.getWinery());
         }
@@ -260,6 +263,7 @@ public class WineLoggingPopupController {
     /**
      * Returns to the wine pop up screen.
      */
+    @FXML
     private void returnToWinePopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();

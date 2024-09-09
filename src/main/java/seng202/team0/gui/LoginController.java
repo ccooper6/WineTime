@@ -159,7 +159,7 @@ public class LoginController {
             int outcome = userLoginService.createAccount(name, username, password);
 
             if (outcome == 1) {
-                User user = new User(name, username);
+                User user = new User(name, username); // Not encrypted
                 FXWrapper.getInstance().setCurrentUser(user);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {

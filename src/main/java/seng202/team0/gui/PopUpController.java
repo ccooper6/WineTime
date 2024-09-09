@@ -2,12 +2,20 @@ package seng202.team0.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team0.models.Wine;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import seng202.team0.models.WineBuilder;
 
 
@@ -25,19 +33,30 @@ public class PopUpController {
     @FXML
     Text description;
     @FXML
-    Text province;
-    @FXML
-    Text region1;
-    @FXML
-    Text variety;
-    @FXML
-    Text winery;
-    @FXML
-    Text region2;
-    @FXML
     Button logWine;
+    @FXML
+    Button addToWishlist;
+    @FXML
+    Button vintageTag;
+    @FXML
+    Button varietyTag;
+    @FXML
+    Button countryTag;
+    @FXML
+    Button provinceTag;
+    @FXML
+    Button wineryTag;
+    @FXML
+    Button regionTag;
+    @FXML
+    private ScrollPane tagScrollPane;
+    @FXML
+    private FlowPane tagFlowPane;
 
     private static final Logger log = LogManager.getLogger(PopUpController.class);
+
+    //todo: fix panning of long regions and titles.
+    //todo: fix selectable main page scroll pane
 
     /**
      * Initializes the controller.
@@ -53,6 +72,15 @@ public class PopUpController {
             wine = WineBuilder.generaicSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
         populatePopup(wine);
+
+        tagFlowPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.doubleValue() > 101) {
+                tagScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+                tagFlowPane.setPrefWidth(210);
+            } else {
+                tagScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            }
+        });
     }
 
     /**
@@ -64,11 +92,27 @@ public class PopUpController {
         wineImage.setImage(new Image(wine.getImagePath()));
         wineName.setText(wine.getName());
         description.setText(wine.getDescription());
-        province.setText(wine.getProvince());
-        region1.setText(wine.getRegion1());
-        region2.setText(wine.getRegion2());
-        winery.setText(wine.getWinery());
-        variety.setText(wine.getVariety());
+        if (wine.getVintage() > 0) {
+            vintageTag.setText(Integer.toString(wine.getVintage()));
+        } else {
+            vintageTag.setText(null);
+        }
+        varietyTag.setText(wine.getVariety());
+        countryTag.setText(wine.getCountry());
+        provinceTag.setText(wine.getProvince());
+        wineryTag.setText(wine.getWinery());
+        regionTag.setText(wine.getRegion1()); //todo: fix this to add region 1 and 2
+        hideNullTags();
+    }
+
+
+    /**
+     * Hides the tags that are null.
+     */
+    private void hideNullTags() {
+        ArrayList<Button> tags = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
+        tags.removeIf(tag -> tag.getText() == null || Objects.equals(tag.getText(), "0"));
+        tagFlowPane.getChildren().setAll(tags);
     }
 
     /**
