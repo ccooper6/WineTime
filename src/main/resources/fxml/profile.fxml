@@ -2,17 +2,13 @@
 
 <!--<?import com.gluonhq.charm.glisten.control.TextField?>-->
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.ProfileController">
+<AnchorPane prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.ProfileController">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="3.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="470.0" prefWidth="985.0" style="-fx-background-color: white;">
          <content>
@@ -20,18 +16,7 @@
                <children>
                   <Pane fx:id="winesPane" layoutY="90.0" prefHeight="570.0" prefWidth="963.0">
                      <children>
-                        <FontAwesomeIconView fx:id="wishlistMoreArrow" glyphName="ANGLE_RIGHT" layoutX="940.0" layoutY="135.0" size="60" text="" wrappingWidth="22.285714149475098" />
-                        <AnchorPane fx:id="wishlistWine1" layoutX="10.0" layoutY="40.0" prefHeight="170.0" prefWidth="135.0" style="-fx-border-color: #d9d9d9;">
-                           <children>
-                              <Label fx:id="wishlistWineInfo1" layoutX="9.0" layoutY="72.0" prefHeight="90.0" prefWidth="117.0" text="Name:&#10;Variety:&#10;Origin:" />
-                              <ImageView fx:id="wishlistWineImage1" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/wine-bottle_pic.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="reveiwedWinePane" layoutX="10.0" layoutY="240.0" prefHeight="170.0" prefWidth="135.0" style="-fx-border-color: #d9d9d9;">
+                        <AnchorPane fx:id="reveiwedWinePane" layoutX="10.0" layoutY="260.0" prefHeight="170.0" prefWidth="135.0" style="-fx-border-color: #d9d9d9;">
                            <children>
                               <FontAwesomeIconView fx:id="star1" glyphName="STAR" layoutX="5.0" layoutY="15.0" wrappingWidth="12.350000381469727" />
                               <FontAwesomeIconView fx:id="star2" glyphName="STAR" layoutX="23.0" layoutY="15.0" text="" />
@@ -46,40 +31,10 @@
                               </ImageView>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="wishlistWine2" layoutX="220.0" layoutY="40.0" prefHeight="170.0" prefWidth="135.0" style="-fx-border-color: #d9d9d9;">
-                           <children>
-                              <Label fx:id="wishlistWineInfo2" layoutX="9.0" layoutY="72.0" prefHeight="87.0" prefWidth="117.0" text="Name:&#10;Variety:&#10;Origin:" />
-                              <ImageView fx:id="wishlistWineImage2" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/wine-bottle_pic.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="wishlistWine3" layoutX="430.0" layoutY="40.0" prefHeight="170.0" prefWidth="135.0" style="-fx-border-color: #d9d9d9;">
-                           <children>
-                              <Label fx:id="wishlistWineInfo3" layoutX="9.0" layoutY="72.0" prefHeight="88.0" prefWidth="117.0" text="Name:&#10;Variety:&#10;Origin:" />
-                              <ImageView fx:id="wishlistWineImage3" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/wine-bottle_pic.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="wishlistWine4" layoutX="640.0" layoutY="40.0" prefHeight="170.0" prefWidth="135.0" style="-fx-border-color: #d9d9d9;">
-                           <children>
-                              <Label fx:id="wishlistWineInfo4" layoutX="9.0" layoutY="72.0" prefHeight="87.0" prefWidth="117.0" text="Name:&#10;Variety:&#10;Origin:" />
-                              <ImageView fx:id="wishlistWineImage4" fitHeight="66.0" fitWidth="78.0" layoutX="16.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/wine-bottle_pic.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </AnchorPane>
-                        <Label fx:id="reviewsLabel" layoutX="10.0" layoutY="220.0" text="Recent Reveiws:" />
-                        <Label fx:id="wishlistLabel" layoutX="10.0" layoutY="20.0" text="Wishlist:" />
+                        <Label fx:id="reviewsLabel" layoutX="10.0" layoutY="240.0" text="Recent Reveiws:" />
                         <Label fx:id="reviewsSeeMore" layoutX="890.0" layoutY="220.0" text="see more..." />
                         <Label fx:id="wishlistSeeMore" layoutX="890.0" layoutY="20.0" text="see more..." />
+                        <AnchorPane fx:id="wishlistPane" layoutX="20.0" layoutY="20.0" prefHeight="148.0" prefWidth="890.0" />
                      </children>
                   </Pane>
                   <Pane fx:id="noChallengePane" layoutX="10.0" layoutY="32.0" prefHeight="64.0" prefWidth="957.0">
