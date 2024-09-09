@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.WineCategoryDisplayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.WineCategoryDisplayController">
    <children>
       <Text fx:id="titleText" layoutX="47.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catagory Title" y="-120.0">
          <font>
             <Font name="PT Serif" size="25.0" />
          </font>
       </Text>
-      <GridPane fx:id="wineGrid" alignment="CENTER" layoutX="58.0" layoutY="77.0" prefHeight="83.0" prefWidth="806.0">
-         <columnConstraints>
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
-      <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="853.0" layoutY="140.0" onMouseClicked="#rightClicked" size="60" text="" wrappingWidth="22.285714149475098" />
-      <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" onMouseClicked="#leftClicked" size="60" />
+      <AnchorPane fx:id="mainWine0" layoutX="-150.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0" />
+      <AnchorPane fx:id="mainWine1" layoutX="50.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
+      <AnchorPane fx:id="mainWine2" layoutX="250.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
+      <AnchorPane fx:id="mainWine4" layoutX="650.0" layoutY="53.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
+
+      <AnchorPane fx:id="mainWine3" layoutX="450.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
+      <AnchorPane fx:id="mainWine5" disable="true" layoutX="850.0" layoutY="53.0" opacity="0.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
+      <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="853.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098" />
+      <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60" />
    </children>
 </AnchorPane>

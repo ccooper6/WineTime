@@ -37,6 +37,7 @@ public class MainController {
     public void initialize() {
         WineCategoryService.getInstance().resetCurrentCategory();
         SearchWineService.getInstance().searchWinesByTags("Bordeaux, Merlot");
+        System.out.println("searched for : " + SearchWineService.getInstance().getWineList().size());
         helloText.setText("Hello, " + FXWrapper.getInstance().getCurrentUser().getName() + "!");
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
