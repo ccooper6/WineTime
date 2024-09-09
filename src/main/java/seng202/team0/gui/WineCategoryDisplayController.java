@@ -104,15 +104,9 @@ public class WineCategoryDisplayController {
 //        });
     }
 
-
-
-
-
-
-
     /**
-            * @param id is the position of the view pane.
-            * @return id of the wineView which should be displayed at that position.
+    * @param id is the position of the view pane.
+    * @return id of the wineView which should be displayed at that position.
      */
     public int getId(int id) {
         return (firstWine + id) % wineViews.size();
@@ -130,16 +124,15 @@ public class WineCategoryDisplayController {
         rightArrowButton.setDisable(false);
         leftArrowButton.setDisable(false);
     }
-    public void resetFirstLeft() {
-        if (firstWine <= 0) {
-            firstWine = wineViews.size() -1;
-        } else {
-            firstWine --;
-        }
-        rightArrowButton.setDisable(false);
-        leftArrowButton.setDisable(false);
-    }
-
+//    public void resetFirstLeft() {
+//        if (firstWine <= 0) {
+//            firstWine = wineViews.size() -1;
+//        } else {
+//            firstWine --;
+//        }
+//        rightArrowButton.setDisable(false);
+//        leftArrowButton.setDisable(false);
+//    }
 
     /**
      * As the first wine moves to the left, it decreases in opacity, is disabled and then teleports to the right;
