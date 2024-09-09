@@ -67,12 +67,15 @@
                   </FlowPane>
                </content>
             </ScrollPane>
-            <Button fx:id="logWine" layoutX="324.0" layoutY="347.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
+            <Button fx:id="logWine" layoutX="354.0" layoutY="349.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;">
                <graphic>
-                  <FontAwesomeIconView fill="GREY" glyphName="PLUS" selectionFill="#b9b9b9" size="30" wrappingWidth="24.21630859375" />
+                  <FontAwesomeIconView fill="#d0d0d0" glyphName="COMMENT" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="addToWishlist" layoutX="382.0" layoutY="353.0" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Add to Wishlist" textFill="WHITE" />
+            <Button fx:id="addToWishlist" layoutX="415.0" layoutY="349.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="#70171e" glyphName="HEART" size="30" />
+               </graphic></Button>
          </children>
       </Pane>
    </children>
