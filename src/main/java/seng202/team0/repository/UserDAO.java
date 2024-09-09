@@ -40,7 +40,7 @@ public class UserDAO implements DAOInterface<User> {
     public boolean tryLogin(String username, int password) {
         String sql = "SELECT password FROM user WHERE username = ?";
         try (
-                Connection conn = databaseManager.connect();
+                Connection conn = databaseManager.connect();  //something goes wrong around here.
                 PreparedStatement pstmt = conn.prepareStatement(sql);
         ) {
             pstmt.setString(1, username);

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.SelectChallengePopupController">
+   <children>
+      <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
+         <children>
+            <FontAwesomeIconView fill="#7c7c7c" glyphName="CLOSE" layoutX="462.0" layoutY="31.0" onMouseClicked="#closeChallengePopup" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.0" />
+            <Label layoutX="42.0" layoutY="21.0" text="Select a challenge to start">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="6.0" layoutY="63.0" prefHeight="330.0" prefWidth="485.0" style="-fx-background-color: WHITE;">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="557.0" prefWidth="465.0" style="-fx-background-color: WHITE;">
+                     <children>
+                        <Pane layoutX="7.0" layoutY="8.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;" />
+                        <Label layoutX="15.0" layoutY="9.0" prefHeight="92.0" prefWidth="260.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 10 &#10;carefully selected distinct wines." />
+                        <Button layoutX="327.0" layoutY="43.0" mnemonicParsing="false" onAction="#startVarietyChallenge" text="Start Challenge!" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </children>
+</StackPane>

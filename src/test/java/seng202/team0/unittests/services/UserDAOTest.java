@@ -1,5 +1,6 @@
 package seng202.team0.unittests.services;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ public class UserDAOTest {
     static UserDAO userDAO;
 
     private final UserLogin userLogin = new UserLogin();
+
 
     /**
      * This creates a new database file for the test databases
