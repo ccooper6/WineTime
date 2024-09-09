@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.WineLoggingPopupController">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.WineLoggingPopupController">
    <children>
-      <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" />
+      <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
          <children>
             <Label layoutX="27.0" layoutY="22.0" prefHeight="23.0" prefWidth="306.0" text="How would you rate this wine from a scale of 1-5 overall?" />
@@ -25,6 +31,11 @@
                   <Font size="10.0" />
                </font>
             </TextArea>
+            <Button fx:id="popUpCloseButton" layoutX="431.0" layoutY="15.0" mnemonicParsing="false" onAction="#returnToWinePopUp" style="-fx-background-color: WHITE;">
+               <graphic>
+                  <FontAwesomeIconView fill="GREY" glyphName="CHEVRON_LEFT" selectionFill="#b9b9b9" size="30" wrappingWidth="24.21630859375" />
+               </graphic>
+            </Button>
          </children></Pane>
    </children>
 </StackPane>

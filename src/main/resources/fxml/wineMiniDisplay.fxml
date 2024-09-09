@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="170.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.WineDisplayController">
-    <AnchorPane onMouseClicked="#popUp" prefHeight="120.0" prefWidth="170.0" style="-fx-border-color: #d9d9d9; -fx-border-radius: 15;">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="170.0" style="-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.WineDisplayController">
+    <AnchorPane fx:id="winePane" onMouseClicked="#popUp" prefHeight="120.0" prefWidth="170.0" style="-fx-border-color: #d9d9d9; -fx-border-radius: 15; -fx-background-color: white; -fx-background-radius: 15;">
         <!--         onMouseClicked="#onWineClicked" onMouseEntered="#darkenPane" onMouseExited="#lightenPane"-->
         <Label fx:id="wineInfo" layoutX="5.0" layoutY="60.0" prefHeight="54.0" prefWidth="161.0" text="Name:&#10;Variety:&#10;Origin:" />
-        <ImageView fx:id="wineImage" fitHeight="54.0" fitWidth="57.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/red_wine.png" />
-        </ImageView>
+        <ImageView fx:id="wineImage" fitHeight="54.0" fitWidth="57.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
     </AnchorPane>
 </AnchorPane>

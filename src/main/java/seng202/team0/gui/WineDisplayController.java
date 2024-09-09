@@ -2,6 +2,8 @@ package seng202.team0.gui;
 
 import javafx.fxml.FXML;
 
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,9 +17,10 @@ import seng202.team0.services.SearchWineService;
 public class WineDisplayController {
     @FXML
     Label wineInfo;
-
     @FXML
     ImageView wineImage;
+    @FXML
+    AnchorPane winePane;
 
     Wine wine;
 
@@ -36,6 +39,8 @@ public class WineDisplayController {
         infoText += "\nVariety: " + wine.getVariety();
         wineInfo.setText(infoText);
 
+        winePane.setOnMouseEntered(event -> darkenPane());
+        winePane.setOnMouseExited(event -> lightenPane());
     }
 
     /**
@@ -49,6 +54,24 @@ public class WineDisplayController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
         navigationController.initPopUp(wine);
+    }
+
+    /**
+     * Darkens the pane when the mouse enters
+     */
+    @FXML
+    public void darkenPane()
+    {
+        winePane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15;");
+    }
+
+    /**
+     * Lightens the pane when the mouse exits
+     */
+    @FXML
+    public void lightenPane()
+    {
+        winePane.setStyle("-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
     }
 
 }

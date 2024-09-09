@@ -1,38 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.PopUpController">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.PopUpController">
    <children>
       <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
          <children>
-            <ImageView fx:id="wineImage" fitHeight="200.0" fitWidth="200.0" layoutX="250.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="wineName" layoutX="25.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wine Name">
-               <font>
-                  <Font name="PT Serif" size="25.0" />
-               </font>
-            </Text>
-            <Text fx:id="description" layoutX="24.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description... teaadfaa fa sfas dasfa sf" wrappingWidth="200.0" />
-            <Text fx:id="province" layoutX="273.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Province" />
-            <Text fx:id="region1" layoutX="275.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Region1" />
-            <Text fx:id="variety" layoutX="331.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Variety" />
-            <Text fx:id="winery" layoutX="25.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Winery">
-               <font>
-                  <Font name="PT Serif" size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="region2" layoutX="327.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Region2" />
             <Button fx:id="popUpCloseButton" layoutX="431.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
                <graphic>
-                  <FontAwesomeIconView fill="#7c7c7c" glyphName="CLOSE" onMouseClicked="#closePopUp" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
+                  <FontAwesomeIconView fill="GREY" glyphName="CLOSE" onMouseClicked="#closePopUp" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
                </graphic>
             </Button>
-            <Button fx:id="logWine" layoutX="271.0" layoutY="330.0" mnemonicParsing="false" text="Log wine" />
+            <FlowPane layoutX="14.0" layoutY="15.0" prefHeight="350.0" prefWidth="220.0" vgap="10.0">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="95.0" prefWidth="225.0" style="-fx-background: white; -fx-border-color: white;">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="212.0" style="-fx-background-color: white;">
+                           <children>
+                              <Text fx:id="wineName" layoutY="25.0" text="Wine Name..." wrappingWidth="212.0">
+                                 <font>
+                                    <Font name="PT Serif" size="18.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="175.0" prefWidth="225.0" style="-fx-background: white; -fx-border-color: white;">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="212.0" style="-fx-background-color: white;">
+                           <children>
+                              <Text fx:id="description" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description..." wrappingWidth="212.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </FlowPane>
+            <ImageView fx:id="wineImage" fitHeight="172.0" fitWidth="200.0" layoutX="296.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/wine-bottle_pic.png" />
+               </image>
+            </ImageView>
+            <ScrollPane fx:id="tagScrollPane" hbarPolicy="NEVER" layoutX="251.0" layoutY="242.0" prefHeight="103.0" prefWidth="228.0" style="-fx-border-color: white; -fx-background-color: white;" vbarPolicy="NEVER">
+               <content>
+                  <FlowPane fx:id="tagFlowPane" hgap="15.0" prefHeight="101.0" prefWidth="224.0" style="-fx-background-color: white;" vgap="10.0">
+                     <children>
+                        <Button fx:id="vintageTag" mnemonicParsing="false" text="Vintage" />
+                        <Button fx:id="varietyTag" mnemonicParsing="false" text="Variety" />
+                        <Button fx:id="countryTag" mnemonicParsing="false" text="Country" />
+                        <Button fx:id="provinceTag" mnemonicParsing="false" text="Province" />
+                        <Button fx:id="wineryTag" mnemonicParsing="false" text="Winery" />
+                        <Button fx:id="regionTag" mnemonicParsing="false" text="Region" />
+                     </children>
+                  </FlowPane>
+               </content>
+            </ScrollPane>
+            <Button fx:id="logWine" layoutX="324.0" layoutY="347.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
+               <graphic>
+                  <FontAwesomeIconView fill="GREY" glyphName="PLUS" selectionFill="#b9b9b9" size="30" wrappingWidth="24.21630859375" />
+               </graphic>
+            </Button>
+            <Button fx:id="addToWishlist" layoutX="382.0" layoutY="353.0" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Add to Wishlist" textFill="WHITE" />
          </children>
       </Pane>
    </children>

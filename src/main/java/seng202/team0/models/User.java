@@ -10,11 +10,22 @@ public class User {
     private ArrayList<Wine> dislikedWines;
     private ArrayList<String> favouritedTags;
 
+    /**
+     * Constructor for User.
+     * @param name The name of the user
+     * @param userName The encrypted username of the user
+     */
     public User(String name, String userName) {
         this.name = name;
         this.encryptedUserName = userName;
     }
 
+    /**
+     * Constructor for User.
+     * @param name The name of the user
+     * @param userName The encrypted username of the user
+     * @param hashedPassword The hashed password of the user
+     */
     public User(String name, String userName, int hashedPassword) {
         this.name = name;
         this.encryptedUserName = userName;
