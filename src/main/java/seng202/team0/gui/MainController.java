@@ -1,28 +1,17 @@
 package seng202.team0.gui;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import seng202.team0.models.Wine;
 import seng202.team0.services.SearchWineService;
 import seng202.team0.services.WineCategoryService;
 
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
- * Controller class for the mainpage.fxml page
+ * Controller class for the mainpage.fxml page.
  * @author Caleb Cooper
  */
 public class MainController {

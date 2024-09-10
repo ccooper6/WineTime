@@ -6,9 +6,6 @@ import javafx.scene.control.Label;
 import seng202.team0.services.QuizService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-
 
 public class QuizController {
 

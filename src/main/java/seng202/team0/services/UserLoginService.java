@@ -13,8 +13,10 @@ public class UserLoginService {
 
     /**
      * Method that calls storeLogin from the UserLogin model to save a user login.
+     * @param name The user's name
      * @param username The user's username
      * @param password The associated password
+     * @return 1 if the account was successfully created, 0 if the username already exists, 2 if an error occurred
      */
     public int createAccount(String name, String username, String password) {
         return login.storeLogin(name, username, password);
@@ -31,12 +33,18 @@ public class UserLoginService {
         return login.checkLogin(username, password);
     }
 
+    /**
+     * Method that calls getName from the UserLogin model to return the name of the user associated with the given
+     * username.
+     * @param username The user's username
+     * @return The name of the user
+     */
     public String getName(String username) {
         return login.getName(username);
     }
 
     /**
-     * Returns the encrypted username
+     * Returns the encrypted username.
      * @param username the raw unencrypted username
      * @return encrypted username
      */

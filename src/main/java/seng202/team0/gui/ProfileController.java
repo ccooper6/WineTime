@@ -1,20 +1,17 @@
 package seng202.team0.gui;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import org.apache.commons.collections.functors.FalsePredicate;
 import seng202.team0.models.Wine;
 import seng202.team0.services.SearchWineService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,9 +22,12 @@ public class ProfileController {
 
 
     String challengeName;
+    @FXML
     public Button quizButton;
+    @FXML
     public Label challengeLabeltext;
-    public Button StartChallengeButton;
+    @FXML
+    public Button startChallengeButton;
     @FXML
     private Button changePasswordButton;
     @FXML
@@ -78,7 +78,7 @@ public class ProfileController {
     @FXML
     private  FontAwesomeIconView profileSC;
     @FXML
-    private  FontAwesomeIconView ReviewsSC;
+    private  FontAwesomeIconView reviewsSC;
     @FXML
     private  ImageView logo;
     @FXML
@@ -103,17 +103,24 @@ public class ProfileController {
 
     List<Wine> wineList;
     // consider adding a wine info aspect to wine class so u can get the string description from wines
+
+    /**
+     * Returns a formatted string with the wines name, variety and description.
+     * @param wine the wine to get the info from
+     * @return a formatted string
+     */
     public String getWineInfo(Wine wine) {
-        return("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
+        return ("Name: %s\nVariety: %s\nDescription: %s".formatted(wine.getName(), wine.getVariety(), wine.getDescription()));
     }
     // ******************Test stuff ENDS HERE********************
 
-
-
-
+    /**
+     * Initializes the profile.fxml page.
+     */
     public void initialize() {
         List<AnchorPane> wishlistWineView = List.of(wishlistWine1, wishlistWine2, wishlistWine3, wishlistWine4);
-        List<Label> wishlistWineInfo = List.of(wishlistWineInfo1, wishlistWineInfo2, wishlistWineInfo3, wishlistWineInfo4);
+        List<Label> wishlistWineInfo = List.of(wishlistWineInfo1, wishlistWineInfo2, wishlistWineInfo3,
+                wishlistWineInfo4);
         displayWishlist(wishlistWineView, wishlistWineInfo);
         onWishlistRefreshed(wishlistWineView,  wishlistWineInfo);
         challengePane.setVisible(false);
@@ -131,11 +138,16 @@ public class ProfileController {
 //    on wineView clicked, open wine pop up, pass the relevant information from the wine. make a method to do this,
 //    this functionality will be needed for mulitple screens.
 
+    /**
+     * Displays the wishlist wines on the profile page.
+     * @param wishlistWineView the list of wine views
+     * @param wishlistWineInfo the list of wine info labels
+     */
     @FXML
     public void displayWishlist(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
         SearchWineService.getInstance().searchWinesByName("Stemmari");
         wineList = SearchWineService.getInstance().getWineList();
-        if(wineList.size() >= wishlistWineView.size()) {
+        if (wineList.size() >= wishlistWineView.size()) {
             for (int i = 0; i < wishlistWineView.size(); i++) {
                 wishlistWineInfo.get(i).setText(getWineInfo(wineList.get(i)));
             }
@@ -146,7 +158,11 @@ public class ProfileController {
         }
     }
 
-
+    /**
+     * Refreshes the wishlist wines on the profile page when the arrow is clicked.
+     * @param wishlistWineView a list of wine views
+     * @param wishlistWineInfo a list of wine info labels
+     */
     @FXML
     public void onWishlistRefreshed(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
         wishlistMoreArrow.setOnMouseClicked(event -> {
@@ -158,18 +174,28 @@ public class ProfileController {
 //
     }
 
-    public void onQuizClicked(ActionEvent actionEvent) { FXWrapper.getInstance().launchSubPage("quizscreen");}
+    /**
+     * Opens the quiz screen when the quiz button is clicked.
+     * @param actionEvent the event of the user clicking the quiz button
+     */
+    public void onQuizClicked(ActionEvent actionEvent) {
+        FXWrapper.getInstance().launchSubPage("quizscreen");
+    }
 
-
+    /**
+     * Opens the challenge menu when the challenge button is clicked.
+     * @param actionEvent the event of the user clicking the challenge button
+     */
     public void onChallengeClicked(ActionEvent actionEvent) {
 //        launch pop up to take you to challenge menu
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadSelectChallengePopUpContent();
-
-
     }
 
+    /**
+     * Activates the challenge tracker when the start challenge button is clicked.
+     */
     public void activateChallenge() {
         System.out.println("challenge tracker is activated.");
         noChallengePane.setVisible(false);
@@ -178,6 +204,9 @@ public class ProfileController {
         challengeIntro.setText("you have started the " + challengeName);
     }
 
+    /**
+     * Moves the wines pane down when the challenge is active.
+     */
     public void moveWinesPane() {
         System.out.println("moveWinesPane was called");
         System.out.println(winesPane.getLayoutY());
