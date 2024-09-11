@@ -1,23 +1,17 @@
 package seng202.team1.unittests.services;
 
 import org.junit.jupiter.api.*;
-import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.models.User;
 import seng202.team1.services.UserLoginService;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.UserDAO;
-
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserLoginServiceTest {
 
-    private static DatabaseManager databaseManager;
     private static UserDAO userDAO;
     private static UserLoginService userLoginService;
-
 
     /**
      * This creates a new database file for the test databases
@@ -26,7 +20,7 @@ public class UserLoginServiceTest {
     @BeforeAll
     static void setUp() throws InstanceAlreadyExistsException{
         DatabaseManager.REMOVE_INSTANCE();
-        databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         userDAO = new UserDAO();
         userLoginService = new UserLoginService();
     }
@@ -69,6 +63,7 @@ public class UserLoginServiceTest {
         Assertions.assertTrue(wasInDB);
 
     }
+
     @Test
     public void testTryLoginBad1() {
         String name = "Isaac";

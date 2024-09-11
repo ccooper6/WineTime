@@ -66,6 +66,7 @@ public class UserLoginService {
     public String getEncryptedUsername(String username) {
         return encrypt(username);
     }
+
     /**
      * Method that looks through the text file where the username and password pair is stored and returns the hashed
      * value of the password.
