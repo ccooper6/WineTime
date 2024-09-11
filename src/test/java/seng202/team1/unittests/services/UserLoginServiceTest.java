@@ -1,9 +1,6 @@
 package seng202.team1.unittests.services;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.*;
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.User;
@@ -17,10 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserLoginServiceTest {
 
-    static DatabaseManager databaseManager;
-    static UserDAO userDAO;
-
-    private final UserLoginService userLogin = new UserLoginService();
+    private static DatabaseManager databaseManager;
+    private static UserDAO userDAO;
+    private static UserLoginService userLoginService;
 
 
     /**
@@ -32,75 +28,68 @@ public class UserLoginServiceTest {
         DatabaseManager.REMOVE_INSTANCE();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         userDAO = new UserDAO();
+        userLoginService = new UserLoginService();
     }
 
-    @BeforeEach
-    void resetDB(){
-        databaseManager.resetDB();
+    @AfterEach
+    void clearUser() {
+        userDAO.delete(1);
     }
 
     /**
      * This test uses the login service to put a username in the database and confirms it didn't cause an error.
      */
     @Test
-    public void testStoreGood() throws DuplicateEntryException {
+    public void testStoreGood() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
-        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
-        int result = userDAO.add(user);
+        int result = userLoginService.storeLogin(name, username, password);
         assertEquals(1, result);
-
     }
 
     @Test
-    public void testStoreDuplicate() throws DuplicateEntryException {
+    public void testStoreDuplicate() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String password2 = "password2";
-        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
-        User user1 = new User(name, userLogin.encrypt(username), Objects.hash(password2));
-        userDAO.add(user);
-        int result = userDAO.add(user1);
+        userLoginService.storeLogin(name, username, password);
+        int result = userLoginService.storeLogin(name, username, password2);
         assertEquals(0, result);
     }
 
     @Test
-    public void testTryLoginGood() throws DuplicateEntryException {
+    public void testTryLoginGood() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
-        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
-        userDAO.add(user);
-        boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(username), Objects.hash(password));
+        userLoginService.storeLogin(name, username, password);
+        boolean wasInDB = userLoginService.checkLogin(username, password);
         Assertions.assertTrue(wasInDB);
 
     }
     @Test
-    public void testTryLoginBad1() throws DuplicateEntryException {
+    public void testTryLoginBad1() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String notPassword = "notPassword";
-        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
-        userDAO.add(user);
-        boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(username), Objects.hash(notPassword));
+        userLoginService.storeLogin(name, username, password);
+        boolean wasInDB = userLoginService.checkLogin(username, notPassword);
         Assertions.assertFalse(wasInDB);
 
     }
 
     @Test
-    public void testTryLoginBad2() throws DuplicateEntryException {
+    public void testTryLoginBad2() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String notUsername = "IsaacTheCoolest";
-        User user = new User(name, userLogin.encrypt(username), Objects.hash(password));
-        userDAO.add(user);
-        boolean wasInDB = userDAO.tryLogin(userLogin.encrypt(notUsername), Objects.hash(password));
+        userLoginService.storeLogin(name, username, password);
+        boolean wasInDB = userLoginService.checkLogin(notUsername, password);
         Assertions.assertFalse(wasInDB);
-
     }
 
 }

@@ -20,11 +20,6 @@ public class WineDAOTest {
         wineDAO = new WineDAO();
     }
 
-    @BeforeEach
-    void resetDB(){
-        databaseManager.resetDB();
-    }
-
     /*@Test
     public void testGetOneGoodID(){
         wineDAO.initializeAllWines();
