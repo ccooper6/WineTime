@@ -10,11 +10,12 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
-import seng202.team1.models.WineBuilder;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import seng202.team1.models.WineBuilder;
 
 
 /**
@@ -108,8 +109,7 @@ public class PopUpController {
      * Hides the tags that are null.
      */
     private void hideNullTags() {
-        ArrayList<Button> tags = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag,
-                wineryTag, regionTag));
+        ArrayList<Button> tags = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
         tags.removeIf(tag -> tag.getText() == null || Objects.equals(tag.getText(), "0"));
         tagFlowPane.getChildren().setAll(tags);
     }
@@ -122,9 +122,6 @@ public class PopUpController {
         navigationController.closePopUp();
     }
 
-    /**
-     * Loads the wine logging popup screen when the user clicks on the log wine button.
-     */
     public void loadWineLoggingPopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();

@@ -8,10 +8,11 @@ import javafx.scene.text.Text;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
+
 import java.io.IOException;
 
 /**
- * Controller class for the mainpage.fxml page.
+ * Controller class for the mainpage.fxml page
  * @author Caleb Cooper
  */
 public class MainController {

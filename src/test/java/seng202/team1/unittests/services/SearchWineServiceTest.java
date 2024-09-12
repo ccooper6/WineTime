@@ -23,6 +23,11 @@ public class SearchWineServiceTest {
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
     }
 
+    @Test
+    void testDBConnection() {
+        assertNotNull(databaseManager);
+    }
+
     /**
      * Tests searches for all wines with names including 'rose'
      */
@@ -66,5 +71,14 @@ public class SearchWineServiceTest {
         assertEquals(0, fromDB.size());
         assertNotNull(fromDB);
 
+    }
+
+    @Test
+    public void searchWinesByName() {
+        String name = "Chardonnay";
+        SearchWineService.getInstance().searchWinesByName(name);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+        assertEquals(8886, fromDB.size());
+        assertNotNull(fromDB);
     }
 }

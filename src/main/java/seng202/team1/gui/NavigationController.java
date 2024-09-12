@@ -4,13 +4,13 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,34 +28,38 @@ import java.io.IOException;
  */
 public class NavigationController {
     @FXML
-    ImageView homeExampleButton;
+    public ImageView homeExampleButton;
     @FXML
-    FontAwesomeIconView savesExampleButton;
+    public FontAwesomeIconView savesExampleButton;
     @FXML
-    FontAwesomeIconView likesExampleButton;
+    public FontAwesomeIconView likesExampleButton;
     @FXML
-    FontAwesomeIconView userExampleButton;
+    public FontAwesomeIconView userExampleButton;
     @FXML
-    AnchorPane navigationAnchor;
+    private VBox userDropDownMenu;
     @FXML
-    Parent overlayContent;
+    private Button logOutButton;
     @FXML
-    BorderPane mainPane;
+    private Parent overlayContent;
     @FXML
-    VBox userDropDownMenu;
+    public AnchorPane mainContent;
     @FXML
-    Pane stackPanePane;
+    public Pane StackPanePane;
     @FXML
     Pane topBar;
     @FXML
-    StackPane contentHere;
+    private StackPane contentHere;
     @FXML
     TextField searchBar;
+
     @FXML
     ComboBox<String> sortByComboBox;
 
     private static final Logger log = LogManager.getLogger(NavigationController.class);
+
+
     private Wine wine;
+    //private WineService wineService = new WineService();
 
     /**
      * Loads in content from desired fxml and initates a blank, invisible overlay popup.
@@ -75,7 +79,7 @@ public class NavigationController {
     }
 
     /**
-     * Inserts options into sort by combo box and selects first.
+     * Inserts options into sort by combo box and selects first
      */
     private void initialseSortByComboBox()
     {
@@ -126,10 +130,6 @@ public class NavigationController {
         userDropDownMenu.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
     }
 
-    /**
-     * Properly logs the user out of the application and sends them to the login page.
-     * @param actionEvent the event of the user clicking the log-out button
-     */
     @FXML
     public void onLogOutClicked(ActionEvent actionEvent) {
         FXWrapper.getInstance().setCurrentUser(null);
@@ -151,8 +151,17 @@ public class NavigationController {
         }
     }
 
+
+
+    /*private void searchForWine(String wineName) {
+        List<Wine> wines = wineService.searchWineByName(wineName);
+        if (!wines.isEmpty()) {
+            initPopUp(wines.get(0));
+        }
+    }*/
+
     /**
-     * Returns the currently viewed wine object.
+     * Returns the currently viewed wine object
      * @return Wine object
      */
     public Wine getWine() {
@@ -174,7 +183,7 @@ public class NavigationController {
     }
 
     /**
-     * Loads the wine logging popup page when the log wine button is clicked in the wine popup page.
+     * Loads the wine logging popup page when the log wine button is clicked in the wine popup page
      */
     public void loadWineLoggingPopUpContent() {
         try {
@@ -187,9 +196,6 @@ public class NavigationController {
         }
     }
 
-    /**
-     * Loads the select challenge popup content when the challenge button is pressed.
-     */
     public void loadSelectChallengePopUpContent() {
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/selectChallengePopup.fxml"));
@@ -201,28 +207,19 @@ public class NavigationController {
         }
     }
 
-    /**
-     * Opens the wine popup when a wine tile is clicked.
-     * @param wine the wine that was clicked
-     */
     public void initPopUp(Wine wine) {
         this.wine = wine;
         loadPopUpContent();
     }
 
-    /**
-     * Closes the popup.
-     */
     public void closePopUp() {
         if (overlayContent != null) {
             overlayContent.setVisible(false);
         }
+//        refresh the page under it,
+
     }
 
-    /**
-     * Opens the home page when the wine time logo is clicked.
-     * @param actionEvent the event of the user clicking the logo
-     */
     public void onHomeClicked(MouseEvent actionEvent) {
         FXWrapper.getInstance().launchSubPage("mainpage");
     }

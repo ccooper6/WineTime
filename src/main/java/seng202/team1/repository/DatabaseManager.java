@@ -7,10 +7,7 @@ import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.sql.*;
 
 /**
@@ -27,8 +24,12 @@ public class DatabaseManager {
      * Creates database if it does not already exist in specified location
      */
     private DatabaseManager(String urlIn) {
+        if (urlIn != null) {
+            this.url = urlIn;
+        } else {
+            this.url = getDatabasePath();
+        }
         initialiseDB();
-        this.url = getDatabasePath();
     }
 
 
@@ -37,11 +38,12 @@ public class DatabaseManager {
      * @return the single instance DatabaseSingleton
      */
     public static DatabaseManager getInstance() {
-        if(instance == null)
+        if (instance == null) {
             // todo find a way to actually get db within jar
             // The following line can be used to reach a db file within the jar, however this will not be modifiable
             // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
             instance = new DatabaseManager(null);
+        }
 
         return instance;
     }
@@ -54,11 +56,11 @@ public class DatabaseManager {
      * @return current singleton instance
      */
     public static DatabaseManager initialiseInstanceWithUrl(String url) throws InstanceAlreadyExistsException {
-        if(instance == null)
+        if (instance == null) {
             instance = new DatabaseManager(url);
-        else
+        } else {
             throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
-
+        }
         return instance;
     }
 
@@ -164,17 +166,18 @@ public class DatabaseManager {
     }
 
     public void initialiseDB() {
-        String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        path = URLDecoder.decode(path, StandardCharsets.UTF_8);
-        File jarDir = new File(path);
+        // remove jdbc:sqlite:
+        String copyPath = this.url.substring(12);
 
-        String copyPath = jarDir.getParentFile() + "/copy.db";
-        String ogPath = Paths.get("src/main/resources/sql/og.db").toString();
-
+        // Differentiate what og.db to use based on whether we are running tests or main application
+        String ogPath = System.getProperty("test.env") != null ? Paths.get("src/test/resources/sql/og.db").toString() : Paths.get("src/main/resources/sql/og.db").toString();
         Path copy = Paths.get(copyPath);
         Path og = Paths.get(ogPath);
+
+        log.info("Copying database from: " + og + " to: " + copy);
         try {
-            Files.copy(og,copy);
+            Files.copy(og, copy);
+            log.info("Database copied successfully.");
         } catch (FileAlreadyExistsException e) {
             log.info("DB File already exists. - Did not replace");
         } catch (IOException e) {

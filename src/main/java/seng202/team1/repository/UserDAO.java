@@ -105,7 +105,17 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public void delete(int id) {
+        String sql = "DELETE FROM user WHERE id = ?";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
