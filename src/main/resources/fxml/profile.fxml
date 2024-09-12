@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team0.gui.ProfileController">
+<AnchorPane prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.ProfileController">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="3.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="470.0" prefWidth="985.0" style="-fx-background-color: white;">
          <content>
@@ -85,7 +85,7 @@
                   <Pane fx:id="noChallengePane" layoutX="10.0" layoutY="32.0" prefHeight="64.0" prefWidth="957.0">
                      <children>
                         <Label fx:id="challengeLabeltext" layoutX="6.0" layoutY="25.0" text="No active challenges." />
-                        <Button fx:id="StartChallengeButton" layoutX="424.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
+                        <Button fx:id="startChallengeButton" layoutX="424.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
                            <font>
                               <Font size="14.0" />
                            </font>
