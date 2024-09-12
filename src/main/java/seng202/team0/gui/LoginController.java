@@ -47,6 +47,9 @@ public class LoginController {
     @FXML
     Button createUserButton;
 
+    /**
+     * Initialises the login.fxml page.
+     */
     @FXML
     public void initialize() {
         userNameTextField.setOnKeyPressed(event -> {
@@ -143,17 +146,18 @@ public class LoginController {
     }
 
     /**
-     * . Method to register a new user account.
+     * Method to register a new user account.
      */
     @FXML
     public void onCreateUserPressed() {
-        String username = userNameTextField.getText().toLowerCase();
-        String password = passwordField.getText();
-        String name = nameTextField.getText();
         clearErrors();
         errorText.setTranslateX(-85);
         errorText.setTranslateY(130);
+
         UserLoginService userLoginService = new UserLoginService();
+        String username = userNameTextField.getText().toLowerCase();
+        String password = passwordField.getText();
+        String name = nameTextField.getText();
         if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
                 && password.matches(".*[a-zA-Z0-9]+.*") && !name.isEmpty()) {
             int outcome = userLoginService.createAccount(name, username, password);
@@ -182,6 +186,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method to change the page back to the login page when the back button is pressed.
+     */
     @FXML
     public void onGoBackPressed() {
         FXWrapper.getInstance().launchPage("login");
@@ -230,10 +237,17 @@ public class LoginController {
         }
     }
 
+    /**
+     * Sets the border of the text field to have a red border to indicate an error.
+     * @param textField the text field to set the border of
+     */
     private void setErrorFieldBorder(TextField textField) {
         textField.setStyle("-fx-border-color: RED");
     }
 
+    /**
+     * Resets the password fields to not have a red border.
+     */
     private void resetPasswordBorders() {
         passwordField.setStyle("-fx-border-color: None");
         confirmPasswordField.setStyle("-fx-border-color: None");
@@ -274,6 +288,9 @@ public class LoginController {
 
     }
 
+    /**
+     * Method to toggle the visibility of the register account fields.
+     */
     private void toggleShowCreateAccount() {
         nameText.setVisible(true);
         nameTextField.setVisible(true);
