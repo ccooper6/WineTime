@@ -4,11 +4,6 @@ import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.models.User;
 import seng202.team1.repository.UserDAO;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,6 +11,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Objects;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Class to handle user login and register requests. Stores username as an encrypted value using AES encryption
@@ -54,12 +54,17 @@ public class UserLoginService {
         return userDAO.tryLogin(encrypt(username), Objects.hash(password));
     }
 
+    /**
+     * Returns the name of the user using their username as reference.
+     * @param username the username to search for
+     * @return the name of the user
+     */
     public String getName(String username) {
         return userDAO.getName(encrypt(username));
     }
 
     /**
-     * Returns the encrypted username
+     * Returns the encrypted username.
      * @param username the raw unencrypted username
      * @return encrypted username
      */

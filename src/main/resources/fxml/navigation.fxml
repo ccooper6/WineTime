@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="NavigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.NavigationController">
+<AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.NavigationController">
    <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0">
       <top>
          <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
@@ -53,7 +53,7 @@
       <center>
          <StackPane fx:id="contentHere" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #d9d9d9;" BorderPane.alignment="CENTER">
             <children>
-               <Pane fx:id="StackPanePane" prefHeight="183.0" prefWidth="600.0" visible="false">
+               <Pane fx:id="stackPanePane" prefHeight="183.0" prefWidth="600.0" visible="false">
                   <children>
                      <Pane layoutX="200.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
                   </children>

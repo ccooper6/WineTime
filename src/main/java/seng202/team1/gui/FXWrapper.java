@@ -19,10 +19,6 @@ public class FXWrapper {
     private User currentUser;
     private int challenge = 0;
 
-//    private ProfileController profileController;
-
-//    private Object curSubPageController;
-
     /**
      * Gets the singleton.
      * @return the FXWrapper singleton
@@ -76,7 +72,6 @@ public class FXWrapper {
             navigationController = navigationLoader.getController();
             navigationController.loadPageContent(name);
 
-//            curSubPageController = navigationLoader.getController();
             Scene scene = new Scene(navigationRoot);
             stage.setScene(scene);
             stage.setTitle(name);
@@ -94,28 +89,36 @@ public class FXWrapper {
         return navigationController;
     }
 
-//    public  getProfileController() { return profileController; }
-
+    /**
+     * Sets the current user.
+     * @param user the current user
+     */
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
 
+    /**
+     * Gets the current user.
+     * @return the current user
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Sets the challenge number.
+     * @param chalNum the challenge number.
+     */
     public void setChallenge(int chalNum) {
         System.out.println("updated challenge number");
         challenge = chalNum;
     }
 
+    /**
+     * Gets the challenge number.
+     * @return the challenge number.
+     */
     public int getChallenge() {
         return challenge;
     }
-
-
-
-//    public Object getCurPageController() {
-//        return curSubPageController;
-//    }
 }

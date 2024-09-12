@@ -85,7 +85,7 @@
                   <Pane fx:id="noChallengePane" layoutX="10.0" layoutY="32.0" prefHeight="64.0" prefWidth="957.0">
                      <children>
                         <Label fx:id="challengeLabeltext" layoutX="6.0" layoutY="25.0" text="No active challenges." />
-                        <Button fx:id="StartChallengeButton" layoutX="424.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
+                        <Button fx:id="startChallengeButton" layoutX="424.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
                            <font>
                               <Font size="14.0" />
                            </font>

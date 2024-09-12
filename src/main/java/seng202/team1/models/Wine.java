@@ -62,8 +62,8 @@ public class Wine {
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      * @param wineId int {@link Wine#wineId}
      */
-    public Wine(int wineId, String name, String description, int price, int vintage, String country, String province, String region1, String region2,
-                String variety, String winery, String tasterName, String tasterTwitter) {
+    public Wine(int wineId, String name, String description, int price, int vintage, String country, String province, String region1,
+                String region2, String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -78,22 +78,6 @@ public class Wine {
         this.tasterTwitter = tasterTwitter;
         this.wineId = wineId;
 
-    }
-
-    public Wine() {
-        this.name = "";
-        this.description = "";
-        this.price = 0;
-        this.vintage = 0;
-        this.variety = "";
-        this.country = "";
-        this.province = "";
-        this.region1 = "";
-        this.region2 = "";
-        this.winery = "";
-        this.tasterName = "";
-        this.tasterTwitter = "";
-        this.wineId = 0;
     }
 
     /**
@@ -214,7 +198,7 @@ public class Wine {
 
     /**
      * Getter for the String name of the region of the wine.
-     * @return {@link Wine#region}
+     * @return {@link Wine#region1}
      */
     public String getRegion1() {
         return region1;
@@ -293,14 +277,16 @@ public class Wine {
         this.tasterTwitter = tasterTwitter;
     }
 
+    /**
+     * Gets the correct image path for the wine based on its variety.
+     * @return the image path
+     */
     public String getImagePath() {
         String imagePath;
-
         WineDAO wineDao = new WineDAO();
         if (variety == null) {
             imagePath = "/images/wine-bottle_pic.png";
         } else {
-
             if (wineDao.getWhite().contains(getVariety())) {
                 imagePath = "/images/White Wine.jpg";
             } else if (wineDao.getRed().contains(getVariety())) {
@@ -318,7 +304,7 @@ public class Wine {
     }
 
     /**
-     * Returns the wine's wine id
+     * Returns the wine's wine id.
      * @return wine id
      */
     public int getWineId() {

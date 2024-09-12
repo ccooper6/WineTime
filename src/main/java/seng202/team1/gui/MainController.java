@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import seng202.team1.services.SearchWineService;
-import seng202.team1.repository.WineCategoryService;
+import seng202.team1.services.WineCategoryService;
 
 
 import java.io.IOException;

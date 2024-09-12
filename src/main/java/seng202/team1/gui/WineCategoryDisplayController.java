@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
-import seng202.team1.repository.WineCategoryService;
+import seng202.team1.services.WineCategoryService;
 
 import java.io.IOException;
 import java.util.ArrayList;
