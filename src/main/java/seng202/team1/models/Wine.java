@@ -1,6 +1,7 @@
 package seng202.team1.models;
 
 import seng202.team1.repository.WineDAO;
+import seng202.team1.services.WineVarietyService;
 
 /**
  * The model for the Wine Object.
@@ -283,26 +284,26 @@ public class Wine {
      */
     public String getImagePath() {
         String imagePath;
-        WineDAO wineDao = new WineDAO();
-        if (variety == null) {
-            imagePath = "/images/wine-bottle_pic.png";
-        } else {
-            if (wineDao.getWhite().contains(getVariety())) {
-                imagePath = "/images/White Wine.jpg";
-            } else if (wineDao.getRed().contains(getVariety())) {
+        int variety = WineVarietyService.getInstance().getVarietyFromGrape(getVariety());
+        switch (variety) {
+            case 0:
                 imagePath = "/images/Red Wine.jpg";
-            } else if (wineDao.getRose().contains(getVariety())) {
-                imagePath = "/images/Rose Wine.jpg";
-            } else if (wineDao.getSparkling().contains(getVariety())) {
-                imagePath = "/images/Sparkling Wine.jpg";
-            } else {
+                break;
+            case 1:
+                imagePath =  "/images/White Wine.jpg";
+                break;
+            case 2:
+                imagePath =  "/images/Rose Wine.jpg";
+                break;
+            case 3:
+                imagePath =  "/images/Sparkling Wine.jpg";
+                break;
+            default:
                 imagePath = "/images/wine-bottle_pic.png";
-            }
         }
 
         return getClass().getResource(imagePath).toExternalForm();
     }
-
     /**
      * Returns the wine's wine id.
      * @return wine id
