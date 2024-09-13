@@ -34,7 +34,7 @@ public class MainController {
                 "Tuscany, Sangiovese",
                 "Hawke's Bay, Syrah",
                 "Spain, Rioja, Tempranillo",
-                "New Zealand, Gisborne, Chardonnay",
+                "Mendoza, Malbec",
                 "US, Napa Valley, Cabernet Sauvignon",
                 "Central Otago, Pinot Noir, New Zealand"
         };
@@ -46,6 +46,7 @@ public class MainController {
                 Parent parent = fxmlLoader.load();
                 contentsGrid.add(parent, 0, i);
                 WineCategoryService.getInstance().incrementCurrentCategory();
+                System.out.println(i+1+"/"+tags.length);
             }
         } catch (IOException e) {
             e.printStackTrace();
