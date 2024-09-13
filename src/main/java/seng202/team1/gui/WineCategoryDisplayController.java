@@ -114,9 +114,9 @@ public class WineCategoryDisplayController {
         TranslateTransition transition4 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(4)));
         TranslateTransition transition5;
         if (posOrNeg == 1) {
-            transition5 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(5)));
-        } else {
             transition5 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(0)));
+        } else {
+            transition5 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(5)));
         }
         List<TranslateTransition> wineTransitions = List.of(transition1, transition2, transition3, transition4, transition5);
         for (int i = 0; i < wineTransitions.size(); i++) {
@@ -135,7 +135,8 @@ public class WineCategoryDisplayController {
         fadeTransition.setFromValue(0);
         fadeTransition.setToValue(1);
         fadeTransition.play();
-        fadeTransition.setOnFinished(event -> wineViews.get(getId(movingFrame)).setDisable(false));
+        wineViews.get(getId(movingFrame)).setDisable(false);
+        //fadeTransition.setOnFinished(event -> );
         System.out.println("enabled " + getId(movingFrame));
     }
 
@@ -148,7 +149,8 @@ public class WineCategoryDisplayController {
         fadeTransitionOut.setFromValue(1);
         fadeTransitionOut.setToValue(0);
         fadeTransitionOut.play();
-        fadeTransitionOut.setOnFinished(event -> wineViews.get(getId(movingFrame)).setDisable(true));
+        wineViews.get(getId(movingFrame)).setDisable(true);
+        //fadeTransitionOut.setOnFinished(event -> wineViews.get(getId(movingFrame)).setDisable(true));
         System.out.println("disabled " + getId(movingFrame));
     }
 
@@ -159,9 +161,9 @@ public class WineCategoryDisplayController {
         transitionReturn.play();
         transitionReturn.setOnFinished(event -> {
             if(posOrNeg == -1) {
-                resetFirstRight();
-            } else {
                 resetFirstLeft();
+            } else {
+                resetFirstRight();
             }
             rightArrowButton.setDisable(false);
             leftArrowButton.setDisable(false);

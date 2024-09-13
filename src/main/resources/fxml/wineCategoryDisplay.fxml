@@ -13,7 +13,7 @@
             <Font name="PT Serif" size="25.0" />
          </font>
       </Text>
-      <AnchorPane fx:id="mainWine0" layoutX="-150.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0" />
+      <AnchorPane fx:id="mainWine0" layoutX="-150.0" layoutY="53.0" opacity="0.0" prefHeight="126.0" prefWidth="98.0" />
       <AnchorPane fx:id="mainWine1" layoutX="50.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine2" layoutX="250.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine4" layoutX="650.0" layoutY="53.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
