@@ -42,7 +42,9 @@ public class WineCategoryDisplayController {
     AnchorPane mainWine5;
     List<AnchorPane> wineViews;
     int firstWine = 0;
-    int MAXWINES = 6;
+    int MAXWINES = 10;
+    int leftDisplay = 6;
+    int rightDisplay = MAXWINES -1;
     double TRANSDURATION = 0.2;
     int DISTANCEBETWEEN = 200;
 
@@ -68,7 +70,6 @@ public class WineCategoryDisplayController {
         titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
         for (int i = 0; i < Math.min(displayWines.size(), MAXWINES); i++) {
             SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
-
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 wineDisplays.add(loader.load());
@@ -161,9 +162,9 @@ public class WineCategoryDisplayController {
         transitionReturn.play();
         transitionReturn.setOnFinished(event -> {
             if(posOrNeg == -1) {
-                resetFirstLeft();
+                resetFirstLeft(movingFrame);
             } else {
-                resetFirstRight();
+                resetFirstRight(movingFrame);
             }
             rightArrowButton.setDisable(false);
             leftArrowButton.setDisable(false);
@@ -173,20 +174,42 @@ public class WineCategoryDisplayController {
     /**
      * The indexing of the wine views is reset
      */
-    public void resetFirstRight() {
+    public void resetFirstRight(int frame) {
+        wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(leftDisplay));
+        leftDisplay = (leftDisplay + 1) % MAXWINES;
+        rightDisplay = (rightDisplay + 1) % MAXWINES;
+        System.out.println(leftDisplay + " "+ rightDisplay);
+
         if (firstWine >= wineViews.size() - 1) {
             firstWine = 0;
         } else {
             firstWine ++;
         }
     }
-    public void resetFirstLeft() {
+    public void resetFirstLeft(int frame) {
+        wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(rightDisplay));
+        if(leftDisplay <= 0) {
+            leftDisplay = MAXWINES -1;
+        } else {
+            leftDisplay --;
+        }
+        if (rightDisplay == 0) {
+            rightDisplay = MAXWINES -1;
+        } else {
+            rightDisplay --;
+        }
+        System.out.println(leftDisplay + " "+  rightDisplay);
+
         if (firstWine <= 0) {
             firstWine = wineViews.size() -1;
         } else {
             firstWine --;
         }
     }
+//    private void getLeftNewDisplay(int frame) {
+//        wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(newDisplay));
+//        newDisplay = (newDisplay + 1) % MAXWINES;
+//    }
 
     @FXML
     public void transitionRight() {
