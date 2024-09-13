@@ -287,17 +287,22 @@ public class Wine {
         int variety = WineVarietyService.getInstance().getVarietyFromGrape(getVariety());
         switch (variety) {
             case 0:
-                return "/images/Red Wine.jpg";
+                imagePath = "/images/Red Wine.jpg";
+                break;
             case 1:
-                return "/images/White Wine.jpg";
+                imagePath =  "/images/White Wine.jpg";
+                break;
             case 2:
-                return "/images/Rose Wine.jpg";
+                imagePath =  "/images/Rose Wine.jpg";
+                break;
             case 3:
-                return "/images/Sparkling Wine.jpg";
+                imagePath =  "/images/Sparkling Wine.jpg";
+                break;
             default:
-                return "/images/wine-bottle_pic.png";
+                imagePath = "/images/wine-bottle_pic.png";
         }
 
+        return getClass().getResource(imagePath).toExternalForm();
     }
     /**
      * Returns the wine's wine id.
