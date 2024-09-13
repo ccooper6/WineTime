@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -22,9 +23,6 @@ import java.util.List;
 public class WineCategoryDisplayController {
     @FXML
     Text titleText;
-
-    @FXML
-    GridPane wineGrid;
 
     @FXML
     FontAwesomeIconView leftArrowButton;
@@ -49,6 +47,8 @@ public class WineCategoryDisplayController {
 
     ArrayList<Parent> wineDisplays;
 
+    String tags;
+
     @FXML
     public void initialize()
     {
@@ -59,6 +59,7 @@ public class WineCategoryDisplayController {
         onRefresh();
 
         ArrayList<Wine> displayWines = SearchWineService.getInstance().getWineList();
+        tags = SearchWineService.getInstance().getCurrentTags();
 
         if (displayWines == null || displayWines.size() < 5) {
             System.out.println("Wine list too short");
@@ -174,5 +175,15 @@ public class WineCategoryDisplayController {
         //below all occur at the same time as wineTransitions
         fadeInRight();
         fadeOutRight();
+    }
+
+    /**
+     * Takes the user to the search page with search parameters of {@link WineCategoryDisplayController#tags}
+     */
+    @FXML
+    public void seeMore()
+    {
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+        FXWrapper.getInstance().launchSubPage("searchWine");
     }
 }

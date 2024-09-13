@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class SearchWineService {
     private Wine currentWine;
     private ArrayList<Wine> wineList;
+    private String currentTags;
 
     private static SearchWineService instance;
 
@@ -48,6 +49,16 @@ public class SearchWineService {
     }
 
     /**
+     * Returns the last used tags when searching by tags
+     *
+     * @return {@link String} last used tags
+     */
+    public String getCurrentTags()
+    {
+        return currentTags;
+    }
+
+    /**
      * Returns the stored wines list
      *
      * @return {@link ArrayList<Wine>} wines
@@ -65,6 +76,8 @@ public class SearchWineService {
      */
     public void searchWinesByTags(String tags, int limit)
     {
+        currentTags = tags;
+
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         String[] tagsArray = tags.split(",");
 

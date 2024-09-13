@@ -62,7 +62,7 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
-        System.out.println("Start processing");
+//        System.out.println("Start processing");
 
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
