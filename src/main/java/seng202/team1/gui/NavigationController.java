@@ -49,6 +49,9 @@ public class NavigationController {
     Pane topBar;
     @FXML
     private StackPane contentHere;
+
+    @FXML
+    private Parent mainPage;  // mainPage is running underneth the other screens
     @FXML
     TextField searchBar;
 
@@ -141,15 +144,33 @@ public class NavigationController {
      */
     public void loadPageContent(String name) {
         try {
+            System.out.println(contentHere.getChildren());
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
-            contentHere.getChildren().addFirst(pageContent);
-
+//            contentHere.getChildren().addFirst(pageContent);
+            contentHere.getChildren().add(pageContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void loadMainScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpage.fxml"));
+            mainPage = loader.load();
+            contentHere.getChildren().add(mainPage); // Add the main page to the stack
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//    testing to see if overlaying pages solves load time
+//
+//
+//    }
+
 
 
 
@@ -166,6 +187,7 @@ public class NavigationController {
      */
     public Wine getWine() {
         return this.wine;
+
     }
 
     /**
@@ -221,24 +243,35 @@ public class NavigationController {
     }
 
     public void onHomeClicked(MouseEvent actionEvent) {
-        FXWrapper.getInstance().launchSubPage("mainpage");
+        contentHere.getChildren().clear(); // Clear all pages
+        contentHere.getChildren().add(mainPage);
+//        just clear the pages on top
+
+//        FXWrapper.getInstance().launchSubPage("mainpage");
+//        closePopUp()
+//        dont launch subpage here, home should be running underneth, close the page on top of it to return to home.
+
+//
+
     }
 
     public void onSavesClicked(ActionEvent actionEvent) {
         //example navigation subpage - to change when made
-        FXWrapper.getInstance().launchSubPage("mainpage");
+//        FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
     public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
         Logger log = LogManager.getLogger(App.class);
         log.info("Needs Implementing");
-        FXWrapper.getInstance().launchSubPage("mainpage");
+//        FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
     public void onUserClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
-        FXWrapper.getInstance().launchSubPage("profile");
+//        FXWrapper.getInstance().launchSubPage("profile");
+        loadPageContent("profile");
+
     }
 
 

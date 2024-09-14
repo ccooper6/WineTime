@@ -1,4 +1,4 @@
-package seng202.team0.gui;
+package seng202.team1.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,9 +15,9 @@ import javafx.scene.layout.Pane;
 import org.apache.commons.collections.functors.FalsePredicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team0.models.Wine;
-import seng202.team0.services.SearchWineService;
-import seng202.team0.services.WineCategoryService;
+import seng202.team1.models.Wine;
+import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WineCategoryService;
 
 import java.io.IOException;
 import java.util.ArrayList;
