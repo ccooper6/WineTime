@@ -16,6 +16,8 @@ import org.apache.commons.collections.functors.FalsePredicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.ChallengeDAO;
+import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -109,6 +111,11 @@ public class ProfileController {
     @FXML
     private AnchorPane wishlistPane;
 
+    private DatabaseManager databaseManager;
+    private ChallengeDAO chalDao;
+
+    private int currentUserID;
+
     private static final Logger log = LogManager.getLogger(ProfileController.class);
 
     List<Wine> wineList;
@@ -122,14 +129,14 @@ public class ProfileController {
 
 
     public void initialize() {
-//        List<AnchorPane> wishlistWineView = List.of(wishlistWine1, wishlistWine2, wishlistWine3, wishlistWine4);
-//        List<Label> wishlistWineInfo = List.of(wishlistWineInfo1, wishlistWineInfo2, wishlistWineInfo3, wishlistWineInfo4);
-//        displayWishlist(wishlistWineView, wishlistWineInfo);
-//        onWishlistRefreshed(wishlistWineView,  wishlistWineInfo);
         challengePane.setVisible(false);
-//        FXWrapper.getInstance().setChallenge(1);
-        System.out.println(FXWrapper.getInstance().getChallenge());
-        if (FXWrapper.getInstance().getChallenge() == 1) {
+
+        databaseManager = DatabaseManager.getInstance();
+        chalDao = new ChallengeDAO();
+        currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
+
+        System.out.println(chalDao.getNumActiveChallenges(currentUserID));
+        if (chalDao.getNumActiveChallenges(currentUserID) == 1) {
             System.out.println("calls moveWine");
             moveWinesPane();
             activateChallenge();
