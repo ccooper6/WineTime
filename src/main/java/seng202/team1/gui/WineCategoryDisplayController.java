@@ -83,7 +83,6 @@ public class WineCategoryDisplayController {
         mainWine3.getChildren().add(wineDisplays.get(3));
         mainWine4.getChildren().add(wineDisplays.get(4));
         mainWine5.getChildren().add(wineDisplays.get(5));
-        System.out.println(wineDisplays);
     }
 
     /**
@@ -137,8 +136,6 @@ public class WineCategoryDisplayController {
         fadeTransition.setToValue(1);
         fadeTransition.play();
         wineViews.get(getId(movingFrame)).setDisable(false);
-        //fadeTransition.setOnFinished(event -> );
-        System.out.println("enabled " + getId(movingFrame));
     }
 
     /**
@@ -151,8 +148,6 @@ public class WineCategoryDisplayController {
         fadeTransitionOut.setToValue(0);
         fadeTransitionOut.play();
         wineViews.get(getId(movingFrame)).setDisable(true);
-        //fadeTransitionOut.setOnFinished(event -> wineViews.get(getId(movingFrame)).setDisable(true));
-        System.out.println("disabled " + getId(movingFrame));
     }
 
     public void teleportEnd(int movingFrame, int posOrNeg) {
@@ -178,7 +173,6 @@ public class WineCategoryDisplayController {
         wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(leftDisplay));
         leftDisplay = (leftDisplay + 1) % MAXWINES;
         rightDisplay = (rightDisplay + 1) % MAXWINES;
-        System.out.println(leftDisplay + " "+ rightDisplay);
 
         if (firstWine >= wineViews.size() - 1) {
             firstWine = 0;
@@ -198,7 +192,6 @@ public class WineCategoryDisplayController {
         } else {
             rightDisplay --;
         }
-        System.out.println(leftDisplay + " "+  rightDisplay);
 
         if (firstWine <= 0) {
             firstWine = wineViews.size() -1;
@@ -206,10 +199,6 @@ public class WineCategoryDisplayController {
             firstWine --;
         }
     }
-//    private void getLeftNewDisplay(int frame) {
-//        wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(newDisplay));
-//        newDisplay = (newDisplay + 1) % MAXWINES;
-//    }
 
     @FXML
     public void transitionRight() {
