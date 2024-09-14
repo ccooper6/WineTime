@@ -52,6 +52,11 @@ public class WineCategoryDisplayController {
 
     String tags;
 
+    /**
+     * Only initialises on login
+     * Creates an array of the anchor panes (len = 6)
+     * Fetches the number of wine objects from the database and stores them in another array (len = MAXWINES)
+     */
     @FXML
     public void initialize()
     {
@@ -86,10 +91,10 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * Refreshes the wine list in preparation to be displayed on the main page.
+     * Controls the arrow buttons
      */
     @FXML
-    public void onRefresh(/*List<Label> wineInfo, List<ImageView> wineIcon*/) {
+    public void onRefresh() {
         rightArrowButton.setOnMouseClicked(event -> {
             transitionRight();
         });
@@ -107,6 +112,10 @@ public class WineCategoryDisplayController {
         return (firstWine + id) % wineViews.size();
     }
 
+    /**
+     * Controls all the left or right translations
+     * @param posOrNeg is the direction of the translation (right = positive)
+     */
     public void shift(int posOrNeg) {
         TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(1)));
         TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(2)));
@@ -150,6 +159,12 @@ public class WineCategoryDisplayController {
         wineViews.get(getId(movingFrame)).setDisable(true);
     }
 
+    /**
+     * Translates the end frame to the location of the opposite end
+     * The arrows are re-enabled
+     * @param movingFrame is the end frame moving (0 or 5)
+     * @param posOrNeg is the direction of the translation (right = positive)
+     */
     public void teleportEnd(int movingFrame, int posOrNeg) {
         TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(0.1), wineViews.get(getId(movingFrame)));
         transitionReturn.setByX(posOrNeg * DISTANCEBETWEEN * 5);
@@ -167,7 +182,9 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * The indexing of the wine views is reset
+     * Changes the content within the teleporting frame
+     * Updates the first wine index
+     * @param frame is the teleporting frame (0 or 5)
      */
     public void resetFirstRight(int frame) {
         wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(leftDisplay));
@@ -180,6 +197,12 @@ public class WineCategoryDisplayController {
             firstWine ++;
         }
     }
+
+    /**
+     * Changes the content within the teleporting frame
+     * Updates the firstwine index
+     * @param frame is the teleporting frame (0 or 5)
+     */
     public void resetFirstLeft(int frame) {
         wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(rightDisplay));
         if(leftDisplay <= 0) {
@@ -200,6 +223,10 @@ public class WineCategoryDisplayController {
         }
     }
 
+    /**
+     * Triggered by right button clicked
+     * Controls movement of the anchor panes
+     */
     @FXML
     public void transitionRight() {
         rightArrowButton.setDisable(true);
@@ -209,6 +236,11 @@ public class WineCategoryDisplayController {
         fadeOut(1);
         teleportEnd(0, 1);
     }
+
+    /**
+     * Triggered by left button clicked
+     * Controls movement of the anchor panes
+     */
     @FXML
     public void transitionLeft() {
         rightArrowButton.setDisable(true);
