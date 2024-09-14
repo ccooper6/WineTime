@@ -172,7 +172,7 @@ public class DatabaseManager {
         String copyPath = this.url.substring(12);
         Path copy = Paths.get(copyPath);
 
-        // Differentiate what og.db to use based on whether we are running tests or main application
+        // Differentiate what og.db to use based on whether we are running tests or main application jar
         try {
             if (System.getProperty("test.env") == null) {
                 InputStream ogPath = DatabaseManager.class.getResourceAsStream("/sql/og.db");
