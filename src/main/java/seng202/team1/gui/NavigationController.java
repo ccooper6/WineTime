@@ -225,15 +225,12 @@ public class NavigationController {
     }
 
     public void onSavesClicked(ActionEvent actionEvent) {
-        //example navigation subpage - to change when made
         FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
     public void onLikesClicked(MouseEvent actionEvent) {
-        //example navigation subpage - to change when made
         Logger log = LogManager.getLogger(App.class);
-        log.info("Needs Implementing");
-        FXWrapper.getInstance().launchSubPage("mainpage");
+        FXWrapper.getInstance().launchSubPage("wishlist");
     }
 
     public void onUserClicked(MouseEvent actionEvent) {
