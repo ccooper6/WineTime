@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Author: @Elise
+ */
 public class WineCategoryDisplayController {
     @FXML
     Text titleText;
