@@ -14,6 +14,11 @@ import java.text.CharacterIterator;
 import java.text.Normalizer;
 import java.text.StringCharacterIterator;
 
+/**
+ * The class that handles populating the og.db.
+ * Written by Wen Sheng Thong wst44, despite IntelliJ saying its written by
+ * Yuhao Zhang.
+ */
 public class WineCsvDao {
 
 
