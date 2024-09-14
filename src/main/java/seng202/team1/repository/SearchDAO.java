@@ -77,7 +77,7 @@ public class SearchDAO {
                     wineList.add(currentWineBuilder.build());
                 }
 
-                currentWineBuilder = WineBuilder.generaicSetup(resultSet.getInt("id"),
+                currentWineBuilder = WineBuilder.genericSetup(resultSet.getInt("id"),
                         resultSet.getString("wine_name"),
                         resultSet.getString("description"),
                         resultSet.getInt("price"));

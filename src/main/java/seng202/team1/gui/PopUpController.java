@@ -68,7 +68,7 @@ public class PopUpController {
         Wine wine = navigationController.getWine();
         if (wine == null) {
             log.error("Wine is null");
-            wine = WineBuilder.generaicSetup(-1, "Error Wine", "Wine is null", -1).build();
+            wine = WineBuilder.genericSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
         populatePopup(wine);
 

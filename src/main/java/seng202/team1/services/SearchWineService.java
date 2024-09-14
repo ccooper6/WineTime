@@ -81,6 +81,8 @@ public class SearchWineService {
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         String[] tagsArray = tags.split(",");
 
+        System.out.println(tagsArray.length);
+
         ArrayList<String> tagList = new ArrayList<>();
         for (String tag : tagsArray) {
             tagList.add(tag.trim());
