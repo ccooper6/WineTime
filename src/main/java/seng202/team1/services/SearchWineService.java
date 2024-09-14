@@ -101,6 +101,7 @@ public class SearchWineService {
     public void searchWinesByName(String filterString, int limit) {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+        filterString = filterString.trim();
 
         wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
     }
