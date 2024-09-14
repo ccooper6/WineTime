@@ -101,4 +101,7 @@ public class SearchWineService {
     public ArrayList<Wine> getWishlistWines(int userId) {
         return WishlistDAO.getInstance().fetchWines(userId);
     }
+    public void addToWishlist(int wineID, int userID){
+        WishlistDAO.getInstance().addWine(wineID, userID);
+    }
 }

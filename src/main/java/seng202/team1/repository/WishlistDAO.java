@@ -124,4 +124,17 @@ public class WishlistDAO {
             throw new RuntimeException(e);
         }
     }
+    public void addWine(int wineID, int userID) {
+        String sql = "INSERT INTO wishlist (userID, wineID) VALUES (?,?)";
+        try(Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, userID);
+                ps.setInt(2, wineID);
+                ps.executeUpdate();
+//                conn.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
