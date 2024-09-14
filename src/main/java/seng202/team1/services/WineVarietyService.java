@@ -1,0 +1,98 @@
+package seng202.team1.services;
+
+import seng202.team1.models.Wine;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashSet;
+
+public class WineVarietyService {
+
+    static HashSet<String> reds = new HashSet<>();
+
+    static HashSet<String> whites = new HashSet<>();
+
+    static HashSet<String> rose = new HashSet<>();
+
+    static HashSet<String> sparkling = new HashSet<>();
+
+    private static WineVarietyService instance;
+
+    /**
+     Returns the instance and creates one if none exists.
+     @return {@link WineVarietyService instance}
+     */
+    public static WineVarietyService getInstance() {
+        if (instance == null) {
+            instance = new WineVarietyService();
+
+
+        }
+        return instance;
+    }
+
+    /**
+     * The initialiser for WineVarietyService, calls setVarietySetsFromTextFiles.
+     */
+    public WineVarietyService() {
+        setVarietySetsFromTextFiles();
+    }
+
+    /**
+     * This method takes all the wine varietys in the text files and puts them in sets in WineVarietyService.
+     */
+    public void setVarietySetsFromTextFiles() {
+
+        String redsFilePath = "src/main/resources/wine_catagories/reds.txt";
+        String whitesFilePath = "src/main/resources/wine_catagories/whites.txt";
+        String roseFilePath = "src/main/resources/wine_catagories/rose.txt";
+        String sparklingFilePath = "src/main/resources/wine_catagories/sparkling.txt";
+
+        addWineToSet(redsFilePath, reds);
+        addWineToSet(whitesFilePath, whites);
+        addWineToSet(roseFilePath, rose);
+        addWineToSet(sparklingFilePath, sparkling);
+
+    }
+
+    /**
+     * This method takes the url of a wine varietys text file and puts all of them in a set.
+     * @param url the filepath of the text file.
+     * @param variety the set to put the lines of the text file in.
+     */
+    public void addWineToSet(String url, HashSet<String> variety) {
+
+        try {
+            Files.lines(Paths.get(url)).map(String::trim).forEach(variety::add);
+        } catch (IOException e ) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * This method takes in a grape variety and returns an int that relates to what colour wine the grape makes.
+     * @param grape the grape variety
+     * @return 0 if red, 1 if white, 2 if rose, 3 if sparkling, and -1 if it can't be found.
+     */
+    public int getVarietyFromGrape(String grape) {
+
+        if (grape == null) {
+            return -1;
+        }
+        if (reds.contains(grape)) {
+            return 0;
+        } else if (whites.contains(grape)) {
+            return 1;
+        } else if (rose.contains(grape)) {
+            return 2;
+        } else if (sparkling.contains(grape)) {
+            return 3;
+        } else {
+            return -1;
+        }
+
+    }
+
+}

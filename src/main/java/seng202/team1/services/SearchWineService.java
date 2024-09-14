@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
+import seng202.team1.repository.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -89,5 +90,15 @@ public class SearchWineService {
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
 
         wineList = SearchDAO.getInstance().searchWineByName(filterString);
+    }
+
+    /**
+     * Forwards the wineList from the DAO to the WishlistController
+     *
+     * @param userId is the id of the active user
+     * @return wineList array of wines from the user's wishlist
+     */
+    public ArrayList<Wine> getWishlistWines(int userId) {
+        return WishlistDAO.getInstance().fetchWines(userId);
     }
 }
