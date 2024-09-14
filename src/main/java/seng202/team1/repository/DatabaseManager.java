@@ -7,7 +7,10 @@ import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 
 /**
@@ -170,18 +173,16 @@ public class DatabaseManager {
         String copyPath = this.url.substring(12);
 
         // Differentiate what og.db to use based on whether we are running tests or main application
-        String ogPath = System.getProperty("test.env") != null ? Paths.get("src/test/resources/sql/og.db").toString() : Paths.get("src/main/resources/sql/og.db").toString();
+        InputStream ogPath = System.getProperty("test.env") != null ? DatabaseManager.class.getResourceAsStream("/sql/test/og.db") : DatabaseManager.class.getResourceAsStream("/sql/og.db");
         Path copy = Paths.get(copyPath);
-        Path og = Paths.get(ogPath);
-
-        log.info("Copying database from: " + og + " to: " + copy);
+        log.info("Copying database from: " + ogPath + " to: " + copy);
         try {
-            Files.copy(og, copy);
+            Files.copy(ogPath, copy);
             log.info("Database copied successfully.");
         } catch (FileAlreadyExistsException e) {
             log.info("DB File already exists. - Did not replace");
         } catch (IOException e) {
-            log.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
