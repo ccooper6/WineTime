@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Author: @Elise
+ */
 public class WineCategoryDisplayController {
     @FXML
     Text titleText;
@@ -166,7 +169,7 @@ public class WineCategoryDisplayController {
      * @param posOrNeg is the direction of the translation (right = positive)
      */
     public void teleportEnd(int movingFrame, int posOrNeg) {
-        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(0.1), wineViews.get(getId(movingFrame)));
+        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(movingFrame)));
         transitionReturn.setByX(posOrNeg * DISTANCEBETWEEN * 5);
         transitionReturn.setInterpolator(Interpolator.DISCRETE);
         transitionReturn.play();
