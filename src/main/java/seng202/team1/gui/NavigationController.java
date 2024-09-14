@@ -107,7 +107,8 @@ public class NavigationController {
                     SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
                 }
 
-                FXWrapper.getInstance().launchSubPage("searchWine");
+//                FXWrapper.getInstance().launchSubPage("searchWine");
+                loadPageContent("searchWine");
 //                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
