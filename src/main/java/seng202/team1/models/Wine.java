@@ -2,6 +2,8 @@ package seng202.team1.models;
 
 import seng202.team1.services.WineVarietyService;
 
+import java.text.Normalizer;
+
 /**
  * The model for the Wine Object.
  *<br><br>
@@ -311,5 +313,90 @@ public class Wine {
      */
     public int getWineId() {
         return this.wineId;
+    }
+
+    /**
+     * Returns true if any regions / province / country is equal
+     * to the supplied string
+     *
+     * @param location A {@link String} for the location
+     * @return true if the wine contains the string in a location parameter, false otherwise
+     */
+    public boolean hasLocation(String location)
+    {
+        location = Normalizer.normalize(location, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+
+        boolean isTrue = false;
+
+        // unfortunately cannot loop here since can't put null values into a list
+
+        if (country != null) {
+            String normalisedCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedCountry.equals(location);
+        }
+        if (province != null) {
+            String normalisedProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedProvince.equals(location);
+        }
+        if (region1 != null) {
+            String normalisedRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedRegion1.equals(location);
+        }
+        if (region2 != null) {
+            String normalisedRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedRegion2.equals(location);
+        }
+
+        if (!isTrue) {
+            System.out.println(name);
+            System.out.println(province);
+        }
+
+        return isTrue;
+    }
+
+    /**
+     * Returns whether the wine has a tag.
+     *
+     * @return true if any of the wines tags contains the tag given and false otherwise
+     */
+    public boolean hasTag(String tag)
+    {
+        if (Integer.toString(vintage).equals(tag))
+            return true;
+
+        if (country != null) {
+            String checkCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkCountry.equals(tag))
+                return true;
+        }
+        if (province != null) {
+            String checkProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkProvince.equals(tag))
+                return true;
+        }
+        if (region1 != null) {
+            String checkRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkRegion1.equals(tag))
+                return true;
+        }
+        if (region2 != null) {
+            String checkRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkRegion2.equals(tag))
+                return true;
+        }
+        if (variety != null) {
+            // using \\{M} for regex here because ^\\{ASCII} removed the first character for unknown reasons
+            String checkVariety = Normalizer.normalize(variety, Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
+            if (checkVariety.equals(tag))
+                return true;
+        }
+        if (winery != null) {
+            String checkWinery = Normalizer.normalize(winery, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkWinery.equals(tag))
+                return true;
+        }
+
+        return false;
     }
 }
