@@ -250,7 +250,7 @@ public class LogWineDao {
                 ResultSet rs = ps.executeQuery();
                 int i = 0;
                 while (i < maxNumbers && rs.next()) {
-                    userReviews.add(new Review(rs.getInt(1),rs.getInt(rs.getInt(2)),
+                    userReviews.add(new Review(rs.getInt(1),rs.getInt(2),
                             rs.getInt(3),rs.getString(4), rs.getString(5)));
                     i++;
                 }
