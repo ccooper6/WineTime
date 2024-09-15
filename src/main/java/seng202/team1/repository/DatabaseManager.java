@@ -7,7 +7,9 @@ import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 
 /**
@@ -165,20 +167,32 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Called upon the initialisation of the DatabaseManager class when the user clicks log in. Copies the database from
+     * within the jar to a location outside the jar as "copy.db" in the directory of the jar to be used by the app.
+     * When being run in a test environment, copies the database into the test resource directory as "test_database.db"
+     *
+     * @author Wen Sheng Thong
+     */
     public void initialiseDB() {
         // remove jdbc:sqlite:
         String copyPath = this.url.substring(12);
-
-        // Differentiate what og.db to use based on whether we are running tests or main application
-        String ogPath = System.getProperty("test.env") != null ? Paths.get("src/test/resources/sql/og.db").toString() : Paths.get("src/main/resources/sql/og.db").toString();
         Path copy = Paths.get(copyPath);
-        Path og = Paths.get(ogPath);
 
-        log.info("Copying database from: " + og + " to: " + copy);
+        // Differentiate what og.db to use based on whether we are running tests or main application jar
         try {
-            Files.copy(og, copy);
-            log.info("Database copied successfully.");
-        } catch (FileAlreadyExistsException e) {
+            if (System.getProperty("test.env") == null) {
+                InputStream ogPath = DatabaseManager.class.getResourceAsStream("/sql/og.db");
+                log.info("Copying database from: " + ogPath + " to: " + copy);
+                Files.copy(ogPath, copy);
+                log.info("Database copied successfully.");
+            } else {
+                Path ogPath = Paths.get("src/main/resources/sql/og.db");
+                log.info("Copying test database from: " + ogPath + " to: " + copy);
+                Files.copy(ogPath, copy);
+                log.info("Database copied successfully.");
+            }
+        } catch (FileNotFoundException e) {
             log.info("DB File already exists. - Did not replace");
         } catch (IOException e) {
             log.error(e.getMessage());

@@ -2,15 +2,20 @@ package seng202.team1.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.models.Review;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The class containing the functions to add entries to the "Likes" and "Reviews" table
  * Mainly called by the WineLoggingPopupController when the user logs a wine.
+ *
+ * @author Wen Sheng Thong
  */
 public class LogWineDao {
     /**
@@ -55,7 +60,7 @@ public class LogWineDao {
      * @param tagName tag name
      * @param value value to be added to prev value
      */
-    private void updateLikesValue(int uid, String tagName, int value) {
+    public void updateLikesValue(int uid, String tagName, int value) {
         int prevValue;
         String getPrevValueSql = "SELECT value FROM likes WHERE uid = ? AND tname = ?";
         String updateValueSql = "UPDATE likes SET value = ? WHERE uid = ? AND tname = ?";
@@ -84,7 +89,7 @@ public class LogWineDao {
      * @param tagName the tag name
      * @return Boolean
      */
-    private Boolean alreadyLikeExists(int uid, String tagName) {
+    public Boolean alreadyLikeExists(int uid, String tagName) {
         String test = "SELECT * FROM likes WHERE uid = ? AND tname = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(test)) {
@@ -97,13 +102,68 @@ public class LogWineDao {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Returns a hashmap of <String tagName, int tagValue> of the likedTags by the user.
+     * @param uid the current user int id
+     * @param maximumTag the maximum number of tags to return
+     * @param orderByValue set to true to return the highest valued tags
+     * @return
+     */
+    public HashMap<String, Integer> getLikedTags(int uid, int maximumTag, boolean orderByValue) {
+        HashMap<String, Integer> likedTags = new HashMap<>();
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ?";
+        if (orderByValue) {
+            likePs = "SELECT tname, value FROM likes WHERE uid = ? ORDER BY value DESC";
+        }
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(likePs)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                int i = 0;
+                while (i < maximumTag && rs.next()) {
+                    likedTags.put(rs.getString(1), rs.getInt(2));
+                    i++;
+                }
+                return likedTags;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * Returns a hashmap of <String tagName, int tagValue> of all the likedTags by the user.
+     * @param uid the current user int id
+     * @param orderByValue set to true to return the highest valued tags
+     * @return
+     */
+    public HashMap<String, Integer> getLikedTags(int uid, boolean orderByValue) {
+        HashMap<String, Integer> likedTags = new HashMap<>();
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ?";
+        if (orderByValue) {
+            likePs = "SELECT tname, value FROM likes WHERE uid = ? ORDER BY value DESC";
+        }
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(likePs)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    likedTags.put(rs.getString(1), rs.getInt(2));
+                }
+                return likedTags;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Returns a boolean indicating if the user has already reviewed the specified wine
      * @param uid the user id
      * @param wid the wine id
      * @return Boolean
      */
-    private Boolean alreadyReviewExists(int uid, int wid) {
+    public Boolean alreadyReviewExists(int uid, int wid) {
         String test = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(test)) {
@@ -155,7 +215,7 @@ public class LogWineDao {
      * @param newDescription the string description of the review
      * @param date the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      */
-    private void updateReview(int uid, int wid, int rating, String newDescription, String date) {
+    public void updateReview(int uid, int wid, int rating, String newDescription, String date) {
         String updateSql = "UPDATE reviews SET description = ?, rating = ?, date = ? WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement updateValuePs = conn.prepareStatement(updateSql)) {
@@ -168,6 +228,64 @@ public class LogWineDao {
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified
+     * @param uid the int user id
+     * @param maxNumbers the maximum number of reviews to return
+     * @param orderByDate a boolean value to return the most recent reviews
+     * @return an ArrayList of {@link Review}
+     */
+    public ArrayList<Review> getUserReview(int uid, int maxNumbers, Boolean orderByDate) {
+        ArrayList<Review> userReviews = new ArrayList<Review>();
+        String getReview = "SELECT * FROM reviews WHERE uid = ?";
+        if (orderByDate) {
+            getReview = "SELECT * FROM reviews WHERE uid = ? ORDER BY date DESC";
+        }
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getReview)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                int i = 0;
+                while (i < maxNumbers && rs.next()) {
+                    userReviews.add(new Review(rs.getInt(1),rs.getInt(2),
+                            rs.getInt(3),rs.getString(4), rs.getString(5)));
+                    i++;
+                }
+                return userReviews;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns all the user reviews and returns the most recent reviews if specified
+     * @param uid the int user id
+     * @param orderByDate a boolean value to return the most recent reviews
+     * @return an ArrayList of {@link Review}
+     */
+    public ArrayList<Review> getUserReview(int uid, Boolean orderByDate) {
+        ArrayList<Review> userReviews = new ArrayList<Review>();
+        String getReview = "SELECT * FROM reviews WHERE uid = ?";
+        if (orderByDate) {
+            getReview = "SELECT * FROM reviews WHERE uid = ? ORDER BY date DESC";
+        }
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getReview)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Review review = new Review(rs.getInt(1),rs.getInt(2),
+                            rs.getInt(3),rs.getString(4), rs.getString(5));
+                    userReviews.add(review);
+                }
+                return userReviews;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
