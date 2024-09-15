@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.App;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 
 import javafx.scene.input.KeyEvent;
@@ -106,9 +107,9 @@ public class NavigationController {
                 //searchForWine(searchBar.getText());
 
                 if (sortByComboBox.getValue().equals("In Name")) {
-                    SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
                 } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
                 }
 
                 SearchWineService.getInstance().setCurrentSearch(searchBar.getText());

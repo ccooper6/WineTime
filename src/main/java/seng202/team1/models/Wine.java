@@ -3,6 +3,8 @@ package seng202.team1.models;
 import seng202.team1.repository.WineDAO;
 import seng202.team1.services.WineVarietyService;
 
+import java.text.Normalizer;
+
 /**
  * The model for the Wine Object.
  *<br><br>
@@ -310,5 +312,45 @@ public class Wine {
      */
     public int getWineId() {
         return this.wineId;
+    }
+
+    /**
+     * Returns true if any regions / province / country is equal
+     * to the supplied string
+     *
+     * @param location A {@link String} for the location
+     * @return true if the wine contains the string in a location parameter, false otherwise
+     */
+    public boolean hasLocation(String location)
+    {
+        location = Normalizer.normalize(location, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+
+        boolean isTrue = false;
+
+        // unfortunately cannot loop here since can't put null values into a list
+
+        if (country != null) {
+            String normalisedCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedCountry.equals(location);
+        }
+        if (province != null) {
+            String normalisedProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedProvince.equals(location);
+        }
+        if (region1 != null) {
+            String normalisedRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedRegion1.equals(location);
+        }
+        if (region2 != null) {
+            String normalisedRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            isTrue = isTrue || normalisedRegion2.equals(location);
+        }
+
+        if (!isTrue) {
+            System.out.println(name);
+            System.out.println(province);
+        }
+
+        return isTrue;
     }
 }
