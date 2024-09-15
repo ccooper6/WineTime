@@ -119,6 +119,7 @@ public class SearchDAO {
         return wineList;
     }
 
+
     /**
      * Searches the Database for wines whose name that match a given String
      *

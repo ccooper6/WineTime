@@ -25,7 +25,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="557.0" prefWidth="465.0" style="-fx-background-color: WHITE;">
                      <children>
                         <Pane layoutX="7.0" layoutY="8.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;" />
-                        <Label layoutX="15.0" layoutY="9.0" prefHeight="92.0" prefWidth="260.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 10 &#10;carefully selected distinct wines." />
+                        <Label layoutX="15.0" layoutY="9.0" prefHeight="92.0" prefWidth="260.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 5 &#10;carefully selected distinct wines." />
                         <Button layoutX="327.0" layoutY="43.0" mnemonicParsing="false" onAction="#startVarietyChallenge" text="Start Challenge!" />
                      </children>
                   </AnchorPane>

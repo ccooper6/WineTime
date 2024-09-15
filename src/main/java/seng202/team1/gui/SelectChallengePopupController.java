@@ -2,14 +2,38 @@ package seng202.team1.gui;
 
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
+import seng202.team1.models.User;
+import seng202.team1.repository.ChallengeDAO;
+import seng202.team1.repository.DatabaseManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class SelectChallengePopupController {
+
+    private int currentUserID;
+
+    private DatabaseManager databaseManager;
+    private ChallengeDAO chalDao;
+
+
+    /**
+     * updates the database and closes popup and reloads the profile screen on start challenge clicked.
+     * @param actionEvent
+     */
 
     public void startVarietyChallenge(ActionEvent actionEvent) {
 //        close popup
 //        launch profile
-//move wine pane down
-        FXWrapper.getInstance().setChallenge(1);
+//move wine pane dow
+        databaseManager = DatabaseManager.getInstance();
+//        currentUserID = getUId(FXWrapper.getInstance().getCurrentUser());
+        chalDao = new ChallengeDAO();
+        currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
+        chalDao.userActivatesChallenge(currentUserID, "Variety Challenge");
+        System.out.println("started challenge");
+//        FXWrapper.getInstance().setChallenge(1);
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadPageContent("profile");
@@ -17,6 +41,10 @@ public class SelectChallengePopupController {
     }
 
 
+    /**
+     * closes the popup.
+     * @param mouseEvent
+     */
     public void closeChallengePopup(MouseEvent mouseEvent) {
 //        close popup
 //        launch profile
@@ -24,4 +52,5 @@ public class SelectChallengePopupController {
         navigationController.closePopUp();
 
     }
+
 }
