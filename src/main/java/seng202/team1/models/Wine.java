@@ -1,6 +1,5 @@
 package seng202.team1.models;
 
-import seng202.team1.repository.WineDAO;
 import seng202.team1.services.WineVarietyService;
 
 /**
@@ -8,6 +7,8 @@ import seng202.team1.services.WineVarietyService;
  *<br><br>
  *Created by the page service after data is filtered from database
  * and then displayed via the PageController
+ *
+ * @author Wen Sheng Thong
  */
 
 public class Wine {

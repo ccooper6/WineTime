@@ -167,6 +167,13 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Called upon the initialisation of the DatabaseManager class when the user clicks log in. Copies the database from
+     * within the jar to a location outside the jar as "copy.db" in the directory of the jar to be used by the app.
+     * When being run in a test environment, copies the database into the test resource directory as "test_database.db"
+     *
+     * @author Wen Sheng Thong
+     */
     public void initialiseDB() {
         // remove jdbc:sqlite:
         String copyPath = this.url.substring(12);
