@@ -101,7 +101,11 @@ public class SearchWineService {
     public ArrayList<Wine> getWishlistWines(int userId) {
         return WishlistDAO.getInstance().fetchWines(userId);
     }
+    public boolean checkInWishlist(int wineID, int userID) {return WishlistDAO.getInstance().checkWine(wineID, userID);}
     public void addToWishlist(int wineID, int userID){
         WishlistDAO.getInstance().addWine(wineID, userID);
     }
+
+
+    public void removeFromWishlist(int wineID, int userID) {WishlistDAO.getInstance().removeWine(wineID, userID);}
 }

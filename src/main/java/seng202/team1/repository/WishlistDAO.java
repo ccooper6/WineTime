@@ -131,10 +131,44 @@ public class WishlistDAO {
                 ps.setInt(1, userID);
                 ps.setInt(2, wineID);
                 ps.executeUpdate();
-//                conn.commit();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void removeWine(int wineID, int userID) {
+        String sql = "DELETE FROM wishlist WHERE userID = ? AND wineID = ?";
+        try(Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, userID);
+                ps.setInt(2, wineID);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkWine(int wineID, int userID) {
+        String sql = "SELECT COUNT(*)\n" +
+                      "FROM wishlist\n" +
+                      "WHERE wineID = ? AND userID = ?\n";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setInt(1, wineID);
+            pstmt.setInt(2, userID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }

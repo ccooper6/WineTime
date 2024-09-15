@@ -1,11 +1,13 @@
 package seng202.team1.gui;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +21,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
@@ -80,9 +84,28 @@ public class PopUpController {
             log.error("Wine is null");
             wine = WineBuilder.generaicSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
+
+        //set initial colour based on state
+        int currentUserUid = getUId(FXWrapper.getInstance().getCurrentUser());
+        int wineID = wine.getWineId();
+        boolean inWishlist = SearchWineService.getInstance().checkInWishlist(wineID, currentUserUid);
+        FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();
+        if (inWishlist) {
+            icon.setFill(Color.web("#70171e"));
+        } else {
+            icon.setFill(Color.web("#d0d0d0"));
+        }
+
         addToWishlist.setOnAction(actionEvent -> {
-            int currentUserUid = getUId(FXWrapper.getInstance().getCurrentUser());
-            SearchWineService.getInstance().addToWishlist(wine.getWineId(), currentUserUid);
+            //checks existence in wishlist table and toggles existence
+            boolean inWishlistLambda = SearchWineService.getInstance().checkInWishlist(wineID, currentUserUid);
+            if (inWishlistLambda) {
+                SearchWineService.getInstance().removeFromWishlist(wineID, currentUserUid);
+                icon.setFill(Color.web("#d0d0d0"));
+            } else {
+                SearchWineService.getInstance().addToWishlist(wineID, currentUserUid);
+                icon.setFill(Color.web("#70171e"));
+            }
         });
         populatePopup(wine);
 
