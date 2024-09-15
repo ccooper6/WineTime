@@ -131,7 +131,7 @@ public class NavigationController {
                 if (sortByComboBox.getValue().equals("In Name")) {
                     SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
                 } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
                 }
 
                 SearchWineService.getInstance().setCurrentSearch(searchBar.getText());

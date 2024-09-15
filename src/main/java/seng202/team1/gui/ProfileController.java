@@ -164,7 +164,7 @@ public class ProfileController {
             displayChallenge(chalDao.getChallengeForUser(currentUserID));
         }
 
-        displayWishlist();
+//        displayWishlist();
 
     }
 
