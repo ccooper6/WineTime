@@ -145,7 +145,7 @@ public class ProfileController {
      */
     @FXML
     public void displayWishlist(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
-        SearchWineService.getInstance().searchWinesByName("Stemmari");
+        SearchWineService.getInstance().searchWinesByName("Stemmari", 10);
         wineList = SearchWineService.getInstance().getWineList();
         if (wineList.size() >= wishlistWineView.size()) {
             for (int i = 0; i < wishlistWineView.size(); i++) {

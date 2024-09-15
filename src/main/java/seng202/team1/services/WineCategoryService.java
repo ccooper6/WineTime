@@ -7,7 +7,7 @@ public class WineCategoryService {
 
     int currentCategory = 0;
     ArrayList<String> categoryTitles = new ArrayList<>(Arrays.asList("Bordeaux Merlot", "Marlborough Sauvignon Blanc", "Tuscany Sangiovese", "Hawke's Bay Syrah",
-                                                                     "Rioja Tempranillo", "Gisborne Chardonnay", "Napa Valley Cabernet Sauvignon", "Central Otago Pinot Noir"));
+                                                                     "Rioja Tempranillo", "Mendoza Malbec", "Napa Valley Cabernet Sauvignon", "Central Otago Pinot Noir"));
 
     private static WineCategoryService instance;
 

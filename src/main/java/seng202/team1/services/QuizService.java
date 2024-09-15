@@ -3,6 +3,7 @@ package seng202.team1.services;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.NavigationController;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.repository.WineDAO;
 
 import java.util.ArrayList;
@@ -171,64 +172,64 @@ public class QuizService {
 
         switch (earliestYear) {
             case "1990":
-                SearchWineService.getInstance().searchWinesByTags("1990, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1990, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1991, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1991, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1992, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1992, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1993, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1993, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1994, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1994, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1995, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1995, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1996, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1996, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1997, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1997, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1998, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1998, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1999, " + country);
+                SearchWineService.getInstance().searchWinesByTags("1999, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
                 break;
 
             case "2000":
-                SearchWineService.getInstance().searchWinesByTags("2000, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2000, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2001, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2001, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2002, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2002, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2003, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2003, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2004, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2004, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
                 break;
 
             case "2005":
-                SearchWineService.getInstance().searchWinesByTags("2005, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2005, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2006, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2006, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2007, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2007, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2008, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2008, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2009, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2009, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
                 break;
 
             case "2010":
-                SearchWineService.getInstance().searchWinesByTags("2010, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2010, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2011, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2011, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2012, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2012, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2013, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2013, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2014, " + country);
+                SearchWineService.getInstance().searchWinesByTags("2014, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
                 break;
 
