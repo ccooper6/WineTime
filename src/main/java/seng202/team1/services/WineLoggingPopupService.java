@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import org.jetbrains.annotations.NotNull;
 import seng202.team1.models.User;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.LogWineDao;
@@ -38,7 +39,7 @@ public class WineLoggingPopupService {
      * @param selectedTags an ArrayList<String> of tag names
      * @param description the text description entered by the user
      */
-    public void submitLog(int rating,int currentUserUid,int currentWine, ArrayList<String> selectedTags, String description) {
+    public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, String description) {
         for (String tag : selectedTags) {
             logWineDao.likes(currentUserUid, tag, rating - 3);
         }
@@ -55,12 +56,13 @@ public class WineLoggingPopupService {
      * to obtain the date time stamp of the review in "YYYY-MM-DD HH:mm:SS" format
      * @return the string date time stamp in "YYYY-MM-DD HH:mm:SS" format
      */
-    private String getCurrentTimeStamp() {
+    public String getCurrentTimeStamp() {
         return ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
     }
 
     /**
-     * Returns the int user id of the current user. Called during initialization
+     * Returns the int user id of the current user. Called during initialization of
+     * {@link seng202.team1.gui.WineLoggingPopupController}
      * @param currentUser the current user
      * @return int uid
      */
