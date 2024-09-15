@@ -12,6 +12,8 @@ import java.util.Random;
 public class QuizService {
 
     WineDAO wineDAO = new WineDAO();
+    Wine wine = null;
+
     ArrayList<String> questions = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
             "What is your go to food",
@@ -95,6 +97,14 @@ public class QuizService {
         return answer4answers;
     }
 
+    public void setRecordOfAnswers(ArrayList<Integer> answers) {
+        recordOfAnswers = answers;
+    }
+
+    public Wine getWine() {
+        return wine;
+    }
+
     public ArrayList<Integer> getRecordOfAnswers() {
         return recordOfAnswers;
     }
@@ -105,7 +115,15 @@ public class QuizService {
 
     public void launchWinePopup() {
 
-        Wine wine = null;
+        wineAlgorithm();
+
+        FXWrapper.getInstance().launchSubPage("profile");
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.initPopUp(wine);
+
+    }
+
+    public void wineAlgorithm() {
         ArrayList<Wine> possibleWines = new ArrayList<>();
 
         switch (getRecordOfAnswers().get(0)) {
@@ -220,9 +238,5 @@ public class QuizService {
             Random random = new Random();
             wine = possibleWines.get(random.nextInt(possibleWines.size()));
         }
-        FXWrapper.getInstance().launchSubPage("profile");
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
-
     }
 }
