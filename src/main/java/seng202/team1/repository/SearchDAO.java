@@ -147,10 +147,11 @@ public class SearchDAO {
         ArrayList<Wine> wineList = new ArrayList<>();
 
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(stmt) ) {
+             PreparedStatement ps = conn.prepareStatement(stmt)) {
             ps.setString(1, filterString);
             ps.setInt(2, limit);
 
+//            get result and process
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
