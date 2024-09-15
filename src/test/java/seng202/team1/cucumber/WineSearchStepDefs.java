@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,9 +26,9 @@ public class WineSearchStepDefs {
     public void userSearches(String type, String filter)
     {
         if (type.equals("name"))
-            SearchWineService.getInstance().searchWinesByName(filter);
+            SearchWineService.getInstance().searchWinesByName(filter, SearchDAO.UNLIMITED);
         else if (type.equals("tags"))
-            SearchWineService.getInstance().searchWinesByTags(filter);
+            SearchWineService.getInstance().searchWinesByTags(filter, SearchDAO.UNLIMITED);
         else
             throw new IllegalArgumentException(type + " must be 'name' or 'tags'");
         wineList = SearchWineService.getInstance().getWineList();
