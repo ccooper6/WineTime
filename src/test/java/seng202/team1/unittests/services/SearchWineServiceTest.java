@@ -31,7 +31,7 @@ public class SearchWineServiceTest {
     }
 
     /**
-     * Check {@link DatabaseManager} exists
+     * Check databaseManager exists
      */
     @Test
     void testDBConnection() {
