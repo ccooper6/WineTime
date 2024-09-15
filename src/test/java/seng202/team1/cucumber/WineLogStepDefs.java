@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 /**
  * Step operations for the scenario tests for when user logs a wine.
+ *
+ * @author Wen Sheng Thong
  */
 public class WineLogStepDefs {
     private DatabaseManager databaseManager;
