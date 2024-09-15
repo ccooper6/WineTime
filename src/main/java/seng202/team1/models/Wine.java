@@ -1,6 +1,5 @@
 package seng202.team1.models;
 
-import seng202.team1.repository.WineDAO;
 import seng202.team1.services.WineVarietyService;
 
 import java.text.Normalizer;
@@ -10,6 +9,8 @@ import java.text.Normalizer;
  *<br><br>
  *Created by the page service after data is filtered from database
  * and then displayed via the PageController
+ *
+ * @author Wen Sheng Thong
  */
 
 public class Wine {
@@ -352,5 +353,50 @@ public class Wine {
         }
 
         return isTrue;
+    }
+
+    /**
+     * Returns whether the wine has a tag.
+     *
+     * @return true if any of the wines tags contains the tag given and false otherwise
+     */
+    public boolean hasTag(String tag)
+    {
+        if (Integer.toString(vintage).equals(tag))
+            return true;
+
+        if (country != null) {
+            String checkCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkCountry.equals(tag))
+                return true;
+        }
+        if (province != null) {
+            String checkProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkProvince.equals(tag))
+                return true;
+        }
+        if (region1 != null) {
+            String checkRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkRegion1.equals(tag))
+                return true;
+        }
+        if (region2 != null) {
+            String checkRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkRegion2.equals(tag))
+                return true;
+        }
+        if (variety != null) {
+            // using \\{M} for regex here because ^\\{ASCII} removed the first character for unknown reasons
+            String checkVariety = Normalizer.normalize(variety, Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
+            if (checkVariety.equals(tag))
+                return true;
+        }
+        if (winery != null) {
+            String checkWinery = Normalizer.normalize(winery, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            if (checkWinery.equals(tag))
+                return true;
+        }
+
+        return false;
     }
 }
