@@ -18,6 +18,9 @@ public class SearchWineService {
 
     private static final Logger log = LogManager.getLogger(SearchWineService.class);
 
+    private String currentSearch;
+    private String currentMethod;
+
     /**
     Returns the instance and creates one if none exists.
 
@@ -116,4 +119,48 @@ public class SearchWineService {
     public ArrayList<Wine> getWishlistWines(int userId) {
         return WishlistDAO.getInstance().fetchWines(userId);
     }
+
+    /**
+     * Sets the current search
+     *
+     * @param currentSearch {@link String} currentSearch
+     */
+    public void setCurrentSearch(String currentSearch) {
+        this.currentSearch = currentSearch;
+    }
+
+    /**
+     * Returns the current search
+     *
+     * @return {@link String} currentSearch
+     */
+    public String getCurrentSearch() {
+        return currentSearch;
+    }
+
+    /**
+     * Sets the current method
+     *
+     * @param currentMethod {@link String} currentMethod
+     */
+    public void setCurrentMethod(String currentMethod) {
+        this.currentMethod = currentMethod;
+    }
+
+    /**
+     * Returns the current method
+     *
+     * @return {@link String} currentMethod
+     */
+    public String getCurrentMethod() {
+        return currentMethod;
+    }
+
+    public boolean checkInWishlist(int wineID, int userID) {return WishlistDAO.getInstance().checkWine(wineID, userID);}
+    public void addToWishlist(int wineID, int userID){
+        WishlistDAO.getInstance().addWine(wineID, userID);
+    }
+
+
+    public void removeFromWishlist(int wineID, int userID) {WishlistDAO.getInstance().removeWine(wineID, userID);}
 }

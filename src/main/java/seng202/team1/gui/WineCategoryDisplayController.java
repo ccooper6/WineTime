@@ -120,6 +120,10 @@ public class WineCategoryDisplayController {
      * @param posOrNeg is the direction of the translation (right = positive)
      */
     public void shift(int posOrNeg) {
+        for (Parent wineDisplay : wineDisplays) { // Temporarily disables each wine tile
+            wineDisplay.setDisable(true);
+        }
+
         TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(1)));
         TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(2)));
         TranslateTransition transition3 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(3)));
@@ -136,6 +140,12 @@ public class WineCategoryDisplayController {
             wineTransitions.get(i).setInterpolator(Interpolator.LINEAR);
             wineTransitions.get(i).play();
         }
+
+        wineTransitions.get(wineTransitions.size() - 1).setOnFinished(event -> { // Un-disables the wine tiles
+            for (Parent wineDisplay : wineDisplays) {
+                wineDisplay.setDisable(false);
+            }
+        });
     }
 
     /**
