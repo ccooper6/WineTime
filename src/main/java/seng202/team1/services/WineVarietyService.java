@@ -1,10 +1,9 @@
 package seng202.team1.services;
 
-import seng202.team1.models.Wine;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 
 public class WineVarietyService {
@@ -44,10 +43,10 @@ public class WineVarietyService {
      */
     public void setVarietySetsFromTextFiles() {
 
-        String redsFilePath = "src/main/resources/wine_catagories/reds.txt";
-        String whitesFilePath = "src/main/resources/wine_catagories/whites.txt";
-        String roseFilePath = "src/main/resources/wine_catagories/rose.txt";
-        String sparklingFilePath = "src/main/resources/wine_catagories/sparkling.txt";
+        InputStream redsFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/reds.txt");
+        InputStream whitesFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/whites.txt");
+        InputStream roseFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/rose.txt");
+        InputStream sparklingFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/sparkling.txt");
 
         addWineToSet(redsFilePath, reds);
         addWineToSet(whitesFilePath, whites);
@@ -61,10 +60,15 @@ public class WineVarietyService {
      * @param url the filepath of the text file.
      * @param variety the set to put the lines of the text file in.
      */
-    public void addWineToSet(String url, HashSet<String> variety) {
-
+    public void addWineToSet(InputStream url, HashSet<String> variety) {
         try {
-            Files.lines(Paths.get(url)).map(String::trim).forEach(variety::add);
+            //old code in case we get back to it
+//            Files.lines(Paths.get(url.toString().substring(12))).map(String::trim).forEach(variety::add);
+            BufferedReader br = new BufferedReader(new InputStreamReader(url));
+            String varietyName;
+            while ((varietyName = br.readLine()) != null) {
+                variety.add(varietyName);
+            }
         } catch (IOException e ) {
             e.printStackTrace();
         }
