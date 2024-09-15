@@ -194,6 +194,7 @@ public class ProfileController {
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
             Parent parent1 = fxmlLoader1.load();
+            wishlistPane.getChildren().add(parent1);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
