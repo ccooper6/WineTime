@@ -67,6 +67,7 @@ public class UserDAO implements DAOInterface<User> {
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
             ps.executeUpdate();
+//            conn.commit();
             System.out.println("Added user: " + toAdd.getEncryptedUserName()); // Can delete this in the future...
             return 1; // Username created successfully
             /*try (ResultSet rs = ps.getGeneratedKeys()) {

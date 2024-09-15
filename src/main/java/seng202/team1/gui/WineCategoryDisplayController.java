@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -19,12 +20,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Author: @Elise
+ */
 public class WineCategoryDisplayController {
     @FXML
     Text titleText;
-
-    @FXML
-    GridPane wineGrid;
 
     @FXML
     FontAwesomeIconView leftArrowButton;
@@ -52,6 +53,8 @@ public class WineCategoryDisplayController {
 
     ArrayList<Parent> wineDisplays;
 
+    String tags;
+
     /**
      * Only initialises on login
      * Creates an array of the anchor panes (len = 6)
@@ -64,6 +67,7 @@ public class WineCategoryDisplayController {
 
         onRefresh();
         ArrayList<Wine> displayWines = SearchWineService.getInstance().getWineList();
+        tags = SearchWineService.getInstance().getCurrentTags();
 
         if (displayWines == null || displayWines.size() < 6) {
             System.out.println("Wine list too short");
@@ -165,7 +169,7 @@ public class WineCategoryDisplayController {
      * @param posOrNeg is the direction of the translation (right = positive)
      */
     public void teleportEnd(int movingFrame, int posOrNeg) {
-        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(0.1), wineViews.get(getId(movingFrame)));
+        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(movingFrame)));
         transitionReturn.setByX(posOrNeg * DISTANCEBETWEEN * 5);
         transitionReturn.setInterpolator(Interpolator.DISCRETE);
         transitionReturn.play();
@@ -248,5 +252,15 @@ public class WineCategoryDisplayController {
         fadeIn(0);
         fadeOut(4);
         teleportEnd(5, -1);
+    }
+
+    /**
+     * Takes the user to the search page with search parameters of {@link WineCategoryDisplayController#tags}
+     */
+    @FXML
+    public void seeMore()
+    {
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+        FXWrapper.getInstance().launchSubPage("searchWine");
     }
 }

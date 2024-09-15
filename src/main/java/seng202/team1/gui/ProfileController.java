@@ -24,6 +24,7 @@ import seng202.team1.services.WineCategoryService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Controller class for the profile.fxml page.
@@ -106,10 +107,20 @@ public class ProfileController {
     private Pane challengePane;
 
     @FXML
-    private Label challengeIntro;
+    private AnchorPane wishlistPane;
 
     @FXML
-    private AnchorPane wishlistPane;
+    AnchorPane chal1;
+    @FXML
+    AnchorPane chal2;
+    @FXML
+    AnchorPane chal3;
+    @FXML
+    AnchorPane chal4;
+    @FXML
+    AnchorPane chal5;
+
+    List<AnchorPane> wineViews;
 
     private DatabaseManager databaseManager;
     private ChallengeDAO chalDao;
@@ -126,34 +137,45 @@ public class ProfileController {
     // ******************Test stuff ENDS HERE********************
 
 
-
-
+    /**
+     * Initialises the controller checks if user has is participating in a challenge, calls methods to appropriately alter
+     * screens.
+     */
     public void initialize() {
+        // the users id needst to be refreshed, registered user thinks its 0
         challengePane.setVisible(false);
 
         databaseManager = DatabaseManager.getInstance();
         chalDao = new ChallengeDAO();
         currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
-
-        System.out.println(chalDao.getNumActiveChallenges(currentUserID));
-        if (chalDao.getNumActiveChallenges(currentUserID) == 1) {
+        System.out.println("user id: " + currentUserID);
+        System.out.println(chalDao.getChallengeForUser(currentUserID));
+        if (Objects.equals(chalDao.getChallengeForUser(currentUserID), "Variety Challenge")) {
+            System.out.println("user has this challenge");
             System.out.println("calls moveWine");
+            System.out.println("wine ids for chal ");
+            System.out.println("wine list " + chalDao.getWineIdsFromChallenge(chalDao.getChallengeForUser(currentUserID)));
+            for(int i =0; i<5; i++){
+                System.out.println("wine id: " + chalDao.getWineIdsFromChallenge(chalDao.getChallengeForUser(currentUserID)).get(i));
+                System.out.println("wines " + chalDao.getWinesForChallenge(chalDao.getChallengeForUser(currentUserID)).get(i).getName());
+            }
             moveWinesPane();
             activateChallenge();
-
+            displayChallenge(chalDao.getChallengeForUser(currentUserID));
         }
 
         displayWishlist();
 
     }
 
-//    on wineView clicked, open wine pop up, pass the relevant information from the wine. make a method to do this,
-//    this functionality will be needed for mulitple screens.
-
+    /**
+     * will display the wishlist on the profile in the scrollable grid format, currently displays a wine catergory using
+     * wine catergory display.
+     */
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
-        SearchWineService.getInstance().searchWinesByTags("Bordeaux, Merlot");
+        SearchWineService.getInstance().searchWinesByTags("Stemmari", 10);
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
             Parent parent1 = fxmlLoader1.load();
@@ -164,36 +186,76 @@ public class ProfileController {
     }
 
 
-    @FXML
-    public void onWishlistRefreshed(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
-        wishlistMoreArrow.setOnMouseClicked(event -> {
-            Wine firtWine = wineList.getFirst();
-            wineList.removeFirst();
-            wineList.add(firtWine);
-//            displayWishlist(wishlistWineView, wishlistWineInfo);
-        });
-//
-    }
+//    @FXML
+//    public void onWishlistRefreshed(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
+//        wishlistMoreArrow.setOnMouseClicked(event -> {
+//            Wine firtWine = wineList.getFirst();
+//            wineList.removeFirst();
+//            wineList.add(firtWine);
+////            displayWishlist(wishlistWineView, wishlistWineInfo);
+//        });
+////
+//    }
+
+    /**
+     * opens the quiz screen.
+     * @param actionEvent
+     */
 
     public void onQuizClicked(ActionEvent actionEvent) { FXWrapper.getInstance().launchSubPage("quizscreen");}
 
 
+    /**
+     * launches the select challenge popup.
+     * @param actionEvent
+     */
     public void onChallengeClicked(ActionEvent actionEvent) {
 //        launch pop up to take you to challenge menu
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadSelectChallengePopUpContent();
 
+    }
+
+    /**
+     * displays the challenge wines using the wine mini displays
+     * @param cname
+     */
+    public void displayChallenge(String cname) {
+        wineViews = List.of(chal1, chal2, chal3, chal4, chal5);
+        for (int i = 0; i < wineViews.size(); i++) {
+//            SearchWineService.getInstance().setCurrentWine();
+            SearchWineService.getInstance().setCurrentWine(chalDao.getWinesForChallenge(chalDao.getChallengeForUser(currentUserID)).get(i));
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
+//                wineDisplays.add(loader.load());
+                wineViews.get(i).getChildren().add(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
 
     }
+
+    /**
+     * makes the challenge pane visible and disables previous one.
+     */
 
     public void activateChallenge() {
         System.out.println("challenge tracker is activated.");
         noChallengePane.setVisible(false);
         challengePane.setVisible(true);
         challengeName = "Variety challenge"; // change to relevant.
-        challengeIntro.setText("you have started the " + challengeName);
+
     }
+
+    /**
+     * shifts the main pane to make room for challenge wines.
+     */
 
     public void moveWinesPane() {
         System.out.println("moveWinesPane was called");

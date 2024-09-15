@@ -23,6 +23,8 @@ public class SearchDAO {
 
     private static SearchDAO instance;
 
+    public static final int UNLIMITED = 999999;
+
     /**
      * Constructor class for SearchDAO.
      * <p>
@@ -60,18 +62,22 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
+//        System.out.println("Start processing");
+
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
         int currentID = -1;
         WineBuilder currentWineBuilder = null;
 
-        while (resultSet.next()) {
+        while (resultSet.next())
+        {
+
             if (resultSet.getInt("id") != currentID) {
                 if (currentWineBuilder != null) {
                     wineList.add(currentWineBuilder.build());
                 }
 
-                currentWineBuilder = WineBuilder.generaicSetup(resultSet.getInt("id"),
+                currentWineBuilder = WineBuilder.genericSetup(resultSet.getInt("id"),
                         resultSet.getString("wine_name"),
                         resultSet.getString("description"),
                         resultSet.getInt("price"));
@@ -113,14 +119,16 @@ public class SearchDAO {
         return wineList;
     }
 
+
     /**
      * Searches the Database for wines whose name that match a given String
      *
      * @param filterString {@link String} of the wine name to be filtered by. The SELECT statement
      *                                   will compare the wine name to '%filterString%'
+     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    public ArrayList<Wine> searchWineByName (String filterString)
+    public ArrayList<Wine> searchWineByName (String filterString, int limit)
     {
         if (!Normalizer.isNormalized(filterString, Normalizer.Form.NFD)) {
             log.error("{} is not normalised!", filterString);
@@ -132,7 +140,7 @@ public class SearchDAO {
                 "FROM (SELECT id, name AS wine_name, description, points, price\n" +
                 "    FROM wine\n" +
                 "    WHERE wine.normalised_name LIKE ?\n" +
-                "    ORDER BY wine.id)\n" +
+                "    ORDER BY wine.id LIMIT ?)\n" +
                 "JOIN owned_by ON id = owned_by.wid\n" +
                 "JOIN tag ON owned_by.tname = tag.name\n" +
                 "ORDER BY id;";
@@ -142,6 +150,7 @@ public class SearchDAO {
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(stmt) ) {
             ps.setString(1, filterString);
+            ps.setInt(2, limit);
 
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
@@ -157,15 +166,17 @@ public class SearchDAO {
      * Searches for wines given a String of tags
      *
      * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
+     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    public ArrayList<Wine> searchWineByTags (ArrayList<String> tagList)
+    public ArrayList<Wine> searchWineByTags (ArrayList<String> tagList, int limit)
     {
         for (String tag : tagList) {
             if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
                 log.error("{} is not normalised!", tag);
             }
         }
+
 
 //        in case we need it again
 //        String stmt = "select id, name from (select wine.id, wine.name, count(owned_by.wid) as c from wine\n" +
@@ -193,7 +204,7 @@ public class SearchDAO {
         }
         sqlBuilder.append(")\n")
                 .append("              GROUP BY wid)\n")
-                .append("        WHERE c = ?)\n")
+                .append("        WHERE c = ? LIMIT ?)\n")
                 .append("JOIN wine on wine.id = temp_id\n")
                 .append("JOIN owned_by on id = owned_by.wid\n")
                 .append("JOIN tag on owned_by.tname = tag.name\n")
@@ -208,7 +219,8 @@ public class SearchDAO {
             for (int i = 0; i < tagList.size(); i++) {
                 ps.setString(i + 1, tagList.get(i));
             }
-            ps.setInt(tagList.size()+1, tagList.size());
+            ps.setInt(tagList.size() + 1, tagList.size());
+            ps.setInt(tagList.size() + 2, limit);
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
