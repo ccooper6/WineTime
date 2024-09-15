@@ -1,7 +1,7 @@
 package seng202.team1.unittests.services;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
@@ -42,8 +42,8 @@ public class WineLoggingServiceTest {
      * before each test.
      * @throws InstanceAlreadyExistsException
      */
-    @BeforeAll
-    static void setUp() throws InstanceAlreadyExistsException {
+    @BeforeEach
+    public void setUp() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         wineLoggingPopupService = new WineLoggingPopupService();
