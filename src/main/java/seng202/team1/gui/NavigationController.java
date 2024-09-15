@@ -21,6 +21,9 @@ import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+
 import java.io.IOException;
 
 /**
@@ -89,8 +92,11 @@ public class NavigationController {
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
-
-        sortByComboBox.getSelectionModel().selectFirst();
+        if (SearchWineService.getInstance().getCurrentMethod() == null) {
+            sortByComboBox.getSelectionModel().selectFirst();
+        } else {
+            sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
+        }
     }
 
     /**
@@ -98,6 +104,7 @@ public class NavigationController {
      */
     private void initialiseSearchBar()
     {
+        searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
                 //searchForWine(searchBar.getText());
@@ -108,8 +115,28 @@ public class NavigationController {
                     SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
                 }
 
-//                FXWrapper.getInstance().launchSubPage("searchWine");
-                loadPageContent("searchWine");
+                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
+                FXWrapper.getInstance().launchSubPage("searchWine");
+//                searchBar.clear();
+                searchBar.getParent().requestFocus();
+            }
+        });
+
+        sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
+
+                //searchForWine(searchBar.getText());
+
+                if (sortByComboBox.getValue().equals("In Name")) {
+                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+                } else {
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+                }
+
+                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
+                FXWrapper.getInstance().launchSubPage("searchWine");
 //                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
@@ -146,7 +173,6 @@ public class NavigationController {
      */
     public void loadPageContent(String name) {
         try {
-            System.out.println(contentHere.getChildren());
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
@@ -168,14 +194,6 @@ public class NavigationController {
     }
 
 
-//    testing to see if overlaying pages solves load time
-//
-//
-//    }
-
-
-
-
     /*private void searchForWine(String wineName) {
         List<Wine> wines = wineService.searchWineByName(wineName);
         if (!wines.isEmpty()) {
@@ -189,7 +207,6 @@ public class NavigationController {
      */
     public Wine getWine() {
         return this.wine;
-
     }
 
     /**
@@ -259,14 +276,14 @@ public class NavigationController {
 
     public void onSavesClicked(ActionEvent actionEvent) {
         //example navigation subpage - to change when made
-//        FXWrapper.getInstance().launchSubPage("mainpage");
+        FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
     public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
         Logger log = LogManager.getLogger(App.class);
-        log.info("Needs Implementing");
-//        FXWrapper.getInstance().launchSubPage("mainpage");
+        FXWrapper.getInstance().launchSubPage("wishlist");
+        //change the way this is done so that it loads over main.
     }
 
     public void onUserClicked(MouseEvent actionEvent) {

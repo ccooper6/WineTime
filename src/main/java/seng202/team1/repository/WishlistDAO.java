@@ -103,13 +103,13 @@ public class WishlistDAO {
     public ArrayList<Wine> fetchWines(int UserId) {
         ArrayList<Wine> wineList;
         String sql =    "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n" +
-                "FROM (SELECT id, name as wine_name, description, points, price\n" +
-                "      FROM wine\n" +
-                "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
-                "WHERE wishlist.userID = ?)\n" +
-                "JOIN owned_by ON id = owned_by.wid\n" +
-                "JOIN tag ON owned_by.tname = tag.name\n" +
-                "ORDER BY id;";
+                        "FROM (SELECT id, name as wine_name, description, points, price\n" +
+                        "      FROM wine\n" +
+                        "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
+                        "WHERE wishlist.userID = ?)\n" +
+                        "JOIN owned_by ON id = owned_by.wid\n" +
+                        "JOIN tag ON owned_by.tname = tag.name\n" +
+                        "ORDER BY id;";
 
         try (
                 Connection conn = databaseManager.connect();
@@ -123,5 +123,52 @@ public class WishlistDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void addWine(int wineID, int userID) {
+        String sql = "INSERT INTO wishlist (userID, wineID) VALUES (?,?)";
+        try(Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, userID);
+                ps.setInt(2, wineID);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeWine(int wineID, int userID) {
+        String sql = "DELETE FROM wishlist WHERE userID = ? AND wineID = ?";
+        try(Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, userID);
+                ps.setInt(2, wineID);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkWine(int wineID, int userID) {
+        String sql = "SELECT COUNT(*)\n" +
+                      "FROM wishlist\n" +
+                      "WHERE wineID = ? AND userID = ?\n";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setInt(1, wineID);
+            pstmt.setInt(2, userID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }

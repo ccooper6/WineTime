@@ -173,15 +173,17 @@ public class ProfileController {
      * wine catergory display.
      */
     @FXML
-    public void displayWishlist() {
-        WineCategoryService.getInstance().resetCurrentCategory();
-        SearchWineService.getInstance().searchWinesByTags("Stemmari", 10);
-        try {
-            FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
-            Parent parent1 = fxmlLoader1.load();
-            wishlistPane.getChildren().add(parent1);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void displayWishlist(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
+        SearchWineService.getInstance().searchWinesByName("Stemmari", 10);
+        wineList = SearchWineService.getInstance().getWineList();
+        if (wineList.size() >= wishlistWineView.size()) {
+            for (int i = 0; i < wishlistWineView.size(); i++) {
+                wishlistWineInfo.get(i).setText(getWineInfo(wineList.get(i)));
+            }
+        } else {
+            for (int i = wineList.size(); i < wishlistWineView.size(); i++) {
+                wishlistWineInfo.get(i).setText("No wine available.");
+            }
         }
     }
 

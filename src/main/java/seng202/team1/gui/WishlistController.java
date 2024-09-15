@@ -159,24 +159,6 @@ public class WishlistController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Set current page to 0 and display the page
      */
