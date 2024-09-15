@@ -71,7 +71,7 @@ public class SearchDAO {
                     wineList.add(currentWineBuilder.build());
                 }
 
-                currentWineBuilder = WineBuilder.generaicSetup(resultSet.getInt("id"),
+                currentWineBuilder = WineBuilder.genericSetup(resultSet.getInt("id"),
                         resultSet.getString("wine_name"),
                         resultSet.getString("description"),
                         resultSet.getInt("price"));
@@ -140,9 +140,10 @@ public class SearchDAO {
         ArrayList<Wine> wineList = new ArrayList<>();
 
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(stmt) ) {
+             PreparedStatement ps = conn.prepareStatement(stmt)) {
             ps.setString(1, filterString);
 
+//            get result and process
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
