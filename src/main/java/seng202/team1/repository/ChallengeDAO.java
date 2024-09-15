@@ -14,6 +14,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object for the challenge tracker functionality
+ * updates the database with information on user and challenge, and gets information
+ * from the database.
+ * @author Lydia Jackson
+ * @author Wen Sheng
+ */
 
 public class ChallengeDAO {
 
@@ -21,6 +28,11 @@ public class ChallengeDAO {
 
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
 
+    /**
+     * inserts challenge into the database.
+     * @param name
+     * @param description
+     */
     public void insertChallenge(String name, String description) {
         String sql = "INSERT INTO challenge (name, description) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect()) {
@@ -34,6 +46,12 @@ public class ChallengeDAO {
         }
 
     }
+
+    /**
+     * inserts challenge wine into the database.
+     * @param wineID
+     * @param cname
+     */
 
     public void insertWineChal(int wineID, String cname) {
         String sql = "INSERT INTO challenge_wine (wineID, cname) VALUES (?, ?)";
@@ -50,6 +68,11 @@ public class ChallengeDAO {
 
     }
 
+    /**
+     * inserts the user and challenge into active challenges in database.
+     * @param useID
+     * @param cname
+     */
     public void userToChallenge(int useID, String cname) {
         String sql = "INSERT INTO active_challenge (userID, cname) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect()) {
@@ -64,6 +87,10 @@ public class ChallengeDAO {
         }
     }
 
+    /**
+     * checks to see if there are challenges in the database.
+     * @return boolean if challenges in database
+     */
     private Boolean challengeExsists() {
         String test = "SELECT * FROM challenge";
         try (Connection conn = databaseManager.connect()) {
@@ -76,6 +103,11 @@ public class ChallengeDAO {
         }
     }
 
+    /**
+     * checks to see if there are wines for the challenge in database.
+     * @return boolean if wine in challenge_wine.
+     */
+
     private Boolean challengeHasWines() {
         String test = "SELECT * FROM challenge_wine";
         try (Connection conn = databaseManager.connect()) {
@@ -87,6 +119,13 @@ public class ChallengeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * checks if the user has a challenge assigned to them
+     * @param userID
+     * @param cname
+     * @return boolean if the user has started a challenge.
+     */
     private Boolean userHasChallenge(int userID, String cname) {
         String test = "SELECT * FROM active_challenge WHERE userID = ? AND cname = ?";
         try (Connection conn = databaseManager.connect()) {
@@ -100,6 +139,12 @@ public class ChallengeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * gets the name of the active challenge for the user.
+     * @param userID
+     * @return challenge name
+     */
 
     public String getChallengeForUser(int userID) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ?";
@@ -116,6 +161,11 @@ public class ChallengeDAO {
     }
 
 
+    /**
+     * gets the wines ids for the wines associated with the given challenge.
+     * @param cname
+     * @return list of wine ids
+     */
     public List<Integer> getWineIdsFromChallenge(String cname) {
         String test = "SELECT * FROM challenge_wine WHERE cname = ?";
         List<Integer> wineIds = new ArrayList<>();
@@ -135,6 +185,11 @@ public class ChallengeDAO {
         return wineIds;
     }
 
+    /**
+     * gives the number of active challenges for the user
+     * @param userID
+     * @return number of active challenge for the user.
+     */
 
     public int getNumActiveChallenges(int userID) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ?";
@@ -151,6 +206,9 @@ public class ChallengeDAO {
 
     }
 
+    /**
+     * puts the challenge in the data base with a set name and description.
+     */
     public void initaliseChallenge() {
         if (challengeExsists() == false) {
             insertChallenge("Variety Challenge", "Expand your palate with the variety challenge, " +
@@ -159,6 +217,9 @@ public class ChallengeDAO {
         }
     }
 
+    /**
+     * inserts the wine into the challenge.
+     */
     public void wineInChallenge() {
         if (challengeHasWines() == false) {
             insertWineChal(3, "Variety Challenge");
@@ -169,6 +230,12 @@ public class ChallengeDAO {
         }
     }
 
+    /**
+     * checks the user already has the challenge active, if not calls a method to update the database.
+     * @param userID
+     * @param cname
+     */
+
     public void userActivatesChallenge(int userID, String cname) {
         if (!userHasChallenge(userID, cname)) {
             userToChallenge(userID, cname);
@@ -177,6 +244,11 @@ public class ChallengeDAO {
         }
     }
 
+    /**
+     * gets the users id from the database.
+     * @param currentUser
+     * @return the user id.
+     */
 
     public int getUId(User currentUser) {
         int uid;
@@ -195,6 +267,12 @@ public class ChallengeDAO {
         }
 //        return uid;
     }
+
+    /**
+     * gets the wines for the challenge, and returns them as array list of wines.
+     * @param cname
+     * @return ArrayList of wines for the challenge
+     */
 
     public ArrayList<Wine> getWinesForChallenge(String cname) {
         ArrayList<Wine> wineList;
@@ -220,6 +298,13 @@ public class ChallengeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * processes the result set from the database into an array list of wines
+     * @param resultSet
+     * @return array list of wines
+     * @throws SQLException
+     */
 
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {

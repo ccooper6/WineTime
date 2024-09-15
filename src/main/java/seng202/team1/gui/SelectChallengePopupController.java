@@ -18,6 +18,10 @@ public class SelectChallengePopupController {
     private ChallengeDAO chalDao;
 
 
+    /**
+     * updates the database and closes popup and reloads the profile screen on start challenge clicked.
+     * @param actionEvent
+     */
 
     public void startVarietyChallenge(ActionEvent actionEvent) {
 //        close popup
@@ -37,6 +41,10 @@ public class SelectChallengePopupController {
     }
 
 
+    /**
+     * closes the popup.
+     * @param mouseEvent
+     */
     public void closeChallengePopup(MouseEvent mouseEvent) {
 //        close popup
 //        launch profile
