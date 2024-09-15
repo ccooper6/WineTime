@@ -5,17 +5,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.LogWineDao;
+import seng202.team1.services.WineLoggingPopupService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import static java.sql.Types.NULL;
@@ -23,6 +15,8 @@ import static java.sql.Types.NULL;
 /**
  * The controller class for the wine logging popup. Called by {@link PopUpController#loadWineLoggingPopUp()} when the
  * log wine button is pressed.
+ *
+ * @author Wen Sheng Thong
  */
 public class WineLoggingPopupController {
     @FXML
@@ -66,10 +60,6 @@ public class WineLoggingPopupController {
      */
     private ArrayList<String> tagNameArray;
     /**
-     * The {@link DatabaseManager} to handle connections to the database
-     */
-    private DatabaseManager databaseManager;
-    /**
      * The current wine being logged
      */
     private Wine currentWine;
@@ -77,18 +67,21 @@ public class WineLoggingPopupController {
      * The int uid of the current user
      */
     private int currentUserUid;
-    /**
-     * A {@link LogWineDao} to handle reviews and likes entries to the database
-     */
-    private LogWineDao logWineDao;
 
+    /**
+     * The service that interacts with the database and runs logic for the controller
+     */
+    private WineLoggingPopupService wineLoggingPopupService;
+
+    /**
+     * Sets the functionality of the various GUI elements for the wine logging popup
+     */
     public void initialize() {
         tagCheckBoxArray = new ArrayList<CheckBox>();
         tagNameArray = new ArrayList<String>();
-        databaseManager = DatabaseManager.getInstance();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
-        currentUserUid = getUId(FXWrapper.getInstance().getCurrentUser());
-        logWineDao = new LogWineDao();
+        wineLoggingPopupService = new WineLoggingPopupService();
+        currentUserUid = wineLoggingPopupService.getUId(FXWrapper.getInstance().getCurrentUser());
         implementFxmlFunction();
     }
 
@@ -185,7 +178,8 @@ public class WineLoggingPopupController {
     }
 
     /**
-     * Uses {@link LogWineDao} to submit the liked tags and review to the database. It then calls
+     * Uses {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}
+     * to submit the liked tags and review to the database. It then calls
      * {@link WineLoggingPopupController#returnToWinePopUp()} to return to the wine pop up screen
      * <p></p>
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
@@ -193,27 +187,17 @@ public class WineLoggingPopupController {
      */
     private void submitLog() {
         int rating = (int) ratingSlider.getValue();
+        ArrayList<String> selectedTags = new ArrayList<>();
         if (hasClickedTag()) {
-            ArrayList<String> selectedTags = new ArrayList<String>() ;
             for (int i = 0; i < tagNameArray.size(); i++) {
                 if (tagCheckBoxArray.get(i).isSelected()) {
                     selectedTags.add(tagNameArray.get(i));
                 }
             }
-            for (String tag : selectedTags) {
-                logWineDao.likes(currentUserUid, tag, rating - 3);
-            }
         } else {
-            for (String tag : tagNameArray) {
-                logWineDao.likes(currentUserUid, tag, rating - 3);
-            }
+            selectedTags = tagNameArray;
         }
-        if (!descriptionTextArea.getText().isBlank()) {
-            String desc = descriptionTextArea.getText().replaceAll("\\s+", " ");
-            logWineDao.reviews(currentUserUid, currentWine.getWineId(), rating, desc, getCurrentTimeStamp());
-        } else {
-            logWineDao.reviews(currentUserUid, currentWine.getWineId(), rating, "", getCurrentTimeStamp());
-        }
+        wineLoggingPopupService.submitLog(rating,currentUserUid,currentWine.getWineId(), selectedTags,descriptionTextArea.getText());
         returnToWinePopUp();
     }
 
@@ -231,35 +215,6 @@ public class WineLoggingPopupController {
     }
 
     /**
-     * Returns the int user id of the current user. Called during initialization
-     * @param currentUser the current user
-     * @return int uid
-     */
-    private int getUId(User currentUser) {
-        int uid = 0;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return uid;
-    }
-
-    /**
-     * Called by {@link WineLoggingPopupController#submitLog()} to obtain the date time stamp of the review in
-     * "YYYY-MM-DD HH:mm:SS" format
-     * @return the string date time stamp in "YYYY-MM-DD HH:mm:SS" format
-     */
-    private String getCurrentTimeStamp() {
-        return ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
-    }
-
-    /**
      * Returns to the wine pop up screen.
      */
     @FXML
@@ -268,5 +223,4 @@ public class WineLoggingPopupController {
         navigationController.closePopUp();
         navigationController.initPopUp(currentWine);
     }
-
 }
