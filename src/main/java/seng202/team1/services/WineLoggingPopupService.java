@@ -20,12 +20,11 @@ import java.util.ArrayList;
  * @author Wen Sheng Thong
  */
 public class WineLoggingPopupService {
-    DatabaseManager databaseManager;
-    LogWineDao logWineDao;
-
+    private DatabaseManager databaseManager;
+    private LogWineDao logWineDao;
     public WineLoggingPopupService() {
-        databaseManager = DatabaseManager.getInstance();
-        logWineDao = new LogWineDao();
+        this.databaseManager = DatabaseManager.getInstance();
+        this.logWineDao = new LogWineDao();
     }
 
     /**
