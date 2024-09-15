@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -25,9 +26,6 @@ import java.util.List;
 public class WineCategoryDisplayController {
     @FXML
     Text titleText;
-
-    @FXML
-    GridPane wineGrid;
 
     @FXML
     FontAwesomeIconView leftArrowButton;
@@ -55,6 +53,8 @@ public class WineCategoryDisplayController {
 
     ArrayList<Parent> wineDisplays;
 
+    String tags;
+
     /**
      * Only initialises on login
      * Creates an array of the anchor panes (len = 6)
@@ -67,6 +67,7 @@ public class WineCategoryDisplayController {
 
         onRefresh();
         ArrayList<Wine> displayWines = SearchWineService.getInstance().getWineList();
+        tags = SearchWineService.getInstance().getCurrentTags();
 
         if (displayWines == null || displayWines.size() < 6) {
             System.out.println("Wine list too short");
@@ -119,6 +120,10 @@ public class WineCategoryDisplayController {
      * @param posOrNeg is the direction of the translation (right = positive)
      */
     public void shift(int posOrNeg) {
+        for (Parent wineDisplay : wineDisplays) { // Temporarily disables each wine tile
+            wineDisplay.setDisable(true);
+        }
+
         TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(1)));
         TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(2)));
         TranslateTransition transition3 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(3)));
@@ -135,6 +140,12 @@ public class WineCategoryDisplayController {
             wineTransitions.get(i).setInterpolator(Interpolator.LINEAR);
             wineTransitions.get(i).play();
         }
+
+        wineTransitions.get(wineTransitions.size() - 1).setOnFinished(event -> { // Un-disables the wine tiles
+            for (Parent wineDisplay : wineDisplays) {
+                wineDisplay.setDisable(false);
+            }
+        });
     }
 
     /**
@@ -251,5 +262,15 @@ public class WineCategoryDisplayController {
         fadeIn(0);
         fadeOut(4);
         teleportEnd(5, -1);
+    }
+
+    /**
+     * Takes the user to the search page with search parameters of {@link WineCategoryDisplayController#tags}
+     */
+    @FXML
+    public void seeMore()
+    {
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+        FXWrapper.getInstance().launchSubPage("searchWine");
     }
 }

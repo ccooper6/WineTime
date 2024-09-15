@@ -18,7 +18,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.App;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
+
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
@@ -85,8 +89,11 @@ public class NavigationController {
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
-
-        sortByComboBox.getSelectionModel().selectFirst();
+        if (SearchWineService.getInstance().getCurrentMethod() == null) {
+            sortByComboBox.getSelectionModel().selectFirst();
+        } else {
+            sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
+        }
     }
 
     /**
@@ -94,16 +101,38 @@ public class NavigationController {
      */
     private void initialiseSearchBar()
     {
+        searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
                 //searchForWine(searchBar.getText());
 
                 if (sortByComboBox.getValue().equals("In Name")) {
-                    SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
                 } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText());
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
                 }
 
+                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
+                FXWrapper.getInstance().launchSubPage("searchWine");
+//                searchBar.clear();
+                searchBar.getParent().requestFocus();
+            }
+        });
+
+        sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
+
+                //searchForWine(searchBar.getText());
+
+                if (sortByComboBox.getValue().equals("In Name")) {
+                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+                } else {
+                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
+                }
+
+                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
                 FXWrapper.getInstance().launchSubPage("searchWine");
 //                searchBar.clear();
                 searchBar.getParent().requestFocus();
