@@ -31,7 +31,8 @@ public class WineLogStepDefs {
     private ArrayList<String> selectedTags;
     private int wid;
     private int rating;
-    boolean selectedTag;
+    private boolean selectedTag;
+    private int oldrating;
     public void initialise() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
         this.databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
@@ -62,6 +63,13 @@ public class WineLogStepDefs {
         wineTags.add(tag1);
         wineTags.add(tag2);
         wineTags.add(tag3);
+    }
+
+    @When("I have previously rated it a {int} with the description {string}")
+    public void previouslyLoggedWine(Integer oldRating, String oldDescription) {
+        this.oldrating = oldRating;
+        this.description = oldDescription;
+        this.wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.description);
     }
 
     @When("I rate it a {int}")
@@ -102,6 +110,21 @@ public class WineLogStepDefs {
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
             Assertions.assertEquals(rating - 3, result.get(checkTag));
+        }
+        ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
+        Assertions.assertEquals(rating,reviews.getFirst().getRating());
+        Assertions.assertEquals(wid, reviews.getFirst().getWid());
+        Assertions.assertEquals(uid, reviews.getFirst().getUid());
+        Assertions.assertEquals(description, reviews.getFirst().getReviewDescription());
+    }
+
+    @Then("The log is properly updated")
+    public void checkUpdatedLog() {
+        ArrayList<String> tagsToCheck = wineTags;
+        HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
+        for (String checkTag: tagsToCheck) {
+            Assertions.assertTrue(result.containsKey(checkTag));
+            Assertions.assertEquals((rating + oldrating) - 3 - 3, result.get(checkTag));
         }
         ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
         Assertions.assertEquals(rating,reviews.getFirst().getRating());
