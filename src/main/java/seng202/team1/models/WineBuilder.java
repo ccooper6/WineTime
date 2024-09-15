@@ -38,7 +38,7 @@ public class WineBuilder {
      *
      * @return {@link WineBuilder} with id, name, description and price setup
      */
-    public static WineBuilder generaicSetup(int id, String name, String description, int price)
+    public static WineBuilder genericSetup(int id, String name, String description, int price)
     {
         WineBuilder builder = new WineBuilder();
         builder.id = id;
