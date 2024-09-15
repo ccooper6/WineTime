@@ -70,7 +70,7 @@ public class NavigationController {
 
     /**
      * Loads in content from desired fxml and initates a blank, invisible overlay popup.
-    /**
+     /**
      * Initializes the controller
      */
     public void initialize() {
@@ -262,11 +262,11 @@ public class NavigationController {
     }
 
     public void onHomeClicked(MouseEvent actionEvent) {
-        contentHere.getChildren().clear(); // Clear all pages
-        contentHere.getChildren().add(mainPage);
+        //contentHere.getChildren().clear(); // Clear all pages
+        //contentHere.getChildren().add(mainPage);
 //        just clear the pages on top
 
-//        FXWrapper.getInstance().launchSubPage("mainpage");
+        FXWrapper.getInstance().launchSubPage("mainpage");
 //        closePopUp()
 //        dont launch subpage here, home should be running underneth, close the page on top of it to return to home.
 
@@ -282,15 +282,15 @@ public class NavigationController {
     public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
 //        Logger log = LogManager.getLogger(App.class);
-//        FXWrapper.getInstance().launchSubPage("wishlist");
-        loadPageContent("wishlist");
+        FXWrapper.getInstance().launchSubPage("wishlist");
+        //loadPageContent("wishlist");
         //change the way this is done so that it loads over main.
     }
 
     public void onUserClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
-//        FXWrapper.getInstance().launchSubPage("profile");
-        loadPageContent("profile");
+        FXWrapper.getInstance().launchSubPage("profile");
+        //loadPageContent("profile");
 
     }
 
