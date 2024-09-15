@@ -164,7 +164,7 @@ public class ProfileController {
             displayChallenge(chalDao.getChallengeForUser(currentUserID));
         }
 
-//        displayWishlist();
+        displayWishlist();
 
     }
 
@@ -172,20 +172,33 @@ public class ProfileController {
      * will display the wishlist on the profile in the scrollable grid format, currently displays a wine catergory using
      * wine catergory display.
      */
+//    @FXML
+//    public void displayWishlist(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
+//        SearchWineService.getInstance().searchWinesByName("Stemmari", 10);
+//        wineList = SearchWineService.getInstance().getWineList();
+//        if (wineList.size() >= wishlistWineView.size()) {
+//            for (int i = 0; i < wishlistWineView.size(); i++) {
+//                wishlistWineInfo.get(i).setText(getWineInfo(wineList.get(i)));
+//            }
+//        } else {
+//            for (int i = wineList.size(); i < wishlistWineView.size(); i++) {
+//                wishlistWineInfo.get(i).setText("No wine available.");
+//            }
+//        }
+//    }
+
     @FXML
-    public void displayWishlist(List<AnchorPane> wishlistWineView, List<Label> wishlistWineInfo) {
-        SearchWineService.getInstance().searchWinesByName("Stemmari", 10);
-        wineList = SearchWineService.getInstance().getWineList();
-        if (wineList.size() >= wishlistWineView.size()) {
-            for (int i = 0; i < wishlistWineView.size(); i++) {
-                wishlistWineInfo.get(i).setText(getWineInfo(wineList.get(i)));
-            }
-        } else {
-            for (int i = wineList.size(); i < wishlistWineView.size(); i++) {
-                wishlistWineInfo.get(i).setText("No wine available.");
-            }
+    public void displayWishlist() {
+        WineCategoryService.getInstance().resetCurrentCategory();
+        SearchWineService.getInstance().searchWinesByTags("Stemmari", 10);
+        try {
+            FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent1 = fxmlLoader1.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
 
 //    @FXML

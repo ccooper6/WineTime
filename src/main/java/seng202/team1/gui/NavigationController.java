@@ -281,8 +281,9 @@ public class NavigationController {
 
     public void onLikesClicked(MouseEvent actionEvent) {
         //example navigation subpage - to change when made
-        Logger log = LogManager.getLogger(App.class);
-        FXWrapper.getInstance().launchSubPage("wishlist");
+//        Logger log = LogManager.getLogger(App.class);
+//        FXWrapper.getInstance().launchSubPage("wishlist");
+        loadPageContent("wishlist");
         //change the way this is done so that it loads over main.
     }
 
