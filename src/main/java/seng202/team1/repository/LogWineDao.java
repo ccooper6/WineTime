@@ -2,16 +2,20 @@ package seng202.team1.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.models.Review;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * The class containing the functions to add entries to the "Likes" and "Reviews" table
  * Mainly called by the WineLoggingPopupController when the user logs a wine.
+ *
+ * @author Wen Sheng Thong
  */
 public class LogWineDao {
     /**
@@ -227,5 +231,61 @@ public class LogWineDao {
         }
     }
 
-    public void getUserReviews(int uid, )
+    /**
+     * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified
+     * @param uid the int user id
+     * @param maxNumbers the maximum number of reviews to return
+     * @param orderByDate a boolean value to return the most recent reviews
+     * @return an ArrayList of {@link Review}
+     */
+    public ArrayList<Review> getUserReview(int uid, int maxNumbers, Boolean orderByDate) {
+        ArrayList<Review> userReviews = new ArrayList<Review>();
+        String getReview = "SELECT * FROM reviews WHERE uid = ?";
+        if (orderByDate) {
+            getReview = "SELECT * FROM reviews WHERE uid = ? ORDER BY date DESC";
+        }
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getReview)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                int i = 0;
+                while (i < maxNumbers && rs.next()) {
+                    userReviews.add(new Review(rs.getInt(1),rs.getInt(rs.getInt(2)),
+                            rs.getInt(3),rs.getString(4), rs.getString(5)));
+                    i++;
+                }
+                return userReviews;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns all the user reviews and returns the most recent reviews if specified
+     * @param uid the int user id
+     * @param orderByDate a boolean value to return the most recent reviews
+     * @return an ArrayList of {@link Review}
+     */
+    public ArrayList<Review> getUserReview(int uid, Boolean orderByDate) {
+        ArrayList<Review> userReviews = new ArrayList<Review>();
+        String getReview = "SELECT * FROM reviews WHERE uid = ?";
+        if (orderByDate) {
+            getReview = "SELECT * FROM reviews WHERE uid = ? ORDER BY date DESC";
+        }
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getReview)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Review review = new Review(rs.getInt(1),rs.getInt(2),
+                            rs.getInt(3),rs.getString(4), rs.getString(5));
+                    userReviews.add(review);
+                }
+                return userReviews;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
