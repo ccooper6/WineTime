@@ -20,6 +20,7 @@ public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
     public String url;
+    private boolean reset = false;
 
     /**
      * Private constructor for singleton purposes
@@ -34,7 +35,6 @@ public class DatabaseManager {
         initialiseDB();
     }
 
-
     /**
      * Singleton method to get current Instance if exists otherwise create it
      * @return the single instance DatabaseSingleton
@@ -46,7 +46,6 @@ public class DatabaseManager {
             // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
             instance = new DatabaseManager(null);
         }
-
         return instance;
     }
 
@@ -64,6 +63,11 @@ public class DatabaseManager {
             throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
         }
         return instance;
+    }
+
+    public void forceReset() {
+        reset = true;
+        initialiseDB();
     }
 
     /**
@@ -178,6 +182,17 @@ public class DatabaseManager {
         // remove jdbc:sqlite:
         String copyPath = this.url.substring(12);
         Path copy = Paths.get(copyPath);
+
+        if (reset) {
+            try {
+                Files.deleteIfExists(copy);
+                log.info("Existing database file deleted due to reset flag.");
+            } catch (IOException e) {
+                log.error("Error deleting existing database file", e);
+            } finally {
+                reset = false;
+            }
+        }
 
         // Differentiate what og.db to use based on whether we are running tests or main application jar
         try {

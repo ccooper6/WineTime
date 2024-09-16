@@ -21,6 +21,7 @@ public class UserLoginServiceTest {
     static void setUp() throws InstanceAlreadyExistsException{
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
         userDAO = new UserDAO();
         userLoginService = new UserLoginService();
     }

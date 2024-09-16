@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WineDAOTest {
 
-    static DatabaseManager databaseManager;
     static WineDAO wineDAO;
-    @BeforeAll
-    static void setUp() throws InstanceAlreadyExistsException{
+    @BeforeEach
+    public void setUp() throws InstanceAlreadyExistsException{
         DatabaseManager.REMOVE_INSTANCE();
-        databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
         wineDAO = new WineDAO();
     }
 

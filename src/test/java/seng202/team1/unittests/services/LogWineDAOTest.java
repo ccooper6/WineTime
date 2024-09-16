@@ -32,17 +32,9 @@ public class LogWineDAOTest {
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
-        databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
         logWineDao = new LogWineDao();
-
-        String copyPath = databaseManager.url.substring(12);
-        Path copy = Paths.get(copyPath);
-        Path ogPath = Paths.get("src/main/resources/sql/og.db");
-        try {
-            Files.copy(ogPath, copy, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
