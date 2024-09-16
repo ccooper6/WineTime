@@ -8,7 +8,7 @@
     <children>
         <ScrollPane depthTest="ENABLE" focusTraversable="false" hbarPolicy="NEVER" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: transparent;">
             <content>
-                <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1700.0" prefWidth="968.0" style="-fx-background-color: white;">
+                <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1700.0" prefWidth="968.0" style="-fx-background-color: transparent; -fx-background: white;">
                     <children>
                         <Text fx:id="helloText" layoutX="9.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello [Name]!">
                             <font>
