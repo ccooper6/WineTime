@@ -170,6 +170,7 @@ public class QuizService {
                 break;
         }
 
+        // TODO this shit needs changing!
         switch (earliestYear) {
             case "1990":
                 SearchWineService.getInstance().searchWinesByTags("1990, " + country, SearchDAO.UNLIMITED);
