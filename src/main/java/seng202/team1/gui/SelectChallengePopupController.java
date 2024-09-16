@@ -32,6 +32,7 @@ public class SelectChallengePopupController {
         chalDao = new ChallengeDAO();
         currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
         chalDao.userActivatesChallenge(currentUserID, "Variety Challenge");
+        chalDao.wineInChallenge();
         System.out.println("started challenge");
 //        FXWrapper.getInstance().setChallenge(1);
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
