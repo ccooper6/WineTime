@@ -111,7 +111,7 @@ public class WishlistController {
         scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
 
 //        page navigation management at bottom
-        pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size() - 1, MAXSIZE)));
+        pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);
         nextArrowButton.getParent().setVisible(end < allWines.size());
 
