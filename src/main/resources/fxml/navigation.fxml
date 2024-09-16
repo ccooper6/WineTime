@@ -35,8 +35,8 @@
 <!--                  </opaqueInsets>-->
                </TextField>
                <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="195.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
-               <Circle fill="#b5b5b5" layoutX="130.0" layoutY="47.0" radius="32.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-               <ImageView fitHeight="56.0" fitWidth="39.0" layoutX="112.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <Circle fill="#b5b5b5" layoutX="130.0" layoutY="47.0" onMouseClicked="#onHomeClicked" radius="32.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+               <ImageView fitHeight="56.0" fitWidth="39.0" layoutX="112.0" layoutY="19.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../images/logo.png" />
                   </image>
