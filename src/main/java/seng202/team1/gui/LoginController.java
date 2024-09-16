@@ -49,13 +49,24 @@ public class LoginController {
 
     @FXML
     public void initialize() {
+        // check on enter
         userNameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
+                // name text field is only visible if on register screen
                 if (nameTextField.isVisible()) {
                     onCreateUserPressed();
                 } else {
                     onLoginPressed();
                 }
+            }
+            setRegisterButton();
+        });
+
+        nameTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onCreateUserPressed();
+            } else {
+                setRegisterButton();
             }
         });
 
@@ -79,16 +90,25 @@ public class LoginController {
             }
         });
 
+        // check on text update
+        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            setRegisterButton();
+        });
+
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            setRegisterButton();
+        });
+
+        // check passwords match
         confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals(passwordField.getText())) {
                 passwordField.setStyle("-fx-border-color: GREEN");
                 confirmPasswordField.setStyle("-fx-border-color: GREEN");
-                createUserButton.setDisable(false);
             } else {
                 passwordField.setStyle("-fx-border-color: RED");
                 confirmPasswordField.setStyle("-fx-border-color: RED");
-                createUserButton.setDisable(true);
             }
+            setRegisterButton();
         });
 
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -96,17 +116,33 @@ public class LoginController {
                 if (newValue.equals(confirmPasswordField.getText())) {
                     passwordField.setStyle("-fx-border-color: GREEN");
                     confirmPasswordField.setStyle("-fx-border-color: GREEN");
-                    createUserButton.setDisable(false);
                 } else {
                     passwordField.setStyle("-fx-border-color: RED");
                     confirmPasswordField.setStyle("-fx-border-color: RED");
-                    createUserButton.setDisable(true);
                 }
+                setRegisterButton();
             }
         });
 
         visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         visiblePasswordTextField.setVisible(false);
+    }
+
+    /**
+     * Checks if register user fields have been filled and controls whether the register button can be clicked or not.
+     * Is clickable if no fields are empty and password matches confirm password
+     */
+    @FXML
+    private void setRegisterButton()
+    {
+        boolean isNameEmpty = nameTextField.getText().trim().isEmpty();
+        boolean isUsernameEmpty = userNameTextField.getText().trim().isEmpty();
+        boolean isPasswordEmpty = passwordField.getText().isEmpty();
+        boolean doesPasswordMatch = passwordField.getText().equals(confirmPasswordField.getText());
+
+        boolean isRegisterEnabled = !isNameEmpty && !isUsernameEmpty && !isPasswordEmpty && doesPasswordMatch;
+
+        createUserButton.setDisable(!isRegisterEnabled);
     }
 
     /**
@@ -120,8 +156,7 @@ public class LoginController {
         String password = passwordField.getText();
         UserLogin userLoginService = new UserLogin();
         if (userLoginService.validateAccount(username, password)
-                && !username.isEmpty() && !password.isEmpty()
-                && username.matches(".*[a-zA-Z0-9]+.*") && password.matches(".*[a-zA-Z0-9]+.*")) {
+                && !username.isEmpty() && !password.isEmpty()) {
             User user = new User(userLoginService.getName(username), userLoginService.getEncryptedName(username));
             FXWrapper.getInstance().setCurrentUser(user);
             FXWrapper.getInstance().launchSubPage("mainpage");
@@ -154,8 +189,7 @@ public class LoginController {
         errorText.setTranslateX(-85);
         errorText.setTranslateY(130);
         UserLogin userLoginService = new UserLogin();
-        if (!username.isEmpty() && !password.isEmpty() && username.matches(".*[a-zA-Z0-9]+.*")
-                && password.matches(".*[a-zA-Z0-9]+.*") && !name.isEmpty()) {
+        if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.createAccount(name, username, password);
 
             if (outcome == 1) {
@@ -169,12 +203,6 @@ public class LoginController {
         } else if (name.isEmpty()) {
             errorText.setText("Please enter a name and try again");
             setErrorFieldBorder(nameTextField);
-        } else if (username.isEmpty() || !username.matches(".*[a-zA-Z0-9]+.*")) {
-            errorText.setText("Please enter a valid username and try again");
-            setErrorFieldBorder(userNameTextField);
-        } else if (password.isEmpty() || !password.matches(".*[a-zA-Z0-9]+.*")) {
-            errorText.setText("Please enter a valid password and try again");
-            setErrorFieldBorder(passwordField);
         } else {
             errorText.setText("Invalid username or password, please try again");
             clearFields();
