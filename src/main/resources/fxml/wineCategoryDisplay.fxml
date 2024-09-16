@@ -13,12 +13,12 @@
             <Font name="PT Serif" size="25.0" />
          </font>
       </Text>
-      <AnchorPane fx:id="mainWine0" layoutX="-150.0" layoutY="53.0" opacity="0.0" prefHeight="126.0" prefWidth="98.0" />
+      <AnchorPane fx:id="mainWine0" disable="true" layoutX="-150.0" layoutY="53.0" opacity="0.0" prefHeight="126.0" prefWidth="98.0" />
       <AnchorPane fx:id="mainWine1" layoutX="50.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine2" layoutX="250.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
-      <AnchorPane fx:id="mainWine4" layoutX="650.0" layoutY="53.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
 
       <AnchorPane fx:id="mainWine3" layoutX="450.0" layoutY="53.0" prefHeight="126.0" prefWidth="98.0"> </AnchorPane>
+      <AnchorPane fx:id="mainWine4" layoutX="650.0" layoutY="53.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine5" disable="true" layoutX="850.0" layoutY="53.0" opacity="0.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
       <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="853.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098" />
       <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60" />
