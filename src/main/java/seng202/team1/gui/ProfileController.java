@@ -1,5 +1,6 @@
 package seng202.team1.gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.apache.commons.beanutils.LazyDynaClass;
 import org.apache.commons.collections.functors.FalsePredicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +22,10 @@ import seng202.team1.repository.ChallengeDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
+import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -142,7 +146,7 @@ public class ProfileController {
      * screens.
      */
     public void initialize() {
-        // the users id needst to be refreshed, registered user thinks its 0
+        // the users id needs to be refreshed, registered user thinks its 0
         challengePane.setVisible(false);
 
         databaseManager = DatabaseManager.getInstance();
@@ -190,15 +194,29 @@ public class ProfileController {
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
-        SearchWineService.getInstance().searchWinesByTags("Stemmari", 10);
+        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        System.out.println(currentUserUid);
+
         try {
-            FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
-            Parent parent1 = fxmlLoader1.load();
-            wishlistPane.getChildren().add(parent1);
+            SearchWineService.getInstance().searchWinesByWishlist(currentUserUid);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent = fxmlLoader.load();
+            wishlistPane.getChildren().add(parent);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+        /*
+         * try {
+         *             FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+         *             Parent parent1 = fxmlLoader1.load();
+         *             wishlistPane.getChildren().add(parent1);
+         *         } catch (IOException e) {
+         *             throw new RuntimeException(e);
+         *         }
+         */
 
 
 

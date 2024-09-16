@@ -2,6 +2,7 @@ package seng202.team1.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 
@@ -103,13 +104,13 @@ public class WishlistDAO {
     public ArrayList<Wine> fetchWines(int UserId) {
         ArrayList<Wine> wineList;
         String sql =    "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n" +
-                        "FROM (SELECT id, name as wine_name, description, points, price\n" +
-                        "      FROM wine\n" +
-                        "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
-                        "WHERE wishlist.userID = ?)\n" +
-                        "JOIN owned_by ON id = owned_by.wid\n" +
-                        "JOIN tag ON owned_by.tname = tag.name\n" +
-                        "ORDER BY id;";
+                "FROM (SELECT id, name as wine_name, description, points, price\n" +
+                "      FROM wine\n" +
+                "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
+                "WHERE wishlist.userID = ?)\n" +
+                "JOIN owned_by ON id = owned_by.wid\n" +
+                "JOIN tag ON owned_by.tname = tag.name\n" +
+                "ORDER BY id;";
 
         try (
                 Connection conn = databaseManager.connect();
@@ -124,6 +125,33 @@ public class WishlistDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public ArrayList<Wine> fetchWinesUsingLimit(int UserId, int limit) {
+        ArrayList<Wine> wineList;
+        String sql = "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n" +
+                "FROM (SELECT id, name as wine_name, description, points, price\n" +
+                "      FROM wine\n" +
+                "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
+                "WHERE wishlist.userID = ?)\n" +
+                "JOIN owned_by ON id = owned_by.wid\n" +
+                "JOIN tag ON owned_by.tname = tag.name\n" +
+                "ORDER BY id LIMIT ?;";
+
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setInt(1, UserId);
+            pstmt.setInt(2, limit);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                wineList = processResultSetIntoWines(rs);
+            }
+            return wineList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addWine(int wineID, int userID) {
         String sql = "INSERT INTO wishlist (userID, wineID) VALUES (?,?)";
         try(Connection conn = databaseManager.connect()) {
@@ -170,5 +198,25 @@ public class WishlistDAO {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    /**
+     * Returns the int user id of the current user. Called during initialization
+     * @param currentUser the current user
+     * @return int uid
+     */
+    public int getUId(User currentUser) {
+        int uid = 0;
+        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
+                uidPs.setString(1, currentUser.getEncryptedUserName());
+                uidPs.setString(2, currentUser.getName());
+                uid = uidPs.executeQuery().getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return uid;
     }
 }

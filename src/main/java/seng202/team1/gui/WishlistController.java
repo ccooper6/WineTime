@@ -15,6 +15,7 @@ import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WishlistService;
 //import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
@@ -70,7 +71,7 @@ public class WishlistController {
     public void initialize() {
         databaseManager = DatabaseManager.getInstance();
         currentUserUid = getUId(FXWrapper.getInstance().getCurrentUser());
-        allWines = SearchWineService.getInstance().getWishlistWines(currentUserUid);
+        allWines = WishlistService.getWishlistWines(currentUserUid);
         displayCurrentPage();
     }
 
@@ -125,7 +126,7 @@ public class WishlistController {
             int currentRow = i / columns;
             int currentCol = i % columns;
 
-            try{
+            try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
 
                 Parent parent = fxmlLoader.load();
