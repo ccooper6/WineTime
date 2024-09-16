@@ -1,11 +1,18 @@
 package seng202.team1.services;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.NavigationController;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
 import seng202.team1.repository.WineDAO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -14,6 +21,8 @@ public class QuizService {
 
     WineDAO wineDAO = new WineDAO();
     Wine wine = null;
+
+    private Stage loadingStage;
 
     ArrayList<String> questions = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
@@ -115,13 +124,44 @@ public class QuizService {
      */
 
     public void launchWinePopup() {
+        showLoadingScreen();
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                wineAlgorithm();
+                Platform.runLater(() -> {
+                    FXWrapper.getInstance().launchSubPage("profile");
+                    NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+                    navigationController.initPopUp(wine);
+                });
+                return null;
+            }
 
-        wineAlgorithm();
+            @Override
+            protected void succeeded() {
+                hideLoadingScreen();
+            }
+        };
 
-        FXWrapper.getInstance().launchSubPage("profile");
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.initPopUp(wine);
+        new Thread(task).start();
+    }
 
+    private void showLoadingScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
+            Parent root = loader.load();
+            loadingStage = new Stage();
+            loadingStage.setScene(new Scene(root));
+            loadingStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void hideLoadingScreen() {
+        if (loadingStage != null) {
+            loadingStage.close();
+        }
     }
 
     public void wineAlgorithm() {
