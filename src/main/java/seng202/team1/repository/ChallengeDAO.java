@@ -28,6 +28,8 @@ public class ChallengeDAO {
 
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
 
+
+
     /**
      * inserts challenge into the database.
      * @param name
