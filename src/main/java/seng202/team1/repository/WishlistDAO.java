@@ -9,6 +9,9 @@ import seng202.team1.models.WineBuilder;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Author: Elise and Jacky
+ */
 public class WishlistDAO {
     /**
      * An instance of the databaseManager to setup the connection to the database
@@ -30,6 +33,7 @@ public class WishlistDAO {
         }
         return instance;
     }
+
     /**
      * Takes a result set of wines with its tags and process them into an ArrayList of wines
      *
@@ -126,32 +130,12 @@ public class WishlistDAO {
         }
     }
 
-    public ArrayList<Wine> fetchWinesUsingLimit(int UserId, int limit) {
-        ArrayList<Wine> wineList;
-        String sql = "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n" +
-                "FROM (SELECT id, name as wine_name, description, points, price\n" +
-                "      FROM wine\n" +
-                "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
-                "WHERE wishlist.userID = ?)\n" +
-                "JOIN owned_by ON id = owned_by.wid\n" +
-                "JOIN tag ON owned_by.tname = tag.name\n" +
-                "ORDER BY id LIMIT ?;";
-
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setInt(1, UserId);
-            pstmt.setInt(2, limit);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                wineList = processResultSetIntoWines(rs);
-            }
-            return wineList;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    /**
+     *
+     *
+     * @param wineID
+     * @param userID
+     */
     public void addWine(int wineID, int userID) {
         String sql = "INSERT INTO wishlist (userID, wineID) VALUES (?,?)";
         try(Connection conn = databaseManager.connect()) {
@@ -218,5 +202,51 @@ public class WishlistDAO {
             throw new RuntimeException(e);
         }
         return uid;
+    }
+
+    /**
+     * Checks the existence of a wine in the database
+     * @param wineID the id of the wine in question
+     * @return true if present in wine table
+     */
+    public boolean checkWineID(int wineID) {
+        String uidSql = "SELECT COUNT (*) FROM wine WHERE wine.id = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(uidSql);
+        ) {
+            pstmt.setInt(1, wineID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    /**
+     * Checks the existence of a user in the database
+     * @param userID is the id of the active user
+     * @return true if present in database
+     */
+    public boolean checkUserID(int userID) {
+        String uidSql = "SELECT COUNT (*) FROM user WHERE user.id = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(uidSql);
+        ) {
+            pstmt.setInt(1, userID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
