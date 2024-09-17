@@ -88,4 +88,14 @@ public class UserLoginServiceTest {
         Assertions.assertFalse(wasInDB);
     }
 
+    @Test
+    void testGetName() {
+        String name = "Isaac";
+        String username = "IsaacTheBest";
+        String password = "password";
+        userLoginService.storeLogin(name, username, password);
+        String nameFromDB = userLoginService.getName(username);
+        assertEquals(name, nameFromDB);
+    }
+
 }
