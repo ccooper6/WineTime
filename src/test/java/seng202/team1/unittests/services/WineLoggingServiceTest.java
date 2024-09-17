@@ -3,20 +3,13 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.models.User;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.LogWineDao;
 import seng202.team1.repository.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,16 +78,5 @@ public class WineLoggingServiceTest {
         String currentTime = ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
         String serviceCurrentTime = wineLoggingPopupService.getCurrentTimeStamp();
         Assertions.assertEquals(currentTime, serviceCurrentTime);
-    }
-
-    /**
-     * Tests that {@link WineLoggingPopupService#getUId(User)} returns the right user id
-     */
-    @Test
-    public void testGetUid() throws DuplicateEntryException {
-        User user = new User("name", "username", 69);
-        userDAO.add(user);
-        int uid = wineLoggingPopupService.getUId(user);
-        Assertions.assertEquals(1,uid);
     }
 }

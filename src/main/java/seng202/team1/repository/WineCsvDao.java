@@ -16,7 +16,7 @@ import java.text.StringCharacterIterator;
 
 /**
  * The class that handles populating the og.db.
- * Written by Wen Sheng Thong wst44, despite IntelliJ saying its written by
+ * Written by Wen Sheng Thong wst44, despite IntelliJ saying it's written by
  * Yuhao Zhang.
  *
  * @author Wen Sheng Thong

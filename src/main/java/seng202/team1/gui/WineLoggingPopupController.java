@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;
@@ -72,6 +73,10 @@ public class WineLoggingPopupController {
      * The service that interacts with the database and runs logic for the controller
      */
     private WineLoggingPopupService wineLoggingPopupService;
+    /**
+     * The user dao for getting the current user id
+     */
+    private UserDAO userDAO;
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup
@@ -81,7 +86,8 @@ public class WineLoggingPopupController {
         tagNameArray = new ArrayList<String>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
         wineLoggingPopupService = new WineLoggingPopupService();
-        currentUserUid = wineLoggingPopupService.getUId(FXWrapper.getInstance().getCurrentUser());
+        userDAO = new UserDAO();
+        currentUserUid = userDAO.getUId(FXWrapper.getInstance().getCurrentUser());
         implementFxmlFunction();
     }
 
