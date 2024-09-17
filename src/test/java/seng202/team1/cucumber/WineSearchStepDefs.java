@@ -45,12 +45,12 @@ public class WineSearchStepDefs {
     {
         boolean didPass = size == wineList.size();
 
-        filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+        filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
 
         if (type.equals("name")) {
 
             for (Wine wine : wineList) {
-                String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+                String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
                 if (!wineName.contains(filter)) {
                     didPass = false;
                     break;
