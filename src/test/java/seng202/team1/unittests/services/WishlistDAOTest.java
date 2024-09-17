@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.WishlistDAO;
+import seng202.team1.services.UserLoginService;
 import seng202.team1.services.WineVarietyService;
 import seng202.team1.services.WishlistService;
 
@@ -22,6 +23,9 @@ public class WishlistDAOTest {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         wishlistDAO = new WishlistDAO();
+        UserLoginService userLoginService = new UserLoginService();
+        userLoginService.storeLogin("test", "test", "test");
+        wishlistDAO.addWine(2,1);
     }
     @Test
     public void testCheckWineBadWineID() {

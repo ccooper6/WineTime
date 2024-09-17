@@ -27,8 +27,9 @@ public class WishlistService {
      * @param userID int value repr active user
      */
     public static void addToWishlist(int wineID, int userID) {
-        if (WishlistDAO.getInstance().checkWineID(wineID) && WishlistDAO.getInstance().checkUserID(userID) && !WishlistDAO.getInstance().checkWine(wineID, userID)) {
-            WishlistDAO.getInstance().addWine(wineID, userID);
+        WishlistDAO wishlistDAO = WishlistDAO.getInstance();
+        if (wishlistDAO.checkWineID(wineID) && wishlistDAO.checkUserID(userID) && !wishlistDAO.checkWine(wineID, userID)) {
+            wishlistDAO.addWine(wineID, userID);
         }
     }
 
