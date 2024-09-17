@@ -4,8 +4,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.models.UserLogin;
 import seng202.team1.repository.DatabaseManager;
+import seng202.team1.services.UserLoginService;
 
 import javax.xml.crypto.Data;
 
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class UserLogsInStepDefs {
-    UserLogin userLogin;
+    UserLoginService userLoginService;
     String name;
     String username;
     String password;
@@ -24,7 +24,7 @@ public class UserLogsInStepDefs {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
-        userLogin = new UserLogin();
+        userLoginService = new UserLoginService();
     }
 
     @Given("The user with name {string} does already have an account associated to the username {string} and password {string}")
@@ -33,12 +33,12 @@ public class UserLogsInStepDefs {
         this.name = name;
         this.username = username;
         this.password = password;
-        assertEquals(1, userLogin.createAccount(name, username, password));
+        assertEquals(1, userLoginService.storeLogin(name, username, password));
     }
 
     @When("The user logs in with the given credentials")
     public void iTryLoginWith() {
-        loginSuccess = userLogin.validateAccount(username, password);
+        loginSuccess = userLoginService.checkLogin(username, password);
     }
 
     @Then("The user is logged in successfully")
