@@ -64,4 +64,5 @@ public class WishlistDAOTest {
         assertTrue(wishlistDAO.checkUserID(1));
     }
 
+
 }

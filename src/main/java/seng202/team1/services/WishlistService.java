@@ -6,7 +6,9 @@ import seng202.team1.models.Wine;
 import seng202.team1.repository.ChallengeDAO;
 import seng202.team1.repository.WishlistDAO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class WishlistService {
     /**
@@ -35,8 +37,13 @@ public class WishlistService {
      * @param wineID int value repr wine object
      * @param userID int value repr active user
      */
-    public static void removeFromWishlist(int wineID, int userID) {
-        WishlistDAO.getInstance().removeWine(wineID, userID);
+    public static void removeFromWishlist(int wineID, int userID) throws SQLException{
+        if (WishlistDAO.getInstance().checkWine(wineID, userID)){
+            WishlistDAO.getInstance().removeWine(wineID, userID);
+        } else {
+            throw new SQLException("Can't remove element which doesn't exist");
+        }
+
     }
 
     /**

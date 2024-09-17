@@ -99,7 +99,11 @@ public class PopUpController {
             //checks existence in wishlist table and toggles existence
             boolean inWishlistLambda = WishlistService.checkInWishlist(wineID, currentUserUid);
             if (inWishlistLambda) {
-                WishlistService.removeFromWishlist(wineID, currentUserUid);
+                try {
+                    WishlistService.removeFromWishlist(wineID, currentUserUid);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 icon.setFill(Color.web("#d0d0d0"));
             } else {
                 WishlistService.addToWishlist(wineID, currentUserUid);
