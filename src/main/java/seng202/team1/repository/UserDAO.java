@@ -57,6 +57,27 @@ public class UserDAO implements DAOInterface<User> {
 
     }
 
+    /**
+     * Returns the int user id of the current user. Called during initialization of
+     * {@link seng202.team1.gui.WineLoggingPopupController}
+     * @param currentUser the current user
+     * @return int uid
+     */
+    public int getUId(User currentUser) {
+        int uid = 0;
+        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
+                uidPs.setString(1, currentUser.getEncryptedUserName());
+                uidPs.setString(2, currentUser.getName());
+                uid = uidPs.executeQuery().getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return uid;
+    }
+
     @Override
     public int add(User toAdd) throws DuplicateEntryException {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";

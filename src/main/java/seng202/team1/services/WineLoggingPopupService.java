@@ -1,13 +1,9 @@
 package seng202.team1.services;
 
 import org.jetbrains.annotations.NotNull;
-import seng202.team1.models.User;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.LogWineDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -57,26 +53,5 @@ public class WineLoggingPopupService {
      */
     public String getCurrentTimeStamp() {
         return ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
-    }
-
-    /**
-     * Returns the int user id of the current user. Called during initialization of
-     * {@link seng202.team1.gui.WineLoggingPopupController}
-     * @param currentUser the current user
-     * @return int uid
-     */
-    public int getUId(User currentUser) {
-        int uid = 0;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return uid;
     }
 }
