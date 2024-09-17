@@ -4,7 +4,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
 
@@ -16,22 +18,26 @@ import java.util.ArrayList;
 public class WineSearchStepDefs {
 
     ArrayList<Wine> wineList;
+    SearchWineService searchWineService;
 
     @Given("Wines are stored correctly")
-    public void winesAreStoredCorrectly() {
-        return;
+    public void winesAreStoredCorrectly() throws InstanceAlreadyExistsException {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
+        searchWineService = new SearchWineService();
     }
 
     @When("The user searches for wines with {string} {string}")
     public void userSearches(String type, String filter)
     {
         if (type.equals("name"))
-            SearchWineService.getInstance().searchWinesByName(filter, SearchDAO.UNLIMITED);
+            searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
         else if (type.equals("tags"))
-            SearchWineService.getInstance().searchWinesByTags(filter, SearchDAO.UNLIMITED);
+            searchWineService.searchWinesByTags(filter, SearchDAO.UNLIMITED);
         else
             throw new IllegalArgumentException(type + " must be 'name' or 'tags'");
-        wineList = SearchWineService.getInstance().getWineList();
+        wineList = searchWineService.getWineList();
     }
 
     @Then("The wine list should have {int} wines and all wines should have {string} in their {string}")
@@ -39,12 +45,12 @@ public class WineSearchStepDefs {
     {
         boolean didPass = size == wineList.size();
 
-        filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+        filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
 
         if (type.equals("name")) {
 
             for (Wine wine : wineList) {
-                String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+                String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
                 if (!wineName.contains(filter)) {
                     didPass = false;
                     break;

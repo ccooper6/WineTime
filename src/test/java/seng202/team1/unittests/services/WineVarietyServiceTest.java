@@ -3,9 +3,7 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.models.Wine;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.WineDAO;
 import seng202.team1.services.WineVarietyService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +13,9 @@ public class WineVarietyServiceTest {
     static WineVarietyService wineVarietyService;
     @BeforeAll
     static void setUp() throws InstanceAlreadyExistsException {
-
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
         wineVarietyService = WineVarietyService.getInstance();
 
     }

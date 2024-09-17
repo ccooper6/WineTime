@@ -72,28 +72,6 @@ public class UserLoginService {
         return encrypt(username);
     }
 
-    /**
-     * Method that looks through the text file where the username and password pair is stored and returns the hashed
-     * value of the password.
-     * @param encryptedUsername the username to search for
-     * @return null if no username could be found, otherwise returns the hashed password value
-     */
-    public Integer getPassword(String encryptedUsername) {
-        try {
-            //Hook up to SQL if this is needed - shouldn't be needed though.
-            BufferedReader reader = new BufferedReader(new FileReader(FILENAME));
-            String lookahead;
-            while ((lookahead = reader.readLine()) != null) {
-                String[] login = lookahead.split(",");
-                if (login[0].equals(encryptedUsername)) {
-                    return Integer.valueOf(login[1]);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * Method that takes a string as input, for example a username, and returns a string that is no longer readable.
@@ -108,26 +86,6 @@ public class UserLoginService {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(text.getBytes());
             return Base64.getEncoder().encodeToString(encrypted);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
-                 | InvalidKeyException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Method that takes a string as input, for example a username, and returns a string that is then user readable.
-     * Uses a fixed key.
-     * @param text The text that needs to be decrypted
-     * @return A string that contains the decrypted text
-     */
-    public String decrypt(String text) {
-        try {
-            SecretKeySpec key = new SecretKeySpec(KEY, ALGORITHM);
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(text));
-            return new String(decrypted);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
                  | InvalidKeyException e) {
             e.printStackTrace();

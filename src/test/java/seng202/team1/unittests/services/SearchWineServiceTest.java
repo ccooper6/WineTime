@@ -28,6 +28,7 @@ public class SearchWineServiceTest {
     {
         DatabaseManager.REMOVE_INSTANCE();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
     }
 
     /**

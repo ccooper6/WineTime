@@ -324,26 +324,26 @@ public class Wine {
      */
     public boolean hasLocation(String location)
     {
-        location = Normalizer.normalize(location, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+        location = Normalizer.normalize(location, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
 
         boolean isTrue = false;
 
         // unfortunately cannot loop here since can't put null values into a list
 
         if (country != null) {
-            String normalisedCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            String normalisedCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
             isTrue = isTrue || normalisedCountry.equals(location);
         }
         if (province != null) {
-            String normalisedProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            String normalisedProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
             isTrue = isTrue || normalisedProvince.equals(location);
         }
         if (region1 != null) {
-            String normalisedRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            String normalisedRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
             isTrue = isTrue || normalisedRegion1.equals(location);
         }
         if (region2 != null) {
-            String normalisedRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            String normalisedRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
             isTrue = isTrue || normalisedRegion2.equals(location);
         }
 
@@ -362,26 +362,28 @@ public class Wine {
      */
     public boolean hasTag(String tag)
     {
+        tag = Normalizer.normalize(tag, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
+
         if (Integer.toString(vintage).equals(tag))
             return true;
 
         if (country != null) {
-            String checkCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            String checkCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
             if (checkCountry.equals(tag))
                 return true;
         }
         if (province != null) {
-            String checkProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            String checkProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
             if (checkProvince.equals(tag))
                 return true;
         }
         if (region1 != null) {
-            String checkRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            String checkRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
             if (checkRegion1.equals(tag))
                 return true;
         }
         if (region2 != null) {
-            String checkRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            String checkRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
             if (checkRegion2.equals(tag))
                 return true;
         }
@@ -392,7 +394,7 @@ public class Wine {
                 return true;
         }
         if (winery != null) {
-            String checkWinery = Normalizer.normalize(winery, Normalizer.Form.NFD).replaceAll("^\\p{ASCII}", "").toLowerCase();
+            String checkWinery = Normalizer.normalize(winery, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
             if (checkWinery.equals(tag))
                 return true;
         }

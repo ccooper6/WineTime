@@ -35,26 +35,21 @@ public class WineLogStepDefs {
     private int rating;
     private boolean selectedTag;
     private int oldrating;
-    public void initialise() throws InstanceAlreadyExistsException {
+
+    private void initialise() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
-        this.databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
-        this.wineLoggingPopupService = new WineLoggingPopupService();
-        this.logWineDao = new LogWineDao();
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
+        wineLoggingPopupService = new WineLoggingPopupService();
+        logWineDao = new LogWineDao();
         this.wid = 0;
         this.rating = 0;
         this.uid = 0;
         this.description = "";
-        this.wineTags = new ArrayList<String>();
-        this.selectedTags = new ArrayList<String>();
+        this.wineTags = new ArrayList<>();
+        this.selectedTags = new ArrayList<>();
         this.selectedTag = false;
-        String copyPath = databaseManager.url.substring(12);
-        Path copy = Paths.get(copyPath);
-        Path ogPath = Paths.get("src/main/resources/sql/og.db");
-        try {
-            Files.copy(ogPath, copy, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Given("I am viewing a wine #{int} with tags {string}, {string} and {string} as user {int}")
@@ -71,7 +66,7 @@ public class WineLogStepDefs {
     public void previouslyLoggedWine(Integer oldRating, String oldDescription) {
         this.oldrating = oldRating;
         this.description = oldDescription;
-        this.wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.description);
+        wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.description);
     }
 
     @When("I rate it a {int}")
@@ -91,9 +86,9 @@ public class WineLogStepDefs {
     @When("I click submit log")
     public void submitedLog() {
         if (this.selectedTag) {
-            this.wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,this.description);
+            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,this.description);
         } else {
-            this.wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.wineTags,this.description);
+            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.wineTags,this.description);
         }
     }
 
