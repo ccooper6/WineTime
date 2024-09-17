@@ -62,15 +62,13 @@ public class WishlistController {
     @FXML
     Text Title;
     int currentUserUid;
-    DatabaseManager databaseManager;
 
     /**
      * Selects all wine objects from the database where the int userID matches the current user
      */
     @FXML
     public void initialize() {
-        databaseManager = DatabaseManager.getInstance();
-        currentUserUid = getUId(FXWrapper.getInstance().getCurrentUser());
+        currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
         allWines = WishlistService.getWishlistWines(currentUserUid);
         displayCurrentPage();
     }
@@ -138,27 +136,6 @@ public class WishlistController {
             }
         }
     }
-
-    /**
-     * Returns the int user id of the current user. Called during initialization
-     * @param currentUser the current user
-     * @return int uid
-     */
-    private int getUId(User currentUser) {
-        int uid = 0;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return uid;
-    }
-
 
     /**
      * Set current page to 0 and display the page
