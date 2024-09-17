@@ -21,6 +21,7 @@ public class UserLoginServiceTest {
     static void setUp() throws InstanceAlreadyExistsException{
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
         userDAO = new UserDAO();
         userLoginService = new UserLoginService();
     }
@@ -85,6 +86,16 @@ public class UserLoginServiceTest {
         userLoginService.storeLogin(name, username, password);
         boolean wasInDB = userLoginService.checkLogin(notUsername, password);
         Assertions.assertFalse(wasInDB);
+    }
+
+    @Test
+    void testGetName() {
+        String name = "Isaac";
+        String username = "IsaacTheBest";
+        String password = "password";
+        userLoginService.storeLogin(name, username, password);
+        String nameFromDB = userLoginService.getName(username);
+        assertEquals(name, nameFromDB);
     }
 
 }

@@ -38,7 +38,7 @@ public class UserDAO implements DAOInterface<User> {
     public boolean tryLogin(String username, int password) {
         String sql = "SELECT password FROM user WHERE username = ?";
         try (
-                Connection conn = databaseManager.connect();  //something goes wrong around here.
+                Connection conn = databaseManager.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
         ) {
             pstmt.setString(1, username);
@@ -67,16 +67,8 @@ public class UserDAO implements DAOInterface<User> {
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
             ps.executeUpdate();
-//            conn.commit();
-            System.out.println("Added user: " + toAdd.getEncryptedUserName()); // Can delete this in the future...
+            log.info("Added user: " + toAdd.getEncryptedUserName());
             return 1; // Username created successfully
-            /*try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1); // Return the generated key
-                } else {
-                    return -1; // No key was generated
-                }
-            }*/
         } catch (SQLException sqlException) {
             if (sqlException.getErrorCode() == 19) {
                 return 0; // Duplicate username
@@ -121,7 +113,7 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public void update(User toUpdate) {
-
+        throw new NotImplementedException();
     }
 }
 

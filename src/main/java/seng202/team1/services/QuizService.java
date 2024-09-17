@@ -10,7 +10,6 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.NavigationController;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
-import seng202.team1.repository.WineDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +17,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class QuizService {
-
-    WineDAO wineDAO = new WineDAO();
     Wine wine = null;
 
     private Stage loadingStage;

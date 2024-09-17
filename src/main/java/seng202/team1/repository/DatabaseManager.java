@@ -20,6 +20,7 @@ public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
     public String url;
+    private boolean reset = false;
 
     /**
      * Private constructor for singleton purposes
@@ -34,7 +35,6 @@ public class DatabaseManager {
         initialiseDB();
     }
 
-
     /**
      * Singleton method to get current Instance if exists otherwise create it
      * @return the single instance DatabaseSingleton
@@ -46,7 +46,6 @@ public class DatabaseManager {
             // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
             instance = new DatabaseManager(null);
         }
-
         return instance;
     }
 
@@ -64,6 +63,11 @@ public class DatabaseManager {
             throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
         }
         return instance;
+    }
+
+    public void forceReset() {
+        reset = true;
+        initialiseDB();
     }
 
     /**
@@ -88,18 +92,6 @@ public class DatabaseManager {
     }
 
     /**
-     * Initialises the database if it does not exist using the sql script included in resources
-     */
-    public void resetDB() {
-        try {
-            InputStream in = getClass().getResourceAsStream("/sql/initialise_database.sql");
-            executeSQLScript(in);
-        } catch (NullPointerException e) {
-            log.error("Error loading database initialisation file", e);
-        }
-    }
-
-    /**
      * Gets path to the database relative to the jarfile
      * @return jdbc encoded url location of database
      */
@@ -108,63 +100,6 @@ public class DatabaseManager {
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
         return "jdbc:sqlite:" + jarDir.getParentFile() + "/copy.db";
-    }
-
-    /**
-     * Check that a database exists in the expected location
-     * @param url expected location to check for database
-     * @return True if database exists else false
-     */
-    public boolean checkDatabaseExists(String url) {
-        File f = new File(url.substring(12));
-        return f.exists();
-    }
-
-    /**
-     * Creates a database file at the location specified by the url
-     * @param url url to creat database at
-     */
-    private void createDatabaseFile(String url) {
-        try (Connection conn = DriverManager.getConnection(url)) {
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                String metaDriverLog = String.format("A new database has been created. The driver name is %s", meta.getDriverName());
-                log.info(metaDriverLog);
-            }
-        } catch (SQLException e) {
-            log.error(String.format("Error creating new database file url:%s", url));
-            log.error(e);
-        }
-    }
-
-    /**
-     * Reads and executes all statements within the sql file provided
-     * Note that each statement must be separated by 'SPLIT' this is not a desired limitation but allows for a much
-     * wider range of statement types.
-     * @param sqlFile input stream of file containing sql statements for execution (separated by SPLIT)
-     */
-    private void executeSQLScript(InputStream sqlFile) {
-        String s;
-        StringBuffer sb = new StringBuffer();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(sqlFile))) {
-            while((s=br.readLine()) != null) {
-                sb.append(s);
-            }
-
-            String[] individualStatements = sb.toString().split("/* SPLIT */");
-            try (Connection conn = this.connect();
-                 Statement statement = conn.createStatement()) {
-                for (String singleStatement : individualStatements) {
-                    statement.executeUpdate(singleStatement);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            log.error("Error could not find specified database initialisation file", e);
-        } catch (IOException e) {
-            log.error("Error working with database initialisation file", e);
-        } catch (SQLException e) {
-            log.error("Error executing sql statements in database initialisation file", e);
-        }
     }
 
     /**
@@ -178,6 +113,17 @@ public class DatabaseManager {
         // remove jdbc:sqlite:
         String copyPath = this.url.substring(12);
         Path copy = Paths.get(copyPath);
+
+        if (reset) {
+            try {
+                Files.deleteIfExists(copy);
+                log.info("Existing database file deleted due to reset flag.");
+            } catch (IOException e) {
+                log.error("Error deleting existing database file", e);
+            } finally {
+                reset = false;
+            }
+        }
 
         // Differentiate what og.db to use based on whether we are running tests or main application jar
         try {

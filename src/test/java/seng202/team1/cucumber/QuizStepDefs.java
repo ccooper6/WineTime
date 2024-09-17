@@ -3,10 +3,11 @@ package seng202.team1.cucumber;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.QuizService;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,10 +15,18 @@ public class QuizStepDefs {
 
     private ArrayList<Integer> answers;
     private Wine recommendedWine = null;
-    private QuizService quizService = new QuizService();
+    private QuizService quizService;
+
+    public void initialise() throws InstanceAlreadyExistsException {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        DatabaseManager.getInstance().forceReset();
+        quizService = new QuizService();
+    }
 
     @Given("The user has completed the quiz with answers {int}, {int}, {int}, {int}, {int}")
-    public void iCompleteTheQuiz(int int1, int int2, int int3, int int4, int int5) {
+    public void iCompleteTheQuiz(int int1, int int2, int int3, int int4, int int5) throws InstanceAlreadyExistsException {
+        initialise();
         answers = new ArrayList<>(Arrays.asList(int1, int2, int3, int4, int5));
     }
 
