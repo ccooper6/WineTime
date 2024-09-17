@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import seng202.team1.models.User;
-import seng202.team1.models.UserLogin;
+import seng202.team1.services.UserLoginService;
 
 /**
  * Controller class to look after the login.fxml page.
@@ -154,10 +154,10 @@ public class LoginController {
         clearErrors();
         String username = userNameTextField.getText().toLowerCase();
         String password = passwordField.getText();
-        UserLogin userLoginService = new UserLogin();
-        if (userLoginService.validateAccount(username, password)
+        UserLoginService userLoginService = new UserLoginService();
+        if (userLoginService.checkLogin(username, password)
                 && !username.isEmpty() && !password.isEmpty()) {
-            User user = new User(userLoginService.getName(username), userLoginService.getEncryptedName(username));
+            User user = new User(userLoginService.getName(username), userLoginService.getEncryptedUsername(username));
             FXWrapper.getInstance().setCurrentUser(user);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
@@ -188,12 +188,12 @@ public class LoginController {
         clearErrors();
         errorText.setTranslateX(-85);
         errorText.setTranslateY(130);
-        UserLogin userLoginService = new UserLogin();
+        UserLoginService userLoginService = new UserLoginService();
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
-            int outcome = userLoginService.createAccount(name, username, password);
+            int outcome = userLoginService.storeLogin(name, username, password);
 
             if (outcome == 1) {
-                User user = new User(userLoginService.getName(username), userLoginService.getEncryptedName(username));
+                User user = new User(userLoginService.getName(username), userLoginService.getEncryptedUsername(username));
                 FXWrapper.getInstance().setCurrentUser(user);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
