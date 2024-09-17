@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.junit.Test;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
@@ -47,11 +48,12 @@ public class WineCategoryDisplayController {
     int firstWine = 0;
     int MAXWINES = 10;
     int leftDisplay = 6;
-    int rightDisplay = MAXWINES -1;
+    int rightDisplay;
     double TRANSDURATION = 0.2;
     int DISTANCEBETWEEN = 200;
 
-    ArrayList<Parent> wineDisplays;
+    ArrayList<Parent> wineDisplays = new ArrayList<>();
+    ArrayList<Wine> DISPLAYWINES;
 
     String tags;
 
@@ -61,36 +63,55 @@ public class WineCategoryDisplayController {
      * Fetches the number of wine objects from the database and stores them in another array (len = MAXWINES)
      */
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         wineViews = List.of(mainWine0, mainWine1, mainWine2, mainWine3, mainWine4, mainWine5);
 
         onRefresh();
-        ArrayList<Wine> displayWines = SearchWineService.getInstance().getWineList();
+        DISPLAYWINES = SearchWineService.getInstance().getWineList();
         tags = SearchWineService.getInstance().getCurrentTags();
-
-        if (displayWines == null || displayWines.size() < 6) {
-            System.out.println("Wine list too short");
-            return;
+        if (SearchWineService.getInstance().getFromWishlist()) {
+            titleText.setText("Your Wishlist: ");
+        } else {
+            titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
         }
-
-        wineDisplays = new ArrayList<>();
-        titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
-        for (int i = 0; i < Math.min(displayWines.size(), MAXWINES); i++) {
-            SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
-                wineDisplays.add(loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (DISPLAYWINES.isEmpty()) {
+            titleText.setText("Your Wishlist: \n\nYou have no saved wines...\nGo to home or search pages to discover new wines!");
+            leftArrowButton.setDisable(true);
+            leftArrowButton.setVisible(false);
+            rightArrowButton.setDisable(true);
+            rightArrowButton.setVisible(false);
+        } else if (DISPLAYWINES.size() <= 4) {
+            fourOrLess();
+        } else {
+            if (DISPLAYWINES.size() == 5) {
+                for (int i = 0; i < 5; i++) {
+                    DISPLAYWINES.addLast(DISPLAYWINES.get(i));
+                }
             }
+            if (DISPLAYWINES.size() == 6) {
+                leftDisplay = 0;
+            }
+            if (DISPLAYWINES.size() < MAXWINES) {
+                MAXWINES = DISPLAYWINES.size();
+                rightDisplay = MAXWINES - 1;
+            }
+                for (int i = 0; i < MAXWINES; i++) {
+                SearchWineService.getInstance().setCurrentWine(DISPLAYWINES.get(i));
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
+                    wineDisplays.add(loader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            mainWine0.getChildren().add(wineDisplays.get(0));
+            mainWine1.getChildren().add(wineDisplays.get(1));
+            mainWine2.getChildren().add(wineDisplays.get(2));
+            mainWine3.getChildren().add(wineDisplays.get(3));
+            mainWine4.getChildren().add(wineDisplays.get(4));
+            mainWine5.getChildren().add(wineDisplays.get(5));
+
         }
-        mainWine0.getChildren().add(wineDisplays.get(0));
-        mainWine1.getChildren().add(wineDisplays.get(1));
-        mainWine2.getChildren().add(wineDisplays.get(2));
-        mainWine3.getChildren().add(wineDisplays.get(3));
-        mainWine4.getChildren().add(wineDisplays.get(4));
-        mainWine5.getChildren().add(wineDisplays.get(5));
     }
 
     /**
@@ -270,7 +291,42 @@ public class WineCategoryDisplayController {
     @FXML
     public void seeMore()
     {
-        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
-        FXWrapper.getInstance().launchSubPage("searchWine");
+        if (SearchWineService.getInstance().getFromWishlist()) {
+            FXWrapper.getInstance().launchSubPage("wishlist");
+        } else {
+            SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+            FXWrapper.getInstance().launchSubPage("searchWine");
+        }
     }
+    public void fourOrLess() {
+        for (int i = 0; i < DISPLAYWINES.size(); i++) {
+            SearchWineService.getInstance().setCurrentWine(DISPLAYWINES.get(i));
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
+                wineDisplays.add(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        mainWine1.getChildren().add(wineDisplays.get(0));
+        if (DISPLAYWINES.size() >= 2) {
+            mainWine2.getChildren().add(wineDisplays.get(1));
+        } if (DISPLAYWINES.size() >= 3) {
+            mainWine3.getChildren().add(wineDisplays.get(2));
+        } if (DISPLAYWINES.size() == 4) {
+            mainWine4.getChildren().add(wineDisplays.get(3));
+        }
+        leftArrowButton.setDisable(true);
+        leftArrowButton.setVisible(false);
+        rightArrowButton.setDisable(true);
+        rightArrowButton.setVisible(false);
+    }
+    public void five() {
+
+
+    }
+    public void sixOrMore() {
+
+    }
+
 }

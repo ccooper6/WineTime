@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WishlistService;
 
 
 /**
@@ -74,8 +75,6 @@ public class PopUpController {
      */
     @FXML
     public void initialize() {
-        databaseManager = DatabaseManager.getInstance();
-
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> { closePopUp(); });
         logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
@@ -86,9 +85,9 @@ public class PopUpController {
         }
 
         //set initial colour based on state
-        int currentUserUid = getUId(FXWrapper.getInstance().getCurrentUser());
+        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
         int wineID = wine.getWineId();
-        boolean inWishlist = SearchWineService.getInstance().checkInWishlist(wineID, currentUserUid);
+        boolean inWishlist = WishlistService.checkInWishlist(wineID, currentUserUid);
         FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();
         if (inWishlist) {
             icon.setFill(Color.web("#70171e"));
@@ -98,12 +97,12 @@ public class PopUpController {
 
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
-            boolean inWishlistLambda = SearchWineService.getInstance().checkInWishlist(wineID, currentUserUid);
+            boolean inWishlistLambda = WishlistService.checkInWishlist(wineID, currentUserUid);
             if (inWishlistLambda) {
-                SearchWineService.getInstance().removeFromWishlist(wineID, currentUserUid);
+                WishlistService.removeFromWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#d0d0d0"));
             } else {
-                SearchWineService.getInstance().addToWishlist(wineID, currentUserUid);
+                WishlistService.addToWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#70171e"));
             }
         });
@@ -164,23 +163,5 @@ public class PopUpController {
         navigationController.closePopUp();
         navigationController.loadWineLoggingPopUpContent();
     }
-    /**
-     * Returns the int user id of the current user. Called during initialization
-     * @param currentUser the current user
-     * @return int uid
-     */
-    private int getUId(User currentUser) {
-        int uid = 0;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return uid;
-    }
+
 }

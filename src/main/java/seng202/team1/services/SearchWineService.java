@@ -2,8 +2,11 @@ package seng202.team1.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.ChallengeDAO;
 import seng202.team1.repository.SearchDAO;
+import seng202.team1.repository.UserDAO;
 import seng202.team1.repository.WishlistDAO;
 
 import java.text.Normalizer;
@@ -20,14 +23,14 @@ public class SearchWineService {
 
     private String currentSearch;
     private String currentMethod;
+    private boolean fromWishlist = false;
 
     /**
-    Returns the instance and creates one if none exists.
-
-    @return {@link SearchWineService instance}
+     * Returns the instance and creates one if none exists.
+     *
+     * @return {@link SearchWineService instance}
      */
-    public static SearchWineService getInstance()
-    {
+    public static SearchWineService getInstance() {
         if (instance == null) {
             instance = new SearchWineService();
         }
@@ -57,8 +60,7 @@ public class SearchWineService {
      *
      * @return {@link String} last used tags
      */
-    public String getCurrentTags()
-    {
+    public String getCurrentTags() {
         return currentTags;
     }
 
@@ -75,11 +77,10 @@ public class SearchWineService {
      * Searches the database for wines that matches all tags provided and sets
      * it to the wineList variable.
      *
-     * @param tags A {@link String} of tags seperated by commas
+     * @param tags  A {@link String} of tags seperated by commas
      * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
-    public void searchWinesByTags(String tags, int limit)
-    {
+    public void searchWinesByTags(String tags, int limit) {
         currentTags = tags;
 
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
@@ -92,6 +93,7 @@ public class SearchWineService {
             tagList.add(tag.trim());
         }
         wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
+        fromWishlist = false;
     }
 
     /**
@@ -100,7 +102,7 @@ public class SearchWineService {
      * the wineList variable.
      *
      * @param filterString A normalised {@link String} that contains what to search by
-     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
+     * @param limit        The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
     public void searchWinesByName(String filterString, int limit) {
 
@@ -108,16 +110,7 @@ public class SearchWineService {
         filterString = filterString.trim();
 
         wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
-    }
-
-    /**
-     * Forwards the wineList from the DAO to the WishlistController
-     *
-     * @param userId is the id of the active user
-     * @return wineList array of wines from the user's wishlist
-     */
-    public ArrayList<Wine> getWishlistWines(int userId) {
-        return WishlistDAO.getInstance().fetchWines(userId);
+        fromWishlist = false;
     }
 
     /**
@@ -156,11 +149,20 @@ public class SearchWineService {
         return currentMethod;
     }
 
-    public boolean checkInWishlist(int wineID, int userID) {return WishlistDAO.getInstance().checkWine(wineID, userID);}
-    public void addToWishlist(int wineID, int userID){
-        WishlistDAO.getInstance().addWine(wineID, userID);
+    /**
+     * Finds all wines in the wishlist and saves them to the wineList for the WineDisplayController to get
+     * @param userId is the id of the active user
+     */
+    public void searchWinesByWishlist(int userId) {
+        wineList = WishlistDAO.getInstance().fetchWines(userId);
+        fromWishlist = true;
     }
 
-
-    public void removeFromWishlist(int wineID, int userID) {WishlistDAO.getInstance().removeWine(wineID, userID);}
+    /**
+     * If from wishlist, behavior in WineDisplay is different
+     * @return true if the prev page is wishlist, else false
+     */
+    public boolean getFromWishlist(){
+        return fromWishlist;
+    }
 }
