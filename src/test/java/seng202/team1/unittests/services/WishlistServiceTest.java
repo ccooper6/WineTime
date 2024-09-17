@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
+import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.WishlistDAO;
 import seng202.team1.services.WishlistService;
@@ -79,8 +80,19 @@ public class WishlistServiceTest {
         ArrayList<Wine> myWines = wishlistService.getWishlistWines(1);
         assertEquals(testNull, myWines);
     }
-    /**Write one for getWishlistFull
-     *
-     */
+    @Test
+    public void testGetWishlistWinesFull() throws SQLException {
+        if (wishlistDAO.checkWine(2, 1)) {
+            wishlistService.removeFromWishlist(2, 1);
+        }
+        //make sure wishlist empty, then add 3 wines
+        wishlistService.addToWishlist(4, 1);
+        wishlistService.addToWishlist(5, 1);
+        wishlistService.addToWishlist(6, 1);
+        ArrayList<Wine> myWines = wishlistService.getWishlistWines(1);
+        assertEquals(myWines.get(0).getWineId(), 4);
+        assertEquals(myWines.get(1).getWineId(), 5);
+        assertEquals(myWines.get(2).getWineId(), 6);
+    }
 }
 
