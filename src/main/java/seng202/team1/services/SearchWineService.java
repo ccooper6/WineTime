@@ -23,6 +23,7 @@ public class SearchWineService {
 
     private String currentSearch;
     private String currentMethod;
+    private boolean fromWishlist = false;
 
     /**
      * Returns the instance and creates one if none exists.
@@ -92,6 +93,7 @@ public class SearchWineService {
             tagList.add(tag.trim());
         }
         wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
+        fromWishlist = false;
     }
 
     /**
@@ -108,6 +110,7 @@ public class SearchWineService {
         filterString = filterString.trim();
 
         wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
+        fromWishlist = false;
     }
 
     /**
@@ -146,8 +149,20 @@ public class SearchWineService {
         return currentMethod;
     }
 
+    /**
+     * Finds all wines in the wishlist and saves them to the wineList for the WineDisplayController to get
+     * @param userId is the id of the active user
+     */
     public void searchWinesByWishlist(int userId) {
         wineList = WishlistDAO.getInstance().fetchWines(userId);
-        System.out.println(wineList);
+        fromWishlist = true;
+    }
+
+    /**
+     * If from wishlist, behavior in WineDisplay is different
+     * @return true if the prev page is wishlist, else false
+     */
+    public boolean getFromWishlist(){
+        return fromWishlist;
     }
 }

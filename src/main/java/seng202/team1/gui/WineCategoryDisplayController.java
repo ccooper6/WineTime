@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.junit.Test;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
@@ -68,7 +69,18 @@ public class WineCategoryDisplayController {
         onRefresh();
         DISPLAYWINES = SearchWineService.getInstance().getWineList();
         tags = SearchWineService.getInstance().getCurrentTags();
-        if (DISPLAYWINES.size() <= 4) {
+        if (SearchWineService.getInstance().getFromWishlist()) {
+            titleText.setText("Your Wishlist: ");
+        } else {
+            titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
+        }
+        if (DISPLAYWINES.isEmpty()) {
+            titleText.setText("Your Wishlist: \n\nYou have no saved wines...\nGo to home or search pages to discover new wines!");
+            leftArrowButton.setDisable(true);
+            leftArrowButton.setVisible(false);
+            rightArrowButton.setDisable(true);
+            rightArrowButton.setVisible(false);
+        } else if (DISPLAYWINES.size() <= 4) {
             fourOrLess();
         } else {
             if (DISPLAYWINES.size() == 5) {
@@ -79,13 +91,11 @@ public class WineCategoryDisplayController {
             if (DISPLAYWINES.size() == 6) {
                 leftDisplay = 0;
             }
-            //change titleText if in wishlist
-            if(DISPLAYWINES.size() < MAXWINES) {
+            if (DISPLAYWINES.size() < MAXWINES) {
                 MAXWINES = DISPLAYWINES.size();
                 rightDisplay = MAXWINES - 1;
             }
-            titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
-            for (int i = 0; i < MAXWINES; i++) {
+                for (int i = 0; i < MAXWINES; i++) {
                 SearchWineService.getInstance().setCurrentWine(DISPLAYWINES.get(i));
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
@@ -281,11 +291,14 @@ public class WineCategoryDisplayController {
     @FXML
     public void seeMore()
     {
-        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
-        FXWrapper.getInstance().launchSubPage("searchWine");
+        if (SearchWineService.getInstance().getFromWishlist()) {
+            FXWrapper.getInstance().launchSubPage("wishlist");
+        } else {
+            SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+            FXWrapper.getInstance().launchSubPage("searchWine");
+        }
     }
     public void fourOrLess() {
-        titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
         for (int i = 0; i < DISPLAYWINES.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(DISPLAYWINES.get(i));
             try {
