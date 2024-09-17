@@ -26,7 +26,6 @@ public class ChallengeService {
     public void startChallengeVariety() {
         chalDao.userActivatesChallenge(currentUserID, "Variety Challenge");
         chalDao.wineInChallenge();
-
     }
 
     /**
