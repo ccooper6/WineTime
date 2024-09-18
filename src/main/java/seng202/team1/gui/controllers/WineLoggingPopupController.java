@@ -74,7 +74,7 @@ public class WineLoggingPopupController {
      * @param wine The wine object obtained from {@link NavigationController#getWine()}
      */
     private void addTagCheckBoxes(Wine wine) {
-        if (wine.getVintage() != NULL) { //TODO double confirm the default values of empty wine tag values
+        if (wine.getVintage() != NULL) {
             tagCheckBoxArray.add(new CheckBox(Integer.toString(wine.getVintage()) + " Vintage"));
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }

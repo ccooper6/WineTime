@@ -126,7 +126,7 @@ public class PopUpController {
         countryTag.setText(wine.getCountry());
         provinceTag.setText(wine.getProvince());
         wineryTag.setText(wine.getWinery());
-        regionTag.setText(wine.getRegion1()); //todo: fix this to add region 1 and 2
+        regionTag.setText(wine.getRegion1());
         hideNullTags();
     }
 
