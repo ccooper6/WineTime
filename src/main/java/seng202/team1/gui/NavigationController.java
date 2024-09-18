@@ -4,74 +4,49 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.App;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.SearchDAO;
 import seng202.team1.services.SearchWineService;
-
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 
 /**
  * Controller class for the navigation.fxml page.
- * @author Elise
+ * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
 public class NavigationController {
     @FXML
-    public ImageView homeExampleButton;
-    @FXML
-    public FontAwesomeIconView savesExampleButton;
-    @FXML
-    public FontAwesomeIconView likesExampleButton;
-    @FXML
-    public FontAwesomeIconView userExampleButton;
+    private FontAwesomeIconView userExampleButton;
     @FXML
     private VBox userDropDownMenu;
     @FXML
-    private Button logOutButton;
-    @FXML
     private Parent overlayContent;
     @FXML
-    public AnchorPane mainContent;
-    @FXML
-    public Pane StackPanePane;
-    @FXML
-    Pane topBar;
+    private Pane topBar;
     @FXML
     private StackPane contentHere;
-
     @FXML
-    private Parent mainPage;  // mainPage is running underneth the other screens
+    private TextField searchBar;
     @FXML
-    TextField searchBar;
+    private ComboBox<String> sortByComboBox;
 
-    @FXML
-    ComboBox<String> sortByComboBox;
-
-    private static final Logger log = LogManager.getLogger(NavigationController.class);
-
+    private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
-    //private WineService wineService = new WineService();
 
-    /**
-     * Loads in content from desired fxml and initates a blank, invisible overlay popup.
      /**
-     * Initializes the controller
+     * Initializes the controller.
      */
     public void initialize() {
         initialseSortByComboBox();
@@ -86,7 +61,7 @@ public class NavigationController {
     }
 
     /**
-     * Inserts options into sort by combo box and selects first
+     * Inserts options into sort by combo box and selects first.
      */
     private void initialseSortByComboBox()
     {
@@ -107,7 +82,6 @@ public class NavigationController {
         searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
-                //searchForWine(searchBar.getText());
 
                 if (sortByComboBox.getValue().equals("In Name")) {
                     SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
@@ -118,7 +92,6 @@ public class NavigationController {
                 SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
                 SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
                 FXWrapper.getInstance().launchSubPage("searchWine");
-//                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
         });
@@ -126,8 +99,6 @@ public class NavigationController {
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
 
-                //searchForWine(searchBar.getText());
-
                 if (sortByComboBox.getValue().equals("In Name")) {
                     SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
                 } else {
@@ -137,7 +108,6 @@ public class NavigationController {
                 SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
                 SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
                 FXWrapper.getInstance().launchSubPage("searchWine");
-//                searchBar.clear();
                 searchBar.getParent().requestFocus();
             }
         });
@@ -162,8 +132,11 @@ public class NavigationController {
         userDropDownMenu.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
     }
 
+    /**
+     * Logs out the user and returns to the login page.
+     */
     @FXML
-    public void onLogOutClicked(ActionEvent actionEvent) {
+    public void onLogOutClicked() {
         FXWrapper.getInstance().setCurrentUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
@@ -176,33 +149,28 @@ public class NavigationController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
-//            contentHere.getChildren().addFirst(pageContent);
             contentHere.getChildren().add(pageContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Sends user to the main page.
+     */
     public void loadMainScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpage.fxml"));
-            mainPage = loader.load();
+            // mainPage is running underneath the other screens
+            Parent mainPage = loader.load();
             contentHere.getChildren().add(mainPage); // Add the main page to the stack
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    /*private void searchForWine(String wineName) {
-        List<Wine> wines = wineService.searchWineByName(wineName);
-        if (!wines.isEmpty()) {
-            initPopUp(wines.get(0));
-        }
-    }*/
-
     /**
-     * Returns the currently viewed wine object
+     * Returns the currently viewed wine object.
      * @return Wine object
      */
     public Wine getWine() {
@@ -219,12 +187,12 @@ public class NavigationController {
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            log.error("Failed to load wine pop up\n" + e.getMessage());
+            LOG.error("Failed to load wine pop up\n" + e.getMessage());
         }
     }
 
     /**
-     * Loads the wine logging popup page when the log wine button is clicked in the wine popup page
+     * Loads the wine logging popup page when the log wine button is clicked in the wine popup page.
      */
     public void loadWineLoggingPopUpContent() {
         try {
@@ -233,10 +201,13 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            log.error("Failed to load wine logging pop up\n" + e.getMessage());
+            LOG.error("Failed to load wine logging pop up\n" + e.getMessage());
         }
     }
 
+    /**
+     * Loads the select challenge popup page when the select challenge button is clicked on the profile page.
+     */
     public void loadSelectChallengePopUpContent() {
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/selectChallengePopup.fxml"));
@@ -244,55 +215,46 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            log.error("Failed to load select challenge pop up\n" + e.getMessage());
+            LOG.error("Failed to load select challenge pop up\n" + e.getMessage());
         }
     }
 
+    /**
+     * Initializes the wine popup page with the wine that was clicked.
+     * @param wine the wine that was clicked
+     */
     public void initPopUp(Wine wine) {
         this.wine = wine;
         loadPopUpContent();
     }
 
+    /**
+     * Closes the popup screen when the user clicks the close button.
+     */
     public void closePopUp() {
         if (overlayContent != null) {
             overlayContent.setVisible(false);
         }
-//        refresh the page under it,
-
     }
 
-    public void onHomeClicked(MouseEvent actionEvent) {
-        //contentHere.getChildren().clear(); // Clear all pages
-        //contentHere.getChildren().add(mainPage);
-//        just clear the pages on top
-
-        FXWrapper.getInstance().launchSubPage("mainpage");
-//        closePopUp()
-//        dont launch subpage here, home should be running underneth, close the page on top of it to return to home.
-
-//
-
-    }
-
-    public void onSavesClicked(ActionEvent actionEvent) {
-        //example navigation subpage - to change when made
+    /**
+     * Sends the user to the home page when the home button is clicked.
+     */
+    public void onHomeClicked() {
         FXWrapper.getInstance().launchSubPage("mainpage");
     }
 
-    public void onLikesClicked(MouseEvent actionEvent) {
-        //example navigation subpage - to change when made
-//        Logger log = LogManager.getLogger(App.class);
+    /**
+     * Sends the user to the wishlist page when the heart icon is clicked.
+     */
+    public void onLikesClicked() {
         FXWrapper.getInstance().launchSubPage("wishlist");
-        //loadPageContent("wishlist");
-        //change the way this is done so that it loads over main.
     }
 
-    public void onUserClicked(MouseEvent actionEvent) {
-        //example navigation subpage - to change when made
+    /**
+     * Sends the user to the profile page when the user button is clicked.
+     */
+    public void onUserClicked() {
         FXWrapper.getInstance().launchSubPage("profile");
-        //loadPageContent("profile");
-
     }
-
-
 }

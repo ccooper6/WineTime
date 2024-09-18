@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * A singleton class which launches the FXML pages.
- * @author Elise
+ * @author Elise Newman, Caleb Cooper
  */
 public class FXWrapper {
     private static FXWrapper instance = null;

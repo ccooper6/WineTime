@@ -37,7 +37,7 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-        <Text fx:id="Title" layoutX="42.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Wishlist:" wrappingWidth="800" y="-120.0">
+        <Text fx:id="title" layoutX="42.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Wishlist:" wrappingWidth="800" y="-120.0">
             <font>
                 <Font name="PT Serif" size="25.0" />
             </font></Text>

@@ -2,36 +2,29 @@ package seng202.team1.gui;
 
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
-import seng202.team1.models.User;
-import seng202.team1.repository.ChallengeDAO;
-import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ChallengeService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
+/**
+ * Controller class for the selectChallengePopup.fxml page.
+ * @author Lydia Jackson
+ */
 public class SelectChallengePopupController {
 
-    ChallengeService challengeService = new ChallengeService();
-
+    private final ChallengeService challengeService = new ChallengeService();
 
     /**
-     * updates the database and closes popup and reloads the profile screen on start challenge clicked.
-     * @param actionEvent
+     * Updates the database and closes popup and reloads the profile screen on start challenge clicked.
      */
-
-    public void startVarietyChallenge(ActionEvent actionEvent) {
+    public void startVarietyChallenge() {
         challengeService.startChallengeVariety();
         challengeService.launchProfile();
     }
 
 
     /**
-     * closes the popup.
-     * @param mouseEvent
+     * Closes the popup.
      */
-    public void closeChallengePopup(MouseEvent mouseEvent) {
+    public void closeChallengePopup() {
         challengeService.closeSelectChallenge();
 
     }

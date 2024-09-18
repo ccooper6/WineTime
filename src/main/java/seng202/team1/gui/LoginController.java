@@ -13,7 +13,7 @@ import seng202.team1.services.UserLoginService;
 
 /**
  * Controller class to look after the login.fxml page.
- * @author Isaac Macdonald, Caleb Cooper
+ * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
  */
 public class LoginController {
     @FXML
@@ -47,6 +47,9 @@ public class LoginController {
     @FXML
     Button createUserButton;
 
+    /**
+     * Initialises the login page.
+     */
     @FXML
     public void initialize() {
         // check on enter
@@ -178,22 +181,23 @@ public class LoginController {
     }
 
     /**
-     * . Method to register a new user account.
+     * Method used to register a new user account.
      */
     @FXML
     public void onCreateUserPressed() {
-        String username = userNameTextField.getText().toLowerCase();
-        String password = passwordField.getText();
-        String name = nameTextField.getText();
         clearErrors();
         errorText.setTranslateX(-85);
         errorText.setTranslateY(130);
+
         UserLoginService userLoginService = new UserLoginService();
+        String username = userNameTextField.getText().toLowerCase();
+        String password = passwordField.getText();
+        String name = nameTextField.getText();
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.storeLogin(name, username, password);
-
             if (outcome == 1) {
-                User user = new User(userLoginService.getName(username), userLoginService.getEncryptedUsername(username));
+                User user = new User(userLoginService.getName(username),
+                        userLoginService.getEncryptedUsername(username));
                 FXWrapper.getInstance().setCurrentUser(user);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
@@ -210,6 +214,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method that is used to go back to the login screen.
+     */
     @FXML
     public void onGoBackPressed() {
         FXWrapper.getInstance().launchPage("login");
@@ -258,10 +265,17 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method that sets the border of a text field to have a red border to indicate an error.
+     * @param textField the text field that will have its border set to red
+     */
     private void setErrorFieldBorder(TextField textField) {
         textField.setStyle("-fx-border-color: RED");
     }
 
+    /**
+     * Resets the borders of the password and confirm password text fields to not have a red border.
+     */
     private void resetPasswordBorders() {
         passwordField.setStyle("-fx-border-color: None");
         confirmPasswordField.setStyle("-fx-border-color: None");
@@ -302,6 +316,9 @@ public class LoginController {
 
     }
 
+    /**
+     * Method that toggles the visibility of the fields and buttons needed to create account.
+     */
     private void toggleShowCreateAccount() {
         nameText.setVisible(true);
         nameTextField.setVisible(true);

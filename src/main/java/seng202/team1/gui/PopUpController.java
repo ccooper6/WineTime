@@ -11,64 +11,50 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
+import seng202.team1.models.WineBuilder;
+import seng202.team1.services.WishlistService;
 
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import seng202.team1.models.WineBuilder;
-import seng202.team1.repository.DatabaseManager;
-import seng202.team1.services.SearchWineService;
-import seng202.team1.services.WishlistService;
-
 
 /**
  * Controller class for the popup.fxml popup.
- * @author Caleb
+ * @author Caleb Cooper, Elise Newman, Yuhao Zhang, Wen Sheng Thong
  */
 public class PopUpController {
     @FXML
-    Button popUpCloseButton;
+    private Button popUpCloseButton;
     @FXML
-    ImageView wineImage;
+    private ImageView wineImage;
     @FXML
-    Text wineName;
+    private Text wineName;
     @FXML
-    Text description;
+    private Text description;
     @FXML
-    Button logWine;
+    private Button logWine;
     @FXML
-    Button addToWishlist;
+    private Button addToWishlist;
     @FXML
-    Button vintageTag;
+    private Button vintageTag;
     @FXML
-    Button varietyTag;
+    private Button varietyTag;
     @FXML
-    Button countryTag;
+    private Button countryTag;
     @FXML
-    Button provinceTag;
+    private Button provinceTag;
     @FXML
-    Button wineryTag;
+    private Button wineryTag;
     @FXML
-    Button regionTag;
+    private Button regionTag;
     @FXML
     private ScrollPane tagScrollPane;
     @FXML
     private FlowPane tagFlowPane;
-    DatabaseManager databaseManager;
-    Wine wine;
 
-    private static final Logger log = LogManager.getLogger(PopUpController.class);
-
-    //todo: fix panning of long regions and titles.
-    //todo: fix selectable main page scroll pane
+    private static final Logger LOG = LogManager.getLogger(PopUpController.class);
 
     /**
      * Initializes the controller.
@@ -78,13 +64,12 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> { closePopUp(); });
         logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
-        wine = navigationController.getWine();
+        Wine wine = navigationController.getWine();
         if (wine == null) {
-            log.error("Wine is null");
+            LOG.error("Wine is null");
             wine = WineBuilder.genericSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
 
-        //set initial colour based on state
         int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
         int wineID = wine.getWineId();
         boolean inWishlist = WishlistService.checkInWishlist(wineID, currentUserUid);
@@ -162,6 +147,9 @@ public class PopUpController {
         navigationController.closePopUp();
     }
 
+    /**
+     * Loads the wine logging popup page when the log wine button is clicked on the popup page.
+     */
     public void loadWineLoggingPopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();

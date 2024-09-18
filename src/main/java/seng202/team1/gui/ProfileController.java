@@ -1,96 +1,65 @@
 package seng202.team1.gui;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import org.apache.commons.beanutils.LazyDynaClass;
-import org.apache.commons.collections.functors.FalsePredicate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.ChallengeDAO;
-import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ChallengeService;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Controller class for the profile.fxml page.
- * @author Lydia Jackson
+ * @author Lydia Jackson, Caleb Cooper, Elise Newman
  */
 public class ProfileController {
-    public Button quizButton;
-    public Label challengeLabeltext;
-    public Button StartChallengeButton;
-
     @FXML
     private Pane winesPane;
-
     @FXML
     private Pane noChallengePane;
-
     @FXML
     private Pane challengePane;
-
     @FXML
     private AnchorPane wishlistPane;
-
     @FXML
-    AnchorPane chal1;
+    private AnchorPane chal1;
     @FXML
-    AnchorPane chal2;
+    private AnchorPane chal2;
     @FXML
-    AnchorPane chal3;
+    private AnchorPane chal3;
     @FXML
-    AnchorPane chal4;
+    private AnchorPane chal4;
     @FXML
-    AnchorPane chal5;
+    private AnchorPane chal5;
 
-    List<AnchorPane> wineViews;
-
-    private static final Logger log = LogManager.getLogger(ProfileController.class);
-
-    ChallengeService challengeService = new ChallengeService();
-
+    private final ChallengeService challengeService = new ChallengeService();
 
     /**
-     * Initialises the controller checks if user has is participating in a challenge, calls methods to appropriately alter
-     * screens.
+     * Initialises the controller checks if user has is participating in a challenge, calls
+     * methods to appropriately alter screens.
      */
     public void initialize() {
         challengePane.setVisible(false);
         if (challengeService.activeChallenge()) {
             moveWinesPane();
             activateChallenge();
-            String cname = challengeService.usersChallenge();
-            displayChallenge(cname);
+            displayChallenge();
         }
         displayWishlist();
 
     }
 
     /**
-     * will display the wishlist on the profile in the scrollable grid format, currently displays a wine catergory using
-     * wine catergory display.
+     * Displays the wishlist on the profile in the scrollable grid format, currently displays a wine category using
+     * wine category display.
      */
-
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
@@ -108,29 +77,25 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Sends user to quiz screen.
+     */
+    public void onQuizClicked() {
+        FXWrapper.getInstance().launchSubPage("quizscreen");
+    }
 
     /**
-     * opens the quiz screen.
-     * @param actionEvent
+     * Sends user to the select challenge popup.
      */
-
-    public void onQuizClicked(ActionEvent actionEvent) { FXWrapper.getInstance().launchSubPage("quizscreen");}
-
-
-    /**
-     * launches the select challenge popup.
-     * @param actionEvent
-     */
-    public void onChallengeClicked(ActionEvent actionEvent) {
+    public void onChallengeClicked() {
         challengeService.launchSelectChallenge();
     }
 
     /**
-     * displays the challenge wines using the wine mini displays
-     * @param cname
+     * Displays the challenge wines using the wine mini displays.
      */
-    public void displayChallenge(String cname) {
-        wineViews = List.of(chal1, chal2, chal3, chal4, chal5);
+    public void displayChallenge() {
+        List<AnchorPane> wineViews = List.of(chal1, chal2, chal3, chal4, chal5);
         ArrayList<Wine> challengeWines = challengeService.challengeWines();
         for (int i = 0; i < wineViews.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(challengeWines.get(i));
@@ -144,18 +109,16 @@ public class ProfileController {
     }
 
     /**
-     * makes the challenge pane visible and disables previous one.
+     * Makes the challenge pane visible and disables previous one.
      */
-
     public void activateChallenge() {
         noChallengePane.setVisible(false);
         challengePane.setVisible(true);
     }
 
     /**
-     * shifts the main pane to make room for challenge wines.
+     * Shifts the main pane to make room for challenge wines.
      */
-
     public void moveWinesPane() {
         winesPane.setLayoutY(190);
 

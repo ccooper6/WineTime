@@ -16,10 +16,8 @@ import java.util.ArrayList;
  * @author Wen Sheng Thong
  */
 public class WineLoggingPopupService {
-    private DatabaseManager databaseManager;
     private LogWineDao logWineDao;
     public WineLoggingPopupService() {
-        this.databaseManager = DatabaseManager.getInstance();
         this.logWineDao = new LogWineDao();
     }
 
