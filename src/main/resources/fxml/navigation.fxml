@@ -23,7 +23,7 @@
                 <VBox fx:id="userDropDownMenu" layoutX="901.0" layoutY="55.0" style="-fx-background-color: none; -fx-padding: 10;" visible="false">
                     <Button onAction="#onLogOutClicked" style="-fx-background-color: #808080;" text="Log Out" textFill="WHITE" />
                 </VBox>
-               <FontAwesomeIconView fx:id="savesExampleButton" glyphName="COMMENT" layoutX="824.0" layoutY="55.0" selectionEnd="0" size="40" text="" wrappingWidth="53.0" />
+               <FontAwesomeIconView fx:id="savesExampleButton" disable="true" glyphName="COMMENT" layoutX="824.0" layoutY="55.0" selectionEnd="0" size="40" text="" visible="false" wrappingWidth="53.0" />
                <ImageView fx:id="homeExampleButton" fitHeight="66.0" fitWidth="91.0" layoutX="6.0" layoutY="17.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../images/winetime.png" />
