@@ -38,5 +38,5 @@ IntelliJ has built-in support for Gradle. To import your project:
 - Open a command line interface inside the projection directory and run `./gradlew test`
 
 ## Credit
-Red, White, Rosé and Sparkling Wine Icons - https://www.flaticon.com/free-icon/wine-glass_763048
-Default Wine Icon - https://freepik.com/icon/wine-bottle_5622688
+- Red, White, Rosé and Sparkling Wine Icons - https://www.flaticon.com/free-icon/wine-glass_763048
+- Default Wine Icon - https://freepik.com/icon/wine-bottle_5622688
