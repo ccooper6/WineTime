@@ -1,7 +1,7 @@
 # WineTime
-- WineTime is an application by wine lovers, for wine lovers.
+WineTime is an application by wine lovers, for wine lovers. 
 
-- To use WineTime, you must create an account upon launch. We recommend doing the quiz upon launch, located in your profile, to kickstart your wine browsing journey.
+To use WineTime, you must create an account upon launch. We recommend doing the quiz upon launch, located in your profile, to kickstart your wine browsing journey.
 
 ## Authors
 - SENG202 Teaching team
@@ -26,8 +26,8 @@ IntelliJ has built-in support for Gradle. To import your project:
 
 **Note:** *If you run into dependency issues when running the app or the Gradle pop up doesn't appear then open the Gradle sidebar and click the Refresh icon.*
 
-## Build Project 
-1. Open a command line interface inside the project directory and run `./gradlew run` to build a .jar file. The file is located at build/libs/wino-1.0-SNAPSHOT.jar
+## Build Project
+- Open a command line interface inside the project directory and run `./gradlew run` to build a .jar file. The file is located at build/libs/wino-1.0-SNAPSHOT.jar
 
 ## Run App
 - If you haven't already, Build the project.
@@ -35,8 +35,8 @@ IntelliJ has built-in support for Gradle. To import your project:
 - Run the command `java -jar wino-1.0-SNAPSHOT.jar` to open the application.
 
 ## How to run tests
-
 - Open a command line interface inside the projection directory and run `./gradlew test`
 
 ## Credit
-
+Red, White, Rosé and Sparkling Wine Icons - https://www.flaticon.com/free-icon/wine-glass_763048
+Default Wine Icon - https://freepik.com/icon/wine-bottle_5622688
