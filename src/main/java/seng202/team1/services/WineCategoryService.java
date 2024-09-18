@@ -3,12 +3,15 @@ package seng202.team1.services;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Service class for the wine category feature.
+ * @author Isaac Macdonald
+ */
 public class WineCategoryService {
 
-    int currentCategory = 0;
-    ArrayList<String> categoryTitles = new ArrayList<>(Arrays.asList("Bordeaux Merlot", "Marlborough Sauvignon Blanc", "Tuscany Sangiovese", "Hawke's Bay Syrah",
+    private int currentCategory = 0;
+    private final ArrayList<String> categoryTitles = new ArrayList<>(Arrays.asList("Bordeaux Merlot", "Marlborough Sauvignon Blanc", "Tuscany Sangiovese", "Hawke's Bay Syrah",
                                                                      "Rioja Tempranillo", "Mendoza Malbec", "Napa Valley Cabernet Sauvignon", "Central Otago Pinot Noir"));
-
     private static WineCategoryService instance;
 
     /**
@@ -25,7 +28,7 @@ public class WineCategoryService {
     }
 
     /**
-     * This method gets the current category to set the title
+     * This method gets the current category to set the title.
      * @return the current category
      */
     public int getCurrentCategory()
@@ -43,7 +46,7 @@ public class WineCategoryService {
     }
 
     /**
-     * This method increments current category;
+     * This method increments current category.
      */
     public void incrementCurrentCategory()
     {

@@ -16,34 +16,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Service class for the quiz feature.
+ * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
+ */
 public class QuizService {
-    Wine wine = null;
-
+    private Wine wine = null;
     private Stage loadingStage;
 
-    ArrayList<String> questions = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> questions = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
             "What is your go to food",
             "If you could only pick one fruit for the rest of your life what would it be?",
             "What is the coolest bird.",
             "What Hogwarts house are you?"
     ));
-
-    ArrayList<String> answer1answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> answer1answers = new ArrayList<>(Arrays.asList(
             "The Shawshank Redemption",
             "Steak",
             "Banana",
             "Bald Eagle",
             "Hufflepuff"
     ));
-    ArrayList<String> answer2answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> answer2answers = new ArrayList<>(Arrays.asList(
             "The Incredibles",
             "Fish",
             "Pear",
             "Kiwi",
             "Ravenclaw"
     ));
-    ArrayList<String> answer3answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> answer3answers = new ArrayList<>(Arrays.asList(
             "The Dark Knight",
             "Cheesecake",
             "Plum",
@@ -51,7 +53,7 @@ public class QuizService {
             "Gryffindor"
 
     ));
-    ArrayList<String> answer4answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> answer4answers = new ArrayList<>(Arrays.asList(
             "Whiplash",
             "Sushi",
             "Peach",
@@ -59,10 +61,10 @@ public class QuizService {
             "Slytherin"
     ));
 
-    ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
-    String earliestYear;
-    String type;
-    String country;
+    private ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
+    private String earliestYear;
+    private String type;
+    private String country;
 
     /**
      * The getter for the question labels.
@@ -104,22 +106,34 @@ public class QuizService {
         return answer4answers;
     }
 
+    /**
+     * The setter for the record of answers.
+     * @param answers The record of answers
+     */
     public void setRecordOfAnswers(ArrayList<Integer> answers) {
         recordOfAnswers = answers;
     }
 
+    /**
+     * Getter for the wine object.
+     * @return The wine object
+     */
     public Wine getWine() {
         return wine;
     }
 
+    /**
+     * The getter for the record of answers.
+     * @return The record of answers
+     */
     public ArrayList<Integer> getRecordOfAnswers() {
         return recordOfAnswers;
     }
 
     /**
-     * The getter for the record of answers.
+     * Method to launch the wine popup. Implements a loading screen to show that the app is working
+     * in the background even with large wait times.
      */
-
     public void launchWinePopup() {
         showLoadingScreen();
         Task<Void> task = new Task<>() {
@@ -143,6 +157,9 @@ public class QuizService {
         new Thread(task).start();
     }
 
+    /**
+     * Method to show the loading screen.
+     */
     private void showLoadingScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
@@ -155,14 +172,19 @@ public class QuizService {
         }
     }
 
+    /**
+     * Method to hide the loading screen.
+     */
     private void hideLoadingScreen() {
         if (loadingStage != null) {
             loadingStage.close();
         }
     }
 
+    /**
+     * Method to run the wine algorithm.
+     */
     public void wineAlgorithm() {
-        ArrayList<Wine> possibleWines = new ArrayList<>();
 
         switch (getRecordOfAnswers().get(0)) {
             case 1:
@@ -177,7 +199,11 @@ public class QuizService {
             case 4:
                 earliestYear = "2010";
                 break;
+            default:
+                earliestYear = "1990";
+                break;
         }
+
         switch (getRecordOfAnswers().get(1)) {
             case 1:
                 type = "Pinot Noir";
@@ -191,6 +217,8 @@ public class QuizService {
             case 4:
                 type = "Prosecco";
                 break;
+            default:
+                type = "Pinot Noir";
         }
         switch (getRecordOfAnswers().get(3)) {
             case 1:
@@ -205,9 +233,11 @@ public class QuizService {
             case 4:
                 country = "France";
                 break;
+            default:
+                country = "US";
         }
 
-        // TODO this shit needs changing!
+        ArrayList<Wine> possibleWines = new ArrayList<>();
         switch (earliestYear) {
             case "1990":
                 SearchWineService.getInstance().searchWinesByTags("1990, " + country, SearchDAO.UNLIMITED);
@@ -269,6 +299,8 @@ public class QuizService {
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
                 SearchWineService.getInstance().searchWinesByTags("2014, " + country, SearchDAO.UNLIMITED);
                 possibleWines.addAll(SearchWineService.getInstance().getWineList());
+                break;
+            default:
                 break;
 
         }

@@ -16,7 +16,11 @@ import java.util.ArrayList;
  * @author Wen Sheng Thong
  */
 public class WineLoggingPopupService {
-    private LogWineDao logWineDao;
+    private final LogWineDao logWineDao;
+
+    /**
+     * Constructor for WineLoggingPopupService.
+     */
     public WineLoggingPopupService() {
         this.logWineDao = new LogWineDao();
     }
@@ -29,7 +33,7 @@ public class WineLoggingPopupService {
      * @param rating rating of the log
      * @param currentUserUid the user's int id
      * @param currentWine the wine's int id
-     * @param selectedTags an ArrayList<String> of tag names
+     * @param selectedTags an ArrayList of strings, containing tag names
      * @param description the text description entered by the user
      */
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, String description) {
@@ -45,7 +49,7 @@ public class WineLoggingPopupService {
     }
 
     /**
-     * Called by {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}
+     * Called by {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}.
      * to obtain the date time stamp of the review in "YYYY-MM-DD HH:mm:SS" format
      * @return the string date time stamp in "YYYY-MM-DD HH:mm:SS" format
      */

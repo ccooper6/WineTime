@@ -4,7 +4,6 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.NavigationController;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.ChallengeDAO;
-import seng202.team1.repository.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -13,14 +12,12 @@ import java.util.Objects;
  * Service class for the challenge tracker feature.
  * @author Lydia Jackson
  */
-
 public class ChallengeService {
-    private ChallengeDAO chalDao = new ChallengeDAO();
-    private int currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
-
+    private final ChallengeDAO chalDao = new ChallengeDAO();
+    private final int currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
 
     /**
-     * calls the cahllengeDAO to update the database so that the user has the variety challenge as an active challenge.
+     * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.
      */
     public void startChallengeVariety() {
         chalDao.userActivatesChallenge(currentUserID, "Variety Challenge");
@@ -28,7 +25,7 @@ public class ChallengeService {
     }
 
     /**
-     * launches/resets the profile.
+     * Launches/resets the profile.
      */
     public void launchProfile() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
@@ -37,7 +34,7 @@ public class ChallengeService {
     }
 
     /**
-     * launches the select challenge pop up.
+     * Launches the select challenge pop up.
      */
     public void launchSelectChallenge() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
@@ -46,7 +43,7 @@ public class ChallengeService {
     }
 
     /**
-     * closes the select challenge pop up.
+     * Closes the select challenge pop up.
      */
     public void closeSelectChallenge() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
@@ -55,7 +52,7 @@ public class ChallengeService {
 
 
     /**
-     * checks to see if user has the variety challenge as an active challenge.
+     * Checks to see if user has the variety challenge as an active challenge.
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {
@@ -63,7 +60,7 @@ public class ChallengeService {
     }
 
     /**
-     * gets the wines for the challenge that the user has active.
+     * Gets the wines for the challenge that the user has active.
      * @return arraylist of the wines for the challenge the user is participating in.
      */
     public ArrayList<Wine> challengeWines() {
@@ -71,7 +68,7 @@ public class ChallengeService {
     }
 
     /**
-     * gets the name of the challenge the user has active.
+     * Gets the name of the challenge the user has active.
      * @return string name of users active challenge.
      */
     public String usersChallenge() {
