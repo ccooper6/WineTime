@@ -1,4 +1,4 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import static java.sql.Types.NULL;
 
@@ -7,8 +7,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;

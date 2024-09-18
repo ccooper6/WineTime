@@ -1,10 +1,11 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.services.ChallengeService;
 import seng202.team1.services.SearchWineService;
@@ -81,7 +82,7 @@ public class ProfileController {
      * Sends user to quiz screen.
      */
     public void onQuizClicked() {
-        FXWrapper.getInstance().launchSubPage("quizscreen");
+        FXWrapper.getInstance().launchPage("quizscreen");
     }
 
     /**

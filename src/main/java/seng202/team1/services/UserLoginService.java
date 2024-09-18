@@ -2,7 +2,7 @@ package seng202.team1.services;
 
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.models.User;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

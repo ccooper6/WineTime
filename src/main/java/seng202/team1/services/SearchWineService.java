@@ -1,10 +1,8 @@
 package seng202.team1.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.SearchDAO;
-import seng202.team1.repository.WishlistDAO;
+import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

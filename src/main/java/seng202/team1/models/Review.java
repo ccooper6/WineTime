@@ -1,8 +1,10 @@
 package seng202.team1.models;
 
+import seng202.team1.repository.DAOs.LogWineDao;
+
 /**
  * The review class that contains the attributes of a user review.
- * Used by {@link seng202.team1.repository.LogWineDao} to return a user's
+ * Used by {@link LogWineDao} to return a user's
  * review.
  * @Author Wen Sheng Thong
  */

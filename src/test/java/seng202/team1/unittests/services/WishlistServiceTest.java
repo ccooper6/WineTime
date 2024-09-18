@@ -3,17 +3,14 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.WishlistDAO;
+import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.services.UserLoginService;
 import seng202.team1.services.WishlistService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 

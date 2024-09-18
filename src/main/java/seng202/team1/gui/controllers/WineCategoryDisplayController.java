@@ -1,4 +1,4 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
@@ -10,8 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.SearchDAO;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 

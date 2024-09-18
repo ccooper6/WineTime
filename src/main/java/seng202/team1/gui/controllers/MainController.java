@@ -1,4 +1,4 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 

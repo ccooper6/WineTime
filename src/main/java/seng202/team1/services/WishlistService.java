@@ -2,7 +2,7 @@ package seng202.team1.services;
 
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.WishlistDAO;
+import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

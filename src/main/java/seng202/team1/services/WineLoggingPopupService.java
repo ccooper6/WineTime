@@ -1,8 +1,8 @@
 package seng202.team1.services;
 
 import org.jetbrains.annotations.NotNull;
-import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.LogWineDao;
+import seng202.team1.gui.controllers.WineLoggingPopupController;
+import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * Runs the logic for {@link seng202.team1.gui.WineLoggingPopupController} such as interacting with
+ * Runs the logic for {@link WineLoggingPopupController} such as interacting with
  * the database and processing the data from the gui interface of the wine logging popup.
  *
  * @author Wen Sheng Thong

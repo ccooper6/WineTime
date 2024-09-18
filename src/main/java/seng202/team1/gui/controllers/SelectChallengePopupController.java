@@ -1,7 +1,5 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
 import seng202.team1.services.ChallengeService;
 
 /**

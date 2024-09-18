@@ -1,9 +1,9 @@
 package seng202.team1.services;
 
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.gui.NavigationController;
+import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.ChallengeDAO;
+import seng202.team1.repository.DAOs.ChallengeDAO;
 
 import java.util.ArrayList;
 import java.util.Objects;

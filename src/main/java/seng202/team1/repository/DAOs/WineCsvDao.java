@@ -1,10 +1,11 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.repository.DatabaseManager;
 
 import java.io.*;
 import java.net.URLDecoder;

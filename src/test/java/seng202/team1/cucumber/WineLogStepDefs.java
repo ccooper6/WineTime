@@ -7,14 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDao;
 import seng202.team1.services.WineLoggingPopupService;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 

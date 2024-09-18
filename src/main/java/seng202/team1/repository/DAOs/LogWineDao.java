@@ -1,8 +1,9 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Review;
+import seng202.team1.repository.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -7,9 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.gui.NavigationController;
+import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.SearchDAO;
+import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;

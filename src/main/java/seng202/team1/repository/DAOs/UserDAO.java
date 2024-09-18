@@ -1,10 +1,12 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.exceptions.DuplicateEntryException;
+import seng202.team1.gui.controllers.WineLoggingPopupController;
 import seng202.team1.models.User;
+import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -66,7 +68,7 @@ public class UserDAO implements DAOInterface<User> {
 
     /**
      * Returns the int user id of the current user. Called during initialization of
-     * {@link seng202.team1.gui.WineLoggingPopupController}
+     * {@link WineLoggingPopupController}
      * @param currentUser the current user
      * @return int uid
      */
