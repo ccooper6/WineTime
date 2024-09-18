@@ -9,44 +9,23 @@ import java.text.Normalizer;
  *<br><br>
  *Created by the page service after data is filtered from database
  * and then displayed via the PageController
- *
  * @author Wen Sheng Thong
  */
 
 public class Wine {
     private int wineId;
-    /**
-     * The name of the wine.
-     */
-
     private String name;
     private String description;
     private int price;
     private int vintage;
-    /**
-     * The province of the wine.
-     */
     private String country;
     private String province;
-    /**
-     * The main region of the wine.
-     */
     private String region1;
-    /**
-     * The secondary region of the wine.
-     */
     private String region2;
-    /**
-     * The variety of the wine.
-     */
     private String variety;
     private String winery;
-
     private String tasterName;
     private String tasterTwitter;
-    /**
-     * The wine id of the wine in the db
-     */
 
     /**
      *The constructor for the Wine object.
@@ -307,6 +286,7 @@ public class Wine {
 
         return getClass().getResource(imagePath).toExternalForm();
     }
+
     /**
      * Returns the wine's wine id.
      * @return wine id
@@ -317,8 +297,7 @@ public class Wine {
 
     /**
      * Returns true if any regions / province / country is equal
-     * to the supplied string
-     *
+     * to the supplied string.
      * @param location A {@link String} for the location
      * @return true if the wine contains the string in a location parameter, false otherwise
      */
@@ -357,46 +336,53 @@ public class Wine {
 
     /**
      * Returns whether the wine has a tag.
-     *
+     * @param tag the tag to check for
      * @return true if any of the wines tags contains the tag given and false otherwise
      */
     public boolean hasTag(String tag)
     {
         tag = Normalizer.normalize(tag, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
 
-        if (Integer.toString(vintage).equals(tag))
+        if (Integer.toString(vintage).equals(tag)) {
             return true;
+        }
 
         if (country != null) {
             String checkCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (checkCountry.equals(tag))
+            if (checkCountry.equals(tag)) {
                 return true;
+            }
         }
         if (province != null) {
             String checkProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (checkProvince.equals(tag))
+            if (checkProvince.equals(tag)) {
                 return true;
+            }
         }
         if (region1 != null) {
             String checkRegion1 = Normalizer.normalize(region1, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (checkRegion1.equals(tag))
+            if (checkRegion1.equals(tag)) {
                 return true;
+            }
         }
         if (region2 != null) {
             String checkRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (checkRegion2.equals(tag))
+            if (checkRegion2.equals(tag)) {
                 return true;
+            }
         }
         if (variety != null) {
             // using \\{M} for regex here because ^\\{ASCII} removed the first character for unknown reasons
             String checkVariety = Normalizer.normalize(variety, Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
-            if (checkVariety.equals(tag))
+            if (checkVariety.equals(tag)) {
                 return true;
+            }
         }
         if (winery != null) {
             String checkWinery = Normalizer.normalize(winery, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (checkWinery.equals(tag))
+            if (checkWinery.equals(tag)) {
                 return true;
+            }
         }
 
         return false;

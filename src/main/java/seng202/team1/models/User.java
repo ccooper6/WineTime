@@ -2,6 +2,10 @@ package seng202.team1.models;
 
 import java.util.ArrayList;
 
+/**
+ * The User class that contains the attributes of a user.
+ * @author Caleb Cooper, Wen Sheng Thong, Isaac Macdonald
+ */
 public class User {
     private String name;
     private String encryptedUserName;
