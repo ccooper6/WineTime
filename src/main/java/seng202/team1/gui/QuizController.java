@@ -84,7 +84,7 @@ public class QuizController {
 
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
-        System.out.println(quizService.getRecordOfAnswers());
+        System.out.println(quizService.getRecordOfAnswers()); // TODO remove
         quizService.launchWinePopup();
     }
 

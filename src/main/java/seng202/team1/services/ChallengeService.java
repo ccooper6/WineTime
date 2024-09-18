@@ -15,7 +15,6 @@ import java.util.Objects;
  */
 
 public class ChallengeService {
-    private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private ChallengeDAO chalDao = new ChallengeDAO();
     private int currentUserID = chalDao.getUId(FXWrapper.getInstance().getCurrentUser());
 

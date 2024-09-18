@@ -2,10 +2,12 @@ package seng202.team1.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.services.ChallengeService;
+import seng202.team1.services.UserLoginService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
