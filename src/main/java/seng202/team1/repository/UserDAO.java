@@ -10,11 +10,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Data Access Object for the User class.
+ * @author Caleb Cooper, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
+ */
 public class UserDAO implements DAOInterface<User> {
 
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger(UserDAO.class);
 
+    /**
+     * Constructor for UserDAO.
+     */
     public UserDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
@@ -99,6 +106,11 @@ public class UserDAO implements DAOInterface<User> {
         }
     }
 
+    /**
+     * Returns the name of the user with the given username.
+     * @param username the encrypted username
+     * @return the name of the user
+     */
     public String getName(String username) {
         String sql = "SELECT name FROM user WHERE username = ?";
         try (
