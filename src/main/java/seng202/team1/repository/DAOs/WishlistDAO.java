@@ -1,30 +1,27 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
+import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * Author: Elise and Jacky
+ * Data Access Object for the Wishlist functionality.
+ * Author: Elise Newman and Yuhao Zhang
  */
 public class WishlistDAO {
-    /**
-     * An instance of the databaseManager to setup the connection to the database
-     */
+
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
-    /**
-     * A logger to handle the logging of any errors
-     */
-    private static final Logger log = LogManager.getLogger(LogWineDao.class);
+    private static final Logger LOG = LogManager.getLogger(WishlistDAO.class);
     private static WishlistDAO instance;
 
     /**
-     * Returns the singleton of the WishlistDAO if it exists, else one is created
+     * Returns the singleton of the WishlistDAO if it exists, else one is created.
      * @return Singleton of the WishlistDAO
      */
     public static WishlistDAO getInstance() {
@@ -35,7 +32,7 @@ public class WishlistDAO {
     }
 
     /**
-     * Takes a result set of wines with its tags and process them into an ArrayList of wines
+     * Takes a result set of wines with its tags and process them into an ArrayList of wines.
      *
      * @param resultSet {@link ResultSet} the result set received after a SELECT statement in the
      *                                   database. Each row should contain the wine id, name, description
@@ -89,7 +86,7 @@ public class WishlistDAO {
                     currentWineBuilder.setWinery(resultSet.getString("tag_name"));
                     break;
                 default:
-                    log.error("Tag type {} is not supported!", resultSet.getString("tag_type"));
+                    LOG.error("Tag type {} is not supported!", resultSet.getString("tag_type"));
             }
         }
         if (currentWineBuilder != null) {
@@ -100,27 +97,27 @@ public class WishlistDAO {
     }
 
     /**
-     * Selects wine elements from copy.db where the userid maps to the wine's wineid in the wishlist table
+     * Selects wine elements from copy.db where the userid maps to the wine's wineid in the wishlist table.
      *
-     * @param UserId is the ID of the active user
+     * @param userId is the ID of the active user
      * @return wineList array containing all wines in the user's wishlist
      */
-    public ArrayList<Wine> fetchWines(int UserId) {
+    public ArrayList<Wine> fetchWines(int userId) {
         ArrayList<Wine> wineList;
-        String sql =    "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n" +
-                "FROM (SELECT id, name as wine_name, description, points, price\n" +
-                "      FROM wine\n" +
-                "      JOIN wishlist ON wine.id = wishlist.wineID\n" +
-                "WHERE wishlist.userID = ?)\n" +
-                "JOIN owned_by ON id = owned_by.wid\n" +
-                "JOIN tag ON owned_by.tname = tag.name\n" +
-                "ORDER BY id;";
+        String sql =    "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n"
+                + "FROM (SELECT id, name as wine_name, description, points, price\n"
+                + "      FROM wine\n"
+                + "      JOIN wishlist ON wine.id = wishlist.wineID\n"
+                + "WHERE wishlist.userID = ?)\n"
+                + "JOIN owned_by ON id = owned_by.wid\n"
+                + "JOIN tag ON owned_by.tname = tag.name\n"
+                + "ORDER BY id;";
 
         try (
                 Connection conn = databaseManager.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
         ) {
-            pstmt.setInt(1, UserId);
+            pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
@@ -131,14 +128,13 @@ public class WishlistDAO {
     }
 
     /**
-     *
-     *
-     * @param wineID
-     * @param userID
+     * Adds a wine to the wishlist table in the database.
+     * @param wineID the id of the wine to be added
+     * @param userID the id of the user adding the wine
      */
     public void addWine(int wineID, int userID) {
         String sql = "INSERT INTO wishlist (userID, wineID) VALUES (?,?)";
-        try(Connection conn = databaseManager.connect()) {
+        try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, userID);
                 ps.setInt(2, wineID);
@@ -149,9 +145,14 @@ public class WishlistDAO {
         }
     }
 
+    /**
+     * Removes a wine from the wishlist table in the database.
+     * @param wineID the id of the wine to be removed
+     * @param userID the id of the user removing the wine
+     */
     public void removeWine(int wineID, int userID) {
         String sql = "DELETE FROM wishlist WHERE userID = ? AND wineID = ?";
-        try(Connection conn = databaseManager.connect()) {
+        try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, userID);
                 ps.setInt(2, wineID);
@@ -162,10 +163,16 @@ public class WishlistDAO {
         }
     }
 
+    /**
+     * Checks if a wine is in the wishlist table in the database.
+     * @param wineID the id of the wine to be checked
+     * @param userID the id of the user checking the wine
+     * @return true if the wine is in the wishlist
+     */
     public boolean checkWine(int wineID, int userID) {
-        String sql = "SELECT COUNT(*)\n" +
-                      "FROM wishlist\n" +
-                      "WHERE wineID = ? AND userID = ?\n";
+        String sql = "SELECT COUNT(*)\n"
+                      + "FROM wishlist\n"
+                      + "WHERE wineID = ? AND userID = ?\n";
         try (
                 Connection conn = databaseManager.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -205,14 +212,14 @@ public class WishlistDAO {
     }
 
     /**
-     * Checks the existence of a wine in the database
+     * Checks the existence of a wine in the database.
      * @param wineID the id of the wine in question
      * @return true if present in wine table
      */
     public boolean checkWineID(int wineID) {
         String uidSql = "SELECT COUNT (*) FROM wine WHERE wine.id = ?";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement pstmt = conn.prepareStatement(uidSql);
+                PreparedStatement pstmt = conn.prepareStatement(uidSql);
         ) {
             pstmt.setInt(1, wineID);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -228,14 +235,14 @@ public class WishlistDAO {
     }
 
     /**
-     * Checks the existence of a user in the database
+     * Checks the existence of a user in the database.
      * @param userID is the id of the active user
      * @return true if present in database
      */
     public boolean checkUserID(int userID) {
         String uidSql = "SELECT COUNT (*) FROM user WHERE user.id = ?";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement pstmt = conn.prepareStatement(uidSql);
+                PreparedStatement pstmt = conn.prepareStatement(uidSql);
         ) {
             pstmt.setInt(1, userID);
             try (ResultSet rs = pstmt.executeQuery()) {

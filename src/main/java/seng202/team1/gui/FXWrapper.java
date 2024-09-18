@@ -4,13 +4,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.User;
 
 import java.io.IOException;
 
 /**
  * A singleton class which launches the FXML pages.
- * @author Elise
+ * @author Elise Newman, Caleb Cooper
  */
 public class FXWrapper {
     private static FXWrapper instance = null;

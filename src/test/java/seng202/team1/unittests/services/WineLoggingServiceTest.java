@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.LogWineDao;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.time.ZoneId;

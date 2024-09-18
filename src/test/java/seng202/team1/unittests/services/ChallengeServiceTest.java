@@ -1,17 +1,14 @@
 package seng202.team1.unittests.services;
 
-import io.cucumber.java.ja.但し;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
-import seng202.team1.models.Wine;
-import seng202.team1.repository.ChallengeDAO;
+import seng202.team1.repository.DAOs.ChallengeDAO;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.ChallengeService;
 
 import java.util.ArrayList;

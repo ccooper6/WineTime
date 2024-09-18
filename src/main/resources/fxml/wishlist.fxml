@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.WishlistController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WishlistController">
     <children>
         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="32.0" layoutY="45.0" prefHeight="400.0" prefWidth="932.0" style="-fx-background: #FFFFFF; -fx-background-color: transparent;">
             <content>
@@ -37,7 +37,7 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-        <Text fx:id="Title" layoutX="42.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Wishlist:" wrappingWidth="800" y="-120.0">
+        <Text fx:id="title" layoutX="42.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Wishlist:" wrappingWidth="800" y="-120.0">
             <font>
                 <Font name="PT Serif" size="25.0" />
             </font></Text>

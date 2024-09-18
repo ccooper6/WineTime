@@ -1,4 +1,4 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,23 +7,26 @@ import seng202.team1.services.QuizService;
 
 import java.util.ArrayList;
 
-
+/**
+ * Controller class for the quiz.fxml page.
+ *
+ * @author Isaac Macdonald
+ */
 public class QuizController {
+    @FXML
+    private Label questionLabel;
+    @FXML
+    private Button answer1Button;
+    @FXML
+    private Button answer2Button;
+    @FXML
+    private Button answer3Button;
+    @FXML
+    private Button answer4Button;
+    @FXML
+    private Button showWineButton;
 
-    @FXML
-    Label questionLabel;
-    @FXML
-    Button answer1Button;
-    @FXML
-    Button answer2Button;
-    @FXML
-    Button answer3Button;
-    @FXML
-    Button answer4Button;
-    @FXML
-    Button showWineButton;
-
-    QuizService quizService = new QuizService();
+    private final QuizService quizService = new QuizService();
 
     private ArrayList<String> questions;
     private ArrayList<String> answer1answers;
@@ -31,8 +34,11 @@ public class QuizController {
     private ArrayList<String> answer3answers;
     private ArrayList<String> answer4answers;
 
-    int questionNumber = 0;
+    private int questionNumber = 0;
 
+    /**
+     * Sets the labels for the quiz.
+     */
     public void setLabels() {
         if (questionNumber < questions.size()) {
             questionLabel.setText(questions.get(questionNumber));
@@ -55,9 +61,11 @@ public class QuizController {
 
         }
     }
-    @FXML
-    public void initialize() {
 
+    /**
+     * Initializes the controller.
+     */
+    public void initialize() {
         questionLabel.setOpacity(1);
         showWineButton.setDisable(true);
         answer1Button.setDisable(false);
@@ -79,33 +87,46 @@ public class QuizController {
         setLabels();
     }
 
+    /**
+     * Sends the user to the profile screen using quizService and displays their optimal wine.
+     */
     @FXML
     public void onShowWineClicked() {
-
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
-        System.out.println(quizService.getRecordOfAnswers()); // TODO remove
         quizService.launchWinePopup();
     }
 
+    /**
+     * Handles the event when the first answer is clicked.
+     */
     @FXML
     public void onAnswer1Clicked() {
         quizService.getRecordOfAnswers().set(questionNumber++, 1);
         setLabels();
     }
 
+    /**
+     * Handles the event when the second answer is clicked.
+     */
     @FXML
     public void onAnswer2Clicked() {
         quizService.getRecordOfAnswers().set(questionNumber++, 2);
         setLabels();
     }
 
+    /**
+     * Handles the event when the third answer is clicked.
+     */
     @FXML
     public void onAnswer3Clicked() {
         quizService.getRecordOfAnswers().set(questionNumber++, 3);
         setLabels();
     }
 
+    /**
+     * Handles the event when the fourth answer is clicked.
+     */
     @FXML
     public void onAnswer4Clicked() {
         quizService.getRecordOfAnswers().set(questionNumber++, 4);

@@ -1,4 +1,4 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -9,28 +9,31 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
-
 
 import java.io.IOException;
 
 /**
- * Controller class for the mainpage.fxml page
- * @author Caleb Cooper
+ * Controller class for the mainpage.fxml page.
+ * @author Caleb Cooper, Yuhao Zhang, Isaac Macdonald
  */
 public class MainController {
     @FXML
     Text helloText;
     @FXML
     GridPane contentsGrid;
-
     private Stage loadingStage;
 
+    /**
+     * Initializes the main page view.
+     */
     public void initialize() {
         showLoadingScreen();
         Task<Void> task = new Task<>() {
-            // "The call method must be overridden and implemented by subclasses. The call method actually performs the background thread logic" - From the documentation
+            // "The call method must be overridden and implemented by subclasses.
+            // The call method actually performs the background thread logic" - From the documentation
             @Override
             protected Void call() {
                 // Code as usual
@@ -51,10 +54,13 @@ public class MainController {
                 try {
                     for (int i = 0; i < tags.length; i++) {
                         SearchWineService.getInstance().searchWinesByTags(tags[i], 10);
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                                .getResource("/fxml/wineCategoryDisplay.fxml"));
                         Parent parent = fxmlLoader.load();
                         int finalI = i;
-                        Platform.runLater(() -> contentsGrid.add(parent, 0, finalI)); // Have to do this as it requires multiple loops to finish completely - need to use for "A Task Which Returns Partial Results", from the Task documentation
+                        Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
+                        // Have to do this as it requires multiple loops to finish completely
+                        // - need to use for "A Task Which Returns Partial Results", from the Task documentation
                         WineCategoryService.getInstance().incrementCurrentCategory();
                         System.out.println(i + 1 + "/" + tags.length);
                     }
@@ -71,6 +77,10 @@ public class MainController {
         new Thread(task).start(); // Starts the thread to start behind the scenes (calls call())
 
     }
+
+    /**
+     * Shows the loading screen if it is needed.
+     */
     private void showLoadingScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
@@ -83,6 +93,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Hides the loading screen if it is currently shown.
+     */
     private void hideLoadingScreen() {
         if (loadingStage != null) {
             loadingStage.close();

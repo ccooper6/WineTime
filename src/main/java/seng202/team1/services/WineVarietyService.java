@@ -6,16 +6,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 
+/**
+ * Service class for the wine variety feature.
+ * @author Isaac Macdonald, Wen Sheng Thong
+ */
 public class WineVarietyService {
-
-    static HashSet<String> reds = new HashSet<>();
-
-    static HashSet<String> whites = new HashSet<>();
-
-    static HashSet<String> rose = new HashSet<>();
-
-    static HashSet<String> sparkling = new HashSet<>();
-
+    private static final HashSet<String> reds = new HashSet<>();
+    private static final HashSet<String> whites = new HashSet<>();
+    private static final HashSet<String> rose = new HashSet<>();
+    private static final HashSet<String> sparkling = new HashSet<>();
     private static WineVarietyService instance;
 
     /**

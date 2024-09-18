@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.services.UserLoginService;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

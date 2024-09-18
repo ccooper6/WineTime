@@ -1,8 +1,8 @@
 package seng202.team1.services;
 
 import org.jetbrains.annotations.NotNull;
-import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.LogWineDao;
+import seng202.team1.gui.controllers.WineLoggingPopupController;
+import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -10,16 +10,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * Runs the logic for {@link seng202.team1.gui.WineLoggingPopupController} such as interacting with
+ * Runs the logic for {@link WineLoggingPopupController} such as interacting with
  * the database and processing the data from the gui interface of the wine logging popup.
  *
  * @author Wen Sheng Thong
  */
 public class WineLoggingPopupService {
-    private DatabaseManager databaseManager;
-    private LogWineDao logWineDao;
+    private final LogWineDao logWineDao;
+
+    /**
+     * Constructor for WineLoggingPopupService.
+     */
     public WineLoggingPopupService() {
-        this.databaseManager = DatabaseManager.getInstance();
         this.logWineDao = new LogWineDao();
     }
 
@@ -31,7 +33,7 @@ public class WineLoggingPopupService {
      * @param rating rating of the log
      * @param currentUserUid the user's int id
      * @param currentWine the wine's int id
-     * @param selectedTags an ArrayList<String> of tag names
+     * @param selectedTags an ArrayList of strings, containing tag names
      * @param description the text description entered by the user
      */
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, String description) {
@@ -47,7 +49,7 @@ public class WineLoggingPopupService {
     }
 
     /**
-     * Called by {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}
+     * Called by {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}.
      * to obtain the date time stamp of the review in "YYYY-MM-DD HH:mm:SS" format
      * @return the string date time stamp in "YYYY-MM-DD HH:mm:SS" format
      */

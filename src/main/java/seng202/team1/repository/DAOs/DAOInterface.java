@@ -1,4 +1,4 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import seng202.team1.exceptions.DuplicateEntryException;
 

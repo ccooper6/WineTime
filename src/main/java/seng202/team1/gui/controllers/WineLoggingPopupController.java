@@ -1,17 +1,18 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
+
+import static java.sql.Types.NULL;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;
-
-import static java.sql.Types.NULL;
 
 /**
  * The controller class for the wine logging popup. Called by {@link PopUpController#loadWineLoggingPopUp()} when the
@@ -22,71 +23,34 @@ import static java.sql.Types.NULL;
 public class WineLoggingPopupController {
     @FXML
     public Button popUpCloseButton;
-    /**
-     * The label which shows how many characters are left in the character limit of the description text area
-     */
     @FXML
     private Label characterRemainingLabel;
-    /**
-     * The text area where the user inputs the description of the wine
-     */
     @FXML
     private TextArea descriptionTextArea;
-    /**
-     * The slider which determines the rating based off a int value of 1-5
-     */
     @FXML
     private Slider ratingSlider;
-    /**
-     * The submit log buttons which calls {@link WineLoggingPopupController#submitLog()} when pressed
-     */
     @FXML
     private Button submitLogButton;
-    /**
-     * The flow pane which is used to contain the tag check boxes
-     */
     @FXML
     private FlowPane tagFlowPane;
-    /**
-     * The label which displays the text prompt for the tag flow pane
-     */
     @FXML
     private Label likingText;
-    /**
-     * An array containing the tag checkboxes. Populated upon initialization
-     */
+
     private ArrayList<CheckBox> tagCheckBoxArray;
-    /**
-     * An array containing the actual tag names. Populated along side {@link WineLoggingPopupController#tagCheckBoxArray}
-     */
     private ArrayList<String> tagNameArray;
-    /**
-     * The current wine being logged
-     */
     private Wine currentWine;
-    /**
-     * The int uid of the current user
-     */
     private int currentUserUid;
-
-    /**
-     * The service that interacts with the database and runs logic for the controller
-     */
     private WineLoggingPopupService wineLoggingPopupService;
-    /**
-     * The user dao for getting the current user id
-     */
-    private UserDAO userDAO;
 
     /**
-     * Sets the functionality of the various GUI elements for the wine logging popup
+     * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
         tagCheckBoxArray = new ArrayList<CheckBox>();
         tagNameArray = new ArrayList<String>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
         wineLoggingPopupService = new WineLoggingPopupService();
-        userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         currentUserUid = userDAO.getUId(FXWrapper.getInstance().getCurrentUser());
         implementFxmlFunction();
     }
@@ -110,7 +74,7 @@ public class WineLoggingPopupController {
      * @param wine The wine object obtained from {@link NavigationController#getWine()}
      */
     private void addTagCheckBoxes(Wine wine) {
-        if (wine.getVintage() != NULL) { //TODO double confirm the default values of empty wine tag values
+        if (wine.getVintage() != NULL) {
             tagCheckBoxArray.add(new CheckBox(Integer.toString(wine.getVintage()) + " Vintage"));
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
@@ -141,7 +105,7 @@ public class WineLoggingPopupController {
 
     /**
      * Adds the character limit to the {@link WineLoggingPopupController#descriptionTextArea} as well as make sure the
-     * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining
+     * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining.
      */
     private void addDescCharLimit() {
         int maxLength = 120;
@@ -149,16 +113,16 @@ public class WineLoggingPopupController {
         descriptionTextArea.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                String s = "";
+                String string = "";
                 int textLength = descriptionTextArea.getText().length();
                 if (textLength <= 20) {
-                    s = "";
+                    string = "";
                 } else if (textLength <= 110) {
-                    s = "  ";
+                    string = "  ";
                 } else {
-                    s = "    ";
+                    string = "    ";
                 }
-                characterRemainingLabel.setText(s + Integer.toString(maxLength - textLength) + " characters remaining");
+                characterRemainingLabel.setText(string + Integer.toString(maxLength - textLength) + " characters remaining");
                 if (textLength > maxLength) {
                     descriptionTextArea.setText(descriptionTextArea.getText().substring(0, maxLength));
                 }
@@ -168,7 +132,7 @@ public class WineLoggingPopupController {
 
     /**
      * Ensures that {@link WineLoggingPopupController#likingText} changes according to the value of
-     * {@link WineLoggingPopupController#ratingSlider}
+     * {@link WineLoggingPopupController#ratingSlider}.
      */
     private void monitorRating() {
         ratingSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -208,8 +172,8 @@ public class WineLoggingPopupController {
     }
 
     /**
-     * Returns a boolean value if a tag check box has been selected or not
-     * @return
+     * Returns a boolean value if a tag check box has been selected or not.
+     * @return True if a tag check box has been selected, false otherwise.
      */
     private Boolean hasClickedTag() {
         for (CheckBox checkBox : tagCheckBoxArray) {

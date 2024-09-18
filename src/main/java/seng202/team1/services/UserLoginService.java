@@ -2,11 +2,8 @@ package seng202.team1.services;
 
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.models.User;
-import seng202.team1.repository.UserDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -20,12 +17,11 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Class to handle user login and register requests. Stores username as an encrypted value using AES encryption
  * and stores password as a hashed value as it is more secure.
- * @author Caleb Cooper - https://www.youtube.com/watch?v=IG6mkDgKSTg
+ * @author Caleb Cooper
  */
 public class UserLoginService {
     private static final byte[] KEY = "1234567891112131".getBytes();
     private static final String ALGORITHM = "AES";
-    private static final String FILENAME = "src/main/resources/logins/login.txt";
     private final UserDAO userDAO = new UserDAO();
 
     /**

@@ -1,8 +1,9 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Review;
+import seng202.team1.repository.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,28 +13,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The class containing the functions to add entries to the "Likes" and "Reviews" table
- * Mainly called by the WineLoggingPopupController when the user logs a wine.
+ * The class containing the functions to add entries to the "Likes" and "Reviews" table,
+ * mainly called by the WineLoggingPopupController when the user logs a wine.
  *
  * @author Wen Sheng Thong
  */
 public class LogWineDao {
-    /**
-     * An instance of the databaseManager to setup the connection to the database
-     */
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
-    /**
-     * A logger to handle the logging of any errors
-     */
-    private static final Logger log = LogManager.getLogger(LogWineDao.class);
+    private static final Logger LOG = LogManager.getLogger(LogWineDao.class);
 
     /**
      * Calls {@link LogWineDao#alreadyLikeExists(int, String)} to see if the user has already liked the tag. If so
      * calls {@link LogWineDao#updateLikesValue(int, String, int)} to update the liked tag's value. Else if it doesn't
      * exist, add a new entry to the 'LIKES' table
-     * @param uid the UID of the current user
+     *
+     * @param uid     the UID of the current user
      * @param tagName the string tag name of the added tag
-     * @param value the value which determines the ranking of the users liked tags
+     * @param value   the value which determines the ranking of the users liked tags
      */
     public void likes(int uid, String tagName, int value) {
         if (alreadyLikeExists(uid, tagName)) {
@@ -48,7 +44,7 @@ public class LogWineDao {
                     likesPs.executeUpdate();
                 }
             } catch (SQLException e) {
-                log.error(e.getMessage());
+                LOG.error(e.getMessage());
             }
         }
     }
@@ -56,9 +52,10 @@ public class LogWineDao {
     /**
      * Updates the like value of the current relationship between the uid and tagName by adding the argument value onto
      * the already existing value.
-     * @param uid user id
+     *
+     * @param uid     user id
      * @param tagName tag name
-     * @param value value to be added to prev value
+     * @param value   value to be added to prev value
      */
     public void updateLikesValue(int uid, String tagName, int value) {
         int prevValue;
@@ -78,16 +75,16 @@ public class LogWineDao {
                 updateValuePs.executeUpdate();
             }
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
 
     }
 
     /**
-     * Returns a boolean indicating if the user is already in a 'like' relationship with the specified tag
-     * @param uid the user id
+     * Returns a boolean indicating if the user is already in a 'like' relationship with the specified tag.
+     * @param uid     the user id
      * @param tagName the tag name
-     * @return Boolean
+     * @return Boolean indicating if the user has already liked the tag
      */
     public Boolean alreadyLikeExists(int uid, String tagName) {
         String test = "SELECT * FROM likes WHERE uid = ? AND tname = ?";
@@ -104,11 +101,11 @@ public class LogWineDao {
     }
 
     /**
-     * Returns a hashmap of <String tagName, int tagValue> of the likedTags by the user.
+     * Returns a hashmap of tagName, tagValue of the likedTags by the user.
      * @param uid the current user int id
      * @param maximumTag the maximum number of tags to return
      * @param orderByValue set to true to return the highest valued tags
-     * @return
+     * @return HashMap of likedTags
      */
     public HashMap<String, Integer> getLikedTags(int uid, int maximumTag, boolean orderByValue) {
         HashMap<String, Integer> likedTags = new HashMap<>();
@@ -120,10 +117,10 @@ public class LogWineDao {
             try (PreparedStatement ps = conn.prepareStatement(likePs)) {
                 ps.setInt(1, uid);
                 ResultSet rs = ps.executeQuery();
-                int i = 0;
-                while (i < maximumTag && rs.next()) {
+                int index = 0;
+                while (index < maximumTag && rs.next()) {
                     likedTags.put(rs.getString(1), rs.getInt(2));
-                    i++;
+                    index++;
                 }
                 return likedTags;
             }
@@ -131,11 +128,12 @@ public class LogWineDao {
             throw new RuntimeException(e);
         }
     }
+
     /**
-     * Returns a hashmap of <String tagName, int tagValue> of all the likedTags by the user.
-     * @param uid the current user int id
+     * Returns a hashmap of < tagName, tagValue> of all the likedTags by the user.
+     * @param uid          the current user int id
      * @param orderByValue set to true to return the highest valued tags
-     * @return
+     * @return HashMap of likedTags
      */
     public HashMap<String, Integer> getLikedTags(int uid, boolean orderByValue) {
         HashMap<String, Integer> likedTags = new HashMap<>();
@@ -158,10 +156,10 @@ public class LogWineDao {
     }
 
     /**
-     * Returns a boolean indicating if the user has already reviewed the specified wine
+     * Returns a boolean indicating if the user has already reviewed the specified wine.
      * @param uid the user id
      * @param wid the wine id
-     * @return Boolean
+     * @return Boolean indicating if the user has already reviewed the wine
      */
     public Boolean alreadyReviewExists(int uid, int wid) {
         String test = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
@@ -181,11 +179,12 @@ public class LogWineDao {
      * Checks to see if the user has already reviewed the wine by calling {@link LogWineDao#alreadyReviewExists(int, int)}.
      * If so, calls {@link LogWineDao#updateReview(int, int, int, String, String)}. Else inserts a new review into the
      * database
-     * @param uid the int user id
-     * @param wid the int wine id
-     * @param rating the int rating given by the user
+     *
+     * @param uid         the int user id
+     * @param wid         the int wine id
+     * @param rating      the int rating given by the user
      * @param description the string description of the review
-     * @param date the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
+     * @param date        the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      */
     public void reviews(int uid, int wid, int rating, String description, String date) {
         if (!alreadyReviewExists(uid, wid)) {
@@ -208,12 +207,12 @@ public class LogWineDao {
     }
 
     /**
-     * Updates the rating, date and description of an already existing review made by the user
-     * @param uid the int user id
-     * @param wid the int wine id
-     * @param rating the int rating given by the user
+     * Updates the rating, date and description of an already existing review made by the user.
+     * @param uid            the int user id
+     * @param wid            the int wine id
+     * @param rating         the int rating given by the user
      * @param newDescription the string description of the review
-     * @param date the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
+     * @param date           the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      */
     public void updateReview(int uid, int wid, int rating, String newDescription, String date) {
         String updateSql = "UPDATE reviews SET description = ?, rating = ?, date = ? WHERE uid = ? AND wid = ?";
@@ -227,14 +226,14 @@ public class LogWineDao {
                 updateValuePs.executeUpdate();
             }
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
     /**
-     * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified
-     * @param uid the int user id
-     * @param maxNumbers the maximum number of reviews to return
+     * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified.
+     * @param uid         the int user id
+     * @param maxNumbers  the maximum number of reviews to return
      * @param orderByDate a boolean value to return the most recent reviews
      * @return an ArrayList of {@link Review}
      */
@@ -248,11 +247,11 @@ public class LogWineDao {
             try (PreparedStatement ps = conn.prepareStatement(getReview)) {
                 ps.setInt(1, uid);
                 ResultSet rs = ps.executeQuery();
-                int i = 0;
-                while (i < maxNumbers && rs.next()) {
-                    userReviews.add(new Review(rs.getInt(1),rs.getInt(2),
-                            rs.getInt(3),rs.getString(4), rs.getString(5)));
-                    i++;
+                int index = 0;
+                while (index < maxNumbers && rs.next()) {
+                    userReviews.add(new Review(rs.getInt(1), rs.getInt(2),
+                            rs.getInt(3), rs.getString(4), rs.getString(5)));
+                    index++;
                 }
                 return userReviews;
             }
@@ -262,8 +261,8 @@ public class LogWineDao {
     }
 
     /**
-     * Returns all the user reviews and returns the most recent reviews if specified
-     * @param uid the int user id
+     * Returns all the user reviews and returns the most recent reviews if specified.
+     * @param uid         the int user id
      * @param orderByDate a boolean value to return the most recent reviews
      * @return an ArrayList of {@link Review}
      */
@@ -278,8 +277,8 @@ public class LogWineDao {
                 ps.setInt(1, uid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    Review review = new Review(rs.getInt(1),rs.getInt(2),
-                            rs.getInt(3),rs.getString(4), rs.getString(5));
+                    Review review = new Review(rs.getInt(1), rs.getInt(2),
+                            rs.getInt(3), rs.getString(4), rs.getString(5));
                     userReviews.add(review);
                 }
                 return userReviews;

@@ -5,9 +5,8 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.SearchDAO;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
-import seng202.team1.repository.SearchDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

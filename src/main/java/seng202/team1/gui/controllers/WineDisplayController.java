@@ -1,39 +1,36 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import javafx.fxml.FXML;
-
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
 
 /**
- * Controller for displaying wine cards
- * @author yzh428
+ * Controller for displaying wine cards.
+ * @author Yuhao Zhang, Caleb Cooper
  */
 public class WineDisplayController {
     @FXML
-    Label wineInfo;
+    private Label wineInfo;
     @FXML
-    ImageView wineImage;
+    private ImageView wineImage;
     @FXML
-    AnchorPane winePane;
+    private AnchorPane winePane;
 
-    Wine wine;
+    private Wine wine;
 
     /**
-     * Displays the wine card using SearchWineService instances' current wine
+     * Displays the wine card using SearchWineService instances' current wine.
      */
     @FXML
     public void initialize()
     {
         wine = SearchWineService.getInstance().getCurrentWine();
-
         wineImage.setImage(new Image(wine.getImagePath()));
-
-//        set text info
         String infoText = "Name: " + wine.getName();
         infoText += "\nVariety: " + wine.getVariety();
         wineInfo.setText(infoText);
@@ -44,7 +41,6 @@ public class WineDisplayController {
 
     /**
      * Shows the wine in more detail with a popUp that overlays the screen.
-     * <p>
      * Calls {@link NavigationController#initPopUp(Wine)} using this wine as the base.
      */
     @FXML
@@ -56,7 +52,7 @@ public class WineDisplayController {
     }
 
     /**
-     * Darkens the pane when the mouse enters
+     * Darkens the pane when the mouse enters.
      */
     @FXML
     public void darkenPane()
@@ -65,7 +61,7 @@ public class WineDisplayController {
     }
 
     /**
-     * Lightens the pane when the mouse exits
+     * Lightens the pane when the mouse exits.
      */
     @FXML
     public void lightenPane()

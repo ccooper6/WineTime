@@ -1,25 +1,22 @@
 package seng202.team1.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.ChallengeDAO;
-import seng202.team1.repository.SearchDAO;
-import seng202.team1.repository.UserDAO;
-import seng202.team1.repository.WishlistDAO;
+import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
 
+/**
+ * Service class for searching wines in the database.
+ * @author Yuhao Zhang, Caleb Cooper, Elise Newman, Isaac Macdonald
+ */
 public class SearchWineService {
     private Wine currentWine;
     private ArrayList<Wine> wineList;
     private String currentTags;
 
     private static SearchWineService instance;
-
-    private static final Logger log = LogManager.getLogger(SearchWineService.class);
 
     private String currentSearch;
     private String currentMethod;
@@ -38,7 +35,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current wine
+     * Returns the current wine.
      *
      * @return {@link Wine} currentWine
      */
@@ -47,7 +44,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current wine
+     * Sets the current wine.
      *
      * @param currentWine {@link Wine} currentWine
      */
@@ -56,7 +53,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the last used tags when searching by tags
+     * Returns the last used tags when searching by tags.
      *
      * @return {@link String} last used tags
      */
@@ -65,9 +62,9 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the stored wines list
+     * Returns the stored wines list.
      *
-     * @return {@link ArrayList<Wine>} wines
+     * @return an array list of stored wines
      */
     public ArrayList<Wine> getWineList() {
         return wineList;
@@ -114,7 +111,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current search
+     * Sets the current search.
      *
      * @param currentSearch {@link String} currentSearch
      */
@@ -123,7 +120,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current search
+     * Returns the current search.
      *
      * @return {@link String} currentSearch
      */
@@ -132,7 +129,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current method
+     * Sets the current method.
      *
      * @param currentMethod {@link String} currentMethod
      */
@@ -141,7 +138,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current method
+     * Returns the current method.
      *
      * @return {@link String} currentMethod
      */
@@ -150,7 +147,7 @@ public class SearchWineService {
     }
 
     /**
-     * Finds all wines in the wishlist and saves them to the wineList for the WineDisplayController to get
+     * Finds all wines in the wishlist and saves them to the wineList for the WineDisplayController to get.
      * @param userId is the id of the active user
      */
     public void searchWinesByWishlist(int userId) {
@@ -159,10 +156,10 @@ public class SearchWineService {
     }
 
     /**
-     * If from wishlist, behavior in WineDisplay is different
+     * If from wishlist, behavior in WineDisplay is different.
      * @return true if the prev page is wishlist, else false
      */
-    public boolean getFromWishlist(){
+    public boolean getFromWishlist() {
         return fromWishlist;
     }
 }

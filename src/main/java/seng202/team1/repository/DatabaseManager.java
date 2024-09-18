@@ -13,8 +13,8 @@ import java.nio.file.Paths;
 import java.sql.*;
 
 /**
- * Singleton class responsible for interaction with SQLite database
- * @author Morgan English
+ * Singleton class responsible for interaction with SQLite database.
+ * @author Morgan English, Caleb Cooper, Yuhao Zhang, Isaac Macdonald
  */
 public class DatabaseManager {
     private static DatabaseManager instance = null;
@@ -23,8 +23,9 @@ public class DatabaseManager {
     private boolean reset = false;
 
     /**
-     * Private constructor for singleton purposes
+     * Private constructor for singleton purposes.
      * Creates database if it does not already exist in specified location
+     * @param urlIn string url of database to load (if applicable)
      */
     private DatabaseManager(String urlIn) {
         if (urlIn != null) {
@@ -36,14 +37,11 @@ public class DatabaseManager {
     }
 
     /**
-     * Singleton method to get current Instance if exists otherwise create it
+     * Singleton method to get current Instance if exists otherwise create it.
      * @return the single instance DatabaseSingleton
      */
     public static DatabaseManager getInstance() {
         if (instance == null) {
-            // todo find a way to actually get db within jar
-            // The following line can be used to reach a db file within the jar, however this will not be modifiable
-            // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
             instance = new DatabaseManager(null);
         }
         return instance;
@@ -53,8 +51,8 @@ public class DatabaseManager {
      * WARNING Allows for setting specific database url (currently only needed for test databases, but may be useful
      * in future) USE WITH CAUTION. This does not override the current singleton instance so must be the first call.
      * @param url string url of database to load (this needs to be full url e.g. "jdbc:sqlite:./src/...")
-     * @throws InstanceAlreadyExistsException if there is already a singleton instance
      * @return current singleton instance
+     * @throws InstanceAlreadyExistsException if there is already a singleton instance
      */
     public static DatabaseManager initialiseInstanceWithUrl(String url) throws InstanceAlreadyExistsException {
         if (instance == null) {
@@ -65,20 +63,23 @@ public class DatabaseManager {
         return instance;
     }
 
+    /**
+     * If called, forces a reset of the database on next initialisation and re-initialises.
+     */
     public void forceReset() {
         reset = true;
         initialiseDB();
     }
 
     /**
-     *  WARNING Sets the current singleton instance to null
+     *  WARNING Sets the current singleton instance to null.
      */
     public static void REMOVE_INSTANCE() {
         instance = null;
     }
 
     /**
-     * Connect to the database
+     * Connect to the database.
      * @return database connection
      */
     public Connection connect() {
@@ -92,7 +93,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Gets path to the database relative to the jarfile
+     * Gets path to the database relative to the jar file.
      * @return jdbc encoded url location of database
      */
     private String getDatabasePath() {
@@ -106,11 +107,9 @@ public class DatabaseManager {
      * Called upon the initialisation of the DatabaseManager class when the user clicks log in. Copies the database from
      * within the jar to a location outside the jar as "copy.db" in the directory of the jar to be used by the app.
      * When being run in a test environment, copies the database into the test resource directory as "test_database.db"
-     *
-     * @author Wen Sheng Thong
      */
     public void initialiseDB() {
-        // remove jdbc:sqlite:
+        // removes "jdbc:sqlite:"
         String copyPath = this.url.substring(12);
         Path copy = Paths.get(copyPath);
 

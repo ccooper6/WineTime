@@ -1,20 +1,29 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.exceptions.DuplicateEntryException;
+import seng202.team1.gui.controllers.WineLoggingPopupController;
 import seng202.team1.models.User;
+import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Data Access Object for the User class.
+ * @author Caleb Cooper, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
+ */
 public class UserDAO implements DAOInterface<User> {
 
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger(UserDAO.class);
 
+    /**
+     * Constructor for UserDAO.
+     */
     public UserDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
@@ -59,7 +68,7 @@ public class UserDAO implements DAOInterface<User> {
 
     /**
      * Returns the int user id of the current user. Called during initialization of
-     * {@link seng202.team1.gui.WineLoggingPopupController}
+     * {@link WineLoggingPopupController}
      * @param currentUser the current user
      * @return int uid
      */
@@ -99,6 +108,11 @@ public class UserDAO implements DAOInterface<User> {
         }
     }
 
+    /**
+     * Returns the name of the user with the given username.
+     * @param username the encrypted username
+     * @return the name of the user
+     */
     public String getName(String username) {
         String sql = "SELECT name FROM user WHERE username = ?";
         try (

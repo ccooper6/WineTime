@@ -1,139 +1,104 @@
-package seng202.team1.gui;
+package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Controller for the Search Wines Page.
- *
- * @author yxh428
+ * Uses methods in SearchWineService to call WishlistDAO to query database.
+ * @author Elise Newman, Yuhao Zhang
  */
-public class SearchWineController {
-    private static final Logger log = LogManager.getLogger(SearchWineController.class);
-
-    ArrayList<Wine> allWines;
-
+public class WishlistController {
+    private static final Logger LOG = LogManager.getLogger(WishlistController.class);
+    private ArrayList<Wine> allWines;
     private final int MAXSIZE = 50;
-
     private int currentPage = 0;
 
-//    scroll panel
     @FXML
-    GridPane wineGrid;
+    private GridPane wineGrid;
     @FXML
-    AnchorPane scrollAnchorPane;
+    private AnchorPane scrollAnchorPane;
     @FXML
-    ScrollPane scrollPane;
-
-//    page navigation
+    private ScrollPane scrollPane;
     @FXML
-    FontAwesomeIconView startArrowButton;
+    private FontAwesomeIconView prevArrowButton;
     @FXML
-    FontAwesomeIconView prevArrowButton;
+    private Text pageCounterText;
     @FXML
-    Button prevTextButton;
+    private FontAwesomeIconView nextArrowButton;
     @FXML
-    Text pageCounterText;
-    @FXML
-    Button nextTextButton;
-    @FXML
-    FontAwesomeIconView nextArrowButton;
-    @FXML
-    FontAwesomeIconView endArrowButton;
-    @FXML
-    Text Title;
+    private Text title;
 
     /**
-     * Initialises the controller using wines from SearchWineService instance.
+     * Selects all wine objects from the database where the int userID matches the current user.
      */
     @FXML
     public void initialize() {
-
-        allWines = SearchWineService.getInstance().getWineList();
-
-        if (allWines == null) {
-            log.error("Wine list is null");
-            allWines = new ArrayList<>();
-        }
-
-//        System.out.println(allWines.size());
-//        System.out.println(Math.ceilDiv(allWines.size() - 1, MAXSIZE));
-
+        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        allWines = WishlistService.getWishlistWines(currentUserUid);
         displayCurrentPage();
     }
 
     /**
-     * Displays the current page of wines in a scrollable grid format.
-     * Using wines from allWines.
+     * Displays the wine objects in a grid form like SearchWineController.
      */
     @FXML
-    public void displayCurrentPage()
-    {
-        if (allWines == null || allWines.size() == 0) {
-            Title.setText("Sorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
-
+    public void displayCurrentPage() {
+        if (allWines == null || allWines.isEmpty()) {
+            title.setText("You have no wines saved in your wishlist.\nClick the heart symbol on any wine to save it for later!");
             pageCounterText.getParent().setVisible(false);
-
-            log.error("Wine list is null");
+            LOG.error("Wine list is null");
             return;
         }
-
         int start = currentPage * MAXSIZE;
 
-        if (allWines.isEmpty() || start < 0 || start > allWines.size()) {
+        if (start < 0 || start > allWines.size()) {
             pageCounterText.getParent().setVisible(false);
         } else {
             pageCounterText.getParent().setVisible(true);
         }
 
         if (start < 0 || start >= allWines.size()) {
-            log.error("Cannot display wines out of bounds.");
+            LOG.error("Cannot display wines out of bounds.");
             return;
         }
 
         wineGrid.getChildren().clear();
-
         scrollPane.setVvalue(0);
 
         int columns = wineGrid.getColumnCount();
-
-//        setup grid
         int end = Math.min(start + MAXSIZE, allWines.size());
-
         int gridRows = Math.ceilDiv(end - start, columns);
         wineGrid.setMinHeight(gridRows * 130 - 10);
         scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
 
-//        page navigation management at bottom
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);
         nextArrowButton.getParent().setVisible(end < allWines.size());
 
         pageCounterText.getParent().setVisible(true);
 
-
-//        add wines
         for (int i = 0; i < end - start; i++) {
-             SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
 
-             int currentRow = i / columns;
-             int currentCol = i % columns;
+            int currentRow = i / columns;
+            int currentCol = i % columns;
 
-            try{
+            try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
 
                 Parent parent = fxmlLoader.load();
@@ -147,7 +112,7 @@ public class SearchWineController {
     }
 
     /**
-     * Set current page to 0 and display the page
+     * Set current page to 0 and display the page.
      */
     @FXML
     public void pageStart() {
@@ -156,7 +121,7 @@ public class SearchWineController {
     }
 
     /**
-     * Decrement the current page number and display the page
+     * Decrement the current page number and display the page.
      */
     @FXML
     public void pagePrev() {
@@ -165,7 +130,7 @@ public class SearchWineController {
     }
 
     /**
-     * Increment the current page number and display the page
+     * Increment the current page number and display the page.
      */
     @FXML
     public void pageNext() {
@@ -174,7 +139,7 @@ public class SearchWineController {
     }
 
     /**
-     * Set current page to last page and display the page
+     * Set current page to last page and display the page.
      */
     @FXML
     public void pageEnd() {

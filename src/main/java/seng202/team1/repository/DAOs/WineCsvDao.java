@@ -1,10 +1,11 @@
-package seng202.team1.repository;
+package seng202.team1.repository.DAOs;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.repository.DatabaseManager;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -127,6 +128,7 @@ public class WineCsvDao {
      * @param tagName A string of the tagName
      * @param ownedByPs the {@link PreparedStatement} for an owned_by relationship
      * @param tagType the type of tag being added to the tag database.
+     * @param wineId the wine integer id
      */
 
     public void executeTagPs(PreparedStatement tagPs, String tagName, PreparedStatement ownedByPs, String tagType, int wineId) {
@@ -150,7 +152,7 @@ public class WineCsvDao {
     }
 
     /**
-     * Links the inputted wineId entity to the tagName entity via the owned_by relationship
+     * Links the inputted wineId entity to the tagName entity via the owned_by relationship.
      * @param ownedByPs the {@link PreparedStatement} for the owned_by relationship
      * @param wineId the wine integer id
      * @param tagName the string tag name
@@ -200,11 +202,17 @@ public class WineCsvDao {
         return 0;
     }
 
+    /**
+     * Gets the number of lines in a file.
+     * @param filename the file name
+     * @return the number of lines in the file
+     * @throws IOException if the file is not found
+     */
     private int getLines(String filename) throws IOException
     {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
         int count = 0;
-        while((bufferedReader.readLine()) != null)
+        while ((bufferedReader.readLine()) != null)
         {
             count++;
         }
@@ -236,7 +244,7 @@ public class WineCsvDao {
         csv.close();
     }
     /**
-     * Connects to the empty database
+     * Connects to the empty database.
      * @return database connection
      */
 
@@ -276,7 +284,7 @@ public class WineCsvDao {
     }
 
     /**
-     * Calls initializeAllWines()
+     * Calls initializeAllWines().
      * @param args System terminal arguments
      */
 

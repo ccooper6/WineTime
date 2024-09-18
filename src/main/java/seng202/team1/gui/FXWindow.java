@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  * Creates the window for the scene, loads the login page and initiates the FXWrapper.
- * @author Elise
+ * @author Elise Newman, Caleb Cooper
  */
 public class FXWindow extends Application {
 

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.NavigationController">
+<AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
    <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0">
       <top>
          <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
@@ -23,7 +23,7 @@
                 <VBox fx:id="userDropDownMenu" layoutX="901.0" layoutY="55.0" style="-fx-background-color: none; -fx-padding: 10;" visible="false">
                     <Button onAction="#onLogOutClicked" style="-fx-background-color: #808080;" text="Log Out" textFill="WHITE" />
                 </VBox>
-               <FontAwesomeIconView fx:id="savesExampleButton" glyphName="COMMENT" layoutX="824.0" layoutY="55.0" selectionEnd="0" size="40" text="" wrappingWidth="53.0" />
+               <FontAwesomeIconView fx:id="savesExampleButton" disable="true" glyphName="COMMENT" layoutX="824.0" layoutY="55.0" selectionEnd="0" size="40" text="" visible="false" wrappingWidth="53.0" />
                <ImageView fx:id="homeExampleButton" fitHeight="66.0" fitWidth="91.0" layoutX="6.0" layoutY="17.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../images/winetime.png" />
