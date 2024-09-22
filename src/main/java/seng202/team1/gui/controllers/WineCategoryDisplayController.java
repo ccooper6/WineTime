@@ -94,6 +94,8 @@ public class WineCategoryDisplayController {
             if (DISPLAYWINES.size() < MAXWINES) {
                 MAXWINES = DISPLAYWINES.size();
                 rightDisplay = MAXWINES - 1;
+            } else {
+                rightDisplay = 5;
             }
             for (int i = 0; i < MAXWINES; i++) {
                 SearchWineService.getInstance().setCurrentWine(DISPLAYWINES.get(i));
