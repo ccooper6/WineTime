@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
+import seng202.team1.services.LogsService;
 import seng202.team1.services.WishlistService;
 
 import java.sql.SQLException;
@@ -54,7 +55,10 @@ public class PopUpController {
     private ScrollPane tagScrollPane;
     @FXML
     private FlowPane tagFlowPane;
+    @FXML
+    private FontAwesomeIconView logWineIcon;
 
+    private final LogsService logsService = new LogsService();
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
 
     /**
@@ -128,6 +132,14 @@ public class PopUpController {
         wineryTag.setText(wine.getWinery());
         regionTag.setText(wine.getRegion1());
         hideNullTags();
+
+        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser()); //TODO: Change to use current user using something other than WishlistService
+
+        if (logsService.logExists(currentUserUid, wine.getWineId())) {
+            logWineIcon.setFill(Color.web("#70171e"));
+        } else {
+            logWineIcon.setFill(Color.web("#d0d0d0"));
+        }
     }
 
 

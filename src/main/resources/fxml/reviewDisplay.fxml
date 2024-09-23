@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
+<children>
+    <AnchorPane fx:id="reviewedWineTile" layoutX="18.0" layoutY="18.0" prefHeight="126.0" prefWidth="98.0" style="-fx-background-color: blue;"> </AnchorPane>
+    <FontAwesomeIconView fx:id="star1" glyphName="STAR_ALT" layoutX="18.0" layoutY="171.0" size="20" />
+    <FontAwesomeIconView fx:id="star2" glyphName="STAR_ALT" layoutX="38.0" layoutY="171.0" size="20" />
+    <FontAwesomeIconView fx:id="star3" glyphName="STAR_ALT" layoutX="58.0" layoutY="171.0" size="20" />
+    <FontAwesomeIconView fx:id="star4" glyphName="STAR_ALT" layoutX="78.0" layoutY="171.0" size="20" text="" />
+    <FontAwesomeIconView fx:id="star5" glyphName="STAR_ALT" layoutX="98.0" layoutY="171.0" size="20" />
+    <Text fx:id="reviewDate" layoutX="146.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review Date">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Text>
+    <Text fx:id="reviewDescription" layoutX="146.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="412.1424560546875">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Text>
+</children>
+</AnchorPane>

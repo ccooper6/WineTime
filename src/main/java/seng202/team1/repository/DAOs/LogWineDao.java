@@ -287,4 +287,18 @@ public class LogWineDao {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean logExists(int uid, int wid) {
+        String test = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(test)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, wid);
+                ResultSet rs = ps.executeQuery();
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
