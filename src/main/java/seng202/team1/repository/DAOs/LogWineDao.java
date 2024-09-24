@@ -243,12 +243,12 @@ public class LogWineDao {
                 updateValuePs.setString(1, newDescription);
                 updateValuePs.setInt(2, rating);
                 updateValuePs.setString(3, date);
-                updateValuePs.setInt(4, uid);
-                updateValuePs.setInt(5, wid);
                 if (noneSelected) {
                     selectedTags = new ArrayList<>();
                 }
-                updateValuePs.setString(6, String.join(",", selectedTags));
+                updateValuePs.setString(4, String.join(",", selectedTags));
+                updateValuePs.setInt(5, uid);
+                updateValuePs.setInt(6, wid);
                 updateValuePs.executeUpdate();
             }
         } catch (SQLException e) {
