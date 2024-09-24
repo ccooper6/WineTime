@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class LogsController {
     private static final Logger LOG = LogManager.getLogger(LogsController.class);
     private ArrayList<Review> allReviews;
-    private final int MAXSIZE = 50;
+    private final int MAXSIZE = 5;
     private int currentPage = 0;
 
     @FXML
@@ -61,7 +61,7 @@ public class LogsController {
     @FXML
     public void displayCurrentPage() {
         if (allReviews == null || allReviews.isEmpty()) {
-            title.setText("You have no saved wine logs.\nClick the log symbol on any wine and fill out the form\nto save it for later!");
+            title.setText("You have no saved wine logs.\nClick the log symbol on any wine and fill out the form to save it for later!");
             pageCounterText.getParent().setVisible(false);
             LOG.error("Review list is null");
             return;
@@ -78,15 +78,13 @@ public class LogsController {
             LOG.error("Cannot display wines out of bounds.");
             return;
         }
-
         reviewGrid.getChildren().clear();
         scrollPane.setVvalue(0);
 
-        int columns = reviewGrid.getColumnCount();
         int end = Math.min(start + MAXSIZE, allReviews.size());
-        int gridRows = Math.ceilDiv(end - start, columns);
-        reviewGrid.setMinHeight(gridRows * 130 - 10);
-        scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
+        reviewGrid.setMinHeight((end - start) * 200 + 10);
+        scrollAnchorPane.setMinHeight((end - start) * 200 + 10);
+        reviewGrid.setMaxWidth(925);
 
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allReviews.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);
@@ -97,14 +95,12 @@ public class LogsController {
         for (int i = 0; i < end - start; i++) {
             logsService.setCurrentReview(allReviews.get(start + i));
 
-            int currentRow = i / columns;
-
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/reviewDisplay.fxml"));
 
                 Parent parent = fxmlLoader.load();
 
-                reviewGrid.add(parent, 0, currentRow);
+                reviewGrid.add(parent, 0, i);
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,13 +1,14 @@
 package seng202.team1.services;
 
 import seng202.team1.models.Review;
+import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.util.ArrayList;
 
 public class LogsService {
     private static LogWineDao logWineDao = new LogWineDao();
-    private Review currentReview;
+    private static Review currentReview;
 
     public static ArrayList<Review> getUserLogs(int currentUserUid) {
         return logWineDao.getUserReview(currentUserUid, true);
@@ -21,7 +22,11 @@ public class LogsService {
         this.currentReview = currentReview;
     }
 
-    public Review getCurrentReview() {
+    public static Review getCurrentReview() {
         return currentReview;
+    }
+
+    public static Wine getCurrentWine() {
+        return logWineDao.getWine(currentReview.getWid());
     }
 }

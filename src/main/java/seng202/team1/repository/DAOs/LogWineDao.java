@@ -3,6 +3,8 @@ package seng202.team1.repository.DAOs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Review;
+import seng202.team1.models.Wine;
+import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 
 import java.sql.Connection;
@@ -300,5 +302,52 @@ public class LogWineDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Wine getWine(int wid) {
+        String getWine = "SELECT id, wine.name as wine_name, description, price, tag.type as tag_type, tag.name as tag_name FROM wine "
+                + "JOIN owned_by ON id = owned_by.wid "
+                + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
+        WineBuilder wineBuilder = null;
+        try (Connection conn = databaseManager.connect();
+                PreparedStatement ps = conn.prepareStatement(getWine)) {
+            ps.setInt(1, wid);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (wineBuilder == null) {
+                        wineBuilder = WineBuilder.genericSetup(rs.getInt("id"),
+                                rs.getString("wine_name"),
+                                rs.getString("description"),
+                                rs.getInt("price"));
+                    }
+                    switch (rs.getString("tag_type")) {
+                        case "Variety":
+                            wineBuilder.setVariety(rs.getString("tag_name"));
+                            break;
+                        case "Province":
+                            wineBuilder.setProvince(rs.getString("tag_name"));
+                            break;
+                        case "Region":
+                            wineBuilder.setRegion(rs.getString("tag_name"));
+                            break;
+                        case "Vintage":
+                            wineBuilder.setVintage(rs.getInt("tag_name"));
+                            break;
+                        case "Country":
+                            wineBuilder.setCountry(rs.getString("tag_name"));
+                            break;
+                        case "Winery":
+                            wineBuilder.setWinery(rs.getString("tag_name"));
+                            break;
+                        default:
+                            LOG.error("Tag type {} is not supported!", rs.getString("tag_type"));
+                    }
+                }
+                return wineBuilder.build();
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        return null;
     }
 }
