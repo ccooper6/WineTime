@@ -148,8 +148,7 @@ public class WineLoggingPopupController {
     }
 
     /**
-     * Uses {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}
-     * to submit the liked tags and review to the database. It then calls
+     * Submits the liked tags and review to the database. It then calls
      * {@link WineLoggingPopupController#returnToWinePopUp()} to return to the wine pop up screen
      * <p></p>
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
@@ -157,6 +156,7 @@ public class WineLoggingPopupController {
      */
     private void submitLog() {
         int rating = (int) ratingSlider.getValue();
+        boolean noneSelected = false;
         ArrayList<String> selectedTags = new ArrayList<>();
         if (hasClickedTag()) {
             for (int i = 0; i < tagNameArray.size(); i++) {
@@ -166,8 +166,9 @@ public class WineLoggingPopupController {
             }
         } else {
             selectedTags = tagNameArray;
+            noneSelected = true;
         }
-        wineLoggingPopupService.submitLog(rating,currentUserUid,currentWine.getWineId(), selectedTags,descriptionTextArea.getText());
+        wineLoggingPopupService.submitLog(rating, currentUserUid, currentWine.getWineId(), selectedTags, noneSelected, descriptionTextArea.getText());
         returnToWinePopUp();
     }
 

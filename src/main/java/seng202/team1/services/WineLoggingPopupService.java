@@ -35,22 +35,22 @@ public class WineLoggingPopupService {
      * @param currentWine the wine's int id
      * @param selectedTags an ArrayList of strings, containing tag names
      * @param description the text description entered by the user
+     * @param noneSelected a boolean value indicating if no tags have been selected
      */
-    public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, String description) {
+    public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, boolean noneSelected, String description) {
         for (String tag : selectedTags) {
             logWineDao.likes(currentUserUid, tag, rating - 3);
         }
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
-            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp());
+            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, noneSelected);
         } else {
-            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp());
+            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, noneSelected);
         }
     }
 
     /**
-     * Called by {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)}.
-     * to obtain the date time stamp of the review in "YYYY-MM-DD HH:mm:SS" format
+     * Obtain the date time stamp of the review in "YYYY-MM-DD HH:mm:SS" format.
      * @return the string date time stamp in "YYYY-MM-DD HH:mm:SS" format
      */
     public String getCurrentTimeStamp() {

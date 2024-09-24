@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="890.0" style="-fx-border-color: #5c5c5c;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
 <children>
     <AnchorPane fx:id="reviewedWineTile" layoutX="12.0" layoutY="20.0" prefHeight="120.0" prefWidth="170.0"> </AnchorPane>
     <FontAwesomeIconView fx:id="star1" glyphName="STAR_ALT" layoutX="12.0" layoutY="176.0" size="30" />
@@ -28,10 +29,6 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Text fx:id="reviewDate1" layoutX="747.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review Date">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
+      <Button layoutX="781.0" layoutY="17.0" mnemonicParsing="false" text="Delete Review" />
 </children>
 </AnchorPane>

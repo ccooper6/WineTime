@@ -7,10 +7,7 @@ import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -102,6 +99,22 @@ public class LogWineDao {
         }
     }
 
+    public String getSelectedTags(int uid, int wid) {
+        String getSelectedTags = "SELECT selectedtags FROM reviews WHERE uid = ? AND wid = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getSelectedTags)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, wid);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return "";
+    }
     /**
      * Returns a hashmap of tagName, tagValue of the likedTags by the user.
      * @param uid the current user int id
@@ -179,18 +192,19 @@ public class LogWineDao {
 
     /**
      * Checks to see if the user has already reviewed the wine by calling {@link LogWineDao#alreadyReviewExists(int, int)}.
-     * If so, calls {@link LogWineDao#updateReview(int, int, int, String, String)}. Else inserts a new review into the
-     * database
+     * If it does, it updates the current review, otherwise inserts a new review into the database
      *
      * @param uid         the int user id
      * @param wid         the int wine id
      * @param rating      the int rating given by the user
      * @param description the string description of the review
      * @param date        the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
+     * @param selectedTags the ArrayList of tags selected by the user
+     * @param noneSelected a boolean value to indicate if no tags were selected
      */
-    public void reviews(int uid, int wid, int rating, String description, String date) {
+    public void reviews(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, boolean noneSelected) {
         if (!alreadyReviewExists(uid, wid)) {
-            String reviewSql = "INSERT INTO reviews (uid, wid, rating, description, date) VALUES (?,?,?,?,?)";
+            String reviewSql = "INSERT INTO reviews (uid, wid, rating, description, date, selectedtags) VALUES (?,?,?,?,?,?)";
             try (Connection conn = databaseManager.connect()) {
                 try (PreparedStatement ps = conn.prepareStatement(reviewSql)) {
                     ps.setInt(1, uid);
@@ -198,13 +212,17 @@ public class LogWineDao {
                     ps.setInt(3, rating);
                     ps.setString(4, description);
                     ps.setString(5, date);
+                    if (noneSelected) {
+                        selectedTags = new ArrayList<>();
+                    }
+                    ps.setString(6, String.join(",", selectedTags));
                     ps.executeUpdate();
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else {
-            updateReview(uid, wid, rating, description, date);
+            updateReview(uid, wid, rating, description, date, selectedTags, noneSelected);
         }
     }
 
@@ -215,9 +233,11 @@ public class LogWineDao {
      * @param rating         the int rating given by the user
      * @param newDescription the string description of the review
      * @param date           the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
+     * @param selectedTags   the ArrayList of tags selected by the user
+     * @param noneSelected   a boolean value to indicate if no tags were selected
      */
-    public void updateReview(int uid, int wid, int rating, String newDescription, String date) {
-        String updateSql = "UPDATE reviews SET description = ?, rating = ?, date = ? WHERE uid = ? AND wid = ?";
+    public void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, boolean noneSelected) {
+        String updateSql = "UPDATE reviews SET description = ?, rating = ?, date = ?, selectedtags = ? WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement updateValuePs = conn.prepareStatement(updateSql)) {
                 updateValuePs.setString(1, newDescription);
@@ -225,6 +245,10 @@ public class LogWineDao {
                 updateValuePs.setString(3, date);
                 updateValuePs.setInt(4, uid);
                 updateValuePs.setInt(5, wid);
+                if (noneSelected) {
+                    selectedTags = new ArrayList<>();
+                }
+                updateValuePs.setString(6, String.join(",", selectedTags));
                 updateValuePs.executeUpdate();
             }
         } catch (SQLException e) {

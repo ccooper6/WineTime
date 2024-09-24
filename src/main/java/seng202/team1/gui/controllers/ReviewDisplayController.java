@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -15,7 +16,10 @@ import seng202.team1.services.LogsService;
 import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.sql.Types.NULL;
 
 public class ReviewDisplayController {
     @FXML
@@ -43,12 +47,21 @@ public class ReviewDisplayController {
     public void initialize() {
         Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
         Review review = LogsService.getCurrentReview();
-        reviewDate.setText(review.getReviewDate());
-        reviewDescription.setText(review.getReviewDescription());
+        reviewDate.setText("Date Reviewed: " + review.getReviewDate());
+
+        if (!review.getReviewDescription().isEmpty()) {
+            reviewDescription.setText("Description: " + review.getReviewDescription());
+        } else {
+            reviewDescription.setText("No description provided");
+        }
+
         List<FontAwesomeIconView> stars = List.of(star1, star2, star3, star4, star5);
-        for (int i = 0; i < review.getRating(); i++) {
+        int rating = review.getRating();
+
+        for (int i = 0; i < rating; i++) {
             stars.get(i).setGlyphName("STAR");
         }
+
         Wine currentWine = LogsService.getCurrentWine();
         if (currentWine == null) {
             LOG.error("Current wine is null for review with ID: " + review.getUid());
@@ -61,6 +74,18 @@ public class ReviewDisplayController {
                 e.printStackTrace();
             }
         }
+
+        tagsLiked.setText("");
+
+        ArrayList<String> tags = LogsService.getSelectedTags();
+        if (tags.isEmpty()) {
+            tagsLiked.setText("No tags liked");
+        } else if (rating < 3) {
+            tagsLiked.setText("Tags disliked: " + String.join(", ", tags));
+        } else {
+            tagsLiked.setText("Tags liked: " + String.join(", ", tags));
+        }
+        //addTagCheckBoxes(currentWine);
     }
 
 }
