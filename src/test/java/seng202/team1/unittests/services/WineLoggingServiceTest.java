@@ -46,15 +46,15 @@ public class WineLoggingServiceTest {
     }
 
     /**
-     * Tests that {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)} submits the log properly
-     * by calling {@link LogWineDao#reviews(int, int, int, String, String)} and {@link LogWineDao#likes(int, String, int)}
+     * Tests that {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, boolean, String)} submits the log properly
+     * by calling {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
      * properly, as well as making sure all redundant whitespace is removed from the description text before being added
      * to the database
      */
     @Test
     public void testSubmitLog() {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
-        wineLoggingPopupService.submitLog(5,1,69, likedTags, "I      love them" );
+        wineLoggingPopupService.submitLog(5,1,69, likedTags, false, "I      love them" );
         HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
         Assertions.assertTrue(result.containsKey("seng202 teaching team"));
         Assertions.assertEquals(2,result.get("seng202 teaching team"));
