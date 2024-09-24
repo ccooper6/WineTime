@@ -3,10 +3,12 @@ package seng202.team1.gui.controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,15 +77,16 @@ public class LogsController {
         }
 
         if (start < 0 || start >= allReviews.size()) {
-            LOG.error("Cannot display wines out of bounds.");
+            LOG.error("Cannot display reviews out of bounds.");
             return;
         }
         reviewGrid.getChildren().clear();
+        reviewGrid.getRowConstraints().clear(); // Clear any existing row constraints
         scrollPane.setVvalue(0);
 
         int end = Math.min(start + MAXSIZE, allReviews.size());
-        reviewGrid.setMinHeight((end - start) * 200 + 10);
-        scrollAnchorPane.setMinHeight((end - start) * 200 + 10);
+        reviewGrid.setMinHeight((end - start) * 200 + 50);
+        scrollAnchorPane.setMinHeight((end - start) * 200 + 50);
         reviewGrid.setMaxWidth(925);
 
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allReviews.size(), MAXSIZE)));
@@ -91,6 +94,8 @@ public class LogsController {
         nextArrowButton.getParent().setVisible(end < allReviews.size());
 
         pageCounterText.getParent().setVisible(true);
+
+        reviewGrid.setAlignment(Pos.TOP_LEFT);
 
         for (int i = 0; i < end - start; i++) {
             logsService.setCurrentReview(allReviews.get(start + i));
@@ -100,12 +105,20 @@ public class LogsController {
 
                 Parent parent = fxmlLoader.load();
 
+                RowConstraints rowConstraints = new RowConstraints();
+                rowConstraints.setMinHeight(200);
+                rowConstraints.setPrefHeight(200);
+                reviewGrid.getRowConstraints().add(rowConstraints);
+
+
                 reviewGrid.add(parent, 0, i);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
     }
 
     /**

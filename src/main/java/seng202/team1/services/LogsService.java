@@ -35,10 +35,14 @@ public class LogsService {
     public static ArrayList<String> getSelectedTags() {
         String tags = logWineDao.getSelectedTags(currentReview.getUid(), currentReview.getWid());
         ArrayList<String> selectedTags = new ArrayList<>();
-        if (tags != null) {
+        if (tags != null && !tags.isEmpty()) {
             String[] tagArray = tags.split(",");
             selectedTags.addAll(Arrays.asList(tagArray));
         }
         return selectedTags;
+    }
+
+    public void deleteReview() {
+        logWineDao.deleteReview(currentReview.getUid());
     }
 }

@@ -85,7 +85,12 @@ public class ReviewDisplayController {
         } else {
             tagsLiked.setText("Tags liked: " + String.join(", ", tags));
         }
-        //addTagCheckBoxes(currentWine);
+    }
+
+    @FXML
+    public void onDeletePressed() {
+        LogsService.deleteReview();
+        initialize();
     }
 
 }

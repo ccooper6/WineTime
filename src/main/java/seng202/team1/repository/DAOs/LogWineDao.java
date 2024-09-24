@@ -81,6 +81,7 @@ public class LogWineDao {
 
     /**
      * Returns a boolean indicating if the user is already in a 'like' relationship with the specified tag.
+     *
      * @param uid     the user id
      * @param tagName the tag name
      * @return Boolean indicating if the user has already liked the tag
@@ -115,10 +116,12 @@ public class LogWineDao {
         }
         return "";
     }
+
     /**
      * Returns a hashmap of tagName, tagValue of the likedTags by the user.
-     * @param uid the current user int id
-     * @param maximumTag the maximum number of tags to return
+     *
+     * @param uid          the current user int id
+     * @param maximumTag   the maximum number of tags to return
      * @param orderByValue set to true to return the highest valued tags
      * @return HashMap of likedTags
      */
@@ -146,6 +149,7 @@ public class LogWineDao {
 
     /**
      * Returns a hashmap of < tagName, tagValue> of all the likedTags by the user.
+     *
      * @param uid          the current user int id
      * @param orderByValue set to true to return the highest valued tags
      * @return HashMap of likedTags
@@ -172,6 +176,7 @@ public class LogWineDao {
 
     /**
      * Returns a boolean indicating if the user has already reviewed the specified wine.
+     *
      * @param uid the user id
      * @param wid the wine id
      * @return Boolean indicating if the user has already reviewed the wine
@@ -194,11 +199,11 @@ public class LogWineDao {
      * Checks to see if the user has already reviewed the wine by calling {@link LogWineDao#alreadyReviewExists(int, int)}.
      * If it does, it updates the current review, otherwise inserts a new review into the database
      *
-     * @param uid         the int user id
-     * @param wid         the int wine id
-     * @param rating      the int rating given by the user
-     * @param description the string description of the review
-     * @param date        the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
+     * @param uid          the int user id
+     * @param wid          the int wine id
+     * @param rating       the int rating given by the user
+     * @param description  the string description of the review
+     * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
@@ -228,6 +233,7 @@ public class LogWineDao {
 
     /**
      * Updates the rating, date and description of an already existing review made by the user.
+     *
      * @param uid            the int user id
      * @param wid            the int wine id
      * @param rating         the int rating given by the user
@@ -258,6 +264,7 @@ public class LogWineDao {
 
     /**
      * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified.
+     *
      * @param uid         the int user id
      * @param maxNumbers  the maximum number of reviews to return
      * @param orderByDate a boolean value to return the most recent reviews
@@ -288,6 +295,7 @@ public class LogWineDao {
 
     /**
      * Returns all the user reviews and returns the most recent reviews if specified.
+     *
      * @param uid         the int user id
      * @param orderByDate a boolean value to return the most recent reviews
      * @return an ArrayList of {@link Review}
@@ -334,7 +342,7 @@ public class LogWineDao {
                 + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
         WineBuilder wineBuilder = null;
         try (Connection conn = databaseManager.connect();
-                PreparedStatement ps = conn.prepareStatement(getWine)) {
+             PreparedStatement ps = conn.prepareStatement(getWine)) {
             ps.setInt(1, wid);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="890.0" style="-fx-border-color: #5c5c5c;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="890.0" style="-fx-border-color: #808080; -fx-background-radius: 15; -fx-border-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
 <children>
     <AnchorPane fx:id="reviewedWineTile" layoutX="12.0" layoutY="20.0" prefHeight="120.0" prefWidth="170.0"> </AnchorPane>
     <FontAwesomeIconView fx:id="star1" glyphName="STAR_ALT" layoutX="12.0" layoutY="176.0" size="30" />
@@ -24,7 +24,7 @@
             <Font size="20.0" />
         </font>
     </Text>
-      <Text fx:id="tagsLiked" layoutX="196.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags liked" wrappingWidth="412.1424560546875">
+      <Text fx:id="tagsLiked" layoutX="196.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags liked" wrappingWidth="650.1424560546875">
          <font>
             <Font size="20.0" />
          </font>
