@@ -29,6 +29,6 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button layoutX="781.0" layoutY="17.0" mnemonicParsing="false" text="Delete Review" />
+      <Button layoutX="781.0" layoutY="17.0" mnemonicParsing="false" onAction="#onDeletePressed" text="Delete Review" />
 </children>
 </AnchorPane>

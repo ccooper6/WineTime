@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
 import seng202.team1.services.LogsService;
@@ -89,8 +90,8 @@ public class ReviewDisplayController {
 
     @FXML
     public void onDeletePressed() {
-        LogsService.deleteReview();
-        initialize();
+        LogsService.deleteReview(LogsService.getCurrentReview().getRating());
+        FXWrapper.getInstance().launchSubPage("logWine");
     }
 
 }

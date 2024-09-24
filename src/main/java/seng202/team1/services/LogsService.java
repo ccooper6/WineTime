@@ -42,7 +42,12 @@ public class LogsService {
         return selectedTags;
     }
 
-    public void deleteReview() {
-        logWineDao.deleteReview(currentReview.getUid());
+    public static void deleteReview(int rating) {
+        int uid = currentReview.getUid();
+        logWineDao.deleteReview(uid, currentReview.getWid());
+        ArrayList<String> selectedTags = getSelectedTags();
+        for (String tag : selectedTags) {
+            logWineDao.likes(uid, tag, 3 - rating); //Reverse the like
+        }
     }
 }

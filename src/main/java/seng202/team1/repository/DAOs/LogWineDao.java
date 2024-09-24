@@ -382,4 +382,17 @@ public class LogWineDao {
         }
         return null;
     }
+
+    public void deleteReview(int uid, int wid) {
+        String deleteReview = "DELETE FROM reviews WHERE uid = ? AND wid = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(deleteReview)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, wid);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+    }
 }
