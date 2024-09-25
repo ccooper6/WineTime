@@ -42,9 +42,9 @@ public class ChallengeServiceTest {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
-        user = new User("test", "test");
+        user = new User(0, "test", "test");
         System.out.println(user);
-        FXWrapper.getInstance().setCurrentUser(user);
+        User.setCurrenUser(user);
         challengeDAO = new ChallengeDAO();
         challengeService = new ChallengeService();
         userDAO = new UserDAO();

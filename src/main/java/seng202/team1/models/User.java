@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * @author Caleb Cooper, Wen Sheng Thong, Isaac Macdonald
  */
 public class User {
+    private int id;
     private String name;
     private String encryptedUserName;
     private int hashedPassword;
@@ -14,14 +15,40 @@ public class User {
     private ArrayList<Wine> dislikedWines;
     private ArrayList<String> favouritedTags;
 
+    private static User currenUser;
+
     /**
      * Constructor for User.
      * @param name The name of the user
      * @param userName The encrypted username of the user
      */
-    public User(String name, String userName) {
+    public User(int id, String name, String userName) {
+        this.id = id;
         this.name = name;
         this.encryptedUserName = userName;
+    }
+
+    /**
+     * Sets the current user of the application to the user provided
+     * @param user the current user
+     */
+    public static void setCurrenUser(User user)
+    {
+        currenUser = user;
+    }
+
+    /**
+     * Returns the current user stored
+     * @return the current user
+     */
+    public static User getCurrentUser()
+    {
+        return currenUser;
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
     /**
