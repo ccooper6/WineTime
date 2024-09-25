@@ -25,7 +25,6 @@ import java.util.HashMap;
  * @author Wen Sheng Thong
  */
 public class WineLoggingServiceTest {
-    static DatabaseManager databaseManager;
     static WineLoggingPopupService wineLoggingPopupService;
     static LogWineDao logWineDao;
     static UserDAO userDAO;

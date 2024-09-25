@@ -341,26 +341,6 @@ public class LogWineDao {
     }
 
     /**
-     * Returns boolean value whether the user has already reviewed the wine.
-     * @param uid the user id
-     * @param wid the wine id
-     * @return boolean value whether the user has already reviewed the wine
-     */
-    public boolean logExists(int uid, int wid) {
-        String test = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement ps = conn.prepareStatement(test)) {
-                ps.setInt(1, uid);
-                ps.setInt(2, wid);
-                ResultSet rs = ps.executeQuery();
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Returns a specific wine object using the specified wine id.
      * @param wid the wine id
      * @return a {@link Wine} object
