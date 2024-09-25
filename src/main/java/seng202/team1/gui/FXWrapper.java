@@ -17,7 +17,6 @@ public class FXWrapper {
     private static FXWrapper instance = null;
     private Stage stage;
     private NavigationController navigationController;
-    private User currentUser;
     private int challenge = 0;
 
     /**
@@ -92,22 +91,6 @@ public class FXWrapper {
      */
     public NavigationController getNavigationController() {
         return navigationController;
-    }
-
-    /**
-     * Sets the current user.
-     * @param user the current user
-     */
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-    }
-
-    /**
-     * Gets the current user.
-     * @return the current user
-     */
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     /**

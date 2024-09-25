@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -38,7 +39,7 @@ public class MainController {
             protected Void call() {
                 // Code as usual
                 WineCategoryService.getInstance().resetCurrentCategory();
-                helloText.setText("Hello, " + FXWrapper.getInstance().getCurrentUser().getName() + "!");
+                helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
 
                 String[] tags = {
                         "Bordeaux, Merlot",
@@ -53,16 +54,11 @@ public class MainController {
 
                 try {
                     for (int i = 0; i < tags.length; i++) {
-                        SearchWineService.getInstance().searchWinesByTags(tags[i], 10);
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                                .getResource("/fxml/wineCategoryDisplay.fxml"));
-                        Parent parent = fxmlLoader.load();
+                        Parent parent = WineCategoryDisplayController.createCategory(tags[i]);
                         int finalI = i;
                         Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
                         // Have to do this as it requires multiple loops to finish completely
                         // - need to use for "A Task Which Returns Partial Results", from the Task documentation
-                        WineCategoryService.getInstance().incrementCurrentCategory();
-                        System.out.println(i + 1 + "/" + tags.length);
                     }
                 } catch (IOException e) { e.printStackTrace(); }
                 return null;
