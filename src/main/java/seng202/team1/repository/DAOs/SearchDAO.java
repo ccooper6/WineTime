@@ -129,7 +129,7 @@ public class SearchDAO {
         if (!Normalizer.isNormalized(filterString, Normalizer.Form.NFD)) {
             LOG.error("{} is not normalised!", filterString);
         }
-        boolean sortDirection = SearchWineService.getInstance().getSortDirection();
+        //boolean sortDirection = SearchWineService.getInstance().getSortDirection();
         filterString = "%" + filterString + "%";
 
         String stmt = "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n"
@@ -139,7 +139,8 @@ public class SearchDAO {
                 + "    ORDER BY wine.id LIMIT ?)\n"
                 + "JOIN owned_by ON id = owned_by.wid\n"
                 + "JOIN tag ON owned_by.tname = tag.name\n"
-                + "ORDER BY id "+ (sortDirection ? "ASC" : "DESC") + ";";
+                + "ORDER BY id ;";
+        //"+ (sortDirection ? "ASC" : "DESC") + "
 
         ArrayList<Wine> wineList = new ArrayList<>();
 

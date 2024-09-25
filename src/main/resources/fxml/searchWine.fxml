@@ -67,6 +67,6 @@
          </children>
       </AnchorPane>
        <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25" />
-       <ComboBox fx:id="SortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Recommended" visibleRowCount="4" />
+       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Recommended" visibleRowCount="4" />
    </children>
 </Pane>

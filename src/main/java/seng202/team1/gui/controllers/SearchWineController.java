@@ -27,8 +27,8 @@ import java.util.Objects;
 public class SearchWineController {
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
     private final int MAXSIZE = 50;
-    public ComboBox SortDropDown;
     public FontAwesomeIconView sortDirection;
+    public ComboBox sortDropDown;
     private ArrayList<Wine> allWines;
     private int currentPage = 0;
 
@@ -52,6 +52,7 @@ public class SearchWineController {
      */
     @FXML
     public void initialize() {
+        initSortByOptions();
 
         allWines = SearchWineService.getInstance().getWineList();
 
@@ -110,9 +111,14 @@ public class SearchWineController {
         pageCounterText.getParent().setVisible(true);
 
 
+
 //        add wines
         for (int i = 0; i < end - start; i++) {
-            SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            if (SearchWineService.getInstance().getSortDirection()) {
+                SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            } else {
+                SearchWineService.getInstance().setCurrentWine(allWines.get(allWines.size() - start - i -1));
+            }
 
             int currentRow = i / columns;
             int currentCol = i % columns;
@@ -128,6 +134,16 @@ public class SearchWineController {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Sets the dropdown options for the sorting
+     */
+    public void initSortByOptions() {
+        sortDropDown.getItems().add("Recommended");
+        sortDropDown.getItems().add("Price");
+        sortDropDown.getItems().add("Rating");
+        sortDropDown.getItems().add("Vintage");
     }
 
     /**
@@ -171,9 +187,11 @@ public class SearchWineController {
         if (SearchWineService.getInstance().getSortDirection()) {
             sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
             SearchWineService.getInstance().setSortDirection(false);
+            displayCurrentPage();
         } else {
             sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
             SearchWineService.getInstance().setSortDirection(true);
+            displayCurrentPage();
         }
     }
 }
