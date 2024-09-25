@@ -3,6 +3,7 @@ package seng202.team1.gui.controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,10 +18,14 @@ import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.services.WishlistService;
 
+import java.awt.*;
+import java.net.URI;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * Controller class for the popup.fxml popup.
@@ -55,6 +60,8 @@ public class PopUpController {
     private ScrollPane tagScrollPane;
     @FXML
     private FlowPane tagFlowPane;
+    @FXML
+    private Button wineSearchLink;
 
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
 
@@ -156,6 +163,30 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadWineLoggingPopUpContent();
+    }
+
+    /**
+     * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
+     */
+    public void onWineSearchLinkClicked() {
+        try {
+            java.awt.Desktop.getDesktop();
+            String query = wineName.getText();
+            query = Normalizer.normalize(query, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            query = pattern.matcher(query).replaceAll("");
+            String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    desktop.browse(new URI(googleSearchURL));
+                }
+            } else {
+                System.out.println("Not supported");
+            }
+        } catch (Exception e) {
+            LOG.error("Something went wrong trying to search for a wine.");
+        }
     }
 
 }
