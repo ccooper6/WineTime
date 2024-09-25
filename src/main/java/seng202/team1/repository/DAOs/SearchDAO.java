@@ -57,8 +57,6 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
-//        System.out.println("Start processing");
-
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
         int currentID = -1;
@@ -66,7 +64,6 @@ public class SearchDAO {
 
         while (resultSet.next())
         {
-
             if (resultSet.getInt("id") != currentID) {
                 if (currentWineBuilder != null) {
                     wineList.add(currentWineBuilder.build());
@@ -212,5 +209,123 @@ public class SearchDAO {
             LOG.error(e.getMessage());
         }
         return wineList;
+    }
+
+    /**
+     * Searches for wines given a String of tags. It will aim to avoid wines with tags that the user has disliked and the wines
+     * that have already currently been added to the recommended list, to avoid duplicate wines showing up in the recommended
+     * page.
+     *
+     * @param tag {@link String} the tag name to search by. Must be normalised and lower case.
+     * @param tagsToAvoid An {@link ArrayList<String>} of tag names to avoid.
+     * @param wineIdToAvoid An {@link ArrayList<Integer>} of the wine ids that have already been added to the recommended list.
+     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
+     * @return {@link ArrayList} of Wine objects for all wines that matched the given condition
+     */
+    public ArrayList<Wine> reccWineByTags(String tag, ArrayList<String> tagsToAvoid, ArrayList<Integer> wineIdToAvoid, int limit)
+    {
+        if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
+            LOG.error("{} is not normalised!", tag);
+        }
+        //these five lines create the entire recommend wine PS string
+        StringBuilder sqlBuilder = new StringBuilder();
+        initializeSqlReccString(sqlBuilder);
+        addTagsToAvoidToPs(tagsToAvoid.size(), sqlBuilder);
+        addWineIdToAvoidToPs(wineIdToAvoid.size(), sqlBuilder);
+        completeReccPs(sqlBuilder);
+
+        ArrayList<Wine> wineList = new ArrayList<>();
+        String sql = sqlBuilder.toString();
+
+        // get results
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql) ) {
+            ps.setString(1, tag);
+            setTagAndWineIDValueToPs(tagsToAvoid, wineIdToAvoid, ps);
+            ps.setInt(tagsToAvoid.size() + wineIdToAvoid.size() + 2, limit);
+            try (ResultSet rs = ps.executeQuery()) {
+                wineList = processResultSetIntoWines(rs);
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        return wineList;
+    }
+
+    /**
+     * Sets the respective tag names and wine id to their respective slot in the prepared statement
+     * @param tagsToAvoid an {@link ArrayList<String>} of tag names
+     * @param wineIdToAvoid an {@link ArrayList<Integer>} of wine id to avoid
+     * @param ps the {@link PreparedStatement} to be executed
+     * @throws SQLException
+     */
+    private static void setTagAndWineIDValueToPs(ArrayList<String> tagsToAvoid, ArrayList<Integer> wineIdToAvoid, PreparedStatement ps) throws SQLException {
+        for (int i = 0; i < tagsToAvoid.size(); i++) {
+            ps.setString(i + 2, tagsToAvoid.get(i));
+        }
+        for (int i = 0; i < wineIdToAvoid.size(); i++) {
+            System.out.println(wineIdToAvoid.get(i));
+            ps.setInt(tagsToAvoid.size() + 2 + i, wineIdToAvoid.get(i));
+        }
+    }
+
+    /**
+     * Closes off the prepared statement string
+     * @param sqlBuilder the {@link StringBuilder} of the prepared statement
+     */
+    private static void completeReccPs(StringBuilder sqlBuilder) {
+        sqlBuilder.append("\n")
+                .append("              GROUP BY wid)\n")
+                .append("        LIMIT ?)\n")
+                .append("JOIN wine on wine.id = temp_id\n")
+                .append("JOIN owned_by on id = owned_by.wid\n")
+                .append("JOIN tag on owned_by.tname = tag.name\n")
+                .append("ORDER BY id;");
+    }
+
+    /**
+     * Adds the required ? for the wine id to avoid
+     * @param numOfWineToAvoid number of wine id to avoid
+     * @param sqlBuilder the {@link StringBuilder} of the prepared statement
+     */
+    private static void addWineIdToAvoidToPs(int numOfWineToAvoid, StringBuilder sqlBuilder) {
+        sqlBuilder.append("\n")
+                .append("              AND wine.id NOT IN (");
+        for (int i = 0; i < numOfWineToAvoid; i++) {
+            if (i > 0) {
+                sqlBuilder.append(",");
+            }
+            sqlBuilder.append("?");
+        }
+        sqlBuilder.append(")");
+    }
+
+    /**
+     * Adds the ? reserved for the tags to avoid in the search query
+     * @param numTagsToAvoid the number of tags to avoid
+     * @param sqlBuilder the PS string builder
+     */
+    private static void addTagsToAvoidToPs(int numTagsToAvoid, StringBuilder sqlBuilder) {
+        for (int i = 0; i < numTagsToAvoid; i++) {
+            if (i > 0) {
+                sqlBuilder.append(",");
+            }
+            sqlBuilder.append("?");
+        }
+        sqlBuilder.append(")");
+    }
+
+    /**
+     * Creates the first half of the recommendation sql prepared statement string
+     * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
+     */
+    private static void initializeSqlReccString(StringBuilder sqlBuilder) {
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+                .append("FROM (SELECT id as temp_id\n")
+                .append("        FROM (SELECT id, count(wid) as c\n")
+                .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
+                .append("                        JOIN tag on owned_by.tname = tag.name\n")
+                .append("              WHERE tag.normalised_name = ?\n")
+                .append("              AND tag.normalised_name NOT IN (");
     }
 }
