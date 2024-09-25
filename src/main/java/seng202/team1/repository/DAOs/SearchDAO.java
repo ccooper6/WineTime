@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
+import seng202.team1.services.SearchWineService;
 
 import java.sql.*;
 import java.text.Normalizer;
@@ -20,6 +21,7 @@ public class SearchDAO {
     private final DatabaseManager databaseManager;
     private static SearchDAO instance;
     public static final int UNLIMITED = 999999;
+
 
     /**
      * Constructor class for SearchDAO.
@@ -127,7 +129,7 @@ public class SearchDAO {
         if (!Normalizer.isNormalized(filterString, Normalizer.Form.NFD)) {
             LOG.error("{} is not normalised!", filterString);
         }
-
+        boolean sortDirection = SearchWineService.getInstance().getSortDirection();
         filterString = "%" + filterString + "%";
 
         String stmt = "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n"
@@ -137,7 +139,7 @@ public class SearchDAO {
                 + "    ORDER BY wine.id LIMIT ?)\n"
                 + "JOIN owned_by ON id = owned_by.wid\n"
                 + "JOIN tag ON owned_by.tname = tag.name\n"
-                + "ORDER BY id;";
+                + "ORDER BY id "+ (sortDirection ? "ASC" : "DESC") + ";";
 
         ArrayList<Wine> wineList = new ArrayList<>();
 

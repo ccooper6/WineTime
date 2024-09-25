@@ -1,10 +1,13 @@
 package seng202.team1.gui.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -15,6 +18,7 @@ import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Controller for the Search Wines Page.
@@ -23,6 +27,8 @@ import java.util.ArrayList;
 public class SearchWineController {
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
     private final int MAXSIZE = 50;
+    public ComboBox SortDropDown;
+    public FontAwesomeIconView sortDirection;
     private ArrayList<Wine> allWines;
     private int currentPage = 0;
 
@@ -158,5 +164,16 @@ public class SearchWineController {
     public void pageEnd() {
         currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
         displayCurrentPage();
+    }
+
+    public void changeIcon() {
+        System.out.println(SearchWineService.getInstance().getSortDirection());
+        if (SearchWineService.getInstance().getSortDirection()) {
+            sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
+            SearchWineService.getInstance().setSortDirection(false);
+        } else {
+            sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+            SearchWineService.getInstance().setSortDirection(true);
+        }
     }
 }

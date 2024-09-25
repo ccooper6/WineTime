@@ -15,9 +15,8 @@ public class SearchWineService {
     private Wine currentWine;
     private ArrayList<Wine> wineList;
     private String currentTags;
-
+    private boolean sortDirection = true;
     private static SearchWineService instance;
-
     private String currentSearch;
     private String currentMethod;
     private boolean fromWishlist = false;
@@ -162,4 +161,9 @@ public class SearchWineService {
     public boolean getFromWishlist() {
         return fromWishlist;
     }
+    public boolean getSortDirection(){ return sortDirection;}
+    public void setSortDirection(boolean isUp) {
+        sortDirection = isUp;
+    }
+
 }
