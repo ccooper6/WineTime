@@ -217,19 +217,8 @@ public class WineLoggingPopupController {
         ArrayList<String> tagsToRemove = new ArrayList<>(existingTags);
         tagsToRemove.removeAll(selectedTags);
 
-        int ratingDifference = newRating - oldRating;
+        wineLoggingPopupService.updateTagLikes(currentUserUid, tagsToAdd, tagsToRemove, existingTags, newRating, oldRating);
 
-        for (String tag : tagsToAdd) {
-            wineLoggingPopupService.updateTagLikes(currentUserUid, tag, newRating - 3); // Add the like
-        }
-        for (String tag : tagsToRemove) {
-            wineLoggingPopupService.updateTagLikes(currentUserUid, tag, 3 - oldRating); // Reverse the like
-        }
-        for (String tag : existingTags) {
-            if (!tagsToRemove.contains(tag)) {
-                wineLoggingPopupService.updateTagLikes(currentUserUid, tag, ratingDifference); // Update the like
-            }
-        }
 
         wineLoggingPopupService.submitLog(newRating, currentUserUid, currentWine.getWineId(), selectedTags, noneSelected, descriptionTextArea.getText());
         returnToWinePopUp();

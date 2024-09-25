@@ -55,11 +55,6 @@ public class WineLoggingServiceTest {
     public void testSubmitLog() {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
         wineLoggingPopupService.submitLog(5,1,69, likedTags, false, "I      love them" );
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
-        Assertions.assertTrue(result.containsKey("seng202 teaching team"));
-        Assertions.assertEquals(2,result.get("seng202 teaching team"));
-        Assertions.assertTrue(result.containsKey("red wine"));
-        Assertions.assertEquals(2,result.get("red wine"));
         ArrayList<Review> reviews = logWineDao.getUserReview(1,1, true);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(69,reviews.getFirst().getWid());

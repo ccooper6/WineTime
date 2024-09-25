@@ -111,7 +111,6 @@ public class ReviewsController {
                 rowConstraints.setPrefHeight(200);
                 reviewGrid.getRowConstraints().add(rowConstraints);
 
-
                 reviewGrid.add(parent, 0, i);
 
             } catch (IOException e) {

@@ -74,4 +74,29 @@ public class WineLoggingPopupService {
     public void updateTagLikes(int uid, String tag, int definedRating) {
         logWineDao.likes(uid, tag, definedRating);
     }
+
+    /**
+     * Uses {@link LogWineDao} to update the tags liked by the user.
+     * @param uid the user id
+     * @param tagsToAdd an ArrayList of strings, containing tag names to add
+     * @param tagsToRemove an ArrayList of strings, containing tag names to remove
+     * @param existingTags an ArrayList of strings, containing existing tag names
+     * @param newRating the new rating of the log
+     * @param oldRating the old rating of the log
+     */
+    public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, ArrayList<String> existingTags, int newRating, int oldRating) {
+        int ratingDifference = newRating - oldRating;
+
+        for (String tag : tagsToAdd) {
+            updateTagLikes(uid, tag, newRating - 3); // Add the like
+        }
+        for (String tag : tagsToRemove) {
+            updateTagLikes(uid, tag, 3 - oldRating); // Reverse the like
+        }
+        for (String tag : existingTags) {
+            if (!tagsToRemove.contains(tag)) {
+                updateTagLikes(uid, tag, ratingDifference); // Update the like
+            }
+        }
+    }
 }
