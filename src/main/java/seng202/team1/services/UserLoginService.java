@@ -47,7 +47,12 @@ public class UserLoginService {
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
     public boolean checkLogin(String username, String password) {
-        return userDAO.tryLogin(encrypt(username), Objects.hash(password));
+        User user =  userDAO.tryLogin(encrypt(username), Objects.hash(password));
+        if (user != null) {
+            User.setCurrenUser(user);
+        }
+
+        return user != null;
     }
 
     /**

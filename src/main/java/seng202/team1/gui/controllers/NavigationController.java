@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
@@ -137,7 +138,7 @@ public class NavigationController {
      */
     @FXML
     public void onLogOutClicked() {
-        FXWrapper.getInstance().setCurrentUser(null);
+        User.setCurrenUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
 

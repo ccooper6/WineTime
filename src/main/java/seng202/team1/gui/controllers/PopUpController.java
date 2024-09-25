@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.services.WishlistService;
@@ -71,7 +72,7 @@ public class PopUpController {
             wine = WineBuilder.genericSetup(-1, "Error Wine", "Wine is null", -1).build();
         }
 
-        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        int currentUserUid = User.getCurrentUser().getId();
         int wineID = wine.getWineId();
         boolean inWishlist = WishlistService.checkInWishlist(wineID, currentUserUid);
         FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();

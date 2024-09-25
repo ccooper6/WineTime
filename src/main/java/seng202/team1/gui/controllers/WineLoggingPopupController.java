@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
@@ -39,7 +40,6 @@ public class WineLoggingPopupController {
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
-    private int currentUserUid;
     private WineLoggingPopupService wineLoggingPopupService;
 
     /**
@@ -50,8 +50,6 @@ public class WineLoggingPopupController {
         tagNameArray = new ArrayList<String>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
         wineLoggingPopupService = new WineLoggingPopupService();
-        UserDAO userDAO = new UserDAO();
-        currentUserUid = userDAO.getUId(FXWrapper.getInstance().getCurrentUser());
         implementFxmlFunction();
     }
 
@@ -167,7 +165,7 @@ public class WineLoggingPopupController {
         } else {
             selectedTags = tagNameArray;
         }
-        wineLoggingPopupService.submitLog(rating,currentUserUid,currentWine.getWineId(), selectedTags,descriptionTextArea.getText());
+        wineLoggingPopupService.submitLog(rating, User.getCurrentUser().getId(), currentWine.getWineId(), selectedTags,descriptionTextArea.getText());
         returnToWinePopUp();
     }
 

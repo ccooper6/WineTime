@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
@@ -48,7 +49,7 @@ public class WishlistController {
      */
     @FXML
     public void initialize() {
-        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        int currentUserUid = User.getCurrentUser().getId();
         allWines = WishlistService.getWishlistWines(currentUserUid);
         displayCurrentPage();
     }

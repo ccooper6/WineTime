@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.services.ChallengeService;
 import seng202.team1.services.SearchWineService;
@@ -64,13 +65,11 @@ public class ProfileController {
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
-        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        int currentUserUid = User.getCurrentUser().getId();
         System.out.println(currentUserUid);
 
         try {
-            SearchWineService.getInstance().searchWinesByWishlist(currentUserUid);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineCategoryDisplay.fxml"));
-            Parent parent = fxmlLoader.load();
+            Parent parent = WineCategoryDisplayController.createCategory("wishlist");
             wishlistPane.getChildren().add(parent);
 
         } catch (IOException e) {
