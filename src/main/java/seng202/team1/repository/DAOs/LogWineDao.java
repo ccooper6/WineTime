@@ -9,13 +9,14 @@ import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * The class containing the functions to add entries to the "Likes" and "Reviews" table,
  * mainly called by the WineLoggingPopupController when the user logs a wine.
  *
- * @author Wen Sheng Thong
+ * @author Wen Sheng Thong, Caleb Cooper
  */
 public class LogWineDao {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -100,7 +101,14 @@ public class LogWineDao {
         }
     }
 
-    public String getSelectedTags(int uid, int wid) {
+    /**
+     * Returns a list of tags that the user has selected for a specific wine.
+     * @param uid the user id
+     * @param wid the wine id
+     * @return ArrayList of selected tags
+     */
+    public ArrayList<String> getSelectedTags(int uid, int wid) {
+        String tags;
         String getSelectedTags = "SELECT selectedtags FROM reviews WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(getSelectedTags)) {
@@ -108,13 +116,17 @@ public class LogWineDao {
                 ps.setInt(2, wid);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
-                    return rs.getString(1);
+                    tags = rs.getString(1);
+                    if (tags != null && !tags.isEmpty()) {
+                        String[] tagArray = tags.split(",");
+                        return new ArrayList<>(Arrays.asList(tagArray));
+                    }
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return "";
+        return null;
     }
 
     /**
@@ -283,7 +295,8 @@ public class LogWineDao {
                 int index = 0;
                 while (index < maxNumbers && rs.next()) {
                     userReviews.add(new Review(rs.getInt(1), rs.getInt(2),
-                            rs.getInt(3), rs.getString(4), rs.getString(5)));
+                            rs.getInt(3), rs.getString(4), rs.getString(5),
+                            getSelectedTags(uid, rs.getInt(2))));
                     index++;
                 }
                 return userReviews;
@@ -311,8 +324,13 @@ public class LogWineDao {
                 ps.setInt(1, uid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    Review review = new Review(rs.getInt(1), rs.getInt(2),
-                            rs.getInt(3), rs.getString(4), rs.getString(5));
+                    Review review = new Review(
+                            rs.getInt(1),
+                            rs.getInt(2),
+                            rs.getInt(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            getSelectedTags(uid, rs.getInt(2)));
                     userReviews.add(review);
                 }
                 return userReviews;
@@ -322,6 +340,12 @@ public class LogWineDao {
         }
     }
 
+    /**
+     * Returns boolean value whether the user has already reviewed the wine.
+     * @param uid the user id
+     * @param wid the wine id
+     * @return boolean value whether the user has already reviewed the wine
+     */
     public boolean logExists(int uid, int wid) {
         String test = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
@@ -336,6 +360,11 @@ public class LogWineDao {
         }
     }
 
+    /**
+     * Returns a specific wine object using the specified wine id.
+     * @param wid the wine id
+     * @return a {@link Wine} object
+     */
     public Wine getWine(int wid) {
         String getWine = "SELECT id, wine.name as wine_name, description, price, tag.type as tag_type, tag.name as tag_name FROM wine "
                 + "JOIN owned_by ON id = owned_by.wid "
@@ -383,6 +412,11 @@ public class LogWineDao {
         return null;
     }
 
+    /**
+     * Deletes a review from the database.
+     * @param uid the user id
+     * @param wid the wine id
+     */
     public void deleteReview(int uid, int wid) {
         String deleteReview = "DELETE FROM reviews WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
@@ -394,5 +428,35 @@ public class LogWineDao {
         } catch (SQLException e) {
             LOG.error(e.getMessage());
         }
+    }
+
+    /**
+     * Returns a review object using the specified user id and wine id.
+     * @param uid the user id
+     * @param wid the wine id
+     * @return a {@link Review} object
+     */
+    public Review getReview(int uid, int wid) {
+        String getReviewSQL = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(getReviewSQL)) {
+            ps.setInt(1, uid);
+            ps.setInt(2, wid);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Review(
+                            rs.getInt(1),
+                            rs.getInt(2),
+                            rs.getInt(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            getSelectedTags(uid, rs.getInt(2))
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception while retrieving review with UID: " + uid + " and WID: " + wid, e);
+        }
+        return null;
     }
 }

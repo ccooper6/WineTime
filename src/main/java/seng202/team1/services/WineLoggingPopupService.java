@@ -2,6 +2,7 @@ package seng202.team1.services;
 
 import org.jetbrains.annotations.NotNull;
 import seng202.team1.gui.controllers.WineLoggingPopupController;
+import seng202.team1.models.Review;
 import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.time.ZoneId;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * Runs the logic for {@link WineLoggingPopupController} such as interacting with
  * the database and processing the data from the gui interface of the wine logging popup.
  *
- * @author Wen Sheng Thong
+ * @author Wen Sheng Thong, Caleb Cooper
  */
 public class WineLoggingPopupService {
     private final LogWineDao logWineDao;
@@ -38,9 +39,6 @@ public class WineLoggingPopupService {
      * @param noneSelected a boolean value indicating if no tags have been selected
      */
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, boolean noneSelected, String description) {
-        for (String tag : selectedTags) {
-            logWineDao.likes(currentUserUid, tag, rating - 3);
-        }
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
             logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, noneSelected);
@@ -55,5 +53,25 @@ public class WineLoggingPopupService {
      */
     public String getCurrentTimeStamp() {
         return ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
+    }
+
+    /**
+     * Uses {@link LogWineDao} to get the review of a wine.
+     * @param uid the user id
+     * @param wid the wine id
+     * @return the corresponding review object
+     */
+    public Review getReview(int uid, int wid) {
+        return logWineDao.getReview(uid, wid);
+    }
+
+    /**
+     * Uses {@link LogWineDao} to update the tags liked by the user.
+     * @param uid the user id
+     * @param tag the tag name
+     * @param definedRating the rating of the tag
+     */
+    public void updateTagLikes(int uid, String tag, int definedRating) {
+        logWineDao.likes(uid, tag, definedRating);
     }
 }

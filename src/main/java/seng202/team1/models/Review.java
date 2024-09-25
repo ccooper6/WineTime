@@ -2,11 +2,13 @@ package seng202.team1.models;
 
 import seng202.team1.repository.DAOs.LogWineDao;
 
+import java.util.ArrayList;
+
 /**
  * The review class that contains the attributes of a user review.
  * Used by {@link LogWineDao} to return a user's
  * review.
- * @Author Wen Sheng Thong
+ * @Author Wen Sheng Thong, Caleb Cooper
  */
 public class Review {
     private int uid;
@@ -14,6 +16,7 @@ public class Review {
     private int rating;
     private String reviewDescription;
     private String reviewDate;
+    private ArrayList<String> tagsSelected;
 
     /**
      * Constructor for the review class.
@@ -22,13 +25,15 @@ public class Review {
      * @param rating The rating given by the user.
      * @param reviewDescription The description of the review.
      * @param reviewDate The date the review was made.
+     * @param tagsSelected The tags selected by the user.
      */
-    public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate) {
+    public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate, ArrayList<String> tagsSelected) {
         this.uid = uid;
         this.wid = wid;
         this.rating = rating;
         this.reviewDescription = reviewDescription;
         this.reviewDate = reviewDate;
+        this.tagsSelected = tagsSelected;
     }
 
     /**
@@ -112,12 +117,18 @@ public class Review {
     }
 
     /**
-     * Returns a string representation of the review.
-     * @return A string representation of the review.
+     * Getter for tagsSelected.
+     * @return The tags selected by the user.
      */
-    @Override
-    public String toString() {
-        return "User " + uid + " reviewed wine " + wid + " and rated it " + rating + " with description: {"
-                + reviewDescription + "} at " + reviewDate;
+    public ArrayList<String> getTagsSelected() {
+        return tagsSelected;
+    }
+
+    /**
+     * Setter for tagsSelected.
+     * @param tagsSelected The tags selected by the user.
+     */
+    public void setTagsSelected(ArrayList<String> tagsSelected) {
+        this.tagsSelected = tagsSelected;
     }
 }

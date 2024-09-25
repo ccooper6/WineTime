@@ -3,25 +3,25 @@ package seng202.team1.gui.controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
-import seng202.team1.services.LogsService;
+import seng202.team1.services.ReviewService;
 import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.sql.Types.NULL;
-
+/**
+ * Controller class for the reviewDisplay.fxml page.
+ * Displays the details of a single review.
+ * @author Caleb Cooper
+ */
 public class ReviewDisplayController {
     @FXML
     private AnchorPane reviewedWineTile;
@@ -41,13 +41,17 @@ public class ReviewDisplayController {
     private FontAwesomeIconView star5;
     @FXML
     private Text tagsLiked;
-    @FXML
-    private Button editButton;
 
+    private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
+
+    /**
+     * Initialises the controller.
+     * Sets the text of the review date, description, stars representing the users rating
+     * of the wine and tags liked/disliked.
+     */
     @FXML
     public void initialize() {
-        Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
-        Review review = LogsService.getCurrentReview();
+        Review review = ReviewService.getCurrentReview();
         reviewDate.setText("Date Reviewed: " + review.getReviewDate());
 
         if (!review.getReviewDescription().isEmpty()) {
@@ -63,7 +67,7 @@ public class ReviewDisplayController {
             stars.get(i).setGlyphName("STAR");
         }
 
-        Wine currentWine = LogsService.getCurrentWine();
+        Wine currentWine = ReviewService.getCurrentWine();
         if (currentWine == null) {
             LOG.error("Current wine is null for review with ID: " + review.getUid());
         } else {
@@ -78,7 +82,7 @@ public class ReviewDisplayController {
 
         tagsLiked.setText("");
 
-        ArrayList<String> tags = LogsService.getSelectedTags();
+        ArrayList<String> tags = review.getTagsSelected();
         if (tags.isEmpty()) {
             tagsLiked.setText("No tags liked");
         } else if (rating < 3) {
@@ -88,10 +92,13 @@ public class ReviewDisplayController {
         }
     }
 
+    /**
+     * Deletes the selected review from the database and refreshes the wine reviews page.
+     */
     @FXML
     public void onDeletePressed() {
-        LogsService.deleteReview(LogsService.getCurrentReview().getRating());
-        FXWrapper.getInstance().launchSubPage("logWine");
+        ReviewService.deleteReview(ReviewService.getCurrentReview().getRating());
+        FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 
 }

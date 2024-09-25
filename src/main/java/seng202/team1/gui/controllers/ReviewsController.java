@@ -14,18 +14,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
-import seng202.team1.services.LogsService;
+import seng202.team1.services.ReviewService;
 import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Uses methods in SearchWineService to call WishlistDAO to query database.
- * @author Elise Newman, Yuhao Zhang
+ * Controller class for the reviews.fxml page.
+ * Displays all the wine reviews that the user has saved.
+ * @author Caleb Cooper
  */
-public class LogsController {
-    private static final Logger LOG = LogManager.getLogger(LogsController.class);
+public class ReviewsController {
+    private static final Logger LOG = LogManager.getLogger(ReviewsController.class);
     private ArrayList<Review> allReviews;
     private final int MAXSIZE = 5;
     private int currentPage = 0;
@@ -45,20 +46,20 @@ public class LogsController {
     @FXML
     private Text title;
 
-    private final LogsService logsService = new LogsService();
+    private final ReviewService reviewService = new ReviewService();
 
     /**
-     * Selects all wine objects from the database where the int userID matches the current user.
+     * Selects all review objects from the database where the int userID matches the current user.
      */
     @FXML
     public void initialize() {
         int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
-        allReviews = LogsService.getUserLogs(currentUserUid);
+        allReviews = ReviewService.getUserReviews(currentUserUid);
         displayCurrentPage();
     }
 
     /**
-     * Displays the wine objects in a grid form like SearchWineController.
+     * Displays all the users reviews in an easy-to-read format.
      */
     @FXML
     public void displayCurrentPage() {
@@ -98,7 +99,7 @@ public class LogsController {
         reviewGrid.setAlignment(Pos.TOP_LEFT);
 
         for (int i = 0; i < end - start; i++) {
-            logsService.setCurrentReview(allReviews.get(start + i));
+            reviewService.setCurrentReview(allReviews.get(start + i));
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/reviewDisplay.fxml"));
