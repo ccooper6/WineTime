@@ -6,6 +6,7 @@
 
 <Pane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <Pane minHeight="-Infinity" minWidth="-Infinity" opacity="0.25" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: gray;" />
       <ImageView fx:id="loadingImage" fitHeight="200.0" fitWidth="200.0" layoutX="400.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/loading.gif" />

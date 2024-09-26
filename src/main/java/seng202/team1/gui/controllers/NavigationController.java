@@ -34,6 +34,8 @@ public class NavigationController {
     @FXML
     private Parent overlayContent;
     @FXML
+    private StackPane rootPane;
+    @FXML
     private Pane topBar;
     @FXML
     private StackPane contentHere;
@@ -41,6 +43,8 @@ public class NavigationController {
     private TextField searchBar;
     @FXML
     private ComboBox<String> sortByComboBox;
+
+    private Parent loadingScreen;
 
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
@@ -217,6 +221,26 @@ public class NavigationController {
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
             LOG.error("Failed to load select challenge pop up\n" + e.getMessage());
+        }
+    }
+
+    public void showLoadingScreen() {
+        try {
+            if (loadingScreen == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
+                loadingScreen = loader.load();
+            }
+            if (!rootPane.getChildren().contains(loadingScreen)) {
+                rootPane.getChildren().add(loadingScreen);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void hideLoadingScreen() {
+        if (loadingScreen != null) {
+            rootPane.getChildren().remove(loadingScreen);
         }
     }
 
