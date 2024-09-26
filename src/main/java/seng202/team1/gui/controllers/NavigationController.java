@@ -45,6 +45,7 @@ public class NavigationController {
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
+    private String currentPage = "init";
 
      /**
      * Initializes the controller.
@@ -151,9 +152,18 @@ public class NavigationController {
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
+            currentPage = name;
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the current fxml page name.
+     * @return the current page name
+     */
+    public String getCurrentPage() {
+        return currentPage;
     }
 
     /**

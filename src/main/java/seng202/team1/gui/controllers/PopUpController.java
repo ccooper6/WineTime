@@ -75,8 +75,8 @@ public class PopUpController {
     @FXML
     public void initialize() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        popUpCloseButton.setOnAction(actionEvent -> { closePopUp(); });
-        logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
+        popUpCloseButton.setOnAction(actionEvent -> closePopUp());
+        logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
         Wine wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Wine is null");
@@ -93,6 +93,7 @@ public class PopUpController {
             icon.setFill(Color.web("#d0d0d0"));
         }
 
+        Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
             boolean inWishlistLambda = WishlistService.checkInWishlist(wineID, currentUserUid);
@@ -106,6 +107,13 @@ public class PopUpController {
             } else {
                 WishlistService.addToWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#70171e"));
+            }
+            if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
+                navigationController.loadPageContent("wishlist");
+                navigationController.initPopUp(finalWine);
+            } else if (navigationController.getCurrentPage().equals("profile")) { // refresh the profile page behind the popup
+                navigationController.loadPageContent("profile");
+                navigationController.initPopUp(finalWine);
             }
         });
         populatePopup(wine);
