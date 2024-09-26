@@ -114,7 +114,12 @@ public class PopUpController {
             } else if (navigationController.getCurrentPage().equals("profile")) { // refresh the profile page behind the popup
                 navigationController.loadPageContent("profile");
                 navigationController.initPopUp(finalWine);
+            } else if (navigationController.getCurrentPage().equals("wineReviews")) { // refresh the wine reviews page behind the popup
+                navigationController.loadPageContent("wineReviews");
+                navigationController.initPopUp(finalWine);
             }
+
+
         });
         populatePopup(wine);
 
