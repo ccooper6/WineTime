@@ -141,7 +141,7 @@ public class PopUpController {
         regionTag.setText(wine.getRegion1());
         hideNullTags();
 
-        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        int currentUserUid = User.getCurrentUser().getId();
 
         if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
             logWineIcon.setFill(Color.web("#70171e"));

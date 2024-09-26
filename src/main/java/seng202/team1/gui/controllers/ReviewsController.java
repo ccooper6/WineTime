@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
+import seng202.team1.models.User;
 import seng202.team1.services.ReviewService;
 import seng202.team1.services.WishlistService;
 
@@ -53,7 +54,7 @@ public class ReviewsController {
      */
     @FXML
     public void initialize() {
-        int currentUserUid = WishlistService.getUserID(FXWrapper.getInstance().getCurrentUser());
+        int currentUserUid = User.getCurrentUser().getId();
         allReviews = ReviewService.getUserReviews(currentUserUid);
         displayCurrentPage();
     }
