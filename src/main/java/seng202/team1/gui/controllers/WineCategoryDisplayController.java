@@ -78,7 +78,7 @@ public class WineCategoryDisplayController {
         tags = savedSearchString;
 
         isWishlist = tags.equalsIgnoreCase("wishlist");
-        isRecommenations = tags.equalsIgnoreCase("recommendations");
+        isRecommenations = tags.equalsIgnoreCase("recommend");
 
         if (isWishlist) {
             titleText.setText("Your Wishlist: ");
@@ -364,7 +364,7 @@ public class WineCategoryDisplayController {
         if (searchString.equalsIgnoreCase("wishlist")) {
             SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
         } else if (searchString.equalsIgnoreCase("recommend")) {
-//          add search here
+            SearchWineService.getInstance().searchWinesByRecommend();
         } else {
             SearchWineService.getInstance().searchWinesByTags(searchString, 10);
         }
@@ -378,8 +378,9 @@ public class WineCategoryDisplayController {
         Parent parent = fxmlLoader.load();
         // Have to do this as it requires multiple loops to finish completely
         // - need to use for "A Task Which Returns Partial Results", from the Task documentation
-        WineCategoryService.getInstance().incrementCurrentCategory();
-
+        if (!searchString.equalsIgnoreCase("recommend")) {
+            WineCategoryService.getInstance().incrementCurrentCategory();
+        }
         return parent;
     }
 }
