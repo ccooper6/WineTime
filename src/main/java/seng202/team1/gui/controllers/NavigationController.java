@@ -224,24 +224,24 @@ public class NavigationController {
         }
     }
 
+    /**
+     * Shows the loading screen by adding it to the stack pane.
+     */
     public void showLoadingScreen() {
         try {
-            if (loadingScreen == null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
-                loadingScreen = loader.load();
-            }
-            if (!rootPane.getChildren().contains(loadingScreen)) {
-                rootPane.getChildren().add(loadingScreen);
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
+            loadingScreen = loader.load();
+            rootPane.getChildren().add(loadingScreen);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Hides the loading screen.
+     */
     public void hideLoadingScreen() {
-        if (loadingScreen != null) {
-            rootPane.getChildren().remove(loadingScreen);
-        }
+        rootPane.getChildren().remove(loadingScreen);
     }
 
     /**
