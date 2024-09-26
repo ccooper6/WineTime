@@ -69,7 +69,7 @@
             </ScrollPane>
             <Button fx:id="logWine" layoutX="354.0" layoutY="349.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;">
                <graphic>
-                  <FontAwesomeIconView fill="#d0d0d0" glyphName="COMMENT" size="30" />
+                  <FontAwesomeIconView fx:id="logWineIcon" fill="#d0d0d0" glyphName="COMMENT" size="30" />
                </graphic>
             </Button>
             <Button fx:id="addToWishlist" layoutX="415.0" layoutY="349.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;" textFill="WHITE">

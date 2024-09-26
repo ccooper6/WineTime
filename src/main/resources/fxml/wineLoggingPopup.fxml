@@ -9,24 +9,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineLoggingPopupController">
    <children>
       <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
          <children>
-            <Label layoutX="27.0" layoutY="22.0" prefHeight="23.0" prefWidth="306.0" text="How would you rate this wine from a scale of 1-5 overall?" />
-            <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="20.0" layoutY="59.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="30.0" prefWidth="294.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" />
-            <Label fx:id="likingText" layoutX="27.0" layoutY="96.0" prefHeight="17.0" prefWidth="445.0" text="Which of the following parts of the wine did you like? (Optional)" />
-            <FlowPane fx:id="tagFlowPane" hgap="20.0" layoutX="27.0" layoutY="113.0" prefHeight="137.0" prefWidth="445.0" style="-fx-background-color: #edf0f5;" vgap="20.0" />
-            <Label layoutX="28.0" layoutY="257.0" prefHeight="17.0" prefWidth="273.0" text="How would you describe the wine? (Optional)" />
+            <Label layoutX="27.0" layoutY="37.0" prefHeight="23.0" prefWidth="306.0" text="How would you rate this wine from a scale of 1-5 overall?" />
+            <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="20.0" layoutY="67.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="30.0" prefWidth="294.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" />
+            <Label fx:id="likingText" layoutX="27.0" layoutY="104.0" prefHeight="17.0" prefWidth="445.0" text="Which of the following parts of the wine did you like? (Optional)" />
+            <FlowPane fx:id="tagFlowPane" hgap="20.0" layoutX="27.0" layoutY="121.0" prefHeight="137.0" prefWidth="445.0" style="-fx-background-color: #edf0f5;" vgap="20.0" />
+            <Label layoutX="28.0" layoutY="265.0" prefHeight="17.0" prefWidth="273.0" text="How would you describe the wine? (Optional)" />
             <Button fx:id="submitLogButton" layoutX="212.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #edf0f5;" text="Submit Log" />
-            <Label fx:id="characterRemainingLabel" layoutX="343.0" layoutY="266.0" prefHeight="15.0" prefWidth="130.0" text="120 characters remaining" textAlignment="RIGHT">
+            <Label fx:id="characterRemainingLabel" layoutX="343.0" layoutY="274.0" prefHeight="15.0" prefWidth="130.0" text="120 characters remaining" textAlignment="RIGHT">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
-            <TextArea fx:id="descriptionTextArea" layoutX="28.0" layoutY="283.0" prefHeight="65.0" prefWidth="445.0" wrapText="true">
+            <TextArea fx:id="descriptionTextArea" layoutX="28.0" layoutY="291.0" prefHeight="65.0" prefWidth="445.0" wrapText="true">
                <font>
                   <Font size="10.0" />
                </font>
@@ -36,6 +37,7 @@
                   <FontAwesomeIconView fill="GREY" glyphName="CHEVRON_LEFT" selectionFill="#b9b9b9" size="30" wrappingWidth="24.21630859375" />
                </graphic>
             </Button>
+            <Text fx:id="promptText" layoutX="24.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No review currently exists, fill out this form to save the wine to your reviews" />
          </children></Pane>
    </children>
 </StackPane>

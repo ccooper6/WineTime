@@ -61,7 +61,7 @@ public class WineLogStepDefs {
     public void previouslyLoggedWine(Integer oldRating, String oldDescription) {
         this.oldrating = oldRating;
         this.description = oldDescription;
-        wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.description);
+        wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,false,this.description);
     }
 
     @When("I rate it a {int}")
@@ -81,9 +81,9 @@ public class WineLogStepDefs {
     @When("I click submit log")
     public void submitedLog() {
         if (this.selectedTag) {
-            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,this.description);
+            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,false,this.description);
         } else {
-            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.wineTags,this.description);
+            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.wineTags,false,this.description);
         }
     }
 

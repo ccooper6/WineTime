@@ -16,6 +16,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
+import seng202.team1.services.ReviewService;
 import seng202.team1.services.WishlistService;
 
 import java.awt.*;
@@ -62,7 +63,10 @@ public class PopUpController {
     private FlowPane tagFlowPane;
     @FXML
     private Button wineSearchLink;
+    @FXML
+    private FontAwesomeIconView logWineIcon;
 
+    private final ReviewService reviewService = new ReviewService();
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
 
     /**
@@ -136,6 +140,14 @@ public class PopUpController {
         wineryTag.setText(wine.getWinery());
         regionTag.setText(wine.getRegion1());
         hideNullTags();
+
+        int currentUserUid = User.getCurrentUser().getId();
+
+        if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
+            logWineIcon.setFill(Color.web("#70171e"));
+        } else {
+            logWineIcon.setFill(Color.web("#d0d0d0"));
+        }
     }
 
 

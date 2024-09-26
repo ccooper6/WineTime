@@ -246,6 +246,13 @@ public class NavigationController {
     }
 
     /**
+     * Sends the user to the wine log page when the log button is clicked.
+     */
+    public void onLogsClicked() {
+        FXWrapper.getInstance().launchSubPage("wineReviews");
+    }
+
+    /**
      * Sends the user to the wishlist page when the heart icon is clicked.
      */
     public void onLikesClicked() {
