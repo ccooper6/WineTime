@@ -145,15 +145,24 @@ public class NavigationController {
         userDropDownMenu.setOnMouseEntered(event -> openDropDown());
     }
 
+    /**
+     * Opens the dropdown menu.
+     */
     private void openDropDown() {
         userDropDownMenu.setVisible(true);
-   }
+    }
 
+    /**
+     * Closes the dropdown menu.
+     */
     private void closeDropDown() {
         dropdownLocked = false;
         userDropDownMenu.setVisible(false);
     }
 
+    /**
+     * Toggles the dropdown menu open and closed.
+     */
     @FXML
     public void toggleDropdownOpen() {
         if (!userDropDownMenu.isVisible() || (userDropDownMenu.isVisible() && !dropdownLocked)) {
@@ -167,6 +176,9 @@ public class NavigationController {
         }
     }
 
+    /**
+     * Rotates the dropdown button to indicate that the dropdown menu is toggled.
+     */
     private void rotateDropdownButton() {
         dropdownButton.setRotate(dropdownButton.getRotate() + 270);
     }
