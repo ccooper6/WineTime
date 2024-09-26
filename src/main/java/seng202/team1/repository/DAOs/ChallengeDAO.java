@@ -190,28 +190,6 @@ public class ChallengeDAO {
     }
 
     /**
-     * Gets the users id from the database.
-     * @param currentUser the current user
-     * @return the user id.
-     */
-    public int getUId(User currentUser) {
-        int uid;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                System.out.println(currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
-                System.out.println(uid);
-                return uid;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Gets the wines for the challenge, and returns them as array list of wines.
      * @param cname challenge name
      * @return ArrayList of wines for the challenge

@@ -40,12 +40,13 @@ public class UserDAO implements DAOInterface<User> {
 
     /**
      * This method takes a username and checks that the user is in the database and that the password matches.
-     * @param username the encrypeted username
+     * If they do, the corresponding User will be returned, otherwise null
+     * @param username the encrypted username
      * @param password the hashed password
-     * @return whether the user was already in the database and the password matched.
+     * @return The user is the credentials are found in the database, else null
      */
-    public boolean tryLogin(String username, int password) {
-        String sql = "SELECT password FROM user WHERE username = ?";
+    public User tryLogin(String username, int password) {
+        String sql = "SELECT * FROM user WHERE username = ?";
         try (
                 Connection conn = databaseManager.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -54,37 +55,23 @@ public class UserDAO implements DAOInterface<User> {
             ResultSet rs = pstmt.executeQuery();
 
             if (!rs.next()) {
-                return false;
+                return null;
             }
             int hashedPassword = rs.getInt("password");
 
-            return Objects.equals(hashedPassword, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            if (Objects.equals(hashedPassword, password)) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
 
-
-    }
-
-    /**
-     * Returns the int user id of the current user. Called during initialization of
-     * {@link WineLoggingPopupController}
-     * @param currentUser the current user
-     * @return int uid
-     */
-    public int getUId(User currentUser) {
-        int uid = 0;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
+                return new User(id, name, username);
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return uid;
+
+
     }
 
     @Override

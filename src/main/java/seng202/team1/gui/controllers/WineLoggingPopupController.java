@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.UserDAO;
@@ -41,7 +42,6 @@ public class WineLoggingPopupController {
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
-    private int currentUserUid;
     private WineLoggingPopupService wineLoggingPopupService;
 
     /**
@@ -52,8 +52,6 @@ public class WineLoggingPopupController {
         tagNameArray = new ArrayList<>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
         wineLoggingPopupService = new WineLoggingPopupService();
-        UserDAO userDAO = new UserDAO();
-        currentUserUid = userDAO.getUId(FXWrapper.getInstance().getCurrentUser());
         implementFxmlFunction();
     }
 

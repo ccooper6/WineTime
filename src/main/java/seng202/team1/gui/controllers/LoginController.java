@@ -161,8 +161,6 @@ public class LoginController {
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.checkLogin(username, password)
                 && !username.isEmpty() && !password.isEmpty()) {
-            User user = new User(userLoginService.getName(username), userLoginService.getEncryptedUsername(username));
-            FXWrapper.getInstance().setCurrentUser(user);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
@@ -197,9 +195,7 @@ public class LoginController {
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.storeLogin(name, username, password);
             if (outcome == 1) {
-                User user = new User(userLoginService.getName(username),
-                        userLoginService.getEncryptedUsername(username));
-                FXWrapper.getInstance().setCurrentUser(user);
+                userLoginService.checkLogin(username, password);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
                 clearFields();

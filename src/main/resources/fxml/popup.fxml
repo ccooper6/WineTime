@@ -76,6 +76,12 @@
                <graphic>
                   <FontAwesomeIconView fill="#70171e" glyphName="HEART" size="30" text="" />
                </graphic></Button>
+            <Button fx:id="wineSearchLink" graphicTextGap="0.0" layoutX="23.0" layoutY="357.0" maxHeight="30.0" maxWidth="50.0" mnemonicParsing="false" onAction="#onWineSearchLinkClicked" prefHeight="30.0" prefWidth="45.0" style="-fx-background-color: none;" />
+            <ImageView fitHeight="30.0" fitWidth="50.0" layoutX="23.0" layoutY="354.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/wineSearcherLogo.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

@@ -49,15 +49,6 @@ public class WishlistService {
     }
 
     /**
-     * Gets the user id from the active user object.
-     * @param user User object repr the active user
-     * @return int value to identify the active user
-     */
-    public static int getUserID(User user) {
-        return WishlistDAO.getInstance().getUId(user);
-    }
-
-    /**
      * Gets the wines which match with the current user in the wishlist table as an array.
      * @param userId is the id of the active user
      * @return wineList array of wines from the user's wishlist
