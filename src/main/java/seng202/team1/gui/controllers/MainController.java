@@ -9,9 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
-import seng202.team1.services.SearchWineService;
+import seng202.team1.services.RecommendWineService;
 import seng202.team1.services.WineCategoryService;
 
 import java.io.IOException;
@@ -53,12 +52,11 @@ public class MainController {
                 };
 
                 try {
-                    for (int i = 0; i < tags.length; i++) {
-                        Parent parent = WineCategoryDisplayController.createCategory(tags[i]);
-                        int finalI = i;
-                        Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
-                        // Have to do this as it requires multiple loops to finish completely
-                        // - need to use for "A Task Which Returns Partial Results", from the Task documentation
+                    Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
+                    if (hasRecommended) {
+                        displayCategoryWithRec(tags);
+                    } else {
+                        displayCategoryNoRecc(tags);
                     }
                 } catch (IOException e) { e.printStackTrace(); }
                 return null;
@@ -72,6 +70,38 @@ public class MainController {
 
         new Thread(task).start(); // Starts the thread to start behind the scenes (calls call())
 
+    }
+    /**
+     * Displays the different tag categories with recommendations
+     * @param tags an Array of tag string for each category to add
+     * @throws IOException
+     */
+    private void displayCategoryWithRec(String[] tags) throws IOException {
+        for (int i = 0; i <= tags.length; i++) {
+            Parent parent;
+            if (i == 0) {
+                parent = WineCategoryDisplayController.createCategory("recommend");
+            } else {
+                parent = WineCategoryDisplayController.createCategory(tags[i - 1]);
+            }
+            int finalI = i;
+            Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
+        }
+    }
+
+    /**
+     * Displays the different tag categories without recommendations
+     * @param tags an Array of tag string for each category to add
+     * @throws IOException
+     */
+    private void displayCategoryNoRecc(String[] tags) throws IOException {
+        for (int i = 0; i < tags.length; i++) {
+            Parent parent = WineCategoryDisplayController.createCategory(tags[i]);
+            int finalI = i;
+            Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
+            // Have to do this as it requires multiple loops to finish completely
+            // - need to use for "A Task Which Returns Partial Results", from the Task documentation
+        }
     }
 
     /**
