@@ -248,7 +248,7 @@ public class NavigationController {
      * Sends the user to the wine log page when the log button is clicked.
      */
     public void onLogsClicked() {
-Smal        FXWrapper.getInstance().launchSubPage("wineReviews");
+        FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 
     /**
