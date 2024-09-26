@@ -156,6 +156,55 @@ public class LogWineDao {
     }
 
     /**
+     * Returns the top tags that have a positive value by the user
+     * @param uid the user uid
+     * @param maximumTag the maximum number of tags to return
+     * @return An {@link ArrayList<String>} of tag names
+     */
+    public ArrayList<String> getFavouritedTags(int uid, int maximumTag) {
+        ArrayList<String> likedTags = new ArrayList<>();
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value >= 0 ORDER BY value DESC";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(likePs)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                int index = 0;
+                while (index < maximumTag && rs.next()) {
+                    likedTags.add(rs.getString(1));
+                    index++;
+                }
+                return likedTags;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns all the negatively valued tags
+     * @param uid the current user uid
+     * @return An {@link ArrayList<String>} of disliked tag names
+     */
+    public ArrayList<String> getDislikedTags(int uid) {
+        ArrayList<String> dislikedTags = new ArrayList<>();
+        String dislikePs = "SELECT tname FROM likes WHERE uid = ? AND value < 0";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(dislikePs)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    LOG.info("disliked tag is {}", rs.getString(1));
+                    dislikedTags.add(rs.getString(1));
+                }
+                return dislikedTags;
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Returns a boolean indicating if the user has already reviewed the specified wine.
      * @param uid the user id
      * @param wid the wine id
