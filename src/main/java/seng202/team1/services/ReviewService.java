@@ -65,8 +65,10 @@ public class ReviewService {
         int uid = currentReview.getUid();
         logWineDao.deleteReview(uid, currentReview.getWid());
         ArrayList<String> selectedTags = currentReview.getTagsSelected();
-        for (String tag : selectedTags) {
-            logWineDao.likes(uid, tag, 3 - rating); //Reverse the like
+        if (selectedTags != null && !selectedTags.isEmpty()) {
+            for (String tag : selectedTags) {
+                logWineDao.likes(uid, tag, 3 - rating); // Reverse the like
+            }
         }
     }
 }

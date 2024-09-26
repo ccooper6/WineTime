@@ -83,7 +83,7 @@ public class ReviewDisplayController {
         tagsLiked.setText("");
 
         ArrayList<String> tags = review.getTagsSelected();
-        if (tags.isEmpty()) {
+        if (tags == null || tags.isEmpty()) {
             tagsLiked.setText("No tags liked");
         } else if (rating < 3) {
             tagsLiked.setText("Tags disliked: " + String.join(", ", tags));
