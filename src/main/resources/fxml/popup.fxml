@@ -30,7 +30,7 @@
                            <children>
                               <Text fx:id="wineName" layoutY="25.0" text="Wine Name..." wrappingWidth="212.0">
                                  <font>
-                                    <Font name="PT Serif" size="18.0" />
+                                    <Font name="PT Serif" size="19.0" />
                                  </font>
                               </Text>
                            </children>
@@ -41,7 +41,10 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="212.0" style="-fx-background-color: white;">
                            <children>
-                              <Text fx:id="description" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description..." wrappingWidth="212.0" />
+                              <Text fx:id="description" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description..." wrappingWidth="212.0">
+                                 <font>
+                                    <Font name="PT Serif" size="14.0" />
+                                 </font></Text>
                            </children>
                         </AnchorPane>
                      </content>
@@ -57,12 +60,12 @@
                <content>
                   <FlowPane fx:id="tagFlowPane" hgap="15.0" prefHeight="101.0" prefWidth="224.0" style="-fx-background-color: white;" vgap="10.0">
                      <children>
-                        <Button fx:id="vintageTag" mnemonicParsing="false" text="Vintage" />
-                        <Button fx:id="varietyTag" mnemonicParsing="false" text="Variety" />
-                        <Button fx:id="countryTag" mnemonicParsing="false" text="Country" />
-                        <Button fx:id="provinceTag" mnemonicParsing="false" text="Province" />
-                        <Button fx:id="wineryTag" mnemonicParsing="false" text="Winery" />
-                        <Button fx:id="regionTag" mnemonicParsing="false" text="Region" />
+                        <Button fx:id="vintageTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Vintage" textFill="WHITE" />
+                        <Button fx:id="varietyTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Variety" textFill="WHITE" />
+                        <Button fx:id="countryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Country" textFill="WHITE" />
+                        <Button fx:id="provinceTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Province" textFill="WHITE" />
+                        <Button fx:id="wineryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Winery" textFill="WHITE" />
+                        <Button fx:id="regionTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Region" textFill="WHITE" />
                      </children>
                   </FlowPane>
                </content>
@@ -76,14 +79,15 @@
                <graphic>
                   <FontAwesomeIconView fill="#70171e" glyphName="HEART" size="30" text="" />
                </graphic></Button>
-            <Button fx:id="wineSearchLink" graphicTextGap="0.0" layoutX="23.0" layoutY="357.0" maxHeight="30.0" maxWidth="50.0" mnemonicParsing="false" onAction="#onWineSearchLinkClicked" prefHeight="30.0" prefWidth="45.0" style="-fx-background-color: none;">
+            <Button fx:id="wineSearchLink" graphicTextGap="0.0" layoutX="14.0" layoutY="357.0" maxHeight="30.0" maxWidth="50.0" mnemonicParsing="false" onAction="#onWineSearchLinkClicked" prefHeight="30.0" prefWidth="45.0" style="-fx-background-color: none;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/wineSearcherLogo.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
          </children>
       </Pane>
    </children>

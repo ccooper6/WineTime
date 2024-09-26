@@ -1,13 +1,17 @@
 package seng202.team1.gui.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
+import seng202.team1.services.ReviewService;
 import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WishlistService;
 
 /**
  * Controller for displaying wine cards.
@@ -20,8 +24,13 @@ public class WineDisplayController {
     private ImageView wineImage;
     @FXML
     private AnchorPane winePane;
+    @FXML
+    private FontAwesomeIconView wineLiked;
+    @FXML
+    private FontAwesomeIconView wineReviewed;
 
     private Wine wine;
+    private final ReviewService reviewService = new ReviewService();
 
     /**
      * Displays the wine card using SearchWineService instances' current wine.
@@ -31,12 +40,13 @@ public class WineDisplayController {
     {
         wine = SearchWineService.getInstance().getCurrentWine();
         wineImage.setImage(new Image(wine.getImagePath()));
-        String infoText = "Name: " + wine.getName();
-        infoText += "\nVariety: " + wine.getVariety();
-        wineInfo.setText(infoText);
-
+        wineInfo.setText(wine.getName());
+        wineInfo.setWrapText(true);
         winePane.setOnMouseEntered(event -> darkenPane());
         winePane.setOnMouseExited(event -> lightenPane());
+
+        wineReviewed.setVisible(reviewService.reviewExists(User.getCurrentUser().getId(), wine.getWineId()));
+        wineLiked.setVisible(WishlistService.checkInWishlist(wine.getWineId(), User.getCurrentUser().getId()));
     }
 
     /**

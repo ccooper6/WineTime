@@ -53,6 +53,7 @@ public class SearchWineController {
             LOG.error("Wine list is null");
             allWines = new ArrayList<>();
         }
+        
         displayCurrentPage();
     }
 
@@ -93,8 +94,8 @@ public class SearchWineController {
         int end = Math.min(start + MAXSIZE, allWines.size());
 
         int gridRows = Math.ceilDiv(end - start, columns);
-        wineGrid.setMinHeight(gridRows * 130 - 10);
-        scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
+        wineGrid.setMinHeight(gridRows * 135 - 10);
+        scrollAnchorPane.setMinHeight(gridRows * 135 - 10);
 
 //        page navigation management at bottom
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
