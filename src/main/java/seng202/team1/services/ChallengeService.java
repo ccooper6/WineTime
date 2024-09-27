@@ -21,7 +21,7 @@ public class ChallengeService {
      */
     public void startChallengeVariety() {
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge");
-        chalDao.wineInChallenge();
+        chalDao.wineInChallenge(); //why does this need called????
     }
 
     /**

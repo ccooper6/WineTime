@@ -77,3 +77,26 @@ CREATE TABLE IF NOT EXISTS participated_in (
                                      award TEXT,
                                      FOREIGN KEY (wid) REFERENCES wine(id),
                                      FOREIGN KEY (cid) REFERENCES competition(id));
+
+/* SPLIT */
+DROP TABLE IF EXISTS challenge;
+/* SPLIT */
+CREATE TABLE IF NOT EXISTS challenge (
+                                    name TEXT PRIMARY KEY,
+                                    description TEXT);
+/* SPLIT */
+DROP TABLE IF EXISTS active_challenge;
+/* SPLIT */
+CREATE TABLE IF NOT EXISTS active_challenge (
+                                     userID INTEGER NOT NULL,
+                                     cname TEXT NOT NULL,
+                                     FOREIGN KEY (userID) REFERENCES user(id),
+                                     FOREIGN KEY (cname) REFERENCES challenge(name));
+/* SPLIT */
+DROP TABLE IF EXISTS challenge_wine;
+/* SPLIT */
+CREATE TABLE IF NOT EXISTS challenge_wine (
+                                      wineID INTEGER NOT NULL,
+                                      cname TEXT NOT NULL,
+                                      FOREIGN KEY (wineID) REFERENCES wine(id),
+                                      FOREIGN KEY (cname) REFERENCES challenge(name));

@@ -8,10 +8,7 @@ import javafx.scene.layout.Pane;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.services.ChallengeService;
-import seng202.team1.services.SearchWineService;
-import seng202.team1.services.WineCategoryService;
-import seng202.team1.services.WishlistService;
+import seng202.team1.services.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,8 +37,12 @@ public class ProfileController {
     private AnchorPane chal4;
     @FXML
     private AnchorPane chal5;
+    @FXML
+    private AnchorPane chal1done;
 
     private final ChallengeService challengeService = new ChallengeService();
+
+    private  final ReviewService reviewService = new ReviewService();
 
     /**
      * Initialises the controller checks if user has is participating in a challenge, calls
@@ -51,6 +52,7 @@ public class ProfileController {
         challengePane.setVisible(false);
         if (challengeService.activeChallenge()) {
             moveWinesPane();
+            chal1done.setVisible(false);
             activateChallenge();
             displayChallenge();
         }
@@ -66,7 +68,7 @@ public class ProfileController {
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
         int currentUserUid = User.getCurrentUser().getId();
-        System.out.println(currentUserUid);
+//        System.out.println(currentUserUid);
 
         try {
             Parent parent = WineCategoryDisplayController.createCategory("wishlist");
@@ -97,11 +99,18 @@ public class ProfileController {
     public void displayChallenge() {
         List<AnchorPane> wineViews = List.of(chal1, chal2, chal3, chal4, chal5);
         ArrayList<Wine> challengeWines = challengeService.challengeWines();
+        int currentUserUid = User.getCurrentUser().getId();
         for (int i = 0; i < wineViews.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(challengeWines.get(i));
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 wineViews.get(i).getChildren().add(loader.load());
+                WineDisplayController wineDisplayController = loader.getController();
+                if (reviewService.reviewExists(currentUserUid, challengeWines.get(i).getWineId())) {
+                    System.out.println("wine reveiw: " + challengeWines.get(i).getName());
+                    wineDisplayController.completedChallengeWine();
+//                    set call challenge completed.
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

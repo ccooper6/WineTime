@@ -20,6 +20,8 @@ public class WineDisplayController {
     private ImageView wineImage;
     @FXML
     private AnchorPane winePane;
+    @FXML
+    private AnchorPane wineCompleted;
 
     private Wine wine;
 
@@ -30,6 +32,7 @@ public class WineDisplayController {
     public void initialize()
     {
         wine = SearchWineService.getInstance().getCurrentWine();
+        wineCompleted.setVisible(false);
         wineImage.setImage(new Image(wine.getImagePath()));
         String infoText = "Name: " + wine.getName();
         infoText += "\nVariety: " + wine.getVariety();
@@ -67,6 +70,14 @@ public class WineDisplayController {
     public void lightenPane()
     {
         winePane.setStyle("-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
+    }
+
+    @FXML
+    public void completedChallengeWine()
+    {
+//        winePane.setStyle("-fx-background-color:  #008000; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
+        wineCompleted.setVisible(true);
+        wineCompleted.setMouseTransparent(true);
     }
 
 }
