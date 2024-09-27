@@ -161,24 +161,16 @@ public class QuizService {
      * Method to show the loading screen.
      */
     private void showLoadingScreen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
-            Parent root = loader.load();
-            loadingStage = new Stage();
-            loadingStage.setScene(new Scene(root));
-            loadingStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.showLoadingScreen();
     }
 
     /**
      * Method to hide the loading screen.
      */
     private void hideLoadingScreen() {
-        if (loadingStage != null) {
-            loadingStage.close();
-        }
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.hideLoadingScreen();
     }
 
     /**
