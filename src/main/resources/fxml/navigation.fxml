@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -13,85 +14,102 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
-   <children>
-      <AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
-         <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0">
-            <top>
-               <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                  <children>
-                     <FontAwesomeIconView fx:id="savesExampleButton" fill="#70171e" glyphName="COMMENT" layoutX="829.0" layoutY="53.0" onMouseClicked="#onLogsClicked" selectionEnd="0" size="40" text="" wrappingWidth="41.32696533203125">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </FontAwesomeIconView>
-                     <FontAwesomeIconView fx:id="likesExampleButton" fill="#70171e" glyphName="HEART" layoutX="879.0" layoutY="55.0" onMouseClicked="#onLikesClicked" size="40" text="" wrappingWidth="42.3228759765625">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </FontAwesomeIconView>
-                     <FontAwesomeIconView fx:id="userExampleButton" glyphName="USER_CIRCLE_ALT" layoutX="928.0" layoutY="55.0" onMouseClicked="#onUserClicked" size="40" tabSize="30" text="">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </FontAwesomeIconView>
-                      <VBox fx:id="userDropDownMenu" layoutX="901.0" layoutY="55.0" style="-fx-background-color: none; -fx-padding: 10;" visible="false">
-                          <Button onAction="#onLogOutClicked" style="-fx-background-color: #808080;" text="Log Out" textFill="WHITE" />
-                      </VBox>
-                     <ImageView fx:id="homeExampleButton" fitHeight="66.0" fitWidth="91.0" layoutX="6.0" layoutY="17.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../images/winetime.png" />
-                        </image>
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </ImageView>
-                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
+<AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
+   <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0">
+      <top>
+         <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <children>
+               <FontAwesomeIconView fx:id="reviewsButton" fill="GREY" glyphName="COMMENT" layoutX="830.0" layoutY="53.0" onMouseClicked="#onLogsClicked" selectionEnd="0" size="40" text="" wrappingWidth="41.32696533203125">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></FontAwesomeIconView>
+               <FontAwesomeIconView fx:id="wishlistButton" fill="#70171e" glyphName="HEART" layoutX="883.0" layoutY="56.0" onMouseClicked="#onLikesClicked" size="40" text="" wrappingWidth="42.3228759765625">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></FontAwesomeIconView>
+               <FontAwesomeIconView fx:id="dropdownButton" glyphName="BARS" layoutX="940.0" layoutY="57.0" onMouseClicked="#toggleDropdownOpen" size="40" tabSize="30">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></FontAwesomeIconView>
+               <ImageView fx:id="homeExampleButton" fitHeight="66.0" fitWidth="91.0" layoutX="6.0" layoutY="17.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/winetime.png" />
+                  </image>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </ImageView>
+               <TextField fx:id="searchBar" focusTraversable="false" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
 <!--                  <opaqueInsets>-->
 <!--                     <Insets />-->
 <!--                  </opaqueInsets>-->
                </TextField>
-                     <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="195.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
-                     <Circle fill="#b5b5b5" layoutX="130.0" layoutY="47.0" onMouseClicked="#onHomeClicked" radius="32.0" stroke="TRANSPARENT" strokeType="INSIDE">
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </Circle>
-                     <ImageView fitHeight="56.0" fitWidth="39.0" layoutX="112.0" layoutY="19.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../images/logo.png" />
-                        </image>
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </ImageView>
-                     <ComboBox fx:id="sortByComboBox" layoutX="701.0" layoutY="35.0" prefHeight="24.0" prefWidth="116.0" promptText="To Sort By" visibleRowCount="2">
-                        <cursor>
-                           <Cursor fx:constant="DEFAULT" />
-                        </cursor>
-                     </ComboBox>
-      
-      <!--               <Button fx:id="homeExampleButton" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" onAction="#onHomeClicked" text="Home" />-->
-      <!--               <Button fx:id="savesExampleButton" layoutX="371.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSavesClicked" text="Saves" />-->
-      <!--               <Button fx:id="likesExampleButton" layoutX="437.0" layoutY="21.0" mnemonicParsing="false" onAction="#onLikesClicked" text="Likes" />-->
-      <!--               <Button fx:id="userExampleButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#onUserClicked" text="User" />-->
+               <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="195.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
+               <Circle fill="#b5b5b5" layoutX="130.0" layoutY="47.0" onMouseClicked="#onHomeClicked" radius="32.0" stroke="TRANSPARENT" strokeType="INSIDE">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Circle>
+               <ImageView fitHeight="56.0" fitWidth="39.0" layoutX="112.0" layoutY="19.0" onMouseClicked="#onHomeClicked" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/logo.png" />
+                  </image>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </ImageView>
+               <ComboBox fx:id="sortByComboBox" layoutX="701.0" layoutY="35.0" prefHeight="24.0" prefWidth="116.0" promptText="To Sort By" visibleRowCount="2">
+                  <cursor>
+                     <Cursor fx:constant="DEFAULT" />
+                  </cursor></ComboBox>
+            </children>
+         </Pane>
+      </top>
+      <center>
+         <StackPane fx:id="contentHere" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #d9d9d9;" BorderPane.alignment="CENTER">
+            <children>
+               <Pane fx:id="stackPanePane" prefHeight="183.0" prefWidth="600.0" visible="false">
+                  <children>
+                     <Pane layoutX="200.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
                   </children>
                </Pane>
-            </top>
-            <center>
-               <StackPane fx:id="contentHere" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #d9d9d9;" BorderPane.alignment="CENTER">
-                  <children>
-                     <Pane fx:id="stackPanePane" prefHeight="183.0" prefWidth="600.0" visible="false">
-                        <children>
-                           <Pane layoutX="200.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                        </children>
-                     </Pane>
-                  </children>
-               </StackPane>
-            </center>
-         </BorderPane>
-      </AnchorPane>
-   </children>
-</StackPane>
+            </children>
+         </StackPane>
+      </center>
+   </BorderPane>
+   <VBox fx:id="userDropDownMenu" alignment="CENTER" layoutX="898.0" layoutY="58.0" prefHeight="148.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #ececec; -fx-border-radius: 15; -fx-background-radius: 15;" visible="false">
+      <children>
+         <Button mnemonicParsing="false" onAction="#onUserClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Profile" textFill="WHITE">
+            <graphic>
+               <FontAwesomeIconView fill="WHITE" glyphName="USER_CIRCLE_ALT" size="20" />
+            </graphic>
+            <font>
+               <Font size="15.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
+            <font>
+               <Font size="15.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+         <Button onAction="#onLogOutClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Log Out" textFill="WHITE">
+            <font>
+               <Font size="15.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+      </children>
+      <opaqueInsets>
+         <Insets left="10.0" />
+      </opaqueInsets>
+   </VBox>
+</AnchorPane>
