@@ -104,8 +104,10 @@ public class ReviewsController {
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/reviewDisplay.fxml"));
-
                 Parent parent = fxmlLoader.load();
+
+                ReviewDisplayController controller = fxmlLoader.getController();
+                controller.setReview(allReviews.get(start + i));
 
                 RowConstraints rowConstraints = new RowConstraints();
                 rowConstraints.setMinHeight(200);
