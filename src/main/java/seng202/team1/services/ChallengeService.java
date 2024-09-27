@@ -13,6 +13,12 @@ import java.util.Objects;
  * Service class for the challenge tracker feature.
  * @author Lydia Jackson
  */
+
+/**
+ * todo
+ * track the progress, if a challenge has been logged them it is marked as completed,
+ * the if the wines displayed,
+ */
 public class ChallengeService {
     private final ChallengeDAO chalDao = new ChallengeDAO();
 
