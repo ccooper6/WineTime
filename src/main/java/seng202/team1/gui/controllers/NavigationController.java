@@ -46,6 +46,7 @@ public class NavigationController {
 
     private Wine wine;
     private boolean dropdownLocked = false;
+    private String currentPage = "init";
 
      /**
      * Initializes the controller.
@@ -201,9 +202,18 @@ public class NavigationController {
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
+            currentPage = name;
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the current fxml page name.
+     * @return the current page name
+     */
+    public String getCurrentPage() {
+        return currentPage;
     }
 
     /**

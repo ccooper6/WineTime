@@ -242,6 +242,11 @@ public class WineLoggingPopupController {
     private void returnToWinePopUp() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
+        if (navigationController.getCurrentPage().equals("wineReviews")) {
+            navigationController.loadPageContent("wineReviews");
+        } else if (navigationController.getCurrentPage().equals("profile")) {
+            navigationController.loadPageContent("profile");
+        }
         navigationController.initPopUp(currentWine);
     }
 }
