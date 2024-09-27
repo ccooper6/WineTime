@@ -4,8 +4,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWindow;
+import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.io.IOException;
+import java.text.Normalizer;
+import java.util.ArrayList;
 
 /**
  * Default entry point class.
@@ -25,7 +28,6 @@ public class App {
         log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, "
                 + "but is only an example!')");
         log.log(Level.INFO, "There are many ways to log!");
-
         FXWindow.launchWrapper(args);
     }
 }

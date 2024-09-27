@@ -216,4 +216,80 @@ public class SearchDAO {
         }
         return wineList;
     }
+    public ArrayList<Wine> searchByNameAndFilter(ArrayList<String> varietyLocationWinery, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit){
+        {
+            for (String tag : varietyLocationWinery) {
+                if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
+                    LOG.error("{} is not normalised!", tag);
+                }
+            }
+
+            // Build the SQL query with dynamic placeholders
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+                    .append("FROM (SELECT id as temp_id\n")
+                    .append("        FROM (SELECT id, count(wid) as c\n")
+                    .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
+                    .append("                        JOIN tag on owned_by.tname = tag.name\n")
+                    .append("              WHERE 1=1\n"); //in case no filters
+
+            // Name
+            if(filterString != null) {
+                sqlBuilder.append(" AND wine.normalised_name LIKE ?\n");
+            }
+
+            // Variety
+            if(!varietyLocationWinery.isEmpty()) {
+                sqlBuilder.append(" AND tag.normalised_name IN (");
+                for (int i = 0; i < varietyLocationWinery.size(); i++) {
+                    if (i > 0) {
+                        sqlBuilder.append(",");
+                    }
+                    sqlBuilder.append("?");
+                }
+                sqlBuilder.append(")\n");
+            }
+
+            //Points range
+            sqlBuilder.append(" AND wine.points BETWEEN ? AND ? \n");
+
+            //Vintage range
+            sqlBuilder.append(" AND tag.type = 'Vintage' AND tag.normalised_name BETWEEN ? AND ? \n");
+
+            sqlBuilder.append("              GROUP BY wid)\n")
+                    .append("        WHERE c = ? LIMIT ?)\n")
+                    .append("JOIN wine on wine.id = temp_id\n")
+                    .append("JOIN owned_by on id = owned_by.wid\n")
+                    .append("JOIN tag on owned_by.tname = tag.name\n")
+                    .append("ORDER BY id;");
+            ArrayList<Wine> wineList = new ArrayList<>();
+            String sql = sqlBuilder.toString();
+
+            // get results
+            try (Connection conn = databaseManager.connect();
+                 PreparedStatement ps = conn.prepareStatement(sql) ) {
+                int z = 1;
+                if(filterString != null) {
+                    ps.setString(z, filterString);
+                    z ++;
+                }
+                for (int i = 0; i < varietyLocationWinery.size(); i++) {
+                    ps.setString(z, varietyLocationWinery.get(i));
+                    z++;
+                }
+                ps.setInt(z, lowerPoints); z++;
+                ps.setInt(z, upperPoints); z++;
+                ps.setString(z, String.valueOf(lowerVintage)); z++;
+                ps.setString(z, String.valueOf(upperVintage)); z++;
+                ps.setInt(z, varietyLocationWinery.size()); z++;
+                ps.setInt(z, limit);
+                try (ResultSet rs = ps.executeQuery()) {
+                    wineList = processResultSetIntoWines(rs);
+                }
+            } catch (SQLException e) {
+                LOG.error(e.getMessage());
+            }
+            return wineList;
+        }
+    }
 }

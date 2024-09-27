@@ -20,6 +20,7 @@ public class SearchWineService {
     private String currentSearch;
     private String currentMethod;
     private boolean fromWishlist = false;
+    private ArrayList<String> selectedVarieties;
 
     /**
      * Returns the instance and creates one if none exists.
@@ -88,7 +89,7 @@ public class SearchWineService {
         for (String tag : tagsArray) {
             tagList.add(tag.trim());
         }
-        wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
+        wineList = SearchDAO.getInstance().searchByNameAndFilter(tagList, 0, 100 , 0, 3000, null, limit);
         fromWishlist = false;
     }
 
