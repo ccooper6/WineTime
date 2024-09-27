@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 public class NavigationController {
     @FXML
-    private FontAwesomeIconView userExampleButton;
+    private FontAwesomeIconView dropdownButton;
     @FXML
     private VBox userDropDownMenu;
     @FXML
@@ -45,6 +45,7 @@ public class NavigationController {
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
+    private boolean dropdownLocked = false;
 
      /**
      * Initializes the controller.
@@ -116,21 +117,70 @@ public class NavigationController {
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
             if (searchBar.isFocused()) {
                 searchBar.getParent().requestFocus();
+            } else if (userDropDownMenu.isVisible() && !dropdownButton.isHover()) {
+                closeDropDown();
+                rotateDropdownButton();
             }
         });
 
-        userExampleButton.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
-        userExampleButton.setOnMouseExited(event -> {
-            if (!userDropDownMenu.isHover()) {
-                userDropDownMenu.setVisible(false);
+        contentHere.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (userDropDownMenu.isVisible() && !dropdownButton.isHover()) {
+                closeDropDown();
+                rotateDropdownButton();
+            }
+        });
+
+
+        dropdownButton.setOnMouseEntered(event -> openDropDown());
+        dropdownButton.setOnMouseExited(event -> {
+            if (!userDropDownMenu.isHover() && !dropdownLocked) {
+                closeDropDown();
             }
         });
         userDropDownMenu.setOnMouseExited(event -> {
-            if (!userExampleButton.isHover()) {
-                userDropDownMenu.setVisible(false);
+            if (!dropdownButton.isHover() && !dropdownLocked) {
+                closeDropDown();
             }
         });
-        userDropDownMenu.setOnMouseEntered(event -> userDropDownMenu.setVisible(true));
+        userDropDownMenu.setOnMouseEntered(event -> openDropDown());
+    }
+
+    /**
+     * Opens the dropdown menu.
+     */
+    private void openDropDown() {
+        userDropDownMenu.setVisible(true);
+    }
+
+    /**
+     * Closes the dropdown menu.
+     */
+    private void closeDropDown() {
+        dropdownLocked = false;
+        userDropDownMenu.setVisible(false);
+    }
+
+    /**
+     * Toggles the dropdown menu open and closed.
+     */
+    @FXML
+    public void toggleDropdownOpen() {
+        if (!userDropDownMenu.isVisible() || (userDropDownMenu.isVisible() && !dropdownLocked)) {
+            dropdownLocked = true;
+            userDropDownMenu.setVisible(true);
+            rotateDropdownButton();
+        } else {
+            dropdownLocked = false;
+            userDropDownMenu.setVisible(false);
+            rotateDropdownButton();
+        }
+    }
+
+    /**
+     * Rotates the dropdown button to indicate that the dropdown menu is toggled.
+     */
+    private void rotateDropdownButton() {
+        dropdownButton.setRotate(dropdownButton.getRotate() + 270);
     }
 
     /**
