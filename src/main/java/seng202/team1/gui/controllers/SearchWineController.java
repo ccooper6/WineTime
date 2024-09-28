@@ -92,6 +92,8 @@ public class SearchWineController {
 //        setup grid
         int end = Math.min(start + MAXSIZE, allWines.size());
 
+        title.setText("Search Results showing " + (start + 1) + "-" + end + " of " + allWines.size());
+
         int gridRows = Math.ceilDiv(end - start, columns);
         wineGrid.setMinHeight(gridRows * 130 - 10);
         scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
