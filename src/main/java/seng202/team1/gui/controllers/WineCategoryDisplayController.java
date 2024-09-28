@@ -7,6 +7,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -44,6 +45,8 @@ public class WineCategoryDisplayController {
     private AnchorPane mainWine4;
     @FXML
     private AnchorPane mainWine5;
+    @FXML
+    private Button seeMoreButton;
 
     private List<AnchorPane> wineViews;
     private int firstWine = 0;
@@ -84,6 +87,10 @@ public class WineCategoryDisplayController {
             titleText.setText("Your Wishlist: ");
         } else if (isRecommenations) {
             titleText.setText("Recommendations for you: ");
+            if (DISPLAYWINES.size() < 10) {
+                seeMoreButton.setDisable(true);
+                seeMoreButton.setVisible(false);
+            }
         } else {
             titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
         }
@@ -91,7 +98,7 @@ public class WineCategoryDisplayController {
             if (isWishlist) {
                 titleText.setText("Your Wishlist: \n\nYou have no saved wines...\nGo to home or search pages to discover new wines!");
             } else if (isRecommenations) {
-                titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...\nLog a few more wines to get recommendations!");
+                titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
                 titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()) +
                         "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
@@ -316,7 +323,8 @@ public class WineCategoryDisplayController {
         if (isWishlist) {
             FXWrapper.getInstance().launchSubPage("wishlist");
         } else if (isRecommenations) {
-//            do recommended here
+            SearchWineService.getInstance().searchWinesByRecommend(100);
+            FXWrapper.getInstance().launchSubPage("searchWine");
         } else {
             SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
             FXWrapper.getInstance().launchSubPage("searchWine");
@@ -364,7 +372,7 @@ public class WineCategoryDisplayController {
         if (searchString.equalsIgnoreCase("wishlist")) {
             SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
         } else if (searchString.equalsIgnoreCase("recommend")) {
-            SearchWineService.getInstance().searchWinesByRecommend();
+            SearchWineService.getInstance().searchWinesByRecommend(10);
         } else {
             SearchWineService.getInstance().searchWinesByTags(searchString, 10);
         }

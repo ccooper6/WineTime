@@ -22,6 +22,6 @@
       <AnchorPane fx:id="mainWine5" disable="true" layoutX="850.0" layoutY="53.0" opacity="0.0" prefHeight="130.0" prefWidth="98.0"> </AnchorPane>
       <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="853.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098" />
       <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60" />
-      <Button layoutX="766.0" layoutY="21.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true" />
+      <Button fx:id="seeMoreButton" layoutX="766.0" layoutY="21.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true" />
    </children>
 </AnchorPane>
