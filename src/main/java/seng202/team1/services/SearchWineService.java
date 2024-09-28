@@ -113,9 +113,10 @@ public class SearchWineService {
 
     /**
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
+     * @param limit an integer limit to the number of wines to recommend
      */
-    public void searchWinesByRecommend() {
-        wineList = RecommendWineService.getInstance().getRecommendedWines(User.getCurrentUser().getId());
+    public void searchWinesByRecommend(int limit) {
+        wineList = RecommendWineService.getInstance().getRecommendedWines(User.getCurrentUser().getId(), limit);
     }
 
     /**
