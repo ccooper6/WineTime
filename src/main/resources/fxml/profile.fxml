@@ -2,19 +2,26 @@
 
 <!--<?import com.gluonhq.charm.glisten.control.TextField?>-->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
+<AnchorPane prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="3.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="470.0" prefWidth="985.0" style="-fx-background-color: white;">
          <content>
             <AnchorPane fx:id="profilescrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="659.0" prefWidth="965.0" style="-fx-background-color: white;">
                <children>
+                  <Pane fx:id="completedChalPane" layoutX="10.0" layoutY="32.0" prefHeight="64.0" prefWidth="957.0" visible="false">
+                     <children>
+                        <Label fx:id="completedChallMessage" layoutX="5.0" layoutY="25.0" text="Congratualtions you completed the " />
+                        <Button fx:id="StartChallengeButton1" layoutX="424.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
                   <Pane fx:id="winesPane" layoutY="90.0" prefHeight="570.0" prefWidth="963.0">
                      <children>
                         <AnchorPane fx:id="wishlistPane" layoutX="20.0" layoutY="20.0" prefHeight="148.0" prefWidth="890.0" />
@@ -32,14 +39,7 @@
                   </Pane>
                   <Pane fx:id="challengePane" layoutX="10.0" layoutY="31.0" prefHeight="149.0" prefWidth="953.0">
                      <children>
-                        <AnchorPane fx:id="chal1" layoutY="20.0" prefHeight="103.0" prefWidth="140.0">
-                           <children>
-                              <AnchorPane fx:id="chal1done" prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label text="done!" />
-                                 </children>
-                              </AnchorPane>
-                           </children></AnchorPane>
+                        <AnchorPane fx:id="chal1" layoutY="20.0" prefHeight="103.0" prefWidth="140.0" />
                         <AnchorPane fx:id="chal2" layoutX="190.0" layoutY="20.0" prefHeight="103.0" prefWidth="140.0" />
                         <AnchorPane fx:id="chal3" layoutX="380.0" layoutY="20.0" prefHeight="103.0" prefWidth="140.0" />
                         <AnchorPane fx:id="chal4" layoutX="570.0" layoutY="20.0" prefHeight="103.0" prefWidth="140.0" />

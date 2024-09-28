@@ -81,6 +81,11 @@ public class ChallengeService {
         return chalDao.getChallengeForUser(User.getCurrentUser().getId());
     }
 
+//    public ArrayList<Integer> getWinesforVarietyChallenge() {
+//    }  retrieve 5 radom wines from the database and put them in the db,
+    // make it decades
+    // copy for countries.
+
 }
 
 

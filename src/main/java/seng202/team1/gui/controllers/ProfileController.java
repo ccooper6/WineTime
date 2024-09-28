@@ -3,6 +3,7 @@ package seng202.team1.gui.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import seng202.team1.gui.FXWrapper;
@@ -38,11 +39,15 @@ public class ProfileController {
     @FXML
     private AnchorPane chal5;
     @FXML
-    private AnchorPane chal1done;
+    private Pane completedChalPane;
+    @FXML
+    private Label completedChallMessage;
 
     private final ChallengeService challengeService = new ChallengeService();
 
     private  final ReviewService reviewService = new ReviewService();
+
+    int completedWineCount = 0;
 
     /**
      * Initialises the controller checks if user has is participating in a challenge, calls
@@ -52,7 +57,6 @@ public class ProfileController {
         challengePane.setVisible(false);
         if (challengeService.activeChallenge()) {
             moveWinesPane();
-            chal1done.setVisible(false);
             activateChallenge();
             displayChallenge();
         }
@@ -99,6 +103,7 @@ public class ProfileController {
     public void displayChallenge() {
         List<AnchorPane> wineViews = List.of(chal1, chal2, chal3, chal4, chal5);
         ArrayList<Wine> challengeWines = challengeService.challengeWines();
+        completedWineCount = 0;
         int currentUserUid = User.getCurrentUser().getId();
         for (int i = 0; i < wineViews.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(challengeWines.get(i));
@@ -109,11 +114,15 @@ public class ProfileController {
                 if (reviewService.reviewExists(currentUserUid, challengeWines.get(i).getWineId())) {
                     System.out.println("wine reveiw: " + challengeWines.get(i).getName());
                     wineDisplayController.completedChallengeWine();
+                    completedWineCount += 1;
 //                    set call challenge completed.
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        if (completedWineCount == 5) {
+            challengeCompleted();
         }
     }
 
@@ -129,8 +138,15 @@ public class ProfileController {
      * Shifts the main pane to make room for challenge wines.
      */
     public void moveWinesPane() {
-        winesPane.setLayoutY(190);
+        winesPane.setLayoutY(winesPane.getLayoutY()+90);
+    }
 
+    public void challengeCompleted() {
+        winesPane.setLayoutY(winesPane.getLayoutY()-90);
+        challengePane.setVisible(false);
+        completedChalPane.setVisible(true);
+        completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
+        System.out.println("challenge completed!");
     }
 }
 
