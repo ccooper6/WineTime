@@ -356,20 +356,4 @@ public class SearchDAO {
         addWineIdToAvoidToPs(winesToAvoid.size(), sqlBuilder);
         sqlBuilder.append("         JOIN tag ON owned_by.tname = tag.name;");
     }
-
-    public static void main(String[] args) {
-        SearchDAO searchDAO = new SearchDAO();
-        ArrayList<String> tagToAvoid = new ArrayList<>();
-        ArrayList<Integer> wineIdToAvoid = new ArrayList<>();
-        tagToAvoid.add("2006");
-        tagToAvoid.add("Red wine");
-        wineIdToAvoid.add(26);
-        wineIdToAvoid.add(100);
-        wineIdToAvoid.add(79);
-        ArrayList<String> likedTags = new ArrayList<>();
-        likedTags.add("liked1");
-        likedTags.add("liked2");
-        likedTags.add("liked3");
-        searchDAO.reccWineByTags(likedTags,tagToAvoid,wineIdToAvoid,50);
-    }
 }
