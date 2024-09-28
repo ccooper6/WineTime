@@ -193,15 +193,14 @@ public class LogWineDao {
                 ps.setInt(1, uid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    LOG.info("disliked tag is {}", rs.getString(1));
                     dislikedTags.add(rs.getString(1));
                 }
                 return dislikedTags;
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
-            throw new RuntimeException(e);
         }
+        return dislikedTags;
     }
 
     /**
@@ -301,6 +300,28 @@ public class LogWineDao {
                     userReviews.add(new Review(rs.getInt(1), rs.getInt(2),
                             rs.getInt(3), rs.getString(4), rs.getString(5)));
                     index++;
+                }
+                return userReviews;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns an array of all the wine id that the user has reviewed before
+     * @param uid the current user's uid
+     * @return an {@link ArrayList<Integer>} of the user's reviewed wine ids
+     */
+    public ArrayList<Integer> getReviewedWines(int uid) {
+        ArrayList<Integer> userReviews = new ArrayList<Integer>();
+        String getReview = "SELECT wid FROM reviews WHERE uid = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getReview)) {
+                ps.setInt(1, uid);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    userReviews.add(rs.getInt(1));
                 }
                 return userReviews;
             }
