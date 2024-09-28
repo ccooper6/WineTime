@@ -235,17 +235,17 @@ public class SearchDAO {
 
         ArrayList<Wine> wineList = new ArrayList<>();
         String sql = sqlBuilder.toString();
-
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql) ) {
             setTagAndWineIDValueToPs(tagsLiked,tagsToAvoid, wineIdToAvoid, ps);
-            ps.setInt(tagsToAvoid.size() + 1 + tagsLiked.size(), limit);
+            ps.setInt(tagsToAvoid.size() + 1 + tagsLiked.size() + wineIdToAvoid.size(), limit);
             LOG.info(ps);
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
+            LOG.error(sql);
         }
         return wineList;
     }
@@ -271,7 +271,7 @@ public class SearchDAO {
         if (!wineIdToAvoid.isEmpty()) {
             for (int i = 0; i < wineIdToAvoid.size(); i++) {
                 System.out.println(wineIdToAvoid.get(i));
-                ps.setInt(tagsToAvoid.size() + tagsLiked.size() + 2 + i, wineIdToAvoid.get(i));
+                ps.setInt(tagsToAvoid.size() + tagsLiked.size() + 1 + i, wineIdToAvoid.get(i));
             }
         }
     }
@@ -282,16 +282,18 @@ public class SearchDAO {
      * @param sqlBuilder the {@link StringBuilder} of the prepared statement
      */
     private static void addWineIdToAvoidToPs(int numOfWineToAvoid, StringBuilder sqlBuilder) {
+        sqlBuilder.append(" AND id NOT IN (");
         if (numOfWineToAvoid > 0) {
-            sqlBuilder.append(" AND wine.id NOT IN (");
             for (int i = 0; i < numOfWineToAvoid; i++) {
                 if (i > 0) {
                     sqlBuilder.append(",");
                 }
                 sqlBuilder.append("?");
             }
-            sqlBuilder.append(")\n");
+        } else {
+            sqlBuilder.append("''");
         }
+        sqlBuilder.append(")\n");
     }
 
     /**
@@ -314,7 +316,7 @@ public class SearchDAO {
         } else {
             sqlBuilder.append("''");
         }
-        sqlBuilder.append("))\n");
+        sqlBuilder.append("))");
     }
 
     /**
@@ -347,13 +349,13 @@ public class SearchDAO {
                 .append("                JOIN tag on owned_by.tname = tag.name\n");
         addLikedTagsToPs(tagsLiked.size(),sqlBuilder);
         addTagsToAvoidToPs(dislikedTags.size(), sqlBuilder);
+        addWineIdToAvoidToPs(winesToAvoid.size(), sqlBuilder);
         sqlBuilder.append("""
                       GROUP BY temp_id
                       ORDER BY c DESC, random()
                       LIMIT ?)
                          JOIN wine ON wine.id = temp_id
                          JOIN owned_by ON wine.id = owned_by.wid""");
-        addWineIdToAvoidToPs(winesToAvoid.size(), sqlBuilder);
         sqlBuilder.append("         JOIN tag ON owned_by.tname = tag.name;");
     }
 }
