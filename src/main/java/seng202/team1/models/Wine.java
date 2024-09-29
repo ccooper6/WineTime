@@ -13,7 +13,9 @@ import java.text.Normalizer;
  */
 
 public class Wine {
-    private int wineId;
+    //TODO are we doing tasters?
+
+    private final int wineId;
     private String name;
     private String description;
     private int price;

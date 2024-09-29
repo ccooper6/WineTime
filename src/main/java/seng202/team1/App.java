@@ -20,12 +20,9 @@ public class App {
      * @param args program arguments from command line
      * @throws IOException when something goes wrong with the input/output
      */
+    // TODO remove exception since its never thrown
     public static void main(String[] args) throws IOException {
-        log.info("Hello World!");
-        log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
-        log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, "
-                + "but is only an example!')");
-        log.log(Level.INFO, "There are many ways to log!");
+        log.info("WineTime has been launched!");
 
         FXWindow.launchWrapper(args);
     }

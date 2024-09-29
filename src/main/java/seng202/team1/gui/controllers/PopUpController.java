@@ -22,7 +22,9 @@ import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -85,8 +87,8 @@ public class PopUpController {
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
         Wine wine = navigationController.getWine();
         if (wine == null) {
-            LOG.error("Wine is null");
-            wine = WineBuilder.genericSetup(-1, "Error Wine", "Wine is null", -1).build();
+            LOG.error("Error in PopUpController.initialize(): Wine is null");
+            wine = WineBuilder.genericSetup(-1, "There was an error loading your wine", "Wine could not be found.", -1).build();
         }
 
         int currentUserUid = User.getCurrentUser().getId();
@@ -217,23 +219,29 @@ public class PopUpController {
      * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
      */
     public void onWineSearchLinkClicked() {
-        try {
-            java.awt.Desktop.getDesktop();
-            String query = wineName.getText();
-            query = Normalizer.normalize(query, Normalizer.Form.NFD);
-            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-            query = pattern.matcher(query).replaceAll("");
-            String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+        java.awt.Desktop.getDesktop();
+        String query = wineName.getText();
+
+        LOG.info("Launching default browser to search for " + wineName.getText());
+
+        query = Normalizer.normalize(query, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        query = pattern.matcher(query).replaceAll("");
+        String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                try {
                     desktop.browse(new URI(googleSearchURL));
+                } catch (URISyntaxException e) {
+                    LOG.error("Error in PopupController.onWineSearchLinkClicked(): The URL of the search contained unsupported characters.");
+                } catch (IOException e) {
+                    LOG.error("Error in PopupController.onWineSearchLinkClicked(): The device's default browser could not be launched.");
                 }
-            } else {
-                System.out.println("Not supported");
             }
-        } catch (Exception e) {
-            LOG.error("Something went wrong trying to search for a wine.");
+        } else {
+            //TODO if not supported don't show button?
+            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Desktop is not supported.");
         }
     }
 

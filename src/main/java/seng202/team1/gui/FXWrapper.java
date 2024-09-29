@@ -4,6 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.User;
 
@@ -19,11 +21,14 @@ public class FXWrapper {
     private NavigationController navigationController;
     private int challenge = 0;
 
+    private static final Logger LOG = LogManager.getLogger(FXWrapper.class);
+
     /**
      * Gets the singleton.
      * @return the FXWrapper singleton
      */
     public static FXWrapper getInstance() {
+        // TODO why check for null twice?
         if (instance == null) {
             synchronized (FXWrapper.class) {
                 if (instance == null) {
@@ -56,7 +61,7 @@ public class FXWrapper {
             stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in FXWrapper.launchPage: Could not load fxml content for {}.", name);
         }
     }
 
@@ -71,6 +76,7 @@ public class FXWrapper {
             FXMLLoader navigationLoader = new FXMLLoader(getClass().getResource("/fxml/navigation.fxml"));
             Parent navigationRoot = navigationLoader.load();
             navigationController = navigationLoader.getController();
+            // TODO should this be .equals?
             if (name == "mainpage") {
                 navigationController.loadMainScreen();
             } else {
@@ -81,7 +87,7 @@ public class FXWrapper {
             stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in FXWrapper.launchSubPage: Could not load fxml content for {}.", name);
         }
     }
 
@@ -92,6 +98,8 @@ public class FXWrapper {
     public NavigationController getNavigationController() {
         return navigationController;
     }
+
+    // TODO unused methods
 
     /**
      * Sets the challenge number.

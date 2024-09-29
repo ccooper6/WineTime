@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
@@ -43,6 +45,8 @@ public class ProfileController {
 
     private final ChallengeService challengeService = new ChallengeService();
 
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
+
     /**
      * Initialises the controller checks if user has is participating in a challenge, calls
      * methods to appropriately alter screens.
@@ -65,8 +69,7 @@ public class ProfileController {
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
-        int currentUserUid = User.getCurrentUser().getId();
-        System.out.println(currentUserUid);
+        LOG.info("Fetching wishlist.");
 
         try {
             Parent parent = WineCategoryDisplayController.createCategory("wishlist");
@@ -112,6 +115,7 @@ public class ProfileController {
      * Makes the challenge pane visible and disables previous one.
      */
     public void activateChallenge() {
+        LOG.info("Activating challenge for user " + User.getCurrentUser().getName());
         noChallengePane.setVisible(false);
         challengePane.setVisible(true);
     }

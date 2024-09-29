@@ -107,7 +107,7 @@ public class WishlistController {
                 wineGrid.add(parent, currentCol, currentRow);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error in WishlistController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i));
             }
         }
     }

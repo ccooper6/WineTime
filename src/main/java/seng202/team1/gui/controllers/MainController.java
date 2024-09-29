@@ -3,15 +3,14 @@ package seng202.team1.gui.controllers;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
-import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
 import java.io.IOException;
@@ -25,7 +24,10 @@ public class MainController {
     Text helloText;
     @FXML
     GridPane contentsGrid;
+    // TODO remove since not used
     private Stage loadingStage;
+
+    private static Logger LOG = LogManager.getLogger(MainController.class);
 
     /**
      * Initializes the main page view.
@@ -60,7 +62,7 @@ public class MainController {
                         // Have to do this as it requires multiple loops to finish completely
                         // - need to use for "A Task Which Returns Partial Results", from the Task documentation
                     }
-                } catch (IOException e) { e.printStackTrace(); }
+                } catch (IOException e) { LOG.error("Error in MainController.initialize(): Could not load fxml content"); }
                 return null;
             }
 

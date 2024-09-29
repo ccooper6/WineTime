@@ -64,7 +64,7 @@ public class SearchWineController {
         allWines = SearchWineService.getInstance().getWineList();
 
         if (allWines == null) {
-            LOG.error("Wine list is null");
+            LOG.error("Error in SearchWineController.initialize(): The wine list is null");
             allWines = new ArrayList<>();
         }
         displayCurrentPage();
@@ -100,25 +100,22 @@ public class SearchWineController {
     @FXML
     public void displayCurrentPage()
     {
-        if (allWines == null || allWines.size() == 0) {
+        if (allWines == null || allWines.isEmpty()) {
             title.setText("Sorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
 
             pageCounterText.getParent().setVisible(false);
 
-            LOG.error("Wine list is null");
+            LOG.error("Error in SearchWineController.displayCurrentPage(): The wine list is null");
             return;
         }
 
         int start = currentPage * MAXSIZE;
 
-        if (allWines.isEmpty() || start < 0 || start > allWines.size()) {
-            pageCounterText.getParent().setVisible(false);
-        } else {
-            pageCounterText.getParent().setVisible(true);
-        }
+        // disable if page out of bounds
+        pageCounterText.getParent().setVisible(start >= 0 && start <= allWines.size());
 
         if (start < 0 || start >= allWines.size()) {
-            LOG.error("Cannot display wines out of bounds.");
+            LOG.error("Error in SearchWineController.displayCurrentPage(): Page {} is out of bounds for wine list", currentPage);
             return;
         }
 
@@ -162,7 +159,7 @@ public class SearchWineController {
                 wineGrid.add(parent, currentCol, currentRow);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error in SearchWineController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i).getWineId());
             }
         }
     }
