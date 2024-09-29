@@ -21,6 +21,7 @@ public class User {
      * Constructor for User.
      * @param name The name of the user
      * @param userName The encrypted username of the user
+     * @param id The id of the user
      */
     public User(int id, String name, String userName) {
         this.id = id;
@@ -46,6 +47,10 @@ public class User {
         return currenUser;
     }
 
+    /**
+     * The getter method for users id
+     * @return the users id
+     */
     public int getId()
     {
         return id;

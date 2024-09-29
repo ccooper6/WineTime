@@ -18,6 +18,7 @@ public class App {
      * Entry point which runs the javaFX application.
      * Also shows off some different logging levels
      * @param args program arguments from command line
+     * @throws IOException when something goes wrong with the input/output
      */
     public static void main(String[] args) throws IOException {
         log.info("Hello World!");

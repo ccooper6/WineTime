@@ -28,7 +28,6 @@ public class WineLoggingPopupService {
 
     /**
      * Uses {@link LogWineDao} to submit the liked tags and review to the database.
-     * <p></p>
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
      * value to the tag, whilst a 4-5 will add a positive value to the tag.
      * @param rating rating of the log
