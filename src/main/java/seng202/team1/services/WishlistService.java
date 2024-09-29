@@ -38,6 +38,7 @@ public class WishlistService {
      * Deletes a pairing of a user and wine in the wishlist table.
      * @param wineID int value repr wine object
      * @param userID int value repr active user
+     * @throws SQLException throws when trying to remove a wine from the wishlist that isn't there
      */
     public static void removeFromWishlist(int wineID, int userID) throws SQLException {
         if (WishlistDAO.getInstance().checkWine(wineID, userID)) {

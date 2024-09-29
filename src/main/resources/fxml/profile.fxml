@@ -49,6 +49,11 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="quizButton" layoutX="900.0" layoutY="22.0" mnemonicParsing="false" onAction="#onQuizClicked" style="-fx-background-color: #d9d9d9;" text="Quiz" />
+      <Button fx:id="quizButton" layoutX="912.0" layoutY="23.0" mnemonicParsing="false" onAction="#onQuizClicked" style="-fx-background-color: #d9d9d9;" text="Quiz" />
+      <Label layoutX="719.0" layoutY="24.0" text="Need some inspiration? ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

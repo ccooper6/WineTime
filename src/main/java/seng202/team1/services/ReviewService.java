@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Contains methods for handling reviews. Used by the controllers to interact with the database.
- * @Author Caleb Cooper
+ * @author Caleb Cooper
  */
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();

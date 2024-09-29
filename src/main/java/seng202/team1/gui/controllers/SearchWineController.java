@@ -4,7 +4,10 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -40,12 +43,23 @@ public class SearchWineController {
     private FontAwesomeIconView nextArrowButton;
     @FXML
     private Text title;
+    @FXML
+    private AnchorPane gotoPane;
+    @FXML
+    private Text gotoTotalText;
+    @FXML
+    private TextField gotoTextField;
+    @FXML
+    private Button gotoButton;
 
     /**
      * Initialises the controller using wines from SearchWineService instance.
      */
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
+
+        gotoPane.setVisible(false);
 
         allWines = SearchWineService.getInstance().getWineList();
 
@@ -55,13 +69,38 @@ public class SearchWineController {
         }
         
         displayCurrentPage();
+
+        // setup goto popup
+        gotoTextField.setStyle("-fx-border-color: RED");
+        gotoButton.setDisable(true);
+
+        // make goto text field red if input is invalid
+        gotoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d+") && !newValue.isEmpty() && Integer.parseInt(newValue) > 0 && Integer.parseInt(newValue) < Math.ceilDiv(allWines.size(), MAXSIZE)) {
+                gotoTextField.setStyle("-fx-border-color: GREEN");
+                gotoButton.setDisable(false);
+            } else {
+                gotoTextField.setStyle("-fx-border-color: RED");
+                gotoButton.setDisable(true);
+            }
+        });
+
+        gotoTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                String text = gotoTextField.getText();
+                if (text.matches("\\d+") && !text.isEmpty() && Integer.parseInt(text) > 0 && Integer.parseInt(text) < allWines.size()) {
+                    gotoPage();
+                }
+            }
+        });
     }
 
     /**
      * Displays the current page of wines in a scrollable grid format using wines from allWines.
      */
     @FXML
-    public void displayCurrentPage() {
+    public void displayCurrentPage()
+    {
         if (allWines == null || allWines.size() == 0) {
             title.setText("Sorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
 
@@ -93,6 +132,8 @@ public class SearchWineController {
 //        setup grid
         int end = Math.min(start + MAXSIZE, allWines.size());
 
+        title.setText("Search Results showing " + (start + 1) + "-" + end + " of " + allWines.size());
+
         int gridRows = Math.ceilDiv(end - start, columns);
         wineGrid.setMinHeight(gridRows * 135 - 10);
         scrollAnchorPane.setMinHeight(gridRows * 135 - 10);
@@ -103,6 +144,8 @@ public class SearchWineController {
         nextArrowButton.getParent().setVisible(end < allWines.size());
 
         pageCounterText.getParent().setVisible(true);
+
+        gotoTotalText.setText("/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
 
 
 //        add wines
@@ -129,7 +172,8 @@ public class SearchWineController {
      * Set current page to 0 and display the page.
      */
     @FXML
-    public void pageStart() {
+    public void pageStart()
+    {
         currentPage = 0;
         displayCurrentPage();
     }
@@ -138,7 +182,8 @@ public class SearchWineController {
      * Decrement the current page number and display the page.
      */
     @FXML
-    public void pagePrev() {
+    public void pagePrev()
+    {
         currentPage--;
         displayCurrentPage();
     }
@@ -147,7 +192,8 @@ public class SearchWineController {
      * Increment the current page number and display the page.
      */
     @FXML
-    public void pageNext() {
+    public void pageNext()
+    {
         currentPage++;
         displayCurrentPage();
     }
@@ -156,8 +202,32 @@ public class SearchWineController {
      * Set current page to last page and display the page.
      */
     @FXML
-    public void pageEnd() {
+    public void pageEnd()
+    {
         currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
         displayCurrentPage();
+    }
+
+    /**
+     * Sets the current page to the page defined by the user.
+     */
+    @FXML
+    public void gotoPage()
+    {
+        int pageNumber = Integer.parseInt(gotoTextField.getText());
+
+        currentPage = pageNumber - 1;
+        displayCurrentPage();
+
+        gotoPane.setVisible(false);
+    }
+
+    /**
+     * Opens up the Goto Page Popup
+     */
+    @FXML
+    public void openGotoPopup()
+    {
+        gotoPane.setVisible(true);
     }
 }
