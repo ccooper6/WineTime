@@ -5,13 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The unit test for the {@link LogWineDao} class
@@ -279,9 +278,9 @@ public class LogWineDAOTest {
      */
     @Test
     public void testGetReviewedWines() {
-        logWineDao.reviews(1,4,10,"I can travel to future", "2026-10-15 14:59:51");
-        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51");
-        logWineDao.reviews(2,3,-10,"I no longer like wine", "2025-10-15 14:59:51");
+        logWineDao.reviews(1,4,10,"I can travel to future", "2026-10-15 14:59:51", null, true);
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", null, true);
+        logWineDao.reviews(2,3,-10,"I no longer like wine", "2025-10-15 14:59:51", null, true);
         ArrayList<Integer> reviewedWines = logWineDao.getReviewedWines(1);
         Assertions.assertTrue(reviewedWines.contains(4) && reviewedWines.contains(2));
         Assertions.assertFalse(reviewedWines.contains(3));
