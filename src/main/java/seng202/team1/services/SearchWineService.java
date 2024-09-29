@@ -89,7 +89,7 @@ public class SearchWineService {
         for (String tag : tagsArray) {
             tagList.add(tag.trim());
         }
-        wineList = SearchDAO.getInstance().searchByNameAndFilter(tagList, 0, 100 , 0, 3000, null, limit);
+        wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
         fromWishlist = false;
     }
 

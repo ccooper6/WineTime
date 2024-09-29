@@ -208,6 +208,7 @@ public class SearchDAO {
             }
             ps.setInt(tagList.size() + 1, tagList.size());
             ps.setInt(tagList.size() + 2, limit);
+            System.out.println(ps);
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
@@ -223,46 +224,55 @@ public class SearchDAO {
                     LOG.error("{} is not normalised!", tag);
                 }
             }
+//
+            System.out.println("FilterString: " + filterString);
+
+//            filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).toLowerCase().replaceAll("^\\p{ASCII}", "");
 
             // Build the SQL query with dynamic placeholders
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
-                    .append("FROM (SELECT id as temp_id\n")
-                    .append("        FROM (SELECT id, count(wid) as c\n")
-                    .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
-                    .append("                        JOIN tag on owned_by.tname = tag.name\n")
-                    .append("              WHERE 1=1\n"); //in case no filters
-
-            // Name
-            if(filterString != null) {
-                sqlBuilder.append(" AND wine.normalised_name LIKE ?\n");
-            }
+            sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n" +
+                    "FROM (\n" +
+                    "         SELECT wine.id as temp_id\n" +
+                    "         FROM wine\n" +
+                    "                  JOIN owned_by ON wine.id = owned_by.wid\n" +
+                    "                  JOIN tag ON owned_by.tname = tag.name\n" +
+                    "         GROUP BY wine.id\n" +
+                    "         HAVING 1=1 \n");
 
             // Variety
-            sqlBuilder.append(" AND (tag.normalised_name IN (");
-            if(varietyLocationWinery.isEmpty()) {
-                sqlBuilder.append("''");
-            } else {
+            if(!varietyLocationWinery.isEmpty()) {
+                sqlBuilder.append("             AND COUNT(CASE\n" +
+                        "                WHEN tag.normalised_name IN (");
                 for (int i = 0; i < varietyLocationWinery.size(); i++) {
                     if (i > 0) {
                         sqlBuilder.append(",");
                     }
                     sqlBuilder.append("?");
                 }
+                sqlBuilder.append(")\n" +
+                        "                   THEN 1 END) = ?\n");
             }
-            sqlBuilder.append(")\n");
+
+            // Name
+            if(filterString != null) {
+                sqlBuilder.append("             AND wine.normalised_name LIKE ?\n");
+            }
+
             //Vintage range
-            sqlBuilder.append(" OR tag.normalised_name BETWEEN ? AND ?)\n");
-
+            sqlBuilder.append("             AND CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?\n");
             //Points range
-            sqlBuilder.append(" AND wine.points BETWEEN ? AND ? \n");
+            sqlBuilder.append("             AND MAX(wine.points) BETWEEN ? AND ?\n");
 
-            sqlBuilder.append("GROUP BY wid)\n")
-                    .append("        WHERE c = ? LIMIT ?)\n")
-                    .append("JOIN wine on wine.id = temp_id\n")
-                    .append("JOIN owned_by on id = owned_by.wid\n")
-                    .append("JOIN tag on owned_by.tname = tag.name\n")
-                    .append("ORDER BY id;");
+
+            sqlBuilder.append("     LIMIT ?\n" +
+                            ") AS filtered_wines\n" +
+                            "         JOIN wine ON wine.id = filtered_wines.temp_id\n" +
+                            "         JOIN owned_by ON wine.id = owned_by.wid\n" +
+                            "         JOIN tag ON owned_by.tname = tag.name\n" +
+                            "ORDER BY wine.id;");
+
+            System.out.println(sqlBuilder);
             ArrayList<Wine> wineList = new ArrayList<>();
             String sql = sqlBuilder.toString();
 
@@ -270,20 +280,24 @@ public class SearchDAO {
             try (Connection conn = databaseManager.connect();
                  PreparedStatement ps = conn.prepareStatement(sql) ) {
                 int z = 1;
-                if(filterString != null) {
-                    ps.setString(z, filterString);
-                    z ++;
-                }
+
                 for (int i = 0; i < varietyLocationWinery.size(); i++) {
                     ps.setString(z, varietyLocationWinery.get(i));
                     z++;
                 }
-                ps.setString(z, String.valueOf(lowerVintage)); z++;
-                ps.setString(z, String.valueOf(upperVintage)); z++;
+                if (varietyLocationWinery.size() > 0) {
+                    ps.setInt(z, varietyLocationWinery.size()); z++;
+                }
+                if(filterString != null) {
+                    ps.setString(z, "%" + filterString + "%");
+                    z ++;
+                }
+                ps.setInt(z, lowerVintage); z++;
+                ps.setInt(z, upperVintage); z++;
                 ps.setInt(z, lowerPoints); z++;
-                ps.setInt(z, upperPoints); z++;
-                ps.setInt(z, varietyLocationWinery.size()); z++;
+                ps.setInt(z, upperPoints);z++;
                 ps.setInt(z, limit);
+
                 System.out.println(ps);
                 try (ResultSet rs = ps.executeQuery()) {
                     wineList = processResultSetIntoWines(rs);
