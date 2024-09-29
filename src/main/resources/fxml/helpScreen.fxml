@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0">
+         <content>
+            <VBox prefHeight="2000.0" prefWidth="998.0">
+               <children>
+                  <Label prefHeight="69.0" prefWidth="236.0" text="WineTime">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="107.0" prefWidth="531.0" text="WineTime is an application designed to help users find, track, log, and review wines. There are a number of features that WineTime provides and this page outlines a guide on how to get the most out of WineTime, presented in the order that you will most likely use the app." wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Login">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="WineTime is designed to be a personalised experience, so upon launching the app, the user will be brought to the login screen. From here if you are a first time user you can register an account, or if you have used the app before, you can log inWineTime is designed to be a personalised experience, so upon launching the app, the user will be brought to the login screen. From here if you are a first time user you can register an account, or if you have used the app before, you can log in." wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Home Page">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="The home page is the screen that you will be presented with when you login/register. Here there are a number of categories of famous wine growing regions and their wines. You can browse wines from here. On the home page there is also a “recommended wines for you” section. As you continue to use WineTime and log wines, this will be filled with wines that match your taste." wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Search Page">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="#TODO" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Wine popups">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="If you click on a wine anywhere on the app you will be presented with a wine popup. On this popup there is more detailed information about the wine, such as name, description, and also some tags. These tags are information about the wine such as vintage, region, and variety. These tags are what is used to tell what wines you like for your recommended wines. If you click on a tag, you will see the wines that have that tag in common. " wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Logging wine">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="If you click the speech bubble button on the wine popup, you will be prompted to review the wine. You can give it a rating 1 through 5, and also you can select the tags you liked/disliked about the wine. If you give the wine a score 3 - 5, the tags you select will be the tags you liked, and if the score was 1 - 2 it will be the tags you disliked. This is how the recommended wines are calculated, based on how much you like/dislike certain tags. If you don’t select any tags, it will be assumed you liked/disliked all the tags equally.  You can also leave some tasting notes when you review wines. You can see all the logs you have made if you click on the speech bubble button in the navigation bar. From here you can edit or delete past logs." wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Wishlist">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="On the wine popup there is a heart icon, if you click this it will toggle on or off. If it is on (red) it will be in your wishlist. You can view the rest of your wishlist if you click on the heart button in the navigation bar." wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Profile Page">
+                     <padding>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="135.0" prefWidth="531.0" text="On the profile page there is a challenge section. You can assign yourself a challenge from here. A challenge consists of a list of wines, from a themed collection, and the goal is to try all the wines on this list. Once you log a wine on this list, it will be ticked off from this list. As well on the profile page is a quiz. This is a fun questionnaire, which upon completing, will recommend you a wine based on your answers. It is suggested that you add this wine to your wishlist if you like the sound of it, so you can try it later. A snapshot of your wishlist will also be shown on your profile page. " wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

@@ -16,7 +16,6 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
    <children>
       <AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
@@ -99,7 +98,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                </Button>
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
+               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onHelpClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
                   <font>
                      <Font size="15.0" />
                   </font>
