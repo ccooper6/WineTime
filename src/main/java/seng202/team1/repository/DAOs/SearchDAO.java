@@ -20,6 +20,9 @@ public class SearchDAO {
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
     private final DatabaseManager databaseManager;
     private static SearchDAO instance;
+    /**
+     * The upper limit for a search query, used to perform a search when no limit is needed.
+     */
     public static final int UNLIMITED = 999999;
 
 

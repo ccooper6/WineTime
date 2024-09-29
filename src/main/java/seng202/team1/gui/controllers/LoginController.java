@@ -54,6 +54,72 @@ public class LoginController {
     @FXML
     public void initialize() {
         // check on enter
+        setCheckOnEnterListeners();
+
+        // check on text update
+        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            setRegisterButton();
+        });
+
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            setRegisterButton();
+        });
+
+        visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
+        visiblePasswordTextField.setVisible(false);
+    }
+
+    /**
+     * Sets the listeners for the fields that appear when a user wants to create an
+     * account to indicate what info they are required to fill in.
+     */
+    private void setRegisterFieldListeners() {
+        // check passwords match
+        confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(passwordField.getText()) && !newValue.isEmpty()) {
+                passwordField.setStyle("-fx-border-color: GREEN");
+                confirmPasswordField.setStyle("-fx-border-color: GREEN");
+            } else {
+                passwordField.setStyle("-fx-border-color: RED");
+                confirmPasswordField.setStyle("-fx-border-color: RED");
+            }
+            setRegisterButton();
+        });
+
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (confirmPasswordField.isVisible()) {
+                if (newValue.equals(confirmPasswordField.getText())) {
+                    passwordField.setStyle("-fx-border-color: GREEN");
+                    confirmPasswordField.setStyle("-fx-border-color: GREEN");
+                } else {
+                    passwordField.setStyle("-fx-border-color: RED");
+                    confirmPasswordField.setStyle("-fx-border-color: RED");
+                }
+                setRegisterButton();
+            }
+        });
+
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                nameTextField.setStyle("-fx-border-color: RED");
+            } else {
+                nameTextField.setStyle("-fx-border-color: None");
+            }
+        });
+
+        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                userNameTextField.setStyle("-fx-border-color: RED");
+            } else {
+                userNameTextField.setStyle("-fx-border-color: None");
+            }
+        });
+    }
+
+    /**
+     * Sets the listeners for the text fields to check if the enter key is pressed.
+     */
+    private void setCheckOnEnterListeners() {
         userNameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 // name text field is only visible if on register screen
@@ -93,43 +159,6 @@ public class LoginController {
                 }
             }
         });
-
-        // check on text update
-        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            setRegisterButton();
-        });
-
-        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            setRegisterButton();
-        });
-
-        // check passwords match
-        confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals(passwordField.getText())) {
-                passwordField.setStyle("-fx-border-color: GREEN");
-                confirmPasswordField.setStyle("-fx-border-color: GREEN");
-            } else {
-                passwordField.setStyle("-fx-border-color: RED");
-                confirmPasswordField.setStyle("-fx-border-color: RED");
-            }
-            setRegisterButton();
-        });
-
-        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (confirmPasswordField.isVisible()) {
-                if (newValue.equals(confirmPasswordField.getText())) {
-                    passwordField.setStyle("-fx-border-color: GREEN");
-                    confirmPasswordField.setStyle("-fx-border-color: GREEN");
-                } else {
-                    passwordField.setStyle("-fx-border-color: RED");
-                    confirmPasswordField.setStyle("-fx-border-color: RED");
-                }
-                setRegisterButton();
-            }
-        });
-
-        visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
-        visiblePasswordTextField.setVisible(false);
     }
 
     /**
@@ -198,7 +227,6 @@ public class LoginController {
                 userLoginService.checkLogin(username, password);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
-                clearFields();
                 accountCreatedSuccessfully(outcome);
             }
         } else if (name.isEmpty()) {
@@ -339,5 +367,15 @@ public class LoginController {
         passwordVisibilityToggle.setTranslateY(62);
         nameText.setTranslateY(-124);
         nameTextField.setTranslateY(-124);
+
+        nameTextField.setStyle("-fx-border-color: RED");
+        if (userNameTextField.getText().isEmpty()) {
+            userNameTextField.setStyle("-fx-border-color: RED");
+        }
+        passwordField.setStyle("-fx-border-color: RED");
+        confirmPasswordField.setStyle("-fx-border-color: RED");
+
+        // Call setRegisterFieldListeners to handle further changes
+        setRegisterFieldListeners();
     }
 }
