@@ -135,13 +135,13 @@ public class QuizService {
      * in the background even with large wait times.
      */
     public void launchWinePopup() {
-        showLoadingScreen();
+        FXWrapper.getInstance().launchSubPage("profile");
+        FXWrapper.getInstance().getNavigationController().showLoadingScreen();
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
                 wineAlgorithm();
                 Platform.runLater(() -> {
-                    FXWrapper.getInstance().launchSubPage("profile");
                     NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
                     navigationController.initPopUp(wine);
                 });
@@ -150,27 +150,11 @@ public class QuizService {
 
             @Override
             protected void succeeded() {
-                hideLoadingScreen();
+                FXWrapper.getInstance().getNavigationController().hideLoadingScreen();
             }
         };
 
         new Thread(task).start();
-    }
-
-    /**
-     * Method to show the loading screen.
-     */
-    private void showLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.showLoadingScreen();
-    }
-
-    /**
-     * Method to hide the loading screen.
-     */
-    private void hideLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.hideLoadingScreen();
     }
 
     /**
