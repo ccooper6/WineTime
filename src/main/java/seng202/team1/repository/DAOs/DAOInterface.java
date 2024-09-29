@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for database access
  * @author Morgan English
+ * @param <T> the type of the object that is being accessed.
  */
 public interface DAOInterface<T> {
     /**

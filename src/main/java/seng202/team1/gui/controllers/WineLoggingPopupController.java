@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class WineLoggingPopupController {
     @FXML
-    public Button popUpCloseButton;
+    private Button popUpCloseButton;
     @FXML
     private Label characterRemainingLabel;
     @FXML

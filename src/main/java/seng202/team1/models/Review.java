@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * The review class that contains the attributes of a user review.
  * Used by {@link LogWineDao} to return a user's
  * review.
- * @Author Wen Sheng Thong, Caleb Cooper
+ * @author Wen Sheng Thong, Caleb Cooper
  */
 public class Review {
     private int uid;

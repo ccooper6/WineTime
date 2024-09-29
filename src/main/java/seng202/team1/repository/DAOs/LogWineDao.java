@@ -160,7 +160,7 @@ public class LogWineDao {
     }
 
     /**
-     * Returns a hashmap of < tagName, tagValue> of all the likedTags by the user.
+     * Returns a hashmap of &lt;tagName, tagValue&gt; of all the likedTags by the user.
      *
      * @param uid          the current user int id
      * @param orderByValue set to true to return the highest valued tags
