@@ -358,6 +358,7 @@ public class WineCategoryDisplayController {
      * @param searchString A String that contains the tags to search by seperated by commas
      *                     If string is "wishlist" or "recommend", the corresponding search will be done instead
      * @throws IOException if fxmlLoader cannot load the display
+     * @return the parent of the new category
      */
     public static Parent createCategory(String searchString) throws IOException {
 

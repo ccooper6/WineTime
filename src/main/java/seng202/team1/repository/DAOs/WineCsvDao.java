@@ -224,6 +224,8 @@ public class WineCsvDao {
      * Reads through each line of the 130k wine csv file and processes them. Takes in the csv file location as inputs as
      * well as a designated output ArrayList for any wine row that is erroneous.
      * @param winePath The url of the 130k wine csv.
+     * @throws IOException Throws when something goes wrong with the input/output
+     * @throws CsvValidationException Throws when there is an error validating the CSV
      */
 
     public void wineCsvReader(String winePath) throws IOException, CsvValidationException {
