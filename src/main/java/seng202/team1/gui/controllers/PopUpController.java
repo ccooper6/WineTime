@@ -3,6 +3,7 @@ package seng202.team1.gui.controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,12 +16,19 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
+import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.services.ReviewService;
+import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
 
+import java.awt.*;
+import java.net.URI;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * Controller class for the popup.fxml popup.
@@ -55,7 +63,14 @@ public class PopUpController {
     private ScrollPane tagScrollPane;
     @FXML
     private FlowPane tagFlowPane;
+    @FXML
+    private Button wineSearchLink;
+    @FXML
+    private FontAwesomeIconView logWineIcon;
 
+    private ArrayList<Button> tagButtons;
+
+    private final ReviewService reviewService = new ReviewService();
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
 
     /**
@@ -63,9 +78,11 @@ public class PopUpController {
      */
     @FXML
     public void initialize() {
+        tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
+
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        popUpCloseButton.setOnAction(actionEvent -> { closePopUp(); });
-        logWine.setOnAction(actionEvent -> { loadWineLoggingPopUp(); });
+        popUpCloseButton.setOnAction(actionEvent -> closePopUp());
+        logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
         Wine wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Wine is null");
@@ -82,6 +99,7 @@ public class PopUpController {
             icon.setFill(Color.web("#d0d0d0"));
         }
 
+        Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
             boolean inWishlistLambda = WishlistService.checkInWishlist(wineID, currentUserUid);
@@ -96,6 +114,18 @@ public class PopUpController {
                 WishlistService.addToWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#70171e"));
             }
+            if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
+                navigationController.loadPageContent("wishlist");
+                navigationController.initPopUp(finalWine);
+            } else if (navigationController.getCurrentPage().equals("profile")) { // refresh the profile page behind the popup
+                navigationController.loadPageContent("profile");
+                navigationController.initPopUp(finalWine);
+            } else if (navigationController.getCurrentPage().equals("wineReviews")) { // refresh the wine reviews page behind the popup
+                navigationController.loadPageContent("wineReviews");
+                navigationController.initPopUp(finalWine);
+            }
+
+
         });
         populatePopup(wine);
 
@@ -107,6 +137,23 @@ public class PopUpController {
                 tagScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             }
         });
+
+        initialiseOnTagClicked();
+    }
+
+    private void initialiseOnTagClicked()
+    {
+        for (Button button : tagButtons) {
+            button.setOnAction(actionEvent -> {
+                String buttonName = button.getText();
+
+                SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+
+                SearchWineService.getInstance().setCurrentSearch(buttonName);
+                SearchWineService.getInstance().setCurrentMethod("Tags");
+                FXWrapper.getInstance().launchSubPage("searchWine");
+            });
+        }
     }
 
     /**
@@ -129,6 +176,14 @@ public class PopUpController {
         wineryTag.setText(wine.getWinery());
         regionTag.setText(wine.getRegion1());
         hideNullTags();
+
+        int currentUserUid = User.getCurrentUser().getId();
+
+        if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
+            logWineIcon.setFill(Color.web("#70171e"));
+        } else {
+            logWineIcon.setFill(Color.web("#d0d0d0"));
+        }
     }
 
 
@@ -156,6 +211,30 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadWineLoggingPopUpContent();
+    }
+
+    /**
+     * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
+     */
+    public void onWineSearchLinkClicked() {
+        try {
+            java.awt.Desktop.getDesktop();
+            String query = wineName.getText();
+            query = Normalizer.normalize(query, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            query = pattern.matcher(query).replaceAll("");
+            String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    desktop.browse(new URI(googleSearchURL));
+                }
+            } else {
+                System.out.println("Not supported");
+            }
+        } catch (Exception e) {
+            LOG.error("Something went wrong trying to search for a wine.");
+        }
     }
 
 }

@@ -43,7 +43,7 @@ public class WishlistDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
-        ArrayList<Wine> wineList = new ArrayList<Wine>();
+        ArrayList<Wine> wineList = new ArrayList<>();
 
         int currentID = -1;
         WineBuilder currentWineBuilder = null;

@@ -16,6 +16,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for {@link WineLoggingPopupService} which mainly concerns that submit log is calling the appropriate methods
@@ -25,7 +28,6 @@ import java.util.HashMap;
  * @author Wen Sheng Thong
  */
 public class WineLoggingServiceTest {
-    static DatabaseManager databaseManager;
     static WineLoggingPopupService wineLoggingPopupService;
     static LogWineDao logWineDao;
     static UserDAO userDAO;
@@ -46,27 +48,22 @@ public class WineLoggingServiceTest {
     }
 
     /**
-     * Tests that {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, String)} submits the log properly
-     * by calling {@link LogWineDao#reviews(int, int, int, String, String)} and {@link LogWineDao#likes(int, String, int)}
+     * Tests that {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, boolean, String)} submits the log properly
+     * by calling {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
      * properly, as well as making sure all redundant whitespace is removed from the description text before being added
      * to the database
      */
     @Test
     public void testSubmitLog() {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
-        wineLoggingPopupService.submitLog(5,1,69, likedTags, "I      love them" );
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
-        Assertions.assertTrue(result.containsKey("seng202 teaching team"));
-        Assertions.assertEquals(2,result.get("seng202 teaching team"));
-        Assertions.assertTrue(result.containsKey("red wine"));
-        Assertions.assertEquals(2,result.get("red wine"));
+        wineLoggingPopupService.submitLog(5,1,69, likedTags, false, "I      love them" );
         ArrayList<Review> reviews = logWineDao.getUserReview(1,1, true);
-        Assertions.assertEquals(1,reviews.getFirst().getUid());
-        Assertions.assertEquals(69,reviews.getFirst().getWid());
-        Assertions.assertEquals(5,reviews.getFirst().getRating());
+        assertEquals(1,reviews.getFirst().getUid());
+        assertEquals(69,reviews.getFirst().getWid());
+        assertEquals(5,reviews.getFirst().getRating());
         //whitespace removed
-        Assertions.assertEquals("I love them",reviews.getFirst().getReviewDescription());
-        Assertions.assertEquals(1, reviews.size());
+        assertEquals("I love them",reviews.getFirst().getReviewDescription());
+        assertEquals(1, reviews.size());
     }
 
     /**
@@ -77,6 +74,58 @@ public class WineLoggingServiceTest {
     public void testGetCurrentTime() {
         String currentTime = ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
         String serviceCurrentTime = wineLoggingPopupService.getCurrentTimeStamp();
-        Assertions.assertEquals(currentTime, serviceCurrentTime);
+        assertEquals(currentTime, serviceCurrentTime);
+    }
+
+    @Test
+    public void testGetReviewExists() {
+        int testUserId = 1;
+        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
+        Review testReview = wineLoggingPopupService.getReview(1,1);
+        assertEquals(testReview.getUid(), 1);
+        assertEquals(testReview.getWid(), 1);
+        assertEquals(testReview.getRating(), 5);
+        assertEquals(testReview.getReviewDate(), "12/12/12");
+        assertEquals(testReview.getReviewDescription(), "Great wine!");
+        assertEquals(testReview.getTagsSelected(), new ArrayList<>(List.of("fruity", "smooth")));
+    }
+
+    @Test
+    public void testGetReviewDoesNotExist() {
+        assertNull(wineLoggingPopupService.getReview(1,1));
+    }
+
+    @Test
+    public void testUpdateTagLikes() {
+        int uid = 1;
+        int initialRating = 5;
+        int newRating = 2;
+        int definedRating = (initialRating) - 3;
+
+        ArrayList<String> initialTags = new ArrayList<>(List.of("fruity", "smooth"));
+        ArrayList<String> tagsToAdd = new ArrayList<>(List.of("clean", "calebiscool", "sparkly"));
+        ArrayList<String> tagsToRemove = new ArrayList<>(List.of("fruity", "smooth"));
+
+        for (String tag: initialTags) {
+            wineLoggingPopupService.updateTagLikes(uid, tag, definedRating);
+        }
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        assertEquals(2, result.size());
+        assertTrue(result.containsKey("fruity") && result.containsKey("smooth"));
+        assertEquals(2, result.get("fruity"));
+        assertEquals(2, result.get("smooth"));
+
+        wineLoggingPopupService.updateTagLikes(uid, tagsToAdd, tagsToRemove, initialTags, newRating, initialRating);
+        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
+        assertTrue(newResult.containsKey("clean") && newResult.containsKey("calebiscool") && newResult.containsKey("sparkly"));
+        assertEquals(-1, newResult.get("clean"));
+        assertEquals(-1, newResult.get("calebiscool"));
+        assertEquals(-1, newResult.get("sparkly"));
+
+
+        assertTrue(newResult.containsKey("fruity") && newResult.get("fruity") == 0);
+        assertTrue(newResult.containsKey("smooth") && newResult.get("smooth") == 0);
+
+
     }
 }

@@ -19,6 +19,9 @@ import java.sql.*;
 public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
+    /**
+     * The url of the database
+     */
     public String url;
     private boolean reset = false;
 

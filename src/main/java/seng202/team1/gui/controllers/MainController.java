@@ -119,23 +119,15 @@ public class MainController {
      * Shows the loading screen if it is needed.
      */
     private void showLoadingScreen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/loadingScreen.fxml"));
-            Parent root = loader.load();
-            loadingStage = new Stage();
-            loadingStage.setScene(new Scene(root));
-            loadingStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.showLoadingScreen();
     }
 
     /**
      * Hides the loading screen if it is currently shown.
      */
     private void hideLoadingScreen() {
-        if (loadingStage != null) {
-            loadingStage.close();
-        }
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.hideLoadingScreen();
     }
 }

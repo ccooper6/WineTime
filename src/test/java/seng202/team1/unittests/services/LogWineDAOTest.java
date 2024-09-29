@@ -9,7 +9,9 @@ import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The unit test for the {@link LogWineDao} class
@@ -129,12 +131,13 @@ public class LogWineDAOTest {
     }
 
     /**
-     * Checks that {@link LogWineDao#reviews(int, int, int, String, String)} properly adds a review to the database as
+     * Checks that {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, boolean)} properly adds a review to the database as
      * well as tests that {@link LogWineDao#getUserReview(int, Boolean)} properly returns the user's reviews
      */
     @Test
     public void testAddingReview() {
-        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51");
+        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
@@ -143,14 +146,15 @@ public class LogWineDAOTest {
         Assertions.assertEquals("2024-09-15 14:59:51",reviews.getFirst().getReviewDate());
     }
     /**
-     * Checks that {@link LogWineDao#reviews(int, int, int, String, String)} properly adds a review to the database as
+     * Checks that {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, boolean)} properly adds a review to the database as
      * well as tests that {@link LogWineDao#getUserReview(int, Boolean)} properly returns the user's reviews correctly
      * based on the user id.
      */
     @Test
     public void testAddingGettingDiffReview() {
-        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51");
-        logWineDao.reviews(2,6,3,"I really like wine", "2025-09-15 14:59:51");
+        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
+        logWineDao.reviews(2,6,3,"I really like wine", "2025-09-15 14:59:51", likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1, false);
         ArrayList<Review> reviews2 = logWineDao.getUserReview(2, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
@@ -171,10 +175,11 @@ public class LogWineDAOTest {
      */
     @Test
     public void testGettingOneRecentReview() {
-        logWineDao.reviews(1,3,-1,"I hate wine", "2023-09-15 14:59:51");
-        logWineDao.reviews(1,5,-1,"I hate 5 wine", "2022-09-15 14:59:51");
-        logWineDao.reviews(1,6,-1,"I hate 6 wine", "2022-09-15 14:59:51");
-        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51");
+        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        logWineDao.reviews(1,3,-1,"I hate wine", "2023-09-15 14:59:51", likedTags, false);
+        logWineDao.reviews(1,5,-1,"I hate 5 wine", "2022-09-15 14:59:51", likedTags, false);
+        logWineDao.reviews(1,6,-1,"I hate 6 wine", "2022-09-15 14:59:51", likedTags, false);
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1,1, true);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
@@ -185,14 +190,15 @@ public class LogWineDAOTest {
     }
 
     /**
-     * Checks that {@link LogWineDao#reviews(int, int, int, String, String) calls
+     * Checks that {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, boolean) calls
      * {@link LogWineDao#updateReview(int, int, int, String, String)}} correctly and updates the review appropriately
      * and that {@link LogWineDao#alreadyReviewExists(int, int)} returns the right boolean.
      */
     @Test
     public void testUpdatingReview() {
-        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51");
-        logWineDao.reviews(1,2,-10,"I no longer like wine", "2024-10-15 14:59:51");
+        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
+        logWineDao.reviews(1,2,-10,"I no longer like wine", "2024-10-15 14:59:51", likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
@@ -207,9 +213,10 @@ public class LogWineDAOTest {
      */
     @Test
     public void testOrderedReviews() {
-        logWineDao.reviews(1,4,10,"I can travel to future", "2026-10-15 14:59:51");
-        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51");
-        logWineDao.reviews(1,3,-10,"I no longer like wine", "2025-10-15 14:59:51");
+        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        logWineDao.reviews(1,4,10,"I can travel to future", "2026-10-15 14:59:51", likedTags, false);
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
+        logWineDao.reviews(1,3,-10,"I no longer like wine", "2025-10-15 14:59:51", likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1, true);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(4,reviews.getFirst().getWid());
