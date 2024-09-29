@@ -1,0 +1,212 @@
+package seng202.team1.unittests.services;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import seng202.team1.exceptions.InstanceAlreadyExistsException;
+import seng202.team1.models.Wine;
+import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.repository.DatabaseManager;
+import seng202.team1.services.RecommendWineService;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+/**
+ * The set of tests that covers {@link RecommendWineService} and
+ * {@link seng202.team1.repository.DAOs.SearchDAO#reccWineByTags(ArrayList, ArrayList, ArrayList, int)}
+ *
+ * @author Wen Sheng Thong
+ */
+public class RecommendWineServiceTest {
+    static DatabaseManager databaseManager;
+    static LogWineDao logWineDao;
+    static RecommendWineService recommendWineService;
+
+    /**
+     * Sets up {@link DatabaseManager} instance to use the test database
+     *
+     * @throws InstanceAlreadyExistsException If {@link DatabaseManager#REMOVE_INSTANCE()} does not remove the instance
+     */
+    @BeforeEach
+    public void setUp() throws InstanceAlreadyExistsException
+    {
+        DatabaseManager.REMOVE_INSTANCE();
+        databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        recommendWineService = new RecommendWineService();
+        logWineDao = new LogWineDao();
+        DatabaseManager.getInstance().forceReset();
+    }
+    /**
+     * Check databaseManager exists
+     */
+    @Test
+    void testDBConnection() {
+        assertNotNull(databaseManager);
+    }
+    /**
+     * Gets all tags in the database
+     * @return an array of tag names
+     */
+    private ArrayList<String> getAllTags() {
+        ArrayList<String> allTags = new ArrayList<>();
+        String tagPs = "SELECT name FROM tag";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(tagPs)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    allTags.add(rs.getString(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return allTags;
+    }
+
+    /**
+     * Causes the user to dislike all tags
+     * @param uid the uid of the user
+     */
+    private void dislikedAllTags(int uid) {
+        ArrayList<String> allTags = getAllTags();
+        for (String tag : allTags) {
+            logWineDao.likes(uid, tag, -1);
+        }
+    }
+
+    /**
+     * Gets all the tags belonging to the wine
+     * @param wine wine object
+     * @return array list of tag belong to the wine
+     */
+    private ArrayList<String> getWineTags(Wine wine) {
+        ArrayList<String> wineTags = new ArrayList<>();
+        String psString = "SELECT tag.name\n" +
+                "FROM wine JOIN owned_by on wine.id = owned_by.wid JOIN tag on owned_by.tname = tag.name\n" +
+                "WHERE wine.id = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(psString)) {
+                ps.setInt(1, wine.getWineId());
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    wineTags.add(rs.getString(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return wineTags;
+    }
+    /**
+     * Verifies that the wine have at least one liked tag
+     * @param wine wine
+     * @param likedTags array of liked tags
+     * @return boolean
+     */
+    private boolean verifyWine(String[] likedTags, Wine wine) {
+        ArrayList<String> wineTags = getWineTags(wine);
+        boolean hasLikedTags = false;
+        for (String tag : likedTags) {
+            if (wineTags.contains(tag)) {
+                hasLikedTags = true;
+                break;
+            }
+        }
+        return hasLikedTags;
+    }
+    /**
+     * Verifies that the wine have at least one liked tag and no disliked tags
+     * @param wine wine
+     * @param likedTags array of liked tags
+     * @param dislikedTags array of disliked tags
+     * @return boolean
+     */
+    private boolean verifyWine(String[] likedTags, Wine wine, String[] dislikedTags) {
+        ArrayList<String> wineTags = getWineTags(wine);
+        boolean hasLikedTags = false;
+        for (String tag : likedTags) {
+            if (wineTags.contains(tag)) {
+                hasLikedTags = true;
+                break;
+            }
+        }
+        for (String tag : dislikedTags) {
+            if (wineTags.contains(tag)) {
+                return false;
+            }
+        }
+        return hasLikedTags;
+    }
+
+    /**
+     * Verifies that all the wines have at least one liked tag
+     * @param wines array of wine
+     * @param likedTags array of liked tags
+     * @return boolean
+     */
+    private boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags) {
+        for (Wine wine : wines) {
+            boolean hasLikedTags = verifyWine(likedTags, wine);
+            if (!hasLikedTags) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Verifies that all the wines have at least one liked tag and no disliked tags
+     * @param wines array of wine
+     * @param likedTags array of liked tags
+     * @param dislikedTags array of disliked tags
+     * @return boolean
+     */
+    private boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags) {
+        for (Wine wine : wines) {
+            boolean hasLikedTags = verifyWine(likedTags, wine, dislikedTags);
+            if (!hasLikedTags) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Checks to see if {@link seng202.team1.services.RecommendWineService#hasEnoughFavouritesTag(int)} returns true
+     * if the user has at least 3 liked tags and false if otherwise.
+     */
+    @Test
+    public void testHasEnoughFavTag() {
+        String[] tags = {"2012", "2004", "2006"};
+        for (String tag : tags) {
+            logWineDao.likes(1, tag, 5);
+            logWineDao.likes(2, tag, -5);
+        }
+        Assertions.assertTrue(recommendWineService.hasEnoughFavouritesTag(1));
+        Assertions.assertFalse(recommendWineService.hasEnoughFavouritesTag(2));
+    }
+
+    /**
+     * Tests that it will try to recommend wines to the user without including wines with disliked tags and making sure
+     * that the wines recommended have at least one tag that is liked
+     */
+    @Test 
+    public void testReccWithDislikedTags() {
+        logWineDao.likes(1, "2012", 1000);
+        logWineDao.likes(1, "2004", 1000);
+        logWineDao.likes(1, "2005", 1000);
+        logWineDao.likes(1, "2006", -1000);
+        ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
+        Assertions.assertFalse(reccWine.isEmpty());
+        Assertions.assertTrue(verfiyWines(reccWine, new String[]{"2012", "2004", "2005"}, new String[]{"2006"}));
+    }
+
+}

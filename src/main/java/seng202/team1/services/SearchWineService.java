@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
@@ -108,6 +109,14 @@ public class SearchWineService {
 
         wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 100 , 0, 3000, filterString, limit);
         fromWishlist = false;
+    }
+
+    /**
+     * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
+     * @param limit an integer limit to the number of wines to recommend
+     */
+    public void searchWinesByRecommend(int limit) {
+        wineList = RecommendWineService.getInstance().getRecommendedWines(User.getCurrentUser().getId(), limit);
     }
 
     /**
