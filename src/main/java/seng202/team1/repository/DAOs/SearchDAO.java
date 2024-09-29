@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
+import seng202.team1.services.SearchWineService;
 
 import java.sql.*;
 import java.text.Normalizer;
@@ -60,6 +61,8 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
+//        System.out.println("Start processing");
+
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
         int currentID = -1;
@@ -67,6 +70,7 @@ public class SearchDAO {
 
         while (resultSet.next())
         {
+
             if (resultSet.getInt("id") != currentID) {
                 if (currentWineBuilder != null) {
                     wineList.add(currentWineBuilder.build());
@@ -137,7 +141,7 @@ public class SearchDAO {
                 + "    ORDER BY wine.id LIMIT ?)\n"
                 + "JOIN owned_by ON id = owned_by.wid\n"
                 + "JOIN tag ON owned_by.tname = tag.name\n"
-                + "ORDER BY id;";
+                + "ORDER BY id ;";
 
         ArrayList<Wine> wineList = new ArrayList<>();
 
@@ -212,6 +216,95 @@ public class SearchDAO {
             LOG.error(e.getMessage());
         }
         return wineList;
+    }
+    public ArrayList<Wine> searchByNameAndFilter(ArrayList<String> varietyLocationWinery, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit){
+        {
+            for (String tag : varietyLocationWinery) {
+                if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
+                    LOG.error("{} is not normalised!", tag);
+                }
+            }
+//
+            System.out.println("FilterString: " + filterString);
+
+//            filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).toLowerCase().replaceAll("^\\p{ASCII}", "");
+
+            // Build the SQL query with dynamic placeholders
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n" +
+                    "FROM (\n" +
+                    "         SELECT wine.id as temp_id\n" +
+                    "         FROM wine\n" +
+                    "                  JOIN owned_by ON wine.id = owned_by.wid\n" +
+                    "                  JOIN tag ON owned_by.tname = tag.name\n" +
+                    "         GROUP BY wine.id\n" +
+                    "         HAVING 1=1 \n");
+
+            // Variety
+            if(!varietyLocationWinery.isEmpty()) {
+                sqlBuilder.append("             AND COUNT(CASE\n" +
+                        "                WHEN tag.normalised_name IN (");
+                for (int i = 0; i < varietyLocationWinery.size(); i++) {
+                    if (i > 0) {
+                        sqlBuilder.append(",");
+                    }
+                    sqlBuilder.append("?");
+                }
+                sqlBuilder.append(")\n" +
+                        "                   THEN 1 END) = ?\n");
+            }
+
+            // Name
+            if(filterString != null) {
+                sqlBuilder.append("             AND wine.normalised_name LIKE ?\n");
+            }
+
+            //Vintage range
+            sqlBuilder.append("             AND CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?\n");
+            //Points range
+            sqlBuilder.append("             AND MAX(wine.points) BETWEEN ? AND ?\n");
+
+
+            sqlBuilder.append("     LIMIT ?\n" +
+                            ") AS filtered_wines\n" +
+                            "         JOIN wine ON wine.id = filtered_wines.temp_id\n" +
+                            "         JOIN owned_by ON wine.id = owned_by.wid\n" +
+                            "         JOIN tag ON owned_by.tname = tag.name\n" +
+                            "ORDER BY wine.id;");
+
+            ArrayList<Wine> wineList = new ArrayList<>();
+            String sql = sqlBuilder.toString();
+
+            // get results
+            try (Connection conn = databaseManager.connect();
+                 PreparedStatement ps = conn.prepareStatement(sql) ) {
+                int z = 1;
+
+                for (int i = 0; i < varietyLocationWinery.size(); i++) {
+                    ps.setString(z, varietyLocationWinery.get(i));
+                    z++;
+                }
+                if (!varietyLocationWinery.isEmpty()) {
+                    ps.setInt(z, varietyLocationWinery.size()); z++;
+                }
+                if(filterString != null) {
+                    ps.setString(z, "%" + filterString + "%");
+                    z ++;
+                }
+                ps.setInt(z, lowerVintage); z++;
+                ps.setInt(z, upperVintage); z++;
+                ps.setInt(z, lowerPoints); z++;
+                ps.setInt(z, upperPoints);z++;
+                ps.setInt(z, limit);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    wineList = processResultSetIntoWines(rs);
+                }
+            } catch (SQLException e) {
+                LOG.error(e.getMessage());
+            }
+            return wineList;
+        }
     }
 
     /**
