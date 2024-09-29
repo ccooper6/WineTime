@@ -98,7 +98,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                </Button>
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
+               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onHelpClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
                   <font>
                      <Font size="15.0" />
                   </font>

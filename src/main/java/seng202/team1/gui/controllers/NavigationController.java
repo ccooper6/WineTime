@@ -349,4 +349,11 @@ public class NavigationController {
     public void onUserClicked() {
         FXWrapper.getInstance().launchSubPage("profile");
     }
+
+    /**
+     * Sends the user to the help page when the help button is clicked.
+     */
+    public void onHelpClicked() {
+        FXWrapper.getInstance().launchSubPage("helpScreen");
+    }
 }
