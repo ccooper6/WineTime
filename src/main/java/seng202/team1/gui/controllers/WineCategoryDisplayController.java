@@ -323,7 +323,7 @@ public class WineCategoryDisplayController {
         if (isWishlist) {
             FXWrapper.getInstance().launchSubPage("wishlist");
         } else if (isRecommenations) {
-            SearchWineService.getInstance().searchWinesByRecommend(100);
+            SearchWineService.getInstance().searchWinesByRecommend(120);
             FXWrapper.getInstance().launchSubPage("searchWine");
         } else {
             SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
