@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -21,6 +22,9 @@
                <graphic>
                   <FontAwesomeIconView fill="GREY" glyphName="CLOSE" onMouseClicked="#closePopUp" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <FlowPane layoutX="14.0" layoutY="15.0" prefHeight="350.0" prefWidth="220.0" vgap="10.0">
                <children>
@@ -60,12 +64,30 @@
                <content>
                   <FlowPane fx:id="tagFlowPane" hgap="15.0" prefHeight="101.0" prefWidth="224.0" style="-fx-background-color: white;" vgap="10.0">
                      <children>
-                        <Button fx:id="vintageTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Vintage" textFill="WHITE" />
-                        <Button fx:id="varietyTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Variety" textFill="WHITE" />
-                        <Button fx:id="countryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Country" textFill="WHITE" />
-                        <Button fx:id="provinceTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Province" textFill="WHITE" />
-                        <Button fx:id="wineryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Winery" textFill="WHITE" />
-                        <Button fx:id="regionTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Region" textFill="WHITE" />
+                        <Button fx:id="vintageTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Vintage" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button fx:id="varietyTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Variety" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button fx:id="countryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Country" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button fx:id="provinceTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Province" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button fx:id="wineryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Winery" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button fx:id="regionTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Region" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                      </children>
                   </FlowPane>
                </content>
@@ -74,11 +96,17 @@
                <graphic>
                   <FontAwesomeIconView fx:id="logWineIcon" fill="#d0d0d0" glyphName="COMMENT" size="30" />
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="addToWishlist" layoutX="415.0" layoutY="349.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;" textFill="WHITE">
                <graphic>
                   <FontAwesomeIconView fill="#70171e" glyphName="HEART" size="30" text="" />
-               </graphic></Button>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Button fx:id="wineSearchLink" graphicTextGap="0.0" layoutX="14.0" layoutY="357.0" maxHeight="30.0" maxWidth="50.0" mnemonicParsing="false" onAction="#onWineSearchLinkClicked" prefHeight="30.0" prefWidth="45.0" style="-fx-background-color: none;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -87,6 +115,9 @@
                      </image>
                   </ImageView>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </Pane>

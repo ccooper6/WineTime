@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -21,8 +22,17 @@
       <AnchorPane fx:id="mainWine4" layoutX="697.0" layoutY="55.0" prefHeight="120.0" prefWidth="190.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine5" layoutX="907.0" layoutY="55.0" prefHeight="120.0" prefWidth="190.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine6" disable="true" layoutX="1127.0" layoutY="55.0" opacity="0.0" prefHeight="120.0" prefWidth="190.0" />
-      <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="1134.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098" />
-      <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60" />
-      <Button layoutX="1078.0" layoutY="22.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true" />
+      <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="1134.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></FontAwesomeIconView>
+      <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></FontAwesomeIconView>
+      <Button layoutX="1078.0" layoutY="22.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

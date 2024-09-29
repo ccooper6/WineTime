@@ -135,7 +135,7 @@ public class WineLoggingPopupController {
      * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining.
      */
     private void addDescCharLimit() {
-        int maxLength = 120;
+        int maxLength = 160;
         descriptionTextArea.setWrapText(true);
         descriptionTextArea.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String string = "";

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineDisplayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineDisplayController">
     <AnchorPane fx:id="winePane" onMouseClicked="#popUp" prefHeight="135.0" prefWidth="190.0" style="-fx-border-color: #d9d9d9; -fx-border-radius: 15; -fx-background-color: white; -fx-background-radius: 15;">
         <Label fx:id="wineInfo" alignment="TOP_LEFT" layoutX="9.0" layoutY="61.0" prefHeight="69.0" prefWidth="170.0" text="Name:&#10;" wrapText="true">
             <font>

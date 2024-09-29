@@ -7,43 +7,43 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../style/quizStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.QuizController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" stylesheets="@../style/quizStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.QuizController">
    <children>
-      <Button fx:id="answer1Button" layoutX="27.0" layoutY="190.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer1Clicked" prefHeight="120.0" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="answer1Button" layoutX="114.0" layoutY="230.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer1Clicked" prefHeight="120.0" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="SansSerif Regular" size="36.0" />
          </font></Button>
-      <Button fx:id="answer3Button" layoutX="27.0" layoutY="339.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer3Clicked" prefHeight="120.0" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="answer3Button" layoutX="114.0" layoutY="450.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer3Clicked" prefHeight="120.0" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="36.0" />
          </font>
       </Button>
-      <Button fx:id="answer2Button" layoutX="515.0" layoutY="190.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer2Clicked" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="answer2Button" layoutX="710.0" layoutY="230.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer2Clicked" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="SansSerif Regular" size="36.0" />
          </font>
       </Button>
-      <Button fx:id="answer4Button" layoutX="515.0" layoutY="339.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer4Clicked" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="answer4Button" layoutX="710.0" layoutY="450.0" minHeight="120.0" mnemonicParsing="false" onAction="#onAnswer4Clicked" prefWidth="460.0" text="Button" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="36.0" />
          </font>
       </Button>
-      <Label fx:id="questionLabel" alignment="CENTER" layoutX="39.0" layoutY="29.0" prefHeight="161.0" prefWidth="953.0" text="Label" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="questionLabel" alignment="CENTER" layoutX="157.0" layoutY="34.0" prefHeight="161.0" prefWidth="953.0" text="Label" textAlignment="CENTER" wrapText="true">
          <font>
-            <Font size="30.0" />
+            <Font name="PT Serif" size="35.0" />
          </font>
       </Label>
-      <Button fx:id="showWineButton" layoutX="400.0" layoutY="239.0" mnemonicParsing="false" onAction="#onShowWineClicked" prefHeight="100.0" prefWidth="200.0" text="Show me my &#10;dang wine!" textAlignment="CENTER">
+      <Button fx:id="showWineButton" layoutX="540.0" layoutY="310.0" mnemonicParsing="false" onAction="#onShowWineClicked" prefHeight="100.0" prefWidth="200.0" text="Show me my &#10;dang wine!" textAlignment="CENTER">
          <font>
             <Font name="SansSerif Regular" size="24.0" />
          </font>
       </Button>
-      <ImageView fitHeight="69.0" fitWidth="137.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/winetime.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="69.0" fitWidth="43.0" layoutX="932.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="100.0" fitWidth="83.0" layoutX="1190.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/logo.png" />
          </image>
