@@ -106,8 +106,8 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-
-        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 100 , 0, 3000, filterString, limit);
+        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit);
+        //wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
         fromWishlist = false;
     }
 

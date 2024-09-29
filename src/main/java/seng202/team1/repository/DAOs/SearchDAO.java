@@ -272,7 +272,6 @@ public class SearchDAO {
                             "         JOIN tag ON owned_by.tname = tag.name\n" +
                             "ORDER BY wine.id;");
 
-            System.out.println(sqlBuilder);
             ArrayList<Wine> wineList = new ArrayList<>();
             String sql = sqlBuilder.toString();
 
@@ -285,7 +284,7 @@ public class SearchDAO {
                     ps.setString(z, varietyLocationWinery.get(i));
                     z++;
                 }
-                if (varietyLocationWinery.size() > 0) {
+                if (!varietyLocationWinery.isEmpty()) {
                     ps.setInt(z, varietyLocationWinery.size()); z++;
                 }
                 if(filterString != null) {
@@ -298,7 +297,6 @@ public class SearchDAO {
                 ps.setInt(z, upperPoints);z++;
                 ps.setInt(z, limit);
 
-                System.out.println(ps);
                 try (ResultSet rs = ps.executeQuery()) {
                     wineList = processResultSetIntoWines(rs);
                 }
