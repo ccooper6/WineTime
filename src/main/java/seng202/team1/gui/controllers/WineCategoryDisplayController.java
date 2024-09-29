@@ -53,7 +53,7 @@ public class WineCategoryDisplayController {
     private int leftDisplay = 7;
     private int rightDisplay;
     private final double TRANSDURATION = 0.2;
-    private final int DISTANCEBETWEEN = 210;
+    private int DISTANCEBETWEEN = 214;
 
     private boolean isWishlist = false;
     private boolean isRecommenations = false;
