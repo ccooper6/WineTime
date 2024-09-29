@@ -1,5 +1,7 @@
 package seng202.team1.gui.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import static java.sql.Types.NULL;
 
 import javafx.fxml.FXML;
@@ -14,6 +16,8 @@ import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;
+
+import static java.sql.Types.NULL;
 
 /**
  * The controller class for the wine logging popup. Called by {@link PopUpController#loadWineLoggingPopUp()} when the
@@ -104,6 +108,10 @@ public class WineLoggingPopupController {
         if (wine.getVintage() != NULL) {
             tagCheckBoxArray.add(new CheckBox(wine.getVintage() + " Vintage"));
             tagNameArray.add(Integer.toString(wine.getVintage()));
+        }
+        if (wine.getCountry() != null) {
+            tagCheckBoxArray.add(new CheckBox(wine.getCountry() + " Country"));
+            tagNameArray.add(wine.getCountry());
         }
         if (wine.getProvince() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));

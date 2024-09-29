@@ -60,8 +60,6 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
-//        System.out.println("Start processing");
-
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
         int currentID = -1;
@@ -69,7 +67,6 @@ public class SearchDAO {
 
         while (resultSet.next())
         {
-
             if (resultSet.getInt("id") != currentID) {
                 if (currentWineBuilder != null) {
                     wineList.add(currentWineBuilder.build());
@@ -215,5 +212,153 @@ public class SearchDAO {
             LOG.error(e.getMessage());
         }
         return wineList;
+    }
+
+    /**
+     * Searches for wines given a String of tags. It will aim to avoid wines with tags that the user has disliked and the wines
+     * that have already been reviewed, to avoid recommending wines that the user has already tried. It will sort the wines by
+     * number of tags matched
+     *
+     * @param tagsLiked An {@link ArrayList<String>} of the liked tag names
+     * @param tagsToAvoid An {@link ArrayList<String>} of tag names to avoid.
+     * @param wineIdToAvoid An {@link ArrayList<Integer>} of the wine ids that have already been added to the recommended list.
+     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
+     * @return {@link ArrayList} of Wine objects for all wines that matched the given condition
+     */
+    public ArrayList<Wine> reccWineByTags(ArrayList<String> tagsLiked, ArrayList<String> tagsToAvoid, ArrayList<Integer> wineIdToAvoid, int limit)
+    {
+        for (String tag : tagsLiked) {
+            if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
+                LOG.error("{} is not normalised!", tag);
+            }
+        }
+
+        StringBuilder sqlBuilder = new StringBuilder();
+        initializeSqlReccString(sqlBuilder, tagsLiked, tagsToAvoid, wineIdToAvoid, limit);
+
+        ArrayList<Wine> wineList = new ArrayList<>();
+        String sql = sqlBuilder.toString();
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql) ) {
+            setTagAndWineIDValueToPs(tagsLiked,tagsToAvoid, wineIdToAvoid, ps);
+            ps.setInt(tagsToAvoid.size() + 1 + tagsLiked.size() + wineIdToAvoid.size(), limit);
+            LOG.info(ps);
+            try (ResultSet rs = ps.executeQuery()) {
+                wineList = processResultSetIntoWines(rs);
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+            LOG.error(sql);
+        }
+        return wineList;
+    }
+
+    /**
+     * Sets the respective tag names and wine id to their respective slot in the prepared statement
+     * @param tagsLiked an {@link ArrayList<String>} of liked tag names
+     * @param tagsToAvoid an {@link ArrayList<String>} of disliked tag names
+     * @param wineIdToAvoid an {@link ArrayList<Integer>} of wine id to avoid
+     * @param ps the {@link PreparedStatement} to be executed
+     * @throws SQLException
+     */
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+    private static void setTagAndWineIDValueToPs(ArrayList<String> tagsLiked, ArrayList<String> tagsToAvoid, ArrayList<Integer> wineIdToAvoid, PreparedStatement ps) throws SQLException {
+        for (int i = 0; i < tagsLiked.size(); i++) {
+            ps.setString(i + 1, tagsLiked.get(i));
+        }
+        if (!tagsToAvoid.isEmpty()) {
+            for (int i = 0; i < tagsToAvoid.size(); i++) {
+                ps.setString(i + 1 + tagsLiked.size(), tagsToAvoid.get(i));
+            }
+        }
+        if (!wineIdToAvoid.isEmpty()) {
+            for (int i = 0; i < wineIdToAvoid.size(); i++) {
+                System.out.println(wineIdToAvoid.get(i));
+                ps.setInt(tagsToAvoid.size() + tagsLiked.size() + 1 + i, wineIdToAvoid.get(i));
+            }
+        }
+    }
+
+    /**
+     * Adds the required ? for the wine id to avoid
+     * @param numOfWineToAvoid number of wine id to avoid
+     * @param sqlBuilder the {@link StringBuilder} of the prepared statement
+     */
+    private static void addWineIdToAvoidToPs(int numOfWineToAvoid, StringBuilder sqlBuilder) {
+        sqlBuilder.append(" AND id NOT IN (");
+        if (numOfWineToAvoid > 0) {
+            for (int i = 0; i < numOfWineToAvoid; i++) {
+                if (i > 0) {
+                    sqlBuilder.append(",");
+                }
+                sqlBuilder.append("?");
+            }
+        } else {
+            sqlBuilder.append("''");
+        }
+        sqlBuilder.append(")\n");
+    }
+
+    /**
+     * Adds the ? reserved for the tags to avoid in the search query
+     * @param numTagsToAvoid the number of tags to avoid
+     * @param sqlBuilder the PS string builder
+     */
+    private static void addTagsToAvoidToPs(int numTagsToAvoid, StringBuilder sqlBuilder) {
+        sqlBuilder.append("      AND id NOT IN (SELECT id\n")
+                .append("                       FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
+                .append("                                 JOIN tag on owned_by.tname = tag.name\n")
+                .append("                       WHERE tag.name IN (");
+        if (numTagsToAvoid > 0) {
+            for (int i = 0; i < numTagsToAvoid; i++) {
+                if (i > 0) {
+                    sqlBuilder.append(",");
+                }
+                sqlBuilder.append("?");
+            }
+        } else {
+            sqlBuilder.append("''");
+        }
+        sqlBuilder.append("))");
+    }
+
+    /**
+     * Adds enough ? to the PS string builder to fit all the liked tags
+     * @param numOfTagsLiked number of liked tags
+     * @param sqlBuilder the {@link StringBuilder} for the prepared statement
+     */
+    private static void addLikedTagsToPs(int numOfTagsLiked, StringBuilder sqlBuilder) {
+        sqlBuilder.append("      WHERE tag.name IN (");
+        if (numOfTagsLiked == 0) {
+            sqlBuilder.append("''");
+        }
+        for (int i = 0; i < numOfTagsLiked; i++) {
+            if (i > 0) {
+                sqlBuilder.append(",");
+            }
+            sqlBuilder.append("?");
+        }
+        sqlBuilder.append(")\n");
+    }
+
+    /**
+     * Creates the recommendation sql prepared statement string
+     * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
+     */
+    private static void initializeSqlReccString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid, int limit) {
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+                .append("FROM (SELECT id as temp_id, count(id) as c\n")
+                .append("      FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
+                .append("                JOIN tag on owned_by.tname = tag.name\n");
+        addLikedTagsToPs(tagsLiked.size(),sqlBuilder);
+        addTagsToAvoidToPs(dislikedTags.size(), sqlBuilder);
+        addWineIdToAvoidToPs(winesToAvoid.size(), sqlBuilder);
+        sqlBuilder.append("""
+                      GROUP BY temp_id
+                      ORDER BY c DESC, random()
+                      LIMIT ?)
+                         JOIN wine ON wine.id = temp_id
+                         JOIN owned_by ON wine.id = owned_by.wid""");
+        sqlBuilder.append("         JOIN tag ON owned_by.tname = tag.name;");
     }
 }

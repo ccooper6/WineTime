@@ -30,7 +30,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontAwesomeIconView>
-      <Button layoutX="1078.0" layoutY="22.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true">
+      <Button fx:id="seeMoreButton" layoutX="1078.0" layoutY="22.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
