@@ -103,7 +103,7 @@ public class DatabaseManager {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
-        return "jdbc:sqlite:" + jarDir.getParentFile() + "/copy.db";
+        return "jdbc:sqlite:" + jarDir.getParentFile() + "/WineTime.db";
     }
 
     /**
@@ -127,15 +127,15 @@ public class DatabaseManager {
             }
         }
 
-        // Differentiate what og.db to use based on whether we are running tests or main application jar
+        // Differentiate what main.db to use based on whether we are running tests or main application jar
         try {
             if (System.getProperty("test.env") == null) {
-                InputStream ogPath = DatabaseManager.class.getResourceAsStream("/sql/og.db");
+                InputStream ogPath = DatabaseManager.class.getResourceAsStream("/sql/main.db");
                 log.info("Copying database from: " + ogPath + " to: " + copy);
                 Files.copy(ogPath, copy);
                 log.info("Database copied successfully.");
             } else {
-                Path ogPath = Paths.get("src/main/resources/sql/og.db");
+                Path ogPath = Paths.get("src/main/resources/sql/main.db");
                 log.info("Copying test database from: " + ogPath + " to: " + copy);
                 Files.copy(ogPath, copy);
                 log.info("Database copied successfully.");
