@@ -103,9 +103,8 @@ public class ReviewServiceTest {
         Review testReview = new Review(uid, wid, rating, desc, date, tags);
         logWineDao.reviews(uid, wid, rating, desc, date, tags, false);
 
-        reviewService.setCurrentReview(testReview);
         assertTrue(reviewService.reviewExists(1,3));
-        ReviewService.deleteReview(rating);
+        ReviewService.deleteReview(rating, testReview);
         assertFalse(reviewService.reviewExists(1,3));
     }
 

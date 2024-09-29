@@ -56,7 +56,7 @@ public class NavigationController {
      * Initializes the controller.
      */
     public void initialize() {
-        initialseSortByComboBox();
+        initializeSortByComboBox();
 
         initialiseSearchBar();
 
@@ -70,7 +70,7 @@ public class NavigationController {
     /**
      * Inserts options into sort by combo box and selects first.
      */
-    private void initialseSortByComboBox()
+    private void initializeSortByComboBox()
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
