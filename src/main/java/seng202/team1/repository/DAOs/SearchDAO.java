@@ -239,24 +239,25 @@ public class SearchDAO {
             }
 
             // Variety
-            if(!varietyLocationWinery.isEmpty()) {
-                sqlBuilder.append(" AND tag.normalised_name IN (");
+            sqlBuilder.append(" AND (tag.normalised_name IN (");
+            if(varietyLocationWinery.isEmpty()) {
+                sqlBuilder.append("''");
+            } else {
                 for (int i = 0; i < varietyLocationWinery.size(); i++) {
                     if (i > 0) {
                         sqlBuilder.append(",");
                     }
                     sqlBuilder.append("?");
                 }
-                sqlBuilder.append(")\n");
             }
+            sqlBuilder.append(")\n");
+            //Vintage range
+            sqlBuilder.append(" OR tag.normalised_name BETWEEN ? AND ?)\n");
 
             //Points range
             sqlBuilder.append(" AND wine.points BETWEEN ? AND ? \n");
 
-            //Vintage range
-            sqlBuilder.append(" AND tag.type = 'Vintage' AND tag.normalised_name BETWEEN ? AND ? \n");
-
-            sqlBuilder.append("              GROUP BY wid)\n")
+            sqlBuilder.append("GROUP BY wid)\n")
                     .append("        WHERE c = ? LIMIT ?)\n")
                     .append("JOIN wine on wine.id = temp_id\n")
                     .append("JOIN owned_by on id = owned_by.wid\n")
@@ -277,12 +278,13 @@ public class SearchDAO {
                     ps.setString(z, varietyLocationWinery.get(i));
                     z++;
                 }
-                ps.setInt(z, lowerPoints); z++;
-                ps.setInt(z, upperPoints); z++;
                 ps.setString(z, String.valueOf(lowerVintage)); z++;
                 ps.setString(z, String.valueOf(upperVintage)); z++;
+                ps.setInt(z, lowerPoints); z++;
+                ps.setInt(z, upperPoints); z++;
                 ps.setInt(z, varietyLocationWinery.size()); z++;
                 ps.setInt(z, limit);
+                System.out.println(ps);
                 try (ResultSet rs = ps.executeQuery()) {
                     wineList = processResultSetIntoWines(rs);
                 }
