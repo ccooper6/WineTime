@@ -14,12 +14,6 @@ import java.util.Random;
  * Service class for the challenge tracker feature.
  * @author Lydia Jackson
  */
-
-/**
- * todo
- * track the progress, if a challenge has been logged them it is marked as completed,
- * the if the wines displayed,
- */
 public class ChallengeService {
     private final ChallengeDAO chalDao = new ChallengeDAO();
 
@@ -32,11 +26,19 @@ public class ChallengeService {
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineids);
     }
 
+    /**
+     * calls the challenge complete method in the challenge dao.
+     * @param cname the name of the challenge.
+     */
     public void challengeCompleted(String cname)
     {
         chalDao.challengeCompleted(User.getCurrentUser().getId(), cname);
     }
 
+    /**
+     * chose 5 random wines of different variety and returns there ids in an array list.
+     * @return ArrayList<Integer> list of wine ids </Integer>
+     */
     public ArrayList<Integer> getWinesforVarietyChallenge() {
         ArrayList<Integer> varietyWines = new ArrayList<>();
         Random random = new Random();

@@ -279,6 +279,12 @@ public class ChallengeDAO {
         return wineList;
     }
 
+
+    /**
+     * removes the challenge from the users active challenges.
+     * @param uid users id
+     * @param cname the name of the challenge
+     */
     public void challengeCompleted(int uid, String cname)
     {
         String sql = "DELETE FROM active_challenge WHERE userID = ? AND cname = ?;";
@@ -303,18 +309,6 @@ public class ChallengeDAO {
         }
     }
 
-
-
-
-
-
-//    public static void main(String[] args) {
-//        ChallengeDAO cd = new ChallengeDAO();
-//        cd.databaseManager.initialiseDB();
-//        cd.wineInChallenge();
-////        cd.userToChallenge(1, "Variety Challenge");
-////        cd.wineInChallenge();
-//    }
 
 
 
