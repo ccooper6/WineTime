@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,8 +25,8 @@ public class MainController {
     Text helloText;
     @FXML
     GridPane contentsGrid;
-    private Stage loadingStage;
-
+    @FXML
+    AnchorPane categoryAnchorPane;
     /**
      * Initializes the main page view.
      */
@@ -64,8 +65,7 @@ public class MainController {
      * @throws IOException
      */
     private void displayCategoryWithRec(String[] tags) throws IOException {
-        Parent reccParent;
-        reccParent = WineCategoryDisplayController.createCategory("recommend");
+        Parent reccParent = WineCategoryDisplayController.createCategory("recommend");
         if (SearchWineService.getInstance().getWineList().isEmpty()) {
             displayCategoryNoRecc(tags);
         } else {
@@ -80,7 +80,14 @@ public class MainController {
                     parent = WineCategoryDisplayController.createCategory(tags[i - 1]);
                 }
                 int finalI = i;
-                Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
+                Platform.runLater(() -> {
+                    if (finalI >= contentsGrid.getRowCount()) {
+                        categoryAnchorPane.setPrefHeight(categoryAnchorPane.getPrefHeight() + 200);
+                        contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
+                        contentsGrid.addRow(contentsGrid.getRowCount());
+                    }
+                    contentsGrid.add(parent, 0, finalI);
+                });
             }
         }
     }

@@ -13,7 +13,7 @@
     <children>
         <ScrollPane depthTest="ENABLE" focusTraversable="false" hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-background: #FFFFFF;">
             <content>
-                <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1700.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-background: white;">
+                <AnchorPane fx:id="categoryAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1700.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-background: white;">
                     <children>
                         <Text fx:id="helloText" layoutX="9.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello [Name]!">
                             <font>
