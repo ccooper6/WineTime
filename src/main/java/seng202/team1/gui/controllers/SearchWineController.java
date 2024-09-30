@@ -1,10 +1,12 @@
 package seng202.team1.gui.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -27,6 +29,9 @@ import java.util.ArrayList;
 public class SearchWineController {
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
     private final int MAXSIZE = 60;
+    public FontAwesomeIconView sortDirection;
+    public ComboBox sortDropDown;
+
     private ArrayList<Wine> allWines;
     private int currentPage = 0;
 
@@ -59,7 +64,7 @@ public class SearchWineController {
     @FXML
     public void initialize()
     {
-
+        initSortByOptions();
         gotoPane.setVisible(false);
 
         allWines = SearchWineService.getInstance().getWineList();
@@ -158,7 +163,11 @@ public class SearchWineController {
 
 //        add wines
         for (int i = 0; i < end - start; i++) {
-            SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            if (SearchWineService.getInstance().getSortDirection()) {
+                SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            } else {
+                SearchWineService.getInstance().setCurrentWine(allWines.get(allWines.size() - start - i -1));
+            }
 
             int currentRow = i / columns;
             int currentCol = i % columns;
@@ -174,6 +183,17 @@ public class SearchWineController {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    /**
+     * Sets the dropdown options for the sorting
+     */
+    public void initSortByOptions() {
+        sortDropDown.getItems().add("Recommended");
+        sortDropDown.getItems().add("Price");
+        sortDropDown.getItems().add("Rating");
+        sortDropDown.getItems().add("Vintage");
     }
 
     /**
@@ -254,4 +274,17 @@ public class SearchWineController {
         gotoTextField.clear();
         gotoPane.setVisible(false);
     }
+    public void changeIcon() {
+        System.out.println(SearchWineService.getInstance().getSortDirection());
+        if (SearchWineService.getInstance().getSortDirection()) {
+            sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
+            SearchWineService.getInstance().setSortDirection(false);
+            displayCurrentPage();
+        } else {
+            sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+            SearchWineService.getInstance().setSortDirection(true);
+            displayCurrentPage();
+        }
+    }
+
 }
