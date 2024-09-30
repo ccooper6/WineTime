@@ -49,7 +49,7 @@ public class QuizService {
             "The Dark Knight",
             "Cheesecake",
             "Plum",
-            "Iberial Imperial Eagle",
+            "Iberian Imperial Eagle",
             "Gryffindor"
 
     ));
@@ -135,26 +135,31 @@ public class QuizService {
      * in the background even with large wait times.
      */
     public void launchWinePopup() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
         FXWrapper.getInstance().launchSubPage("profile");
-        FXWrapper.getInstance().getNavigationController().showLoadingScreen();
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() {
-                wineAlgorithm();
-                Platform.runLater(() -> {
-                    NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-                    navigationController.initPopUp(wine);
-                });
-                return null;
-            }
+        nav.executeWithLoadingScreen(() -> {
+            wineAlgorithm();
+            Platform.runLater(() -> {
+                NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+                navigationController.initPopUp(wine);
+            });
+        });
+    }
 
-            @Override
-            protected void succeeded() {
-                FXWrapper.getInstance().getNavigationController().hideLoadingScreen();
-            }
-        };
+    /**
+     * Method to show the loading screen.
+     */
+    private void showLoadingScreen() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.showLoadingScreen();
+    }
 
-        new Thread(task).start();
+    /**
+     * Method to hide the loading screen.
+     */
+    private void hideLoadingScreen() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.hideLoadingScreen();
     }
 
     /**

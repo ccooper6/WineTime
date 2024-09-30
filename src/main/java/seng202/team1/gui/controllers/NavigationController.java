@@ -1,6 +1,8 @@
 package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -90,12 +92,15 @@ public class NavigationController {
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
 
-                if (sortByComboBox.getValue().equals("In Name")) {
-                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-                } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-                }
-
+                NavigationController nav = FXWrapper.getInstance().getNavigationController();
+                nav.executeWithLoadingScreen(() -> {
+                    if (sortByComboBox.getValue().equals("In Name")) {
+                        SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+                    } else {
+                        SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
+                    }
+                });
+                
                 SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
                 SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
                 FXWrapper.getInstance().launchSubPage("searchWine");
@@ -106,11 +111,15 @@ public class NavigationController {
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
 
-                if (sortByComboBox.getValue().equals("In Name")) {
-                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-                } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-                }
+                NavigationController nav = FXWrapper.getInstance().getNavigationController();
+                nav.executeWithLoadingScreen(() -> {
+                    if (sortByComboBox.getValue().equals("In Name")) {
+                        SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+                    } else {
+                        SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
+                    }
+                });
+
 
                 SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
                 SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
@@ -282,6 +291,31 @@ public class NavigationController {
         } catch (IOException e) {
             LOG.error("Failed to load select challenge pop up\n" + e.getMessage());
         }
+    }
+
+    public void executeWithLoadingScreen(Runnable searchLogic) {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        Platform.runLater(navigationController::showLoadingScreen);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                searchLogic.run();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                Platform.runLater(navigationController::hideLoadingScreen);
+            }
+
+            @Override
+            protected void failed() {
+                Platform.runLater(navigationController::hideLoadingScreen);
+            }
+        };
+
+        new Thread(task).start();
     }
 
     /**
