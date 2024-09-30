@@ -1,18 +1,14 @@
 package seng202.team1.gui.controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import static java.sql.Types.NULL;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.models.User;
 import seng202.team1.models.Review;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;
@@ -52,6 +48,7 @@ public class WineLoggingPopupController {
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
+        likingText.setTextFill(Color.GREEN);
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
@@ -169,9 +166,11 @@ public class WineLoggingPopupController {
     private void monitorRating() {
         ratingSlider.valueProperty().addListener((observableValue, number, t1) -> {
             if (ratingSlider.getValue() < 3) {
-                likingText.setText("Which of the following parts of the wine did you dislike? (Optional)");
+                likingText.setText(" dislike?");
+                likingText.setTextFill(Color.RED);
             } else {
-                likingText.setText("Which of the following parts of the wine did you like? (Optional)");
+                likingText.setText(" like?");
+                likingText.setTextFill(Color.GREEN);
             }
         });
     }

@@ -1,6 +1,7 @@
 package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -146,12 +147,15 @@ public class PopUpController {
         for (Button button : tagButtons) {
             button.setOnAction(actionEvent -> {
                 String buttonName = button.getText();
+                NavigationController nav = FXWrapper.getInstance().getNavigationController();
+                nav.executeWithLoadingScreen(() -> {
+                    SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+                    SearchWineService.getInstance().setCurrentSearch(buttonName);
+                    SearchWineService.getInstance().setCurrentMethod("Tags");
+                    Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
 
-                SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+                });
 
-                SearchWineService.getInstance().setCurrentSearch(buttonName);
-                SearchWineService.getInstance().setCurrentMethod("Tags");
-                FXWrapper.getInstance().launchSubPage("searchWine");
             });
         }
     }
