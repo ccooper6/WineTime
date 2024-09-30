@@ -30,47 +30,33 @@ public class MainController {
      * Initializes the main page view.
      */
     public void initialize() {
-        showLoadingScreen();
-        Task<Void> task = new Task<>() {
-            // "The call method must be overridden and implemented by subclasses.
-            // The call method actually performs the background thread logic" - From the documentation
-            @Override
-            protected Void call() {
-                // Code as usual
-                WineCategoryService.getInstance().resetCurrentCategory();
-                helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.executeWithLoadingScreen(() -> {
+            WineCategoryService.getInstance().resetCurrentCategory();
+            helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
 
-                String[] tags = {
-                        "Bordeaux, Merlot",
-                        "Marlborough, Sauvignon Blanc",
-                        "Tuscany, Sangiovese",
-                        "Hawke's Bay, Syrah",
-                        "Spain, Rioja, Tempranillo",
-                        "Mendoza, Malbec",
-                        "US, Napa Valley, Cabernet Sauvignon",
-                        "Central Otago, Pinot Noir, New Zealand"
-                };
+            String[] tags = {
+                    "Bordeaux, Merlot",
+                    "Marlborough, Sauvignon Blanc",
+                    "Tuscany, Sangiovese",
+                    "Hawke's Bay, Syrah",
+                    "Spain, Rioja, Tempranillo",
+                    "Mendoza, Malbec",
+                    "US, Napa Valley, Cabernet Sauvignon",
+                    "Central Otago, Pinot Noir, New Zealand"
+            };
 
-                try {
-                    Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
-                    if (hasRecommended) {
-                        displayCategoryWithRec(tags);
-                    } else {
-                        displayCategoryNoRecc(tags);
-                    }
-                } catch (IOException e) { e.printStackTrace(); }
-                return null;
-            }
-
-            @Override // I think it needs to be overridden from looking at the intellij information? Seems to work with either though
-            protected void succeeded() { // Called if the task is successful in running completely through call()
-                hideLoadingScreen();
-            }
-        };
-
-        new Thread(task).start(); // Starts the thread to start behind the scenes (calls call())
-
+            try {
+                Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
+                if (hasRecommended) {
+                    displayCategoryWithRec(tags);
+                } else {
+                    displayCategoryNoRecc(tags);
+                }
+            } catch (IOException e) { e.printStackTrace(); }
+        });
     }
+
     /**
      * Displays the different tag categories with recommendations. If no wines can be recommended, it doesn't display
      * the recommended category
@@ -112,21 +98,5 @@ public class MainController {
             // Have to do this as it requires multiple loops to finish completely
             // - need to use for "A Task Which Returns Partial Results", from the Task documentation
         }
-    }
-
-    /**
-     * Shows the loading screen if it is needed.
-     */
-    private void showLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.showLoadingScreen();
-    }
-
-    /**
-     * Hides the loading screen if it is currently shown.
-     */
-    private void hideLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.hideLoadingScreen();
     }
 }
