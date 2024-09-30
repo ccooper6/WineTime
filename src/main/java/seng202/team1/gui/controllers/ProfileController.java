@@ -56,12 +56,9 @@ public class ProfileController {
     public void initialize() {
         challengePane.setVisible(false);
         if (challengeService.activeChallenge()) {
-            System.out.println("True");
             moveWinesPane();
             activateChallenge();
             displayChallenge();
-        } else {
-            System.out.println("false");
         }
         displayWishlist();
 
@@ -75,7 +72,6 @@ public class ProfileController {
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
         int currentUserUid = User.getCurrentUser().getId();
-//        System.out.println(currentUserUid);
 
         try {
             Parent parent = WineCategoryDisplayController.createCategory("wishlist");
@@ -115,10 +111,8 @@ public class ProfileController {
                 wineViews.get(i).getChildren().add(loader.load());
                 WineDisplayController wineDisplayController = loader.getController();
                 if (reviewService.reviewExists(currentUserUid, challengeWines.get(i).getWineId())) {
-                    System.out.println("wine reveiw: " + challengeWines.get(i).getName());
                     wineDisplayController.completedChallengeWine();
                     completedWineCount += 1;
-//                    set call challenge completed.
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -149,7 +143,6 @@ public class ProfileController {
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
-        System.out.println("challenge completed!");
         challengeService.challengeCompleted("Variety Challenge");
     }
 }

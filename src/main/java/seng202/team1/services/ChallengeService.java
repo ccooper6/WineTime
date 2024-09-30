@@ -86,8 +86,6 @@ public class ChallengeService {
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {
-//        if (chalDao.)
-        System.out.println("user doing variety challenge?");
         return Objects.equals(chalDao.getChallengeForUser(User.getCurrentUser().getId()), "Variety Challenge");
     }
 
@@ -107,10 +105,6 @@ public class ChallengeService {
         return chalDao.getChallengeForUser(User.getCurrentUser().getId());
     }
 
-//    public ArrayList<Integer> getWinesforVarietyChallenge() {
-//    }  retrieve 5 radom wines from the database and put them in the db,
-    // make it decades
-    // copy for countries.
 
 }
 
