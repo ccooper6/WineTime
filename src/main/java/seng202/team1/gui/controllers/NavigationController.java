@@ -75,7 +75,7 @@ public class NavigationController {
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
-        if (SearchWineService.getInstance().getCurrentMethod() == null) {
+        if (SearchWineService.getInstance().getCurrentMethod() == null || !FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
             sortByComboBox.getSelectionModel().selectFirst();
         } else {
             sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
@@ -87,25 +87,19 @@ public class NavigationController {
      */
     private void initialiseSearchBar()
     {
-        System.out.println();
-        System.out.println(FXWrapper.getInstance().getCurrentPage());
-        System.out.println();
         if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
             searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         }
+
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
-
                 launchSearchWineLoadingScreen();
-
             }
         });
 
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
-
                 launchSearchWineLoadingScreen();
-
             }
         });
 
@@ -125,13 +119,13 @@ public class NavigationController {
             }
         });
 
-
         dropdownButton.setOnMouseEntered(event -> openDropDown());
         dropdownButton.setOnMouseExited(event -> {
             if (!userDropDownMenu.isHover() && !dropdownLocked) {
                 closeDropDown();
             }
         });
+
         userDropDownMenu.setOnMouseExited(event -> {
             if (!dropdownButton.isHover() && !dropdownLocked) {
                 closeDropDown();
