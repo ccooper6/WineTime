@@ -52,7 +52,6 @@ public class NavigationController {
 
     private Wine wine;
     private boolean dropdownLocked = false;
-    private String currentPage = "init";
 
      /**
      * Initializes the controller.
@@ -76,7 +75,7 @@ public class NavigationController {
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
-        if (SearchWineService.getInstance().getCurrentMethod() == null) {
+        if (SearchWineService.getInstance().getCurrentMethod() == null || !FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
             sortByComboBox.getSelectionModel().selectFirst();
         } else {
             sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
@@ -88,43 +87,19 @@ public class NavigationController {
      */
     private void initialiseSearchBar()
     {
-        searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+        if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
+            searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+        }
+
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
-
-                NavigationController nav = FXWrapper.getInstance().getNavigationController();
-                nav.executeWithLoadingScreen(() -> {
-                    if (sortByComboBox.getValue().equals("In Name")) {
-                        SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-                    } else {
-                        SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-                    }
-                });
-                
-                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
-                FXWrapper.getInstance().launchSubPage("searchWine");
-                searchBar.getParent().requestFocus();
+                launchSearchWineLoadingScreen();
             }
         });
 
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
-
-                NavigationController nav = FXWrapper.getInstance().getNavigationController();
-                nav.executeWithLoadingScreen(() -> {
-                    if (sortByComboBox.getValue().equals("In Name")) {
-                        SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-                    } else {
-                        SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-                    }
-                });
-
-
-                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
-                FXWrapper.getInstance().launchSubPage("searchWine");
-                searchBar.getParent().requestFocus();
+                launchSearchWineLoadingScreen();
             }
         });
 
@@ -144,19 +119,39 @@ public class NavigationController {
             }
         });
 
-
         dropdownButton.setOnMouseEntered(event -> openDropDown());
         dropdownButton.setOnMouseExited(event -> {
             if (!userDropDownMenu.isHover() && !dropdownLocked) {
                 closeDropDown();
             }
         });
+
         userDropDownMenu.setOnMouseExited(event -> {
             if (!dropdownButton.isHover() && !dropdownLocked) {
                 closeDropDown();
             }
         });
         userDropDownMenu.setOnMouseEntered(event -> openDropDown());
+    }
+
+    /**
+     * Launches the search wine loading screen by running it as a thread and launching the loading screen
+     * to indicate to the user that there are searches being made behind the scenes.
+     */
+    private void launchSearchWineLoadingScreen() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.executeWithLoadingScreen(() -> {
+            if (sortByComboBox.getValue().equals("In Name")) {
+                SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+            } else {
+                SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
+            }
+            SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+            SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
+
+            Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
+        });
+        searchBar.getParent().requestFocus();
     }
 
     /**
@@ -215,7 +210,6 @@ public class NavigationController {
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
-            currentPage = name;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -226,7 +220,7 @@ public class NavigationController {
      * @return the current page name
      */
     public String getCurrentPage() {
-        return currentPage;
+        return FXWrapper.getInstance().getCurrentPage();
     }
 
     /**

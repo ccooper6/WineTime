@@ -70,7 +70,7 @@ public class WineDisplayController {
     @FXML
     public void darkenPane()
     {
-        winePane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15;");
+        winePane.setStyle("-fx-background-color: #d6d6d6; -fx-background-radius: 15;");
     }
 
     /**
