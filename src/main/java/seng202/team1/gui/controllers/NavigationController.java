@@ -56,7 +56,7 @@ public class NavigationController {
      * Initializes the controller.
      */
     public void initialize() {
-        initialseSortByComboBox();
+        initializeSortByComboBox();
 
         initialiseSearchBar();
 
@@ -70,7 +70,7 @@ public class NavigationController {
     /**
      * Inserts options into sort by combo box and selects first.
      */
-    private void initialseSortByComboBox()
+    private void initializeSortByComboBox()
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
@@ -348,5 +348,12 @@ public class NavigationController {
      */
     public void onUserClicked() {
         FXWrapper.getInstance().launchSubPage("profile");
+    }
+
+    /**
+     * Sends the user to the help page when the help button is clicked.
+     */
+    public void onHelpClicked() {
+        FXWrapper.getInstance().launchSubPage("helpScreen");
     }
 }

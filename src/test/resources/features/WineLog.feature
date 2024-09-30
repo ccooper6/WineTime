@@ -16,6 +16,6 @@ Feature: Logging a wine
   Scenario: Re-logging a previously logged wine
     Given I am viewing a wine #2 with tags "Pinor", "Italy" and "2006" as user 3
     When I have previously rated it a 5 with the description "I love this wine"
-    And I rate it a -1
+    And I rate it a 2
     And I click submit log
     Then The log is properly updated

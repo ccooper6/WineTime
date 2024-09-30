@@ -16,7 +16,9 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.ReviewService;
+import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
 
 import java.awt.*;
@@ -66,6 +68,8 @@ public class PopUpController {
     @FXML
     private FontAwesomeIconView logWineIcon;
 
+    private ArrayList<Button> tagButtons;
+
     private final ReviewService reviewService = new ReviewService();
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
 
@@ -74,6 +78,8 @@ public class PopUpController {
      */
     @FXML
     public void initialize() {
+        tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
+
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> closePopUp());
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
@@ -131,6 +137,23 @@ public class PopUpController {
                 tagScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             }
         });
+
+        initialiseOnTagClicked();
+    }
+
+    private void initialiseOnTagClicked()
+    {
+        for (Button button : tagButtons) {
+            button.setOnAction(actionEvent -> {
+                String buttonName = button.getText();
+
+                SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+
+                SearchWineService.getInstance().setCurrentSearch(buttonName);
+                SearchWineService.getInstance().setCurrentMethod("Tags");
+                FXWrapper.getInstance().launchSubPage("searchWine");
+            });
+        }
     }
 
     /**

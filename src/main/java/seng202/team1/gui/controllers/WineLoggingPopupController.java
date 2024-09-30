@@ -1,5 +1,7 @@
 package seng202.team1.gui.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import static java.sql.Types.NULL;
 
 import javafx.fxml.FXML;
@@ -15,6 +17,8 @@ import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;
 
+import static java.sql.Types.NULL;
+
 /**
  * The controller class for the wine logging popup. Called by {@link PopUpController#loadWineLoggingPopUp()} when the
  * log wine button is pressed.
@@ -23,7 +27,7 @@ import java.util.ArrayList;
  */
 public class WineLoggingPopupController {
     @FXML
-    public Button popUpCloseButton;
+    private Button popUpCloseButton;
     @FXML
     private Label characterRemainingLabel;
     @FXML
@@ -105,6 +109,10 @@ public class WineLoggingPopupController {
             tagCheckBoxArray.add(new CheckBox(wine.getVintage() + " Vintage"));
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
+        if (wine.getCountry() != null) {
+            tagCheckBoxArray.add(new CheckBox(wine.getCountry() + " Country"));
+            tagNameArray.add(wine.getCountry());
+        }
         if (wine.getProvince() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));
             tagNameArray.add(wine.getProvince());
@@ -135,7 +143,7 @@ public class WineLoggingPopupController {
      * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining.
      */
     private void addDescCharLimit() {
-        int maxLength = 120;
+        int maxLength = 160;
         descriptionTextArea.setWrapText(true);
         descriptionTextArea.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String string = "";

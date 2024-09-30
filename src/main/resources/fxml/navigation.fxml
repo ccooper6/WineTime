@@ -16,25 +16,24 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
+<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
    <children>
-      <AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
-         <BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0">
+      <AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
+         <BorderPane fx:id="mainPane" prefHeight="720.0" prefWidth="1280.0">
             <top>
-               <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+               <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                   <children>
-                     <FontAwesomeIconView fx:id="reviewsButton" fill="GREY" glyphName="COMMENT" layoutX="830.0" layoutY="53.0" onMouseClicked="#onLogsClicked" selectionEnd="0" size="40" text="" wrappingWidth="41.32696533203125">
+                     <FontAwesomeIconView fx:id="reviewsButton" fill="GREY" glyphName="COMMENT" layoutX="1015.0" layoutY="60.0" onMouseClicked="#onLogsClicked" selectionEnd="0" size="50" text="" wrappingWidth="41.32696533203125">
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </FontAwesomeIconView>
-                     <FontAwesomeIconView fx:id="wishlistButton" fill="#70171e" glyphName="HEART" layoutX="883.0" layoutY="56.0" onMouseClicked="#onLikesClicked" size="40" text="" wrappingWidth="42.3228759765625">
+                     <FontAwesomeIconView fx:id="wishlistButton" fill="#70171e" glyphName="HEART" layoutX="1105.0" layoutY="60.0" onMouseClicked="#onLikesClicked" size="50" text="" wrappingWidth="42.3228759765625">
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </FontAwesomeIconView>
-                     <FontAwesomeIconView fx:id="dropdownButton" glyphName="BARS" layoutX="940.0" layoutY="57.0" onMouseClicked="#toggleDropdownOpen" size="40" tabSize="30">
+                     <FontAwesomeIconView fx:id="dropdownButton" glyphName="BARS" layoutX="1195.0" layoutY="60.0" onMouseClicked="#toggleDropdownOpen" size="50" tabSize="30">
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor>
@@ -47,12 +46,12 @@
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </ImageView>
-                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="234.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
+                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="341.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
 <!--                  <opaqueInsets>-->
 <!--                     <Insets />-->
 <!--                  </opaqueInsets>-->
                </TextField>
-                     <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="195.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
+                     <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="302.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
                      <Circle fill="#b5b5b5" layoutX="130.0" layoutY="47.0" onMouseClicked="#onHomeClicked" radius="32.0" stroke="TRANSPARENT" strokeType="INSIDE">
                         <cursor>
                            <Cursor fx:constant="HAND" />
@@ -66,7 +65,7 @@
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </ImageView>
-                     <ComboBox fx:id="sortByComboBox" layoutX="701.0" layoutY="35.0" prefHeight="24.0" prefWidth="116.0" promptText="To Sort By" visibleRowCount="2">
+                     <ComboBox fx:id="sortByComboBox" layoutX="808.0" layoutY="35.0" prefHeight="24.0" prefWidth="116.0" promptText="To Sort By" visibleRowCount="2">
                         <cursor>
                            <Cursor fx:constant="DEFAULT" />
                         </cursor>
@@ -75,7 +74,7 @@
                </Pane>
             </top>
             <center>
-               <StackPane fx:id="contentHere" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #d9d9d9;" BorderPane.alignment="CENTER">
+               <StackPane fx:id="contentHere" prefHeight="720.0" prefWidth="1200.0" style="-fx-background-color: #d9d9d9;" BorderPane.alignment="CENTER">
                   <children>
                      <Pane fx:id="stackPanePane" prefHeight="183.0" prefWidth="600.0" visible="false">
                         <children>
@@ -86,7 +85,7 @@
                </StackPane>
             </center>
          </BorderPane>
-         <VBox fx:id="userDropDownMenu" alignment="CENTER" layoutX="898.0" layoutY="58.0" prefHeight="148.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #ececec; -fx-border-radius: 15; -fx-background-radius: 15;" visible="false">
+         <VBox fx:id="userDropDownMenu" alignment="CENTER" layoutX="1164.0" layoutY="60.0" prefHeight="148.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #ececec; -fx-border-radius: 15; -fx-background-radius: 15;" visible="false">
             <children>
                <Button mnemonicParsing="false" onAction="#onUserClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Profile" textFill="WHITE">
                   <graphic>
@@ -99,7 +98,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                </Button>
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
+               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onHelpClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
                   <font>
                      <Font size="15.0" />
                   </font>

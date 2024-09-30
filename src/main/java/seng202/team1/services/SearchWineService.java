@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
@@ -15,12 +16,12 @@ public class SearchWineService {
     private Wine currentWine;
     private ArrayList<Wine> wineList;
     private String currentTags;
-
+    private boolean sortDirection = true;
     private static SearchWineService instance;
-
     private String currentSearch;
     private String currentMethod;
     private boolean fromWishlist = false;
+    private ArrayList<String> selectedVarieties;
 
     /**
      * Returns the instance and creates one if none exists.
@@ -105,9 +106,17 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-
-        wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
+        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit);
+        //wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
         fromWishlist = false;
+    }
+
+    /**
+     * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
+     * @param limit an integer limit to the number of wines to recommend
+     */
+    public void searchWinesByRecommend(int limit) {
+        wineList = RecommendWineService.getInstance().getRecommendedWines(User.getCurrentUser().getId(), limit);
     }
 
     /**
@@ -162,4 +171,9 @@ public class SearchWineService {
     public boolean getFromWishlist() {
         return fromWishlist;
     }
+    public boolean getSortDirection(){ return sortDirection;}
+    public void setSortDirection(boolean isUp) {
+        sortDirection = isUp;
+    }
+
 }

@@ -5,13 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The unit test for the {@link LogWineDao} class
@@ -243,4 +242,48 @@ public class LogWineDAOTest {
         ArrayList<Review> reviews = logWineDao.getUserReview(1, true);
         Assertions.assertTrue(reviews.isEmpty());
     }
+
+    /**
+     * Makes sure that only the top positively liked tags are returned by {@link LogWineDao#getFavouritedTags(int, int)}
+     */
+    @Test
+    public void testGetFavouritedTags() {
+        String[] tags = {"2006", "2005", "2004"};
+        for (String tag : tags) {
+            logWineDao.likes(1,tag, 100);
+        }
+        logWineDao.likes(1, "2006", -1000);
+        logWineDao.likes(1, "2004", -1000);
+        logWineDao.likes(2, "2006", 1000);
+        ArrayList<String> favTags = logWineDao.getFavouritedTags(1,2);
+        Assertions.assertTrue(favTags.contains("2005"));
+        Assertions.assertFalse(favTags.contains("2006"));
+    }
+
+    /**
+     * makes sure that {@link LogWineDao#getDislikedTags(int)} only returns negatively rated tags
+     */
+    @Test
+    public void testGetDislikedTest() {
+        logWineDao.likes(1, "2006", 1000);
+        logWineDao.likes(1, "2004", -1000);
+        logWineDao.likes(2, "2006", 2000);
+        ArrayList<String> hatedTags = logWineDao.getDislikedTags(1);
+        Assertions.assertTrue(hatedTags.contains("2004"));
+        Assertions.assertFalse(hatedTags.contains("2006"));
+    }
+
+    /**
+     * make sure that {@link LogWineDao#getReviewedWines(int)} only returns wine id that the user has reviewed before.
+     */
+    @Test
+    public void testGetReviewedWines() {
+        logWineDao.reviews(1,4,10,"I can travel to future", "2026-10-15 14:59:51", null, true);
+        logWineDao.reviews(1,2,3,"I like wine", "2024-09-15 14:59:51", null, true);
+        logWineDao.reviews(2,3,-10,"I no longer like wine", "2025-10-15 14:59:51", null, true);
+        ArrayList<Integer> reviewedWines = logWineDao.getReviewedWines(1);
+        Assertions.assertTrue(reviewedWines.contains(4) && reviewedWines.contains(2));
+        Assertions.assertFalse(reviewedWines.contains(3));
+    }
+
 }
