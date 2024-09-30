@@ -23,7 +23,9 @@ import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -231,7 +233,19 @@ public class PopUpController {
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                    desktop.browse(new URI(googleSearchURL));
+                    // open browser with a thread
+                    Runnable browseRunnable = () -> {
+                        try {
+                            desktop.browse(new URI(googleSearchURL));
+                        } catch (URISyntaxException e) {
+                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Syntax error in URL: {}", googleSearchURL);
+                        } catch (IOException e) {
+                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
+                        }
+                    };
+
+                    Thread thread = new Thread(browseRunnable);
+                    thread.start();
                 }
             } else {
                 System.out.println("Not supported");
