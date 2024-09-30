@@ -49,7 +49,7 @@ public class QuizService {
             "The Dark Knight",
             "Cheesecake",
             "Plum",
-            "Iberial Imperial Eagle",
+            "Iberian Imperial Eagle",
             "Gryffindor"
 
     ));
@@ -135,6 +135,7 @@ public class QuizService {
      * in the background even with large wait times.
      */
     public void launchWinePopup() {
+        System.out.println(recordOfAnswers);
         showLoadingScreen();
         Task<Void> task = new Task<>() {
             @Override
