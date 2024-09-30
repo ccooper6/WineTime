@@ -8,6 +8,7 @@ import seng202.team1.repository.DAOs.ChallengeDAO;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Service class for the challenge tracker feature.
@@ -25,9 +26,32 @@ public class ChallengeService {
     /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.
      */
-    public void startChallengeVariety() {
-        chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge");
-        chalDao.wineInChallenge(); //why does this need called????
+    public void startChallengeVariety()
+    {
+        ArrayList<Integer> wineids = getWinesforVarietyChallenge();
+        chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineids);
+    }
+
+    public void challengeCompleted(String cname)
+    {
+        chalDao.challengeCompleted(User.getCurrentUser().getId(), cname);
+    }
+
+    public ArrayList<Integer> getWinesforVarietyChallenge() {
+        ArrayList<Integer> varietyWines = new ArrayList<>();
+        Random random = new Random();
+        SearchWineService.getInstance().searchWinesByTags("merlot", 50);
+        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
+        SearchWineService.getInstance().searchWinesByTags("pinot gris", 50);
+        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
+        SearchWineService.getInstance().searchWinesByTags("chardonnay", 50);
+        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
+        SearchWineService.getInstance().searchWinesByTags("red blend", 50);
+        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
+        SearchWineService.getInstance().searchWinesByTags("rose", 50);
+        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
+
+        return varietyWines;
     }
 
     /**
@@ -62,6 +86,8 @@ public class ChallengeService {
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {
+//        if (chalDao.)
+        System.out.println("user doing variety challenge?");
         return Objects.equals(chalDao.getChallengeForUser(User.getCurrentUser().getId()), "Variety Challenge");
     }
 
@@ -70,7 +96,7 @@ public class ChallengeService {
      * @return arraylist of the wines for the challenge the user is participating in.
      */
     public ArrayList<Wine> challengeWines() {
-        return chalDao.getWinesForChallenge(chalDao.getChallengeForUser(User.getCurrentUser().getId()));
+        return chalDao.getWinesForChallenge(chalDao.getChallengeForUser(User.getCurrentUser().getId()), User.getCurrentUser().getId());
     }
 
     /**

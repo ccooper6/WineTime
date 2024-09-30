@@ -56,9 +56,12 @@ public class ProfileController {
     public void initialize() {
         challengePane.setVisible(false);
         if (challengeService.activeChallenge()) {
+            System.out.println("True");
             moveWinesPane();
             activateChallenge();
             displayChallenge();
+        } else {
+            System.out.println("false");
         }
         displayWishlist();
 
@@ -147,6 +150,7 @@ public class ProfileController {
         completedChalPane.setVisible(true);
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
         System.out.println("challenge completed!");
+        challengeService.challengeCompleted("Variety Challenge");
     }
 }
 
