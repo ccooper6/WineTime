@@ -293,6 +293,11 @@ public class NavigationController {
         }
     }
 
+    /**
+     * The method allows blocks of logic to be executed with a loading screen. It also forces them to be run with
+     * dedicated resources which is good when trying to reduce wait times (e.g. search wine service calls from the nav bar)
+     * @param searchLogic the logic to be executed behind a loading screen
+     */
     public void executeWithLoadingScreen(Runnable searchLogic) {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         Platform.runLater(navigationController::showLoadingScreen);
