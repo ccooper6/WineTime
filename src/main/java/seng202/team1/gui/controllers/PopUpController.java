@@ -184,7 +184,7 @@ public class PopUpController {
         int currentUserUid = User.getCurrentUser().getId();
 
         if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
-            logWineIcon.setFill(Color.web("#70171e"));
+            logWineIcon.setFill(Color.web("#808080"));
         } else {
             logWineIcon.setFill(Color.web("#d0d0d0"));
         }
