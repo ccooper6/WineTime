@@ -25,6 +25,8 @@ public class WineDisplayController {
     @FXML
     private AnchorPane winePane;
     @FXML
+    private AnchorPane wineCompleted;
+    @FXML
     private FontAwesomeIconView wineLiked;
     @FXML
     private FontAwesomeIconView wineReviewed;
@@ -39,6 +41,7 @@ public class WineDisplayController {
     public void initialize()
     {
         wine = SearchWineService.getInstance().getCurrentWine();
+        wineCompleted.setVisible(false);
         wineImage.setImage(new Image(wine.getImagePath()));
         wineInfo.setText(wine.getName());
         wineInfo.setWrapText(true);
@@ -77,6 +80,14 @@ public class WineDisplayController {
     public void lightenPane()
     {
         winePane.setStyle("-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
+    }
+
+    @FXML
+    public void completedChallengeWine()
+    {
+//        winePane.setStyle("-fx-background-color:  #008000; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
+        wineCompleted.setVisible(true);
+        wineCompleted.setMouseTransparent(true);
     }
 
 }
