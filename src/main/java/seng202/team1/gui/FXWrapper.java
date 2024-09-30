@@ -8,6 +8,7 @@ import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.User;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A singleton class which launches the FXML pages.
@@ -18,6 +19,7 @@ public class FXWrapper {
     private Stage stage;
     private NavigationController navigationController;
     private int challenge = 0;
+    private String currentPage = "init";
 
     /**
      * Gets the singleton.
@@ -49,6 +51,7 @@ public class FXWrapper {
      */
     public void launchPage(String name) {
         try {
+            FXWrapper.getInstance().setCurrentPage(name);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -68,10 +71,11 @@ public class FXWrapper {
      */
     public void launchSubPage(String name) {
         try {
+            FXWrapper.getInstance().setCurrentPage(name);
             FXMLLoader navigationLoader = new FXMLLoader(getClass().getResource("/fxml/navigation.fxml"));
             Parent navigationRoot = navigationLoader.load();
             navigationController = navigationLoader.getController();
-            if (name == "mainpage") {
+            if (name.equals("mainpage")) {
                 navigationController.loadMainScreen();
             } else {
                 navigationController.loadPageContent(name);
@@ -108,5 +112,21 @@ public class FXWrapper {
      */
     public int getChallenge() {
         return challenge;
+    }
+
+    /**
+     * Gets the current page that is being shown.
+     * @return current page name
+     */
+    public String getCurrentPage() {
+        return currentPage;
+    }
+
+    /**
+     * Sets the current page that is being shown.
+     * @param page the current page name
+     */
+    public void setCurrentPage(String page) {
+        currentPage = page;
     }
 }

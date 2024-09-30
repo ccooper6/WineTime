@@ -52,7 +52,6 @@ public class NavigationController {
 
     private Wine wine;
     private boolean dropdownLocked = false;
-    private String currentPage = "init";
 
      /**
      * Initializes the controller.
@@ -88,7 +87,12 @@ public class NavigationController {
      */
     private void initialiseSearchBar()
     {
-        searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+        System.out.println();
+        System.out.println(FXWrapper.getInstance().getCurrentPage());
+        System.out.println();
+        if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
+            searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+        }
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
 
@@ -212,7 +216,6 @@ public class NavigationController {
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
-            currentPage = name;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -223,7 +226,7 @@ public class NavigationController {
      * @return the current page name
      */
     public String getCurrentPage() {
-        return currentPage;
+        return FXWrapper.getInstance().getCurrentPage();
     }
 
     /**
