@@ -3,30 +3,26 @@
     -fx-background-color: transparent; /* Background color */
     -fx-border-color: #70171e; /* Border color */
     -fx-border-radius: 15px; /* Rounded corners */
-    -fx-padding: 5px; /* Inner padding */
+    -fx-padding: 0px; /* Inner padding */
     -fx-font-size: 14px; /* Font size */
 }
 
 /* Styling for the text field inside the combo box */
 .combo-box .text-field {
     -fx-background-color: white; /* Transparent background */
-    -fx-border-color: #70171e; /* No border */
+    -fx-border-color: transparent; /* No border */
     -fx-padding: 5px; /* Padding for the text field */
     -fx-font-size: 14px; /* Match font size */
-    -fx-text-fill: #ffffff;
-    -fx-border-radius: 15px;
+    -fx-text-fill: black;
+    -fx-border-radius: 16px;
 }
 
 /* Styling for the dropdown list */
 .combo-box .list-view {
     -fx-background-color: #ffffff; /* Dropdown background */
     -fx-border-color: #70171e; /* Border color */
-    -fx-border-radius: 15px; /* Rounded corners */
+    -fx-border-radius: 16px; /* Rounded corners */
     -fx-padding: 5px; /* Padding in dropdown */
-}
-
-.combo-box .text-field .prompt-text {
-    -fx-text-fill: #ffffff; /* Placeholder text color (white) */
 }
 
 /* Item styling in the dropdown list */
