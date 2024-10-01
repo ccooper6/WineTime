@@ -22,6 +22,9 @@ public class SearchWineService {
     private String currentMethod;
     private boolean fromWishlist = false;
     private ArrayList<String> selectedVarieties;
+    private String searchOrder = "wine_name";
+    private String prevSearch;
+    private String prevDropDown = "Name";
 
     /**
      * Returns the instance and creates one if none exists.
@@ -106,8 +109,8 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit);
-        //wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
+        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit, searchOrder);
+        prevSearch = filterString;
         fromWishlist = false;
     }
 
@@ -163,17 +166,24 @@ public class SearchWineService {
         wineList = WishlistDAO.getInstance().fetchWines(userId);
         fromWishlist = true;
     }
-
-    /**
-     * If from wishlist, behavior in WineDisplay is different.
-     * @return true if the prev page is wishlist, else false
-     */
-    public boolean getFromWishlist() {
-        return fromWishlist;
-    }
     public boolean getSortDirection(){ return sortDirection;}
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
     }
+    public void setSearchOrder(String searchOrder) {
+        System.out.println("search order: " + searchOrder);
+        this.searchOrder = searchOrder;
+        searchWinesByName(prevSearch, SearchDAO.UNLIMITED);
+    }
 
+    /**
+     * Stores the dropdown sort by for later
+     * @param prevDropDown
+     */
+    public void setDropDown(String prevDropDown) {
+        this.prevDropDown = prevDropDown;
+    }
+    public String getPrevDropDown() {
+        return prevDropDown;
+    }
 }
