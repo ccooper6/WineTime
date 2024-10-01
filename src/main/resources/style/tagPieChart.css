@@ -1,0 +1,58 @@
+/************* Wine-Themed Pie Chart CSS *************/
+
+/* Set the general background color for the chart */
+.chart-pie {
+    -fx-background-color: #f5f5f5; /* Light gray to contrast with the pie */
+}
+
+/* Customize the pie slices with wine-inspired colors */
+.chart-pie .chart-pie-data {
+    /* Deep red wine slice */
+    .data0 {
+        -fx-pie-color: #8B0000; /* Dark Red */
+    }
+
+    /* Purple grape slice */
+    .data1 {
+        -fx-pie-color: #6A0DAD; /* Grape Purple */
+    }
+
+    /* Rosé wine slice */
+    .data2 {
+        -fx-pie-color: #FFB6C1; /* Light Pink */
+    }
+
+    /* White wine slice */
+    .data3 {
+        -fx-pie-color: #F5DEB3; /* Wheat Color for White Wine */
+    }
+
+    /* Champagne slice */
+    .data4 {
+        -fx-pie-color: #FFE135; /* Champagne-like Golden Yellow */
+    }
+}
+
+/* Customize chart title */
+.chart-title {
+    -fx-text-fill: #4B0082; /* Indigo text for the title */
+    -fx-font-size: 18px;    /* Slightly larger title */
+    -fx-font-weight: bold;  /* Make title bold */
+}
+
+/* Customize chart legend */
+.chart-legend {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #8B0000; /* Border color same as wine color */
+}
+
+.chart-legend-item {
+    -fx-text-fill: #4B0082; /* Indigo color for legend text */
+    -fx-font-size: 12px;    /* Adjust font size */
+}
+
+/* Customize the pie chart data label */
+.chart-pie .chart-pie-label {
+    -fx-text-fill: white;  /* White text for contrast with the pie colors */
+    -fx-font-weight: bold; /* Bold text */
+}
