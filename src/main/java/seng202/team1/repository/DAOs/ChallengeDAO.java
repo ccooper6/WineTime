@@ -172,6 +172,7 @@ public class ChallengeDAO {
         if (challengeHasWines() == false) {
             for (int i = 0; i < wineIds.size(); i ++) {
                 insertWineChal(wineIds.get(i), uid, challengeName);
+                System.out.println("insert" + wineIds.get(i));
             }
         }
     }

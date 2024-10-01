@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import javafx.scene.layout.AnchorPane;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.User;
@@ -7,6 +8,7 @@ import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.ChallengeDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -15,6 +17,13 @@ import java.util.Random;
  * @author Lydia Jackson
  */
 public class ChallengeService {
+
+    private List<String> varities = List.of("merlot", "pinot gris", "chardonnay", "red blend", "rose");
+    private List<String> years = List.of("1989", "1990", "2000", "2010", "2005");
+    private List<String> reds = List.of("red", "red", "red", "red", "red");
+    private List<String> whites = List.of("whites", "whites", "whites", "whites", "whites");
+    private List<String> rose = List.of("rose", "rose", "rose", "rose", "rose");
+
     private final ChallengeDAO chalDao = new ChallengeDAO();
 
     /**
@@ -22,8 +31,14 @@ public class ChallengeService {
      */
     public void startChallengeVariety()
     {
-        ArrayList<Integer> wineids = getWinesforVarietyChallenge();
+        ArrayList<Integer> wineids = getWinesforChallenge(varities);
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineids);
+    }
+
+    public void startChallengeYears()
+    {
+        ArrayList<Integer> wineids = getWinesforChallenge(years);
+        chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Time Travelling Challenge", wineids);
     }
 
     /**
@@ -39,27 +54,21 @@ public class ChallengeService {
      * chose 5 random wines of different variety and returns there ids in an array list.
      * @return ArrayList<Integer> list of wine ids </Integer>
      */
-    public ArrayList<Integer> getWinesforVarietyChallenge() {
-        ArrayList<Integer> varietyWines = new ArrayList<>();
-        Random random = new Random();
-        SearchWineService.getInstance().searchWinesByTags("merlot", 50);
-        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
-        SearchWineService.getInstance().searchWinesByTags("pinot gris", 50);
-        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
-        SearchWineService.getInstance().searchWinesByTags("chardonnay", 50);
-        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
-        SearchWineService.getInstance().searchWinesByTags("red blend", 50);
-        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
-        SearchWineService.getInstance().searchWinesByTags("rose", 50);
-        varietyWines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
-
-        return varietyWines;
+    public ArrayList<Integer> getWinesforChallenge(List<String> types) {
+        ArrayList<Integer> wines = new ArrayList<>();
+        for (int i = 0; i < types.size(); i ++) {
+            Random random = new Random();
+            SearchWineService.getInstance().searchWinesByTags(types.get(i), 50);
+            wines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
+            System.out.print(wines);
+        }
+        return wines;
     }
 
     /**
      * Launches/resets the profile.
      */
-    public void launchProfile() {
+    public void launchProfile() { // take this out
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadPageContent("profile");
@@ -68,7 +77,7 @@ public class ChallengeService {
     /**
      * Launches the select challenge pop up.
      */
-    public void launchSelectChallenge() {
+    public void launchSelectChallenge() { ///take this out
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadSelectChallengePopUpContent();

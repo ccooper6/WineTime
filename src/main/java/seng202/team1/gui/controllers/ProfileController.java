@@ -104,6 +104,7 @@ public class ProfileController {
         ArrayList<Wine> challengeWines = challengeService.challengeWines();
         completedWineCount = 0;
         int currentUserUid = User.getCurrentUser().getId();
+        String cname = challengeService.usersChallenge();
         for (int i = 0; i < wineViews.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(challengeWines.get(i));
             try {
@@ -119,7 +120,7 @@ public class ProfileController {
             }
         }
         if (completedWineCount == 5) {
-            challengeCompleted();
+            challengeCompleted(cname);
         }
     }
 
@@ -138,12 +139,12 @@ public class ProfileController {
         winesPane.setLayoutY(winesPane.getLayoutY()+90);
     }
 
-    public void challengeCompleted() {
+    public void challengeCompleted(String cname) {
         winesPane.setLayoutY(winesPane.getLayoutY()-90);
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
-        challengeService.challengeCompleted("Variety Challenge");
+        challengeService.challengeCompleted(cname);
     }
 }
 

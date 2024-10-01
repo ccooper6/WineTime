@@ -19,6 +19,12 @@ public class SelectChallengePopupController {
     }
 
 
+    public void startYearsChallenge() {
+        challengeService.startChallengeYears();
+        challengeService.launchProfile();
+    }
+
+
     /**
      * Closes the popup.
      */
