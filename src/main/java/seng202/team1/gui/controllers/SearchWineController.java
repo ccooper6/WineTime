@@ -17,7 +17,9 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.services.SearchWineService;
+import org.controlsfx.control.SearchableComboBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +59,13 @@ public class SearchWineController {
     private TextField gotoTextField;
     @FXML
     private Button gotoButton;
+    @FXML
+    private SearchableComboBox<String> varietyComboBox;
+    @FXML
+    private SearchableComboBox<String> countryComboBox;
+    @FXML
+    private SearchableComboBox<String> wineryComboBox;
+
 
     /**
      * Initialises the controller using wines from SearchWineService instance.
@@ -64,6 +73,9 @@ public class SearchWineController {
     @FXML
     public void initialize()
     {
+        initializeCountryComboBox();
+        initializeVarietyComboBox();
+        initializeWineryComboBox();
         initSortByOptions();
         gotoPane.setVisible(false);
 
@@ -105,6 +117,20 @@ public class SearchWineController {
                 }
             }
         });
+    }
+
+    private void initializeVarietyComboBox()
+    {
+        varietyComboBox.getItems().addAll(TagDAO.getInstance().getVarieties());
+    }
+    private void initializeCountryComboBox()
+    {
+        countryComboBox.getItems().addAll(TagDAO.getInstance().getCountries());
+    }
+    private void initializeWineryComboBox()
+    {
+        wineryComboBox.getItems().addAll(TagDAO.getInstance().getWineries());
+
     }
 
     /**
