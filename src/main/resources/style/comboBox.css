@@ -1,6 +1,6 @@
 /* General styling for the SearchableComboBox */
 .combo-box {
-    -fx-background-color: light grey; /* Background color */
+    -fx-background-color: transparent; /* Background color */
     -fx-border-color: #70171e; /* Border color */
     -fx-border-radius: 15px; /* Rounded corners */
     -fx-padding: 5px; /* Inner padding */
