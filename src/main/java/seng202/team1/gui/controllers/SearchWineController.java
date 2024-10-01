@@ -10,12 +10,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
 
@@ -30,6 +32,7 @@ public class SearchWineController {
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
     private final int MAXSIZE = 60;
     public FontAwesomeIconView sortDirection;
+    @FXML
     public ComboBox sortDropDown;
 
     private ArrayList<Wine> allWines;
@@ -183,7 +186,6 @@ public class SearchWineController {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
@@ -191,9 +193,13 @@ public class SearchWineController {
      */
     public void initSortByOptions() {
         sortDropDown.getItems().add("Recommended");
+        sortDropDown.getItems().add("Name");
         sortDropDown.getItems().add("Price");
-        sortDropDown.getItems().add("Rating");
+        sortDropDown.getItems().add("Points");
         sortDropDown.getItems().add("Vintage");
+        sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
+        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+        SearchWineService.getInstance().setSortDirection(true);
     }
 
     /**
@@ -274,8 +280,12 @@ public class SearchWineController {
         gotoTextField.clear();
         gotoPane.setVisible(false);
     }
+
+    /**
+     * When the sort arrow is clicked, the direction is toggled
+     * The display then resets the order of the stored wine elements
+     */
     public void changeIcon() {
-        System.out.println(SearchWineService.getInstance().getSortDirection());
         if (SearchWineService.getInstance().getSortDirection()) {
             sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
             SearchWineService.getInstance().setSortDirection(false);
@@ -287,4 +297,35 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Sort by options trigger this function when they're clicked
+     * Re-queries the database with different ORDER BY parameter, then reloads
+     */
+    public void dropDownClicked(){
+        String column_name = null;
+        if (sortDropDown.getValue() != null) {
+            if(sortDropDown.getValue().toString().equals("Recommended")) {
+                SearchWineService.getInstance().searchWinesByRecommend(120);
+            }
+            else{
+                switch (sortDropDown.getValue().toString()) {
+                    case "Name" -> {
+                        column_name = "wine_name";
+                    }
+                    case "Price" -> {
+                        column_name = "price";
+                    }
+                    case "Points" -> {
+                        column_name = "points";
+                    }
+                    case "Vintage" -> {
+                        column_name = "Vintage"; //has different ORDER BY location in DAO
+                    }
+                }
+                SearchWineService.getInstance().setSearchOrder(column_name);
+            }
+            SearchWineService.getInstance().setDropDown(sortDropDown.getValue().toString());
+            FXWrapper.getInstance().launchSubPage("searchWine");
+        }
+    }
 }
