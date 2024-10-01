@@ -198,8 +198,8 @@ public class SearchWineController {
         sortDropDown.getItems().add("Points");
         sortDropDown.getItems().add("Vintage");
         sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
-        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
-        SearchWineService.getInstance().setSortDirection(false);
+        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+        SearchWineService.getInstance().setSortDirection(true);
     }
 
     /**
