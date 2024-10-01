@@ -37,7 +37,7 @@ public class ChallengeService {
 
     /**
      * chose 5 random wines of different variety and returns there ids in an array list.
-     * @return ArrayList<Integer> list of wine ids </Integer>
+     * @return ArrayList of wine ids
      */
     public ArrayList<Integer> getWinesforVarietyChallenge() {
         ArrayList<Integer> varietyWines = new ArrayList<>();
