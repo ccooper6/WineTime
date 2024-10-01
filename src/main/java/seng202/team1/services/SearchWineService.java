@@ -166,19 +166,29 @@ public class SearchWineService {
         wineList = WishlistDAO.getInstance().fetchWines(userId);
         fromWishlist = true;
     }
+
+    /**
+     * Direction of the sort arrow as a boolean value
+     * @return true = up, false = down
+     */
     public boolean getSortDirection(){ return sortDirection;}
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
     }
+
+    /**
+     *  Sets search order var and requeries using previous query
+     * Triggered by sort-by dropdown in search page
+     * @param searchOrder is the ORDER BY param which is the column name
+     */
     public void setSearchOrder(String searchOrder) {
         System.out.println("search order: " + searchOrder);
         this.searchOrder = searchOrder;
         searchWinesByName(prevSearch, SearchDAO.UNLIMITED);
     }
-
     /**
      * Stores the dropdown sort by for later
-     * @param prevDropDown
+     * @param prevDropDown is the name of the dropdown title: "Name" etc.
      */
     public void setDropDown(String prevDropDown) {
         this.prevDropDown = prevDropDown;

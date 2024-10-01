@@ -280,6 +280,11 @@ public class SearchWineController {
         gotoTextField.clear();
         gotoPane.setVisible(false);
     }
+
+    /**
+     * When the sort arrow is clicked, the direction is toggled
+     * The display then resets the order of the stored wine elements
+     */
     public void changeIcon() {
         if (SearchWineService.getInstance().getSortDirection()) {
             sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
@@ -291,35 +296,36 @@ public class SearchWineController {
             displayCurrentPage();
         }
     }
+
+    /**
+     * Sort by options trigger this function when they're clicked
+     * Re-queries the database with different ORDER BY parameter, then reloads
+     */
     public void dropDownClicked(){
+        String column_name = null;
         if (sortDropDown.getValue() != null) {
-            switch (sortDropDown.getValue().toString()) {
-                case "Recommended" -> {
-                    SearchWineService.getInstance().searchWinesByRecommend(120);
-                    SearchWineService.getInstance().setDropDown("Recommended");
-                    FXWrapper.getInstance().launchSubPage("searchWine");
-                }
-                case "Name" -> {
-                    SearchWineService.getInstance().setSearchOrder("wine_name");
-                    SearchWineService.getInstance().setDropDown("Name");
-                    FXWrapper.getInstance().launchSubPage("searchWine");
-                }
-                case "Price" -> {
-                    SearchWineService.getInstance().setSearchOrder("price");
-                    SearchWineService.getInstance().setDropDown("Price");
-                    FXWrapper.getInstance().launchSubPage("searchWine");
-                }
-                case "Points" -> {
-                    SearchWineService.getInstance().setSearchOrder("points"); //exact column name
-                    SearchWineService.getInstance().setDropDown("Points");
-                    FXWrapper.getInstance().launchSubPage("searchWine");
-                }
-                case "Vintage" -> {
-                    SearchWineService.getInstance().setSearchOrder("Vintage"); //exact column name
-                    SearchWineService.getInstance().setDropDown("Vintage");
-                    FXWrapper.getInstance().launchSubPage("searchWine");
-                }
+            if(sortDropDown.getValue().toString().equals("Recommended")) {
+                SearchWineService.getInstance().searchWinesByRecommend(120);
             }
+            else{
+                switch (sortDropDown.getValue().toString()) {
+                    case "Name" -> {
+                        column_name = "wine_name";
+                    }
+                    case "Price" -> {
+                        column_name = "price";
+                    }
+                    case "Points" -> {
+                        column_name = "points";
+                    }
+                    case "Vintage" -> {
+                        column_name = "Vintage"; //has different ORDER BY location in DAO
+                    }
+                }
+                SearchWineService.getInstance().setSearchOrder(column_name);
+            }
+            SearchWineService.getInstance().setDropDown(sortDropDown.getValue().toString());
+            FXWrapper.getInstance().launchSubPage("searchWine");
         }
     }
 }
