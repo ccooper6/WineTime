@@ -49,7 +49,7 @@ public class QuizService {
             "The Dark Knight",
             "Cheesecake",
             "Plum",
-            "Iberial Imperial Eagle",
+            "Iberian Imperial Eagle",
             "Gryffindor"
 
     ));
@@ -135,26 +135,15 @@ public class QuizService {
      * in the background even with large wait times.
      */
     public void launchWinePopup() {
-        showLoadingScreen();
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() {
-                wineAlgorithm();
-                Platform.runLater(() -> {
-                    FXWrapper.getInstance().launchSubPage("profile");
-                    NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-                    navigationController.initPopUp(wine);
-                });
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                hideLoadingScreen();
-            }
-        };
-
-        new Thread(task).start();
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        FXWrapper.getInstance().launchSubPage("profile");
+        nav.executeWithLoadingScreen(() -> {
+            wineAlgorithm();
+            Platform.runLater(() -> {
+                NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+                navigationController.initPopUp(wine);
+            });
+        });
     }
 
     /**

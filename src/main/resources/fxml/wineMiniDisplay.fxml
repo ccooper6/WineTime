@@ -17,4 +17,8 @@
       <FontAwesomeIconView fx:id="wineLiked" fill="#70171e" glyphName="HEART" layoutX="158.0" layoutY="28.0" size="20" visible="false" />
       <FontAwesomeIconView fx:id="wineReviewed" fill="GREY" glyphName="COMMENT" layoutX="126.0" layoutY="27.0" size="20" text="" visible="false" />
     </AnchorPane>
+   <AnchorPane fx:id="wineCompleted" opacity="0.12" prefHeight="135.0" prefWidth="190.0" style="-fx-border-radius: 15; -fx-border-color: #d9d9d9; -fx-background-radius: 15; -fx-background-color: #008000;">
+      <children>
+         <FontAwesomeIconView blendMode="ADD" fill="#004d00d9" fontSmoothingType="LCD" glyphName="CHECK" layoutX="40.0" layoutY="100.0" mouseTransparent="true" selectionFill="#004d00cc" size="100" smooth="false" stroke="#004d00" />
+      </children></AnchorPane>
 </AnchorPane>

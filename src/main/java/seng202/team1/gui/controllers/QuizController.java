@@ -25,6 +25,8 @@ public class QuizController {
     private Button answer4Button;
     @FXML
     private Button showWineButton;
+    @FXML
+    private Button backButton;
 
     private final QuizService quizService = new QuizService();
 
@@ -41,12 +43,21 @@ public class QuizController {
      */
     public void setLabels() {
         if (questionNumber < questions.size()) {
+            if (questionNumber == 0) {
+                backButton.setDisable(true);
+                backButton.setOpacity(0);
+            } else {
+                backButton.setDisable(false);
+                backButton.setOpacity(1);
+            }
             questionLabel.setText(questions.get(questionNumber));
             answer1Button.setText(answer1answers.get(questionNumber));
             answer2Button.setText(answer2answers.get(questionNumber));
             answer3Button.setText(answer3answers.get(questionNumber));
             answer4Button.setText(answer4answers.get(questionNumber));
         } else {
+            backButton.setDisable(true);
+            backButton.setOpacity(0);
             questionLabel.setText("Your wine has been carefully selected.");
             showWineButton.setDisable(false);
             answer1Button.setDisable(true);
@@ -132,5 +143,18 @@ public class QuizController {
         quizService.getRecordOfAnswers().set(questionNumber++, 4);
         setLabels();
     }
+
+    /**
+     * Handles what to do when the back button is clicked
+     */
+    @FXML
+    public void onBackButtonClicked() {
+        if (questionNumber > 0) {
+            questionNumber--;
+            setLabels();
+        }
+    }
+
+
 
 }
