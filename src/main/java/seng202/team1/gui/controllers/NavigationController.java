@@ -2,6 +2,8 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +23,7 @@ import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
+import org.controlsfx.control.CheckComboBox;
 
 import java.io.IOException;
 
@@ -45,19 +48,39 @@ public class NavigationController {
     private TextField searchBar;
     @FXML
     private ComboBox<String> sortByComboBox;
+    @FXML
+    private CheckComboBox<String> varietyCheckComboBox;
+    @FXML
+    private TextField filterFieldVariety;
+
+
 
     private Parent loadingScreen;
 
+    boolean isFiltering = false;
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
     private boolean dropdownLocked = false;
+
+    private final ObservableList<String> options = FXCollections.observableArrayList();
 
      /**
      * Initializes the controller.
      */
     public void initialize() {
         initializeSortByComboBox();
+        for (int i = 1; i <= 700; i++) {
+            options.add("Option " + i);
+        }
+
+        // Set the initial items in the CheckComboBox
+        varietyCheckComboBox.getItems().addAll(options);
+
+        // Add a listener to filterField to filter CheckComboBox items based on user input
+        filterFieldVariety.textProperty().addListener((obs, oldText, newText) -> {
+            filterCheckComboBoxItems(newText);
+        });
 
         initialiseSearchBar();
 
@@ -80,6 +103,38 @@ public class NavigationController {
         } else {
             sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
         }
+    }
+
+    private void filterCheckComboBoxItems(String filterText) {
+        isFiltering = true;  // Indicate that filtering is in progress
+
+        // Store the current checked items before filtering
+        ObservableList<String> previouslyCheckedItems = FXCollections.observableArrayList(varietyCheckComboBox.getCheckModel().getCheckedItems());
+
+        ObservableList<String> filteredItems = FXCollections.observableArrayList();
+        if (filterText == null || filterText.isEmpty()) {
+            filteredItems.setAll(options);
+        } else {
+            // Filter options based on search text
+            for (String option : options) {
+                if (option.toLowerCase().contains(filterText.toLowerCase())) {
+                    filteredItems.add(option);
+                }
+            }
+        }
+
+        // Update items in the CheckComboBox without modifying selection
+        varietyCheckComboBox.getItems().setAll(filteredItems);
+
+        // Re-apply checked state after filtering
+        for (String item : previouslyCheckedItems) {
+            if (filteredItems.contains(item)) {
+                varietyCheckComboBox.getCheckModel().check(item);
+            }
+        }
+
+        // End filtering process
+        isFiltering = false;
     }
 
     /**
