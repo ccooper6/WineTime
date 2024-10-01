@@ -217,6 +217,8 @@ public class SearchDAO {
         }
         return wineList;
     }
+
+
     public ArrayList<Wine> searchByNameAndFilter(ArrayList<String> varietyLocationWinery, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit){
         {
             for (String tag : varietyLocationWinery) {
@@ -296,6 +298,8 @@ public class SearchDAO {
                 ps.setInt(z, lowerPoints); z++;
                 ps.setInt(z, upperPoints);z++;
                 ps.setInt(z, limit);
+
+                System.out.println(ps);
 
                 try (ResultSet rs = ps.executeQuery()) {
                     wineList = processResultSetIntoWines(rs);
