@@ -56,7 +56,6 @@ public class FXWrapper {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,7 +81,6 @@ public class FXWrapper {
             }
             Scene scene = new Scene(navigationRoot);
             stage.setScene(scene);
-            stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
