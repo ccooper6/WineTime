@@ -33,7 +33,7 @@ public class SearchWineController {
     private final int MAXSIZE = 60;
     public FontAwesomeIconView sortDirection;
     @FXML
-    public ComboBox sortDropDown;
+    public ComboBox<String> sortDropDown;
 
     private ArrayList<Wine> allWines;
     private int currentPage = 0;
