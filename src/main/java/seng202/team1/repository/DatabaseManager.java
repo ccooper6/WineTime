@@ -7,6 +7,7 @@ import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -140,7 +141,7 @@ public class DatabaseManager {
                 Files.copy(ogPath, copy);
                 log.info("Database copied successfully.");
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileAlreadyExistsException e) {
             log.info("DB File already exists. - Did not replace");
         } catch (IOException e) {
             log.error(e.getMessage());

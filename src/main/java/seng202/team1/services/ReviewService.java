@@ -1,5 +1,7 @@
 package seng202.team1.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.LogWineDao;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
     private static Review currentReview;
+    private static final Logger LOG = LogManager.getLogger(ReviewService.class);
 
     /**
      * Gets all the reviews for the current user.
@@ -60,8 +63,11 @@ public class ReviewService {
     /**
      * Deletes the current review.
      * @param rating The rating of the review.
+     * @param review The review to delete.
      */
     public static void deleteReview(int rating, Review review) {
+        LOG.info("Starting to delete review for user: {} and wine: {} with rating: {}", review.getUid(), review.getWid(), rating);
+        LOG.info("The review contains {} liked tags", review.getTagsSelected().size());
         int uid = review.getUid();
         logWineDao.deleteReview(uid, review.getWid());
         ArrayList<String> selectedTags = review.getTagsSelected();
