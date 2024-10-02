@@ -197,7 +197,7 @@ public class NavigationController {
      */
     @FXML
     public void onLogOutClicked() {
-        User.setCurrentUser(null);
+        User.setCurrenUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
 
