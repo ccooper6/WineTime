@@ -1,16 +1,20 @@
 package seng202.team1.services;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Service class for the quiz feature.
@@ -18,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class QuizService {
     private Wine wine = null;
-    private final Logger LOG = LogManager.getLogger(QuizService.class);
+    private Stage loadingStage;
 
     private final ArrayList<String> questions = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
@@ -143,11 +147,30 @@ public class QuizService {
     }
 
     /**
+     * Method to show the loading screen.
+     */
+    private void showLoadingScreen() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.showLoadingScreen();
+    }
+
+    /**
+     * Method to hide the loading screen.
+     */
+    private void hideLoadingScreen() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.hideLoadingScreen();
+    }
+
+    /**
      * Method to run the wine algorithm.
      */
     public void wineAlgorithm() {
 
         switch (getRecordOfAnswers().get(0)) {
+            case 1:
+                earliestYear = "1990";
+                break;
             case 2:
                 earliestYear = "2000";
                 break;
@@ -163,6 +186,9 @@ public class QuizService {
         }
 
         switch (getRecordOfAnswers().get(1)) {
+            case 1:
+                type = "Pinot Noir";
+                break;
             case 2:
                 type = "Sauvignon Blanc";
                 break;
@@ -175,8 +201,10 @@ public class QuizService {
             default:
                 type = "Pinot Noir";
         }
-
         switch (getRecordOfAnswers().get(3)) {
+            case 1:
+                country = "US";
+                break;
             case 2:
                 country = "New Zealand";
                 break;
@@ -260,7 +288,6 @@ public class QuizService {
 
         if (!possibleWines.isEmpty()) {
             Random random = new Random();
-            LOG.info("Wine algorithm found " + possibleWines.size() + " possible wines to display.");
             wine = possibleWines.get(random.nextInt(possibleWines.size()));
         }
     }

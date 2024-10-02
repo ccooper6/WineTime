@@ -1,7 +1,5 @@
 package seng202.team1.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.models.User;
 import seng202.team1.repository.DAOs.UserDAO;
@@ -25,7 +23,6 @@ public class UserLoginService {
     private static final byte[] KEY = "1234567891112131".getBytes();
     private static final String ALGORITHM = "AES";
     private final UserDAO userDAO = new UserDAO();
-    private final Logger LOG = LogManager.getLogger(UserLoginService.class);
 
     /**
      * Takes a username and password input and stores it as long as the username is unique.
@@ -37,12 +34,10 @@ public class UserLoginService {
     public int storeLogin(String name, String username, String password) {
         try {
             User newUser = new User(name, encrypt(username), Objects.hash(password));
-            LOG.info("User object has been created for {} with encrypted username: {} and hashed password: {}, now trying to add this user to the database", name, encrypt(username), Objects.hash(password));
             return userDAO.add(newUser); // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
         } catch (DuplicateEntryException e) {
-            LOG.error("Username {} already exists in the database", username);
+            throw new RuntimeException(e);
         }
-        return 2;
     }
 
     /**
@@ -54,10 +49,7 @@ public class UserLoginService {
     public boolean checkLogin(String username, String password) {
         User user =  userDAO.tryLogin(encrypt(username), Objects.hash(password));
         if (user != null) {
-            LOG.info("Correct credentials for user, logging in...");
-            User.setCurrentUser(user);
-        } else {
-            LOG.error("User {} failed to login", username);
+            User.setCurrenUser(user);
         }
 
         return user != null;
@@ -71,6 +63,16 @@ public class UserLoginService {
     public String getName(String username) {
         return userDAO.getName(encrypt(username));
     }
+
+    /**
+     * Returns the encrypted username.
+     * @param username the raw unencrypted username
+     * @return encrypted username
+     */
+    public String getEncryptedUsername(String username) {
+        return encrypt(username);
+    }
+
 
     /**
      * Method that takes a string as input, for example a username, and returns a string that is no longer readable.
@@ -87,7 +89,7 @@ public class UserLoginService {
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
                  | InvalidKeyException e) {
-            LOG.error("An error has occurred while trying to encrypt the text: {}, ", text + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }

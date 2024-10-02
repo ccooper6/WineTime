@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * The service class which handles getting wine recommendations from the database
  * as well as containing methods that handles the logic on whether to recommend wines
- * based on the amount of data we have on the user.
+ * based on the amount of data we have on the user
  * @author Wen Sheng Thong
  */
 public class RecommendWineService {
@@ -20,33 +20,24 @@ public class RecommendWineService {
     private SearchDAO searchDAO;
     private LogWineDao logWineDao;
 
-    /**
-     * Returns the singleton instance of the RecommendWineService.
-     * @return the instance of the RecommendWineService
-     */
     public static RecommendWineService getInstance() {
         if (instance == null) {
             instance = new RecommendWineService();
         }
         return instance;
     }
-
-    /**
-     * Constructor for RecommendWineService.
-     */
     public RecommendWineService () {
         this.logWineDao = new LogWineDao();
         this.searchDAO = new SearchDAO();
     }
 
     /**
-     * Returns a {@link Boolean} on whether the user has liked enough tags to start recommending wines to them.
+     * Returns a {@link Boolean} on whether the user has liked enough tags to start recommending wines to them
      * @param uid the user id
      * @return a {@link Boolean}. True if the user has positively liked 3 tags.
      */
     public Boolean hasEnoughFavouritesTag(int uid) {
         ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 3);
-        LOG.info("User has liked {} tags", likedTags.size());
         return likedTags.size() == 3;
     }
 
@@ -64,11 +55,11 @@ public class RecommendWineService {
         ArrayList<String> dislikedTags = logWineDao.getDislikedTags(uid);
         recommendedWines = searchDAO.reccWineByTags(likedTags,dislikedTags,winesToAvoid,limit);
         if (recommendedWines.isEmpty()) {
-            dislikedTags = new ArrayList<>();
-            LOG.info("Not enough wines to recommend, retrying without disliked tags");
+            dislikedTags = new ArrayList<String>();
+            LOG.info("NOT ENOUGH WINES IN RECOMMENDED");
             recommendedWines = searchDAO.reccWineByTags(likedTags,dislikedTags,winesToAvoid,limit);
         } else {
-            LOG.info("We have enough wines to recommend, displaying {} wines!", recommendedWines.size());
+            LOG.info("WE HAVE ENOUGH WINES TO RECOMMEND, WE HAVE {} WINES", recommendedWines.size());
         }
         return recommendedWines;
     }
