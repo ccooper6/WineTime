@@ -10,11 +10,13 @@
 /* Styling for the text field inside the combo box */
 .combo-box .text-field {
     -fx-background-color: white; /* Transparent background */
-    -fx-border-color: transparent; /* No border */
-    -fx-padding: 5px; /* Padding for the text field */
+    -fx-background-radius: 15px;
+    -fx-border-color: #70171e; /* No border */
+    -fx-padding: 0px; /* Padding for the text field */
     -fx-font-size: 14px; /* Match font size */
     -fx-text-fill: black;
-    -fx-border-radius: 16px;
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
 }
 
 /* Styling for the dropdown list */

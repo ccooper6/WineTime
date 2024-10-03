@@ -59,6 +59,7 @@ public class SearchWineController {
     private TextField gotoTextField;
     @FXML
     private Button gotoButton;
+
     @FXML
     private SearchableComboBox<String> varietyComboBox;
     @FXML
@@ -140,7 +141,7 @@ public class SearchWineController {
     public void displayCurrentPage()
     {
         if (allWines == null || allWines.size() == 0) {
-            title.setText("Sorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
+            title.setText("\n\n\nSorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
 
             pageCounterText.getParent().setVisible(false);
 
