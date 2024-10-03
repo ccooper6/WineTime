@@ -16,6 +16,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.RangeSlider;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.services.SearchWineService;
@@ -23,6 +24,7 @@ import org.controlsfx.control.SearchableComboBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Controller for the Search Wines Page.
@@ -59,6 +61,8 @@ public class SearchWineController {
     private TextField gotoTextField;
     @FXML
     private Button gotoButton;
+    @FXML
+    private Button clearFiltersButton;
 
     @FXML
     private SearchableComboBox<String> varietyComboBox;
@@ -66,6 +70,13 @@ public class SearchWineController {
     private SearchableComboBox<String> countryComboBox;
     @FXML
     private SearchableComboBox<String> wineryComboBox;
+    @FXML
+    private RangeSlider vintageSlider;
+    @FXML
+    private RangeSlider priceSlider;
+    @FXML
+    private RangeSlider pointsSlider;
+
 
 
     /**
@@ -126,7 +137,9 @@ public class SearchWineController {
     }
     private void initializeCountryComboBox()
     {
+
         countryComboBox.getItems().addAll(TagDAO.getInstance().getCountries());
+
     }
     private void initializeWineryComboBox()
     {
@@ -314,4 +327,61 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Returns the selected string filters in format (Country, Winery, Variety)
+     * If a filter hasn't been selected it will be null
+     */
+    public ArrayList<String> getStringFilters() {
+
+        String country = countryComboBox.getValue();
+        String winery = wineryComboBox.getValue();
+        String variety = varietyComboBox.getValue();
+        return new ArrayList<>(Arrays.asList(country, winery, variety));
+
+    }
+
+    /**
+     * Returns the selected integer filters in format (min vintage, max vintage, min points, max points, min price, max price)
+     */
+    public ArrayList<Integer> getIntegerFilters() {
+        Integer minVintage = (int) vintageSlider.getLowValue();
+        Integer maxVintage = (int) vintageSlider.getHighValue();
+        Integer minPoints = (int) pointsSlider.getLowValue();
+        Integer maxPoints = (int) pointsSlider.getHighValue();
+        Integer minPrice = (int) priceSlider.getLowValue();
+        Integer maxPrice = (int) priceSlider.getHighValue();
+        return new ArrayList<>(Arrays.asList(minVintage, maxVintage, minPoints, maxPoints, minPrice, maxPrice));
+
+    }
+
+    /**
+     * Handles the clear filters presses
+     */
+    public void onClearFiltersPushed() {
+        resetFilters();
+    }
+
+    /**
+     * Resets the filters to default values
+     */
+    public void resetFilters() {
+
+        countryComboBox.setValue(null);
+        countryComboBox.setPromptText("Country");
+
+        varietyComboBox.setValue(null);
+        varietyComboBox.setPromptText("Variety");
+
+
+        wineryComboBox.setValue(null);
+        wineryComboBox.setPromptText("Winery");
+
+
+        priceSlider.setLowValue(priceSlider.getMin());
+        vintageSlider.setLowValue(vintageSlider.getMin());
+        pointsSlider.setLowValue(pointsSlider.getMin());
+        pointsSlider.setHighValue(pointsSlider.getMax());
+        vintageSlider.setHighValue(vintageSlider.getMax());
+        priceSlider.setHighValue(priceSlider.getMax());
+    }
 }

@@ -148,11 +148,12 @@
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
       <Label layoutX="652.0" layoutY="55.0" text="Vintage" />
-      <RangeSlider blockIncrement="1.0" highValue="2017.0" layoutX="649.0" layoutY="80.0" lowValue="1900.0" max="2017.0" min="1900.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" styleClass="range" stylesheets="@../style/rangeSlider.css" />
-      <RangeSlider blockIncrement="1.0" highValue="50.0" layoutX="862.0" layoutY="80.0" lowValue="1.0" max="100.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
-      <RangeSlider blockIncrement="1.0" layoutX="1075.0" layoutY="80.0" max="200.0" min="5.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
+      <RangeSlider fx:id="vintageSlider" blockIncrement="1.0" highValue="2017.0" layoutX="649.0" layoutY="80.0" lowValue="1900.0" max="2017.0" min="1900.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" styleClass="range" stylesheets="@../style/rangeSlider.css" />
+      <RangeSlider fx:id="pointsSlider" blockIncrement="1.0" highValue="50.0" layoutX="862.0" layoutY="80.0" lowValue="1.0" max="100.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
+      <RangeSlider fx:id="priceSlider" blockIncrement="1.0" layoutX="1075.0" layoutY="80.0" max="200.0" min="5.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
+      <Button fx:id="clearFiltersButton" layoutX="1175.0" layoutY="18.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" stylesheets="@../style/quizStyle.css" text="Clear filters" />
        <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25" />
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" visibleRowCount="4" />
+       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="4" />
       <Label layoutX="865.0" layoutY="55.0" text="Points" />
       <Label layoutX="1078.0" layoutY="55.0" text="Price" />
    </children>
