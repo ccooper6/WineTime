@@ -55,7 +55,7 @@ public class ChallengeDAO {
                 chalps.setString(2, cname);
                 chalps.setInt(3, uid);
                 chalps.executeUpdate();
-                conn.commit();
+//                conn.commit();
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
@@ -75,7 +75,7 @@ public class ChallengeDAO {
                 chalps.setInt(1, useID);
                 chalps.setString(2, cname);
                 chalps.executeUpdate();
-                conn.commit();
+//                conn.commit();
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());

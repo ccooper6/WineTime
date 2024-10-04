@@ -60,7 +60,6 @@ public class ChallengeService {
             Random random = new Random();
             SearchWineService.getInstance().searchWinesByTags(types.get(i), 50);
             wines.add(SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId());
-            System.out.print(wines);
         }
         return wines;
     }
@@ -97,7 +96,10 @@ public class ChallengeService {
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {
-        return Objects.equals(chalDao.getChallengeForUser(User.getCurrentUser().getId()), "Variety Challenge");
+        if (chalDao.getChallengeForUser(User.getCurrentUser().getId()) != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
