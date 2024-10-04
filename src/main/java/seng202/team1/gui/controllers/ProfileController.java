@@ -3,6 +3,7 @@ package seng202.team1.gui.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -42,10 +43,16 @@ public class ProfileController {
     private Pane completedChalPane;
     @FXML
     private Label completedChallMessage;
+    @FXML
+    private PieChart likedTagPie;
+    @FXML
+    private PieChart hateTagPie;
 
     private final ChallengeService challengeService = new ChallengeService();
 
-    private  final ReviewService reviewService = new ReviewService();
+    private final ReviewService reviewService = new ReviewService();
+
+    private final TagRankingService tagRankingService = new TagRankingService();
 
     int completedWineCount = 0;
 
@@ -60,8 +67,25 @@ public class ProfileController {
             activateChallenge();
             displayChallenge();
         }
+        displayTagRankings();
         displayWishlist();
 
+    }
+
+    private void displayTagRankings() {
+        int uid = User.getCurrentUser().getId();
+        if (tagRankingService.hasEnoughLikedTags(uid)) {
+            likedTagPie.setData(tagRankingService.getTopTagData(uid,5));
+            likedTagPie.setClockwise(true);
+            likedTagPie.setTitle("Your top 5 liked tags");
+            likedTagPie.setLabelsVisible(true);
+        }
+        if (tagRankingService.hasEnoughDislikedTags(uid)) {
+            hateTagPie.setData(tagRankingService.getLowestTagData(uid, 5));
+            hateTagPie.setClockwise(true);
+            hateTagPie.setTitle("Your top 5 disliked tags");
+            hateTagPie.setLabelsVisible(true);
+        }
     }
 
     /**
