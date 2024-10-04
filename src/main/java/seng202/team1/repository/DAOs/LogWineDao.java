@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * The class containing the functions to add entries to the "Likes" and "Reviews" table,
+ * The class containing the functions to add and retrieve entries to the "Likes" and "Reviews" table,
  * mainly called by the WineLoggingPopupController when the user logs a wine.
  *
  * @author Wen Sheng Thong, Caleb Cooper
@@ -194,7 +194,7 @@ public class LogWineDao {
      */
     public ArrayList<String> getFavouritedTags(int uid, int maximumTag) {
         ArrayList<String> likedTags = new ArrayList<>();
-        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value >= 0 ORDER BY value DESC";
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value >= 1 ORDER BY value DESC";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(likePs)) {
                 ps.setInt(1, uid);
@@ -232,6 +232,30 @@ public class LogWineDao {
             LOG.error(e.getMessage());
         }
         return dislikedTags;
+    }
+
+    /**
+     * Returns a hashmap of &lt;tagName, tagValue&gt; of the most negatively rated tags belonging to the user.
+     * @param uid user id
+     * @param limit number of tags to retunr
+     * @return  a hashmap of &lt;tagName, tagValue&gt
+     */
+    public HashMap<String, Integer> getMostDislikedTags(int uid, int limit) {
+        HashMap<String, Integer> likedTags = new HashMap<>();
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value < 0 ORDER BY value ASC LIMIT ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(likePs)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, limit);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    likedTags.put(rs.getString(1), rs.getInt(2));
+                }
+                return likedTags;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -431,28 +455,9 @@ public class LogWineDao {
                                 rs.getString("description"),
                                 rs.getInt("price"));
                     }
-                    switch (rs.getString("tag_type")) {
-                        case "Variety":
-                            wineBuilder.setVariety(rs.getString("tag_name"));
-                            break;
-                        case "Province":
-                            wineBuilder.setProvince(rs.getString("tag_name"));
-                            break;
-                        case "Region":
-                            wineBuilder.setRegion(rs.getString("tag_name"));
-                            break;
-                        case "Vintage":
-                            wineBuilder.setVintage(rs.getInt("tag_name"));
-                            break;
-                        case "Country":
-                            wineBuilder.setCountry(rs.getString("tag_name"));
-                            break;
-                        case "Winery":
-                            wineBuilder.setWinery(rs.getString("tag_name"));
-                            break;
-                        default:
-                            LOG.error("Tag type {} is not supported!", rs.getString("tag_type"));
-                    }
+                    String tagType = rs.getString("tag_type");
+                    String tagName = rs.getString("tag_name");
+                    setWineAttri(tagType, wineBuilder, tagName);
                 }
                 return wineBuilder.build();
             }
@@ -460,6 +465,37 @@ public class LogWineDao {
             LOG.error(e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * Sets the wine attributes based on the fed tag types using a {@link WineBuilder}
+     * @param tagType the string tag type
+     * @param wineBuilder the {@link WineBuilder}
+     * @param tagName the name of the tag
+     */
+    private static void setWineAttri(String tagType, WineBuilder wineBuilder, String tagName) {
+        switch (tagType) {
+            case "Variety":
+                wineBuilder.setVariety(tagName);
+                break;
+            case "Province":
+                wineBuilder.setProvince(tagName);
+                break;
+            case "Region":
+                wineBuilder.setRegion(tagName);
+                break;
+            case "Vintage":
+                wineBuilder.setVintage(Integer.valueOf(tagName));
+                break;
+            case "Country":
+                wineBuilder.setCountry(tagName);
+                break;
+            case "Winery":
+                wineBuilder.setWinery(tagName);
+                break;
+            default:
+                LOG.error("Tag type {} is not supported!", tagType);
+        }
     }
 
     /**
