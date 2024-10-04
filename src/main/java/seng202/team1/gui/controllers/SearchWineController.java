@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.RangeSlider;
@@ -65,6 +66,8 @@ public class SearchWineController {
     private Button gotoButton;
     @FXML
     private Button clearFiltersButton;
+    @FXML
+    private Button applyFiltersButton;
 
     @FXML
     private SearchableComboBox<String> varietyComboBox;
@@ -218,6 +221,22 @@ public class SearchWineController {
         minYearTextField.setText(String.valueOf((int) vintageSlider.getMin()));
         maxYearTextField.setText(String.valueOf((int) vintageSlider.getMax()));
 
+        vintageSlider.setLabelFormatter(new StringConverter<Number>() {
+            public String toString(Number value) {
+                // Show only specific labels for min, max, and every 5 years (or any desired interval)
+                if (value.intValue() == vintageSlider.getMin() || value.intValue() == vintageSlider.getMax() || (value.intValue() - 21) % 50 == 0) {
+                    return String.valueOf(value.intValue());
+                }
+                return ""; // Hide other labels
+            }
+
+            @Override
+            public Number fromString(String string) {
+                // Not used, only here for the StringConverted to be fully implemented.
+                return Integer.parseInt(string);
+            }
+        });
+
         vintageSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
             minYearTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinYear(newValue.intValue());
@@ -266,6 +285,22 @@ public class SearchWineController {
         pointsSlider.setMax(TagDAO.getInstance().getMaxPoints());
         pointsSlider.setLowValue(pointsSlider.getMin());
         pointsSlider.setHighValue(pointsSlider.getMax());
+
+        pointsSlider.setLabelFormatter(new StringConverter<Number>() {
+            public String toString(Number value) {
+                // Show only specific labels for min, max, and every 5 years (or any desired interval)
+                if (value.intValue() == pointsSlider.getMin() || value.intValue() == pointsSlider.getMax() || value.intValue() % 5 == 0) {
+                    return String.valueOf(value.intValue());
+                }
+                return ""; // Hide other labels
+            }
+
+            @Override
+            public Number fromString(String string) {
+                // Not used, only here for the StringConverted to be fully implemented.
+                return Integer.parseInt(string);
+            }
+        });
 
         // Initialize text fields
         minPointsTextField.setText(String.valueOf((int) pointsSlider.getMin()));
@@ -318,6 +353,22 @@ public class SearchWineController {
         priceSlider.setMax(200);
         priceSlider.setLowValue(priceSlider.getMin());
         priceSlider.setHighValue(priceSlider.getMax());
+
+        priceSlider.setLabelFormatter(new StringConverter<Number>() {
+            public String toString(Number value) {
+                // Show only specific labels for min, max, and every 5 years (or any desired interval)
+                if (value.intValue() == priceSlider.getMin() || value.intValue() == priceSlider.getMax() || value.intValue() % 25 == 0) {
+                    return String.valueOf(value.intValue());
+                }
+                return ""; // Hide other labels
+            }
+
+            @Override
+            public Number fromString(String string) {
+                // Not used, only here for the StringConverted to be fully implemented.
+                return Integer.parseInt(string);
+            }
+        });
 
         // Initialize text fields
         minPriceTextField.setText(String.valueOf((int) priceSlider.getMin()));
@@ -463,6 +514,12 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Apply the selected filters, just researches
+     */
+    public void onApplyFiltersButtonPushed() {
+        System.out.println("Not implemented");
+    }
 
 
     /**
