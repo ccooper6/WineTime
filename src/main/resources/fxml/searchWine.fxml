@@ -151,10 +151,19 @@
       <RangeSlider fx:id="vintageSlider" blockIncrement="1.0" highValue="2017.0" layoutX="649.0" layoutY="80.0" lowValue="1900.0" max="2017.0" min="1900.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" styleClass="range" stylesheets="@../style/rangeSlider.css" />
       <RangeSlider fx:id="pointsSlider" blockIncrement="1.0" highValue="50.0" layoutX="862.0" layoutY="80.0" lowValue="1.0" max="100.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
       <RangeSlider fx:id="priceSlider" blockIncrement="1.0" layoutX="1075.0" layoutY="80.0" max="200.0" min="5.0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
+      <TextField fx:id="minPriceTextField" layoutX="1130.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
+      <Label layoutX="1181.0" layoutY="54.0" text="to" />
+      <TextField fx:id="maxPriceTextField" layoutX="1200.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
       <Button fx:id="clearFiltersButton" layoutX="1175.0" layoutY="18.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" stylesheets="@../style/quizStyle.css" text="Clear filters" />
        <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25" />
        <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="4" />
       <Label layoutX="865.0" layoutY="55.0" text="Points" />
       <Label layoutX="1078.0" layoutY="55.0" text="Price" />
+      <TextField fx:id="minPointsTextField" layoutX="920.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
+      <Label layoutX="971.0" layoutY="54.0" text="to" />
+      <TextField fx:id="maxPointsTextField" layoutX="990.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
+      <TextField fx:id="minYearTextField" layoutX="710.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
+      <Label layoutX="761.0" layoutY="54.0" text="to" />
+      <TextField fx:id="maxYearTextField" layoutX="780.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
    </children>
 </Pane>

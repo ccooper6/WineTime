@@ -2,6 +2,7 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -77,6 +78,18 @@ public class SearchWineController {
     private RangeSlider priceSlider;
     @FXML
     private RangeSlider pointsSlider;
+    @FXML
+    private TextField minPriceTextField;
+    @FXML
+    private TextField maxPriceTextField;
+    @FXML
+    private TextField minPointsTextField;
+    @FXML
+    private TextField maxPointsTextField;
+    @FXML
+    private TextField minYearTextField;
+    @FXML
+    private TextField maxYearTextField;
 
 
     /**
@@ -186,13 +199,44 @@ public class SearchWineController {
         vintageSlider.setLowValue(vintageSlider.getMin());
         vintageSlider.setHighValue(vintageSlider.getMax());
 
+        minYearTextField.setText(String.valueOf((int) vintageSlider.getMin()));
+        maxYearTextField.setText(String.valueOf((int) vintageSlider.getMax()));
+
         vintageSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            minYearTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinYear(newValue.intValue());
         });
 
         vintageSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            maxYearTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxYear(newValue.intValue());
         });
+
+        // TextFields -> Slider (on Enter key or focus loss)
+        minYearTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                validateAndSetSliderLowValueVintage();
+            }
+        });
+
+        minYearTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                validateAndSetSliderLowValueVintage();
+            }
+        });
+
+        maxYearTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                validateAndSetSliderHighValueVintage();
+            }
+        });
+
+        maxYearTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                validateAndSetSliderHighValueVintage();
+            }
+        });
+
 
     }
 
@@ -203,31 +247,178 @@ public class SearchWineController {
         pointsSlider.setLowValue(pointsSlider.getMin());
         pointsSlider.setHighValue(pointsSlider.getMax());
 
+        // Initialize text fields
+        minPointsTextField.setText(String.valueOf((int) pointsSlider.getMin()));
+        maxPointsTextField.setText(String.valueOf((int) pointsSlider.getMax()));
+
         pointsSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            minPointsTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinPoints(newValue.intValue());
         });
 
         pointsSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            maxPointsTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxPoints(newValue.intValue());
+        });
+
+        // TextFields -> Slider (on Enter key or focus loss)
+        minPointsTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                validateAndSetSliderLowValuePoints();
+            }
+        });
+
+        minPointsTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                validateAndSetSliderLowValuePoints();
+            }
+        });
+
+        maxPointsTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                validateAndSetSliderHighValuePoints();
+            }
+        });
+
+        maxPointsTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                validateAndSetSliderHighValuePoints();
+            }
         });
 
     }
 
-    private void initializePriceRangeSlider()
-    {
+    private void initializePriceRangeSlider() {
+        // Initialize slider
         priceSlider.setMin(4);
         priceSlider.setMax(200);
         priceSlider.setLowValue(priceSlider.getMin());
         priceSlider.setHighValue(priceSlider.getMax());
 
+        // Initialize text fields
+        minPriceTextField.setText(String.valueOf((int) priceSlider.getMin()));
+        maxPriceTextField.setText(String.valueOf((int) priceSlider.getMax()));
+
+        // Slider -> TextFields
         priceSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            minPriceTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinPrice(newValue.intValue());
         });
 
         priceSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            maxPriceTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxPrice(newValue.intValue());
         });
 
+        // TextFields -> Slider (on Enter key or focus loss)
+        minPriceTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                validateAndSetSliderLowValuePrice();
+            }
+        });
+
+        minPriceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                validateAndSetSliderLowValuePrice();
+            }
+        });
+
+        maxPriceTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                validateAndSetSliderHighValuePrice();
+            }
+        });
+
+        maxPriceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                validateAndSetSliderHighValuePrice();
+            }
+        });
+
+    }
+
+    private void validateAndSetSliderLowValuePrice() {
+        try {
+            double minValue = Double.parseDouble(minPriceTextField.getText());
+            if (minValue >= priceSlider.getMin() && minValue <= priceSlider.getHighValue()) {
+                priceSlider.setLowValue(minValue);
+                SearchWineService.getInstance().setCurrentMinPrice((int) minValue);
+            } else {
+                minPriceTextField.setText(String.valueOf((int) priceSlider.getLowValue()));
+            }
+        } catch (NumberFormatException e) {
+            minPriceTextField.setText(String.valueOf((int) priceSlider.getLowValue()));
+        }
+    }
+
+    private void validateAndSetSliderHighValuePrice() {
+        try {
+            double maxValue = Double.parseDouble(maxPriceTextField.getText());
+            if (maxValue <= priceSlider.getMax() && maxValue >= priceSlider.getLowValue()) {
+                priceSlider.setHighValue(maxValue);
+                SearchWineService.getInstance().setCurrentMaxPrice((int) maxValue);
+            } else {
+                maxPriceTextField.setText(String.valueOf((int) priceSlider.getHighValue()));
+            }
+        } catch (NumberFormatException e) {
+            maxPriceTextField.setText(String.valueOf((int) priceSlider.getHighValue()));
+        }
+    }
+
+    private void validateAndSetSliderLowValuePoints() {
+        try {
+            double minValue = Double.parseDouble(minPointsTextField.getText());
+            if (minValue >= pointsSlider.getMin() && minValue <= pointsSlider.getHighValue()) {
+                pointsSlider.setLowValue(minValue);
+                SearchWineService.getInstance().setCurrentMinPoints((int) minValue);
+            } else {
+                minPointsTextField.setText(String.valueOf((int) pointsSlider.getLowValue()));
+            }
+        } catch (NumberFormatException e) {
+            minPointsTextField.setText(String.valueOf((int) pointsSlider.getLowValue()));
+        }
+    }
+
+    private void validateAndSetSliderHighValuePoints() {
+        try {
+            double maxValue = Double.parseDouble(maxPointsTextField.getText());
+            if (maxValue <= pointsSlider.getMax() && maxValue >= pointsSlider.getLowValue()) {
+                pointsSlider.setHighValue(maxValue);
+                SearchWineService.getInstance().setCurrentMaxPoints((int) maxValue);
+            } else {
+                maxPointsTextField.setText(String.valueOf((int) pointsSlider.getHighValue()));
+            }
+        } catch (NumberFormatException e) {
+            maxPointsTextField.setText(String.valueOf((int) pointsSlider.getHighValue()));
+        }
+    }
+
+    private void validateAndSetSliderLowValueVintage() {
+        try {
+            double minValue = Double.parseDouble(minYearTextField.getText());
+            if (minValue >= vintageSlider.getMin() && minValue <= vintageSlider.getHighValue()) {
+                vintageSlider.setLowValue(minValue);
+                SearchWineService.getInstance().setCurrentMinYear((int) minValue);
+            } else {
+                minYearTextField.setText(String.valueOf((int) vintageSlider.getLowValue()));
+            }
+        } catch (NumberFormatException e) {
+            minYearTextField.setText(String.valueOf((int) vintageSlider.getLowValue()));
+        }
+    }
+
+    private void validateAndSetSliderHighValueVintage() {
+        try {
+            double maxValue = Double.parseDouble(maxYearTextField.getText());
+            if (maxValue <= vintageSlider.getMax() && maxValue >=vintageSlider.getLowValue()) {
+                vintageSlider.setHighValue(maxValue);
+                SearchWineService.getInstance().setCurrentMaxYear((int) maxValue);
+            } else {
+                maxYearTextField.setText(String.valueOf((int)vintageSlider.getHighValue()));
+            }
+        } catch (NumberFormatException e) {
+            maxYearTextField.setText(String.valueOf((int) vintageSlider.getHighValue()));
+        }
     }
 
 
