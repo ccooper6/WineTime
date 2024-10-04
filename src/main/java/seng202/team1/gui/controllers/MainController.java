@@ -1,20 +1,21 @@
 package seng202.team1.gui.controllers;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
+import seng202.team1.services.CategoryService;
 import seng202.team1.services.RecommendWineService;
-import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Controller class for the mainpage.fxml page.
@@ -22,11 +23,14 @@ import java.io.IOException;
  */
 public class MainController {
     @FXML
-    Text helloText;
+    private Text helloText;
     @FXML
-    GridPane contentsGrid;
+    private GridPane contentsGrid;
     @FXML
-    AnchorPane categoryAnchorPane;
+    private AnchorPane categoryAnchorPane;
+
+    private static final Logger LOG = LogManager.getLogger(MainController.class);
+
     /**
      * Initializes the main page view.
      */
@@ -36,6 +40,24 @@ public class MainController {
             WineCategoryService.getInstance().resetCurrentCategory();
             helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
 
+            if (!CategoryService.isCategoriesGenerated()) {
+                generateAllCategories();
+            }
+
+            Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
+            if (hasRecommended) {
+                displayCategoriesWithRec();
+            } else {
+                displayCategoriesNoRec();
+            }
+        });
+    }
+
+    /**
+     * Generates all the wine category displays for the main page.
+     */
+    private void generateAllCategories() {
+        try {
             String[] tags = {
                     "Bordeaux, Merlot",
                     "Marlborough, Sauvignon Blanc",
@@ -47,63 +69,51 @@ public class MainController {
                     "Central Otago, Pinot Noir, New Zealand"
             };
 
-            try {
-                Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
-                if (hasRecommended) {
-                    displayCategoryWithRec(tags);
-                } else {
-                    displayCategoryNoRecc(tags);
-                }
-            } catch (IOException e) { e.printStackTrace(); }
-        });
+            List<Parent> allCategories = CategoryService.getAllCategories();
+            Parent reccParent = WineCategoryDisplayController.createCategory("recommend"); // TODO: Refresh recommend every time maybe?
+            allCategories.add(reccParent);
+
+            for (String tag : tags) {
+                Parent parent = WineCategoryDisplayController.createCategory(tag);
+                allCategories.add(parent);
+            }
+
+            CategoryService.setCategoriesGenerated(true);
+        } catch (IOException e) {
+            LOG.error("An error has occurred while generating categories", e);
+        }
     }
 
     /**
      * Displays the different tag categories with recommendations. If no wines can be recommended, it doesn't display
      * the recommended category
-     * @param tags an Array of tag string for each category to add
-     * @throws IOException
      */
-    private void displayCategoryWithRec(String[] tags) throws IOException {
-        Parent reccParent = WineCategoryDisplayController.createCategory("recommend");
-        if (SearchWineService.getInstance().getWineList().isEmpty()) {
-            displayCategoryNoRecc(tags);
-        } else {
-            for (int i = 0; i <= tags.length; i++) {
-                Parent parent;
-                if (i == 0) {
-                    parent = reccParent;
-                    if (SearchWineService.getInstance().getWineList().isEmpty()) {
-                        break;
-                    }
-                } else {
-                    parent = WineCategoryDisplayController.createCategory(tags[i - 1]);
+    private void displayCategoriesWithRec() {
+        Platform.runLater(() -> {
+            List<Parent> allCategories = CategoryService.getAllCategories();
+            for (int i = 0; i < allCategories.size(); i++) {
+                Parent parent = allCategories.get(i);
+                if (i >= contentsGrid.getRowCount()) {
+                    categoryAnchorPane.setPrefHeight(categoryAnchorPane.getPrefHeight() + 200);
+                    contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
+                    contentsGrid.addRow(contentsGrid.getRowCount());
                 }
-                int finalI = i;
-                Platform.runLater(() -> {
-                    if (finalI >= contentsGrid.getRowCount()) {
-                        categoryAnchorPane.setPrefHeight(categoryAnchorPane.getPrefHeight() + 200);
-                        contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
-                        contentsGrid.addRow(contentsGrid.getRowCount());
-                    }
-                    contentsGrid.add(parent, 0, finalI);
-                });
+                contentsGrid.add(parent, 0, i);
             }
-        }
+        });
     }
 
     /**
-     * Displays the different tag categories without recommendations
-     * @param tags an Array of tag string for each category to add
-     * @throws IOException
+     * Displays the different tag categories without recommendations.
      */
-    private void displayCategoryNoRecc(String[] tags) throws IOException {
-        for (int i = 0; i < tags.length; i++) {
-            Parent parent = WineCategoryDisplayController.createCategory(tags[i]);
-            int finalI = i;
-            Platform.runLater(() -> contentsGrid.add(parent, 0, finalI));
-            // Have to do this as it requires multiple loops to finish completely
-            // - need to use for "A Task Which Returns Partial Results", from the Task documentation
-        }
+    private void displayCategoriesNoRec() {
+        Platform.runLater(() -> {
+            List<Parent> allCategories = CategoryService.getAllCategories();
+            for (int i = 1; i < allCategories.size(); i++) {
+                Parent parent = allCategories.get(i);
+                contentsGrid.add(parent, 0, i - 1);
+            }
+        });
+
     }
 }

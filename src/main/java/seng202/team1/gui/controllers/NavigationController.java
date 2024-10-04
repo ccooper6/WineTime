@@ -20,6 +20,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
@@ -198,6 +199,7 @@ public class NavigationController {
     @FXML
     public void onLogOutClicked() {
         User.setCurrenUser(null);
+        CategoryService.resetCategories();
         FXWrapper.getInstance().launchPage("login");
     }
 
