@@ -233,4 +233,104 @@ public class SearchWineService {
         return currentVarietyFilter;
     }
 
+    /**
+     * Sets the current minimum year
+     * @param minYear the minimum year
+     */
+    public void setCurrentMinYear(int minYear) {
+        currentMinYear = minYear;
+    }
+
+    /**
+     * Sets the current minimum year
+     * @param maxYear the minimum year
+     */
+    public void setCurrentMaxYear(int maxYear) {
+        currentMaxYear = maxYear;
+    }
+
+    /**
+     * Sets the current minimum year
+     * @param minPoints the minimum year
+     */
+    public void setCurrentMinPoints(int minPoints) {
+        currentMinPoints = minPoints;
+    }
+
+    /**
+     * Sets the current max points
+     * @param maxPoints the max points
+     */
+    public void setCurrentMaxPoints(int maxPoints) {
+        currentMaxPoints = maxPoints;
+    }
+
+    /**
+     * Sets the current minimum price
+     * @param minPrice the minimum price
+     */
+    public void setCurrentMinPrice(int minPrice) {
+        currentMinPrice = minPrice;
+    }
+
+    /**
+     * Sets the current max price
+     * @param maxPrice the max price
+     */
+    public void setCurrentMaxPrice(int maxPrice) {
+        currentMaxPrice = maxPrice;
+    }
+
+    /**
+     * Returns the current min year
+     * @return the min year
+     */
+    public int getCurrentMinYear() {
+        return currentMinYear;
+    }
+
+    /**
+     * Returns the current max year
+     * @return the max year
+     */
+    public int getCurrentMaxYear() {
+        return currentMaxYear;
+    }
+
+    /**
+     * Returns the current min points
+     * @return the min points
+     */
+    public int getCurrentMinPoints() {
+        return currentMinPoints;
+    }
+
+    /**
+     * Returns the current max points
+     * @return the max points
+     */
+    public int getCurrentMaxPoints() {
+        return currentMaxPoints;
+    }
+
+    /**
+     * Returns the current min price
+     * @return the min price
+     */
+    public int getCurrentMinPrice() {
+        return currentMinPrice;
+    }
+
+    /**
+     * Returns the current max price
+     * @return the max price
+     */
+    public int getCurrentMaxPrice() {
+        return currentMaxPrice;
+    }
+
+
+
+
+
 }

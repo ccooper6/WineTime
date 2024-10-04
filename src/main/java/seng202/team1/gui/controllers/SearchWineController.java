@@ -88,6 +88,9 @@ public class SearchWineController {
         initializeCountryComboBox();
         initializeVarietyComboBox();
         initializeWineryComboBox();
+        initializePointsRangeSlider();
+        initializeVintageRangeSlider();
+        initializePriceRangeSlider();
         initSortByOptions();
         gotoPane.setVisible(false);
 
@@ -95,6 +98,12 @@ public class SearchWineController {
             countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
             varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
             wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
+            vintageSlider.setLowValue(SearchWineService.getInstance().getCurrentMinYear());
+            vintageSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxYear());
+            pointsSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPoints());
+            pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
+            priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
+            priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
             System.out.println("from search page");
         } else {
             resetFilters();
@@ -169,6 +178,59 @@ public class SearchWineController {
         });
 
     }
+
+    private void initializeVintageRangeSlider()
+    {
+        vintageSlider.setMin(TagDAO.getInstance().getMinVintage());
+        vintageSlider.setMax(TagDAO.getInstance().getMaxVintage());
+        vintageSlider.setLowValue(vintageSlider.getMin());
+        vintageSlider.setHighValue(vintageSlider.getMax());
+
+        vintageSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentMinYear(newValue.intValue());
+        });
+
+        vintageSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentMaxYear(newValue.intValue());
+        });
+
+    }
+
+    private void initializePointsRangeSlider()
+    {
+        pointsSlider.setMin(TagDAO.getInstance().getMinPoints());
+        pointsSlider.setMax(TagDAO.getInstance().getMaxPoints());
+        pointsSlider.setLowValue(pointsSlider.getMin());
+        pointsSlider.setHighValue(pointsSlider.getMax());
+
+        pointsSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentMinPoints(newValue.intValue());
+        });
+
+        pointsSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentMaxPoints(newValue.intValue());
+        });
+
+    }
+
+    private void initializePriceRangeSlider()
+    {
+        priceSlider.setMin(4);
+        priceSlider.setMax(200);
+        priceSlider.setLowValue(priceSlider.getMin());
+        priceSlider.setHighValue(priceSlider.getMax());
+
+        priceSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentMinPrice(newValue.intValue());
+        });
+
+        priceSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentMaxPrice(newValue.intValue());
+        });
+
+    }
+
+
 
     /**
      * Displays the current page of wines in a scrollable grid format using wines from allWines.

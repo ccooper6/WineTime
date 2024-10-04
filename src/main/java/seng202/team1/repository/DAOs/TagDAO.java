@@ -108,5 +108,110 @@ public class TagDAO {
         }
     }
 
+    /**
+     * Gets the min vintage in the wines
+     * @return the min vintage
+     */
+    public int getMinVintage() {
+        int minVintage = 0;
+        String sql = "SELECT min(name) FROM tag WHERE type = ?";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setString(1, "Vintage");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                minVintage = rs.getInt(1);
+            }
+
+
+            return minVintage;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Gets the max vintage in the wines
+     * @return the max vintage
+     */
+    public int getMaxVintage() {
+        int minVintage = 0;
+        String sql = "SELECT max(name) FROM tag WHERE type = ?";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setString(1, "Vintage");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                minVintage = rs.getInt(1);
+            }
+
+
+            return minVintage;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Gets the min point score in the wines
+     * @return the min point score
+     */
+    public int getMinPoints() {
+        int minPoints = 0;
+        String sql = "SELECT min(points) FROM wine";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                minPoints = rs.getInt(1);
+            }
+
+
+            return minPoints;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Gets the max point score in the wines
+     * @return the max point score
+     */
+    public int getMaxPoints() {
+        int maxPoints = 0;
+        String sql = "SELECT max(points) FROM wine";
+        try (
+                Connection conn = databaseManager.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                maxPoints = rs.getInt(1);
+            }
+
+
+            return maxPoints;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
