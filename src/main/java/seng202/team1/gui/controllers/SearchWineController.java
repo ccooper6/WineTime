@@ -105,6 +105,7 @@ public class SearchWineController {
         initializeVintageRangeSlider();
         initializePriceRangeSlider();
         initSortByOptions();
+
         gotoPane.setVisible(false);
 
         if (FXWrapper.getInstance().getPreviousPage().equals("searchWine")) {
@@ -163,6 +164,9 @@ public class SearchWineController {
         });
     }
 
+    /**
+     * Initialises the variety combo box and its listners
+     */
     private void initializeVarietyComboBox()
     {
         varietyComboBox.getItems().addAll(TagDAO.getInstance().getVarieties());
@@ -172,6 +176,10 @@ public class SearchWineController {
         });
 
     }
+
+    /**
+     * Initialises the country combo box and its listners
+     */
     private void initializeCountryComboBox()
     {
 
@@ -182,6 +190,10 @@ public class SearchWineController {
         });
 
     }
+
+    /**
+     * Initialises the winery combo box and its listners
+     */
     private void initializeWineryComboBox()
     {
         wineryComboBox.getItems().addAll(TagDAO.getInstance().getWineries());
@@ -192,6 +204,10 @@ public class SearchWineController {
 
     }
 
+    /**
+     * Initialises the year/vintage range slider and also its related text fields, sets up the listners to make
+     * this work.
+     */
     private void initializeVintageRangeSlider()
     {
         vintageSlider.setMin(TagDAO.getInstance().getMinVintage());
@@ -240,6 +256,10 @@ public class SearchWineController {
 
     }
 
+    /**
+     * Initialises the points range slider and also its related text fields, sets up the listners to make
+     * this work.
+     */
     private void initializePointsRangeSlider()
     {
         pointsSlider.setMin(TagDAO.getInstance().getMinPoints());
@@ -288,6 +308,10 @@ public class SearchWineController {
 
     }
 
+    /**
+     * Initialises the price range slider and also its related text fields, sets up the listners to make
+     * this work.
+     */
     private void initializePriceRangeSlider() {
         // Initialize slider
         priceSlider.setMin(4);
@@ -337,6 +361,9 @@ public class SearchWineController {
 
     }
 
+    /**
+     * Handles the verification of the low value of the price slider
+     */
     private void validateAndSetSliderLowValuePrice() {
         try {
             double minValue = Double.parseDouble(minPriceTextField.getText());
@@ -351,6 +378,9 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Handles the verification of the high value of the price slider
+     */
     private void validateAndSetSliderHighValuePrice() {
         try {
             double maxValue = Double.parseDouble(maxPriceTextField.getText());
@@ -365,6 +395,9 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Handles the verification of the low value of the points slider
+     */
     private void validateAndSetSliderLowValuePoints() {
         try {
             double minValue = Double.parseDouble(minPointsTextField.getText());
@@ -379,6 +412,9 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Handles the verification of the high value of the points slider
+     */
     private void validateAndSetSliderHighValuePoints() {
         try {
             double maxValue = Double.parseDouble(maxPointsTextField.getText());
@@ -393,6 +429,9 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Handles the verification of the low value of the vintage/year slider
+     */
     private void validateAndSetSliderLowValueVintage() {
         try {
             double minValue = Double.parseDouble(minYearTextField.getText());
@@ -407,6 +446,9 @@ public class SearchWineController {
         }
     }
 
+    /**
+     * Handles the verification of the high value of the year/vintage slider
+     */
     private void validateAndSetSliderHighValueVintage() {
         try {
             double maxValue = Double.parseDouble(maxYearTextField.getText());
