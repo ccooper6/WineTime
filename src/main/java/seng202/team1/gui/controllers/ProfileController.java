@@ -48,6 +48,9 @@ public class ProfileController {
     @FXML
     private PieChart hateTagPie;
 
+    @FXML
+    private Pane mainPane;
+
     private final ChallengeService challengeService = new ChallengeService();
 
     private final ReviewService reviewService = new ReviewService();
@@ -67,6 +70,7 @@ public class ProfileController {
             activateChallenge();
             displayChallenge();
         }
+        moveMainPane();
         displayTagRankings();
         displayWishlist();
 
@@ -161,6 +165,8 @@ public class ProfileController {
     public void moveWinesPane() {
         winesPane.setLayoutY(winesPane.getLayoutY()+90);
     }
+
+    public void moveMainPane() { mainPane.setLayoutY(mainPane.getLayoutY() + 100);}
 
     public void challengeCompleted() {
         winesPane.setLayoutY(winesPane.getLayoutY()-90);
