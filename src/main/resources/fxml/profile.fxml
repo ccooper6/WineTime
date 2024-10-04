@@ -2,18 +2,13 @@
 
 <!--<?import com.gluonhq.charm.glisten.control.TextField?>-->
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
+<AnchorPane prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
    <children>
       <Label layoutX="20.0" layoutY="15.0" text="Your Profile:">
          <font>
@@ -33,72 +28,83 @@
          <content>
             <AnchorPane fx:id="profilescrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="659.0" prefWidth="1255.0" style="-fx-background-color: white;">
                <children>
-                  <Pane fx:id="noChallengePane" layoutX="10.0" layoutY="32.0" prefHeight="64.0" prefWidth="1240.0">
+                  <Pane layoutY="300.0" prefHeight="200.0" prefWidth="987.0">
                      <children>
-                        <Label fx:id="challengeLabeltext" layoutX="6.0" layoutY="25.0" text="No active challenges. &#10;Start a challenge by pressing the &quot;Start Challenge!&quot; button">
-                           <font>
-                              <Font name="PT Serif" size="14.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="StartChallengeButton" layoutX="566.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                     </children>
-                  </Pane>
-                  <Pane fx:id="challengePane" layoutX="10.0" layoutY="45.0" prefHeight="149.0" prefWidth="1240.0">
-                     <children>
-                        <GridPane prefHeight="149.0" prefWidth="1240.0">
-                           <columnConstraints>
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <AnchorPane fx:id="chal1" maxHeight="135.0" maxWidth="190.0" />
-                              <AnchorPane fx:id="chal2" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="1" />
-                              <AnchorPane fx:id="chal3" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="2" />
-                              <AnchorPane fx:id="chal4" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="3" />
-                              <AnchorPane fx:id="chal5" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="4" />
-                           </children>
-                        </GridPane>
-                     </children>
-                  </Pane>
-                  <Pane fx:id="completedChalPane" layoutX="10.0" layoutY="32.0" prefHeight="64.0" prefWidth="1255.0" visible="false">
-                     <children>
-                        <Label fx:id="completedChallMessage" layoutX="5.0" layoutY="25.0" text="Congratualtions you completed the ">
+                        <Label text="Challenge Tracker:">
                            <font>
                               <Font name="PT Serif" size="18.0" />
-                           </font></Label>
-                        <Button fx:id="StartChallengeButton1" layoutX="565.0" layoutY="21.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
-                           <font>
-                              <Font size="14.0" />
                            </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
+                        </Label>
+                        <Pane fx:id="winesPane" prefHeight="570.0" prefWidth="1250.0">
+                           <children>
+                              <AnchorPane fx:id="wishlistPane" layoutX="20.0" layoutY="20.0" prefHeight="148.0" prefWidth="1225.0" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="completedChalPane" prefHeight="64.0" prefWidth="1255.0" visible="false">
+                           <children>
+                              <Label fx:id="completedChallMessage" layoutX="5.0" layoutY="25.0" text="Congratualtions you completed the ">
+                                 <font>
+                                    <Font name="PT Serif" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="StartChallengeButton1" layoutX="565.0" layoutY="21.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="challengePane" prefHeight="149.0" prefWidth="1240.0">
+                           <children>
+                              <GridPane prefHeight="149.0" prefWidth="1240.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <AnchorPane fx:id="chal1" maxHeight="135.0" maxWidth="190.0" />
+                                    <AnchorPane fx:id="chal2" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="1" />
+                                    <AnchorPane fx:id="chal3" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="2" />
+                                    <AnchorPane fx:id="chal4" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="3" />
+                                    <AnchorPane fx:id="chal5" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="4" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="noChallengePane" prefHeight="64.0" prefWidth="1240.0">
+                           <children>
+                              <Label fx:id="challengeLabeltext" layoutX="6.0" layoutY="25.0" text="No active challenges. &#10;Start a challenge by pressing the &quot;Start Challenge!&quot; button">
+                                 <font>
+                                    <Font name="PT Serif" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="StartChallengeButton" layoutX="566.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" text="Start Challenge!">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </Pane>
                      </children>
                   </Pane>
-                  <Pane fx:id="winesPane" layoutY="90.0" prefHeight="570.0" prefWidth="1250.0">
+                  <AnchorPane prefHeight="292.0" prefWidth="1256.0">
                      <children>
-                        <AnchorPane fx:id="wishlistPane" layoutX="20.0" layoutY="20.0" prefHeight="148.0" prefWidth="1225.0" />
+                        <PieChart fx:id="likedTagPie" prefHeight="307.0" prefWidth="451.0" stylesheets="@../style/tagPieChart.css" />
+                        <PieChart fx:id="hateTagPie" layoutX="509.0" layoutY="-1.0" prefHeight="307.0" prefWidth="451.0" stylesheets="@../style/tagPieChart.css" />
                      </children>
-                  </Pane>
-                  <Label layoutX="14.0" layoutY="14.0" text="Challenge Tracker:">
-                     <font>
-                        <Font name="PT Serif" size="18.0" />
-                     </font>
-                  </Label>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </content>
