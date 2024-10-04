@@ -21,6 +21,17 @@ public class SearchWineService {
     private String currentSearch;
     private String currentMethod;
     private boolean fromWishlist = false;
+
+    private String currentCountryFilter = null;
+    private String currentWineryFilter = null;
+    private String currentVarietyFilter = null;
+
+    private int currentMinYear = -1;
+    private int currentMaxYear = -1;
+    private int currentMinPoints = -1;
+    private int currentMaxPoints = -1;
+    private int currentMinPrice = -1;
+    private int currentMaxPrice = -1;
     private ArrayList<String> selectedVarieties;
 
     /**
@@ -174,6 +185,52 @@ public class SearchWineService {
     public boolean getSortDirection(){ return sortDirection;}
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
+    }
+
+    /**
+     * Sets the current country filter
+     * @param countryFilter the country filter
+     */
+    public void setCurrentCountryFilter(String countryFilter) {
+        currentCountryFilter = countryFilter;
+    }
+
+    /**
+     * Sets the current winery filter
+     * @param wineryFilter the winery filter
+     */
+    public void setCurrentWineryFilter(String wineryFilter) {
+        currentWineryFilter = wineryFilter;
+    }
+
+    /**
+     * Sets the current variety filter
+     * @param varietyFilter the country filter
+     */
+    public void setCurrentVarietyFilter(String varietyFilter) {
+        currentVarietyFilter = varietyFilter;
+    }
+
+    /**
+     * Gets the current country filter
+     * @return the country filter
+     */
+    public String getCurrentCountryFilter() {
+        return currentCountryFilter;
+    }
+    /**
+     * Gets the current winery filter
+     * @return the winery filter
+     */
+    public String getCurrentWineryFilter() {
+        return currentWineryFilter;
+    }
+    /**
+     * Gets the current variety filter
+     * @return the variety filter
+     */
+    public String getCurrentVarietyFilter() {
+        return currentVarietyFilter;
     }
 
 }

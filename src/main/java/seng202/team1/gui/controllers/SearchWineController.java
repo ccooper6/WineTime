@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.RangeSlider;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.services.SearchWineService;
@@ -78,7 +79,6 @@ public class SearchWineController {
     private RangeSlider pointsSlider;
 
 
-
     /**
      * Initialises the controller using wines from SearchWineService instance.
      */
@@ -90,6 +90,16 @@ public class SearchWineController {
         initializeWineryComboBox();
         initSortByOptions();
         gotoPane.setVisible(false);
+
+        if (FXWrapper.getInstance().getPreviousPage().equals("searchWine")) {
+            countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
+            varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
+            wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
+            System.out.println("from search page");
+        } else {
+            resetFilters();
+            System.out.println("not from search page");
+        }
 
         allWines = SearchWineService.getInstance().getWineList();
 
@@ -134,16 +144,29 @@ public class SearchWineController {
     private void initializeVarietyComboBox()
     {
         varietyComboBox.getItems().addAll(TagDAO.getInstance().getVarieties());
+
+        varietyComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentVarietyFilter(newValue);
+        });
+
     }
     private void initializeCountryComboBox()
     {
 
         countryComboBox.getItems().addAll(TagDAO.getInstance().getCountries());
 
+        countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentCountryFilter(newValue);
+        });
+
     }
     private void initializeWineryComboBox()
     {
         wineryComboBox.getItems().addAll(TagDAO.getInstance().getWineries());
+
+        wineryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            SearchWineService.getInstance().setCurrentWineryFilter(newValue);
+        });
 
     }
 
