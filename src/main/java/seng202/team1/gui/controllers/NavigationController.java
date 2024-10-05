@@ -2,6 +2,8 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,19 +48,25 @@ public class NavigationController {
     @FXML
     private ComboBox<String> sortByComboBox;
 
+
+
+
+
     private Parent loadingScreen;
 
+    boolean isFiltering = false;
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
     private boolean dropdownLocked = false;
+
+    private final ObservableList<String> options = FXCollections.observableArrayList();
 
      /**
      * Initializes the controller.
      */
     public void initialize() {
         initializeSortByComboBox();
-
         initialiseSearchBar();
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
@@ -92,13 +100,11 @@ public class NavigationController {
         }
 
         searchBar.setOnAction(e -> {
-            if (!searchBar.getText().isEmpty()) {
-                launchSearchWineLoadingScreen();
-            }
+            launchSearchWineLoadingScreen();
         });
 
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
+            if (event.getCode() == KeyCode.ENTER) {
                 launchSearchWineLoadingScreen();
             }
         });
@@ -197,6 +203,8 @@ public class NavigationController {
      */
     @FXML
     public void onLogOutClicked() {
+        LOG.info("Logging out user " + User.getCurrentUser().getName());
+
         User.setCurrenUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
@@ -211,7 +219,7 @@ public class NavigationController {
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.loadPageContent: {}", e.getMessage());
         }
     }
 
@@ -233,7 +241,7 @@ public class NavigationController {
             Parent mainPage = loader.load();
             contentHere.getChildren().add(mainPage); // Add the main page to the stack
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.loadMainScreen: Could not load fxml content.");
         }
     }
 
@@ -255,7 +263,7 @@ public class NavigationController {
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load wine pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadPopupContent: Could not load fxml content.");
         }
     }
 
@@ -269,7 +277,7 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load wine logging pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadWineLoggingPopupContent: Could not load fxml content.");
         }
     }
 
@@ -283,7 +291,7 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load select challenge pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadSelectChallengePopupContent: Could not load fxml content.");
         }
     }
 
@@ -326,7 +334,7 @@ public class NavigationController {
             loadingScreen = loader.load();
             rootPane.getChildren().add(loadingScreen);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.showLoadingScreen: Could not load fxml content.");
         }
     }
 

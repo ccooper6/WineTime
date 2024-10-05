@@ -30,6 +30,7 @@ public class FXWindow extends Application {
         Scene scene = new Scene(root, 1280, 720);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Wine Time");
+        // TODO theres a warning ig
         primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo.png").toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

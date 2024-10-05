@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
@@ -49,6 +51,8 @@ public class ProfileController {
 
     int completedWineCount = 0;
 
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
+
     /**
      * Initialises the controller checks if user has is participating in a challenge, calls
      * methods to appropriately alter screens.
@@ -71,6 +75,7 @@ public class ProfileController {
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
+        LOG.info("Fetching wishlist.");
         int currentUserUid = User.getCurrentUser().getId();
 
         try {
@@ -91,10 +96,15 @@ public class ProfileController {
 
     /**
      * Sends user to the select challenge popup.
+     * launches the select challenge popup.
      */
     public void onChallengeClicked() {
-        challengeService.launchSelectChallenge();
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadSelectChallengePopUpContent();
     }
+
+
 
     /**
      * Displays the challenge wines using the wine mini displays.
@@ -104,6 +114,7 @@ public class ProfileController {
         ArrayList<Wine> challengeWines = challengeService.challengeWines();
         completedWineCount = 0;
         int currentUserUid = User.getCurrentUser().getId();
+        String cname = challengeService.usersChallenge();
         for (int i = 0; i < wineViews.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(challengeWines.get(i));
             try {
@@ -119,7 +130,7 @@ public class ProfileController {
             }
         }
         if (completedWineCount == 5) {
-            challengeCompleted();
+            challengeCompleted(cname);
         }
     }
 
@@ -127,6 +138,7 @@ public class ProfileController {
      * Makes the challenge pane visible and disables previous one.
      */
     public void activateChallenge() {
+        LOG.info("Activating challenge for user " + User.getCurrentUser().getName());
         noChallengePane.setVisible(false);
         challengePane.setVisible(true);
     }
@@ -138,12 +150,12 @@ public class ProfileController {
         winesPane.setLayoutY(winesPane.getLayoutY()+90);
     }
 
-    public void challengeCompleted() {
+    public void challengeCompleted(String cname) {
         winesPane.setLayoutY(winesPane.getLayoutY()-90);
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
-        challengeService.challengeCompleted("Variety Challenge");
+        challengeService.challengeCompleted(cname);
     }
 }
 
