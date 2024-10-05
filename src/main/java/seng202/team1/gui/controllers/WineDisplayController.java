@@ -1,13 +1,17 @@
 package seng202.team1.gui.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
+import seng202.team1.services.ReviewService;
 import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WishlistService;
 
 /**
  * Controller for displaying wine cards.
@@ -20,8 +24,15 @@ public class WineDisplayController {
     private ImageView wineImage;
     @FXML
     private AnchorPane winePane;
+    @FXML
+    private AnchorPane wineCompleted;
+    @FXML
+    private FontAwesomeIconView wineLiked;
+    @FXML
+    private FontAwesomeIconView wineReviewed;
 
     private Wine wine;
+    private final ReviewService reviewService = new ReviewService();
 
     /**
      * Displays the wine card using SearchWineService instances' current wine.
@@ -30,13 +41,15 @@ public class WineDisplayController {
     public void initialize()
     {
         wine = SearchWineService.getInstance().getCurrentWine();
+        wineCompleted.setVisible(false);
         wineImage.setImage(new Image(wine.getImagePath()));
-        String infoText = "Name: " + wine.getName();
-        infoText += "\nVariety: " + wine.getVariety();
-        wineInfo.setText(infoText);
-
+        wineInfo.setText(wine.getName());
+        wineInfo.setWrapText(true);
         winePane.setOnMouseEntered(event -> darkenPane());
         winePane.setOnMouseExited(event -> lightenPane());
+
+        wineReviewed.setVisible(reviewService.reviewExists(User.getCurrentUser().getId(), wine.getWineId()));
+        wineLiked.setVisible(WishlistService.checkInWishlist(wine.getWineId(), User.getCurrentUser().getId()));
     }
 
     /**
@@ -57,7 +70,7 @@ public class WineDisplayController {
     @FXML
     public void darkenPane()
     {
-        winePane.setStyle("-fx-background-color: #999999; -fx-background-radius: 15;");
+        winePane.setStyle("-fx-background-color: #d6d6d6; -fx-background-radius: 15;");
     }
 
     /**
@@ -67,6 +80,14 @@ public class WineDisplayController {
     public void lightenPane()
     {
         winePane.setStyle("-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
+    }
+
+    @FXML
+    public void completedChallengeWine()
+    {
+//        winePane.setStyle("-fx-background-color:  #008000; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
+        wineCompleted.setVisible(true);
+        wineCompleted.setMouseTransparent(true);
     }
 
 }

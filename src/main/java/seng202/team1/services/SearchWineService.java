@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
@@ -15,12 +16,15 @@ public class SearchWineService {
     private Wine currentWine;
     private ArrayList<Wine> wineList;
     private String currentTags;
-
+    private boolean sortDirection = true;
     private static SearchWineService instance;
-
     private String currentSearch;
     private String currentMethod;
     private boolean fromWishlist = false;
+    private ArrayList<String> selectedVarieties;
+    private String searchOrder = "wine_name";
+    private String prevSearch;
+    private String prevDropDown = "Name";
 
     /**
      * Returns the instance and creates one if none exists.
@@ -105,9 +109,17 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-
-        wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
+        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit, searchOrder);
+        prevSearch = filterString;
         fromWishlist = false;
+    }
+
+    /**
+     * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
+     * @param limit an integer limit to the number of wines to recommend
+     */
+    public void searchWinesByRecommend(int limit) {
+        wineList = RecommendWineService.getInstance().getRecommendedWines(User.getCurrentUser().getId(), limit);
     }
 
     /**
@@ -156,10 +168,32 @@ public class SearchWineService {
     }
 
     /**
-     * If from wishlist, behavior in WineDisplay is different.
-     * @return true if the prev page is wishlist, else false
+     * Direction of the sort arrow as a boolean value
+     * @return true = up, false = down
      */
-    public boolean getFromWishlist() {
-        return fromWishlist;
+    public boolean getSortDirection(){ return sortDirection;}
+    public void setSortDirection(boolean isUp) {
+        sortDirection = isUp;
+    }
+
+    /**
+     *  Sets search order var and requeries using previous query
+     * Triggered by sort-by dropdown in search page
+     * @param searchOrder is the ORDER BY param which is the column name
+     */
+    public void setSearchOrder(String searchOrder) {
+        System.out.println("search order: " + searchOrder);
+        this.searchOrder = searchOrder;
+        searchWinesByName(prevSearch, SearchDAO.UNLIMITED);
+    }
+    /**
+     * Stores the dropdown sort by for later
+     * @param prevDropDown is the name of the dropdown title: "Name" etc.
+     */
+    public void setDropDown(String prevDropDown) {
+        this.prevDropDown = prevDropDown;
+    }
+    public String getPrevDropDown() {
+        return prevDropDown;
     }
 }

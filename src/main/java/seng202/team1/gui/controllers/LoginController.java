@@ -80,7 +80,7 @@ public class LoginController {
     private void setRegisterFieldListeners() {
         // check passwords match
         confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals(passwordField.getText())) {
+            if (newValue.equals(passwordField.getText()) && !newValue.isEmpty()) {
                 passwordField.setStyle("-fx-border-color: GREEN");
                 confirmPasswordField.setStyle("-fx-border-color: GREEN");
             } else {

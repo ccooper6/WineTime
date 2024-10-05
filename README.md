@@ -27,12 +27,12 @@ IntelliJ has built-in support for Gradle. To import your project:
 **Note:** *If you run into dependency issues when running the app or the Gradle pop up doesn't appear then open the Gradle sidebar and click the Refresh icon.*
 
 ## Build Project
-- Open a command line interface inside the project directory and run `./gradlew run` to build a .jar file. The file is located at build/libs/wino-1.0-SNAPSHOT.jar
+- Open a command line interface inside the project directory and run `./gradlew run` to build a .jar file. The file is located at build/libs/WineTime-1.0-SNAPSHOT.jar
 
 ## Run App
 - If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd build/libs` to change into the right directory.
-- Run the command `java -jar wino-1.0-SNAPSHOT.jar` to open the application.
+- Run the command `java -jar WineTime-1.0-SNAPSHOT.jar` to open the application.
 
 ## How to run tests
 - Open a command line interface inside the projection directory and run `./gradlew test`

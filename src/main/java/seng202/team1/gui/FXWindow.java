@@ -27,7 +27,8 @@ public class FXWindow extends Application {
         fxWrapper.init(primaryStage);
 
         Parent root = loader.load();
-        Scene scene = new Scene(root, 1000, 600);
+        Scene scene = new Scene(root, 1280, 720);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Wine Time");
         // TODO theres a warning ig
         primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo.png").toExternalForm()));

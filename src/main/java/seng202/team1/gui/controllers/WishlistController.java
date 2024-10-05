@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class WishlistController {
     private static final Logger LOG = LogManager.getLogger(WishlistController.class);
     private ArrayList<Wine> allWines;
-    private final int MAXSIZE = 50;
+    private final int MAXSIZE = 60;
     private int currentPage = 0;
 
     @FXML
@@ -84,8 +84,8 @@ public class WishlistController {
         int columns = wineGrid.getColumnCount();
         int end = Math.min(start + MAXSIZE, allWines.size());
         int gridRows = Math.ceilDiv(end - start, columns);
-        wineGrid.setMinHeight(gridRows * 130 - 10);
-        scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
+        wineGrid.setMinHeight(gridRows * (130 + 10) + 10);
+        scrollAnchorPane.setMinHeight(gridRows * (130 + 10) + 10);
 
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);

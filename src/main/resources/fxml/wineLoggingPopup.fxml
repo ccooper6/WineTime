@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineLoggingPopupController">
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineLoggingPopupController">
    <children>
       <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
          <children>
-            <Label layoutX="27.0" layoutY="37.0" prefHeight="23.0" prefWidth="306.0" text="How would you rate this wine from a scale of 1-5 overall?" />
-            <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="20.0" layoutY="67.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="30.0" prefWidth="294.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" />
-            <Label fx:id="likingText" layoutX="27.0" layoutY="104.0" prefHeight="17.0" prefWidth="445.0" text="Which of the following parts of the wine did you like? (Optional)" />
+            <Label layoutX="27.0" layoutY="44.0" prefHeight="23.0" prefWidth="402.0" text="How would you rate this wine from a scale of 1-5 overall?" />
+            <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="22.0" layoutY="67.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="30.0" prefWidth="294.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" />
+            <Label layoutX="27.0" layoutY="104.0" prefHeight="17.0" prefWidth="263.0" text="Which of the following parts of the wine did you " />
             <FlowPane fx:id="tagFlowPane" hgap="20.0" layoutX="27.0" layoutY="121.0" prefHeight="137.0" prefWidth="445.0" style="-fx-background-color: #edf0f5;" vgap="20.0" />
-            <Label layoutX="28.0" layoutY="265.0" prefHeight="17.0" prefWidth="273.0" text="How would you describe the wine? (Optional)" />
-            <Button fx:id="submitLogButton" layoutX="212.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #edf0f5;" text="Submit Log" />
-            <Label fx:id="characterRemainingLabel" layoutX="343.0" layoutY="274.0" prefHeight="15.0" prefWidth="130.0" text="120 characters remaining" textAlignment="RIGHT">
+            <Label layoutX="27.0" layoutY="273.0" prefHeight="17.0" prefWidth="294.0" text="How would you describe the wine? (Optional)" />
+            <Button fx:id="submitLogButton" layoutX="212.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #edf0f5;" text="Submit Log">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Label fx:id="characterRemainingLabel" layoutX="343.0" layoutY="274.0" prefHeight="15.0" prefWidth="130.0" text="160 characters remaining" textAlignment="RIGHT">
                <font>
-                  <Font size="10.0" />
+                  <Font size="11.0" />
                </font>
             </Label>
-            <TextArea fx:id="descriptionTextArea" layoutX="28.0" layoutY="291.0" prefHeight="65.0" prefWidth="445.0" wrapText="true">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </TextArea>
+            <TextArea fx:id="descriptionTextArea" layoutX="27.0" layoutY="291.0" prefHeight="65.0" prefWidth="445.0" wrapText="true" />
             <Button fx:id="popUpCloseButton" layoutX="431.0" layoutY="15.0" mnemonicParsing="false" onAction="#returnToWinePopUp" style="-fx-background-color: WHITE;">
                <graphic>
                   <FontAwesomeIconView fill="GREY" glyphName="CHEVRON_LEFT" selectionFill="#b9b9b9" size="30" wrappingWidth="24.21630859375" />
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Text fx:id="promptText" layoutX="24.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No review currently exists, fill out this form to save the wine to your reviews" />
+            <Text fx:id="promptText" layoutX="23.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review this wine!">
+               <font>
+                  <Font name="PT Serif" size="19.0" />
+               </font></Text>
+            <Label fx:id="likingText" layoutX="281.0" layoutY="104.0" prefHeight="18.0" prefWidth="101.0" text=" like?">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label layoutX="415.0" layoutY="104.0" prefHeight="17.0" prefWidth="57.0" text="(Optional)" />
          </children></Pane>
    </children>
 </StackPane>

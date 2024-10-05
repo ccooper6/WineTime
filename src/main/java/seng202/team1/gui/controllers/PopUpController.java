@@ -1,6 +1,7 @@
 package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -148,12 +149,15 @@ public class PopUpController {
         for (Button button : tagButtons) {
             button.setOnAction(actionEvent -> {
                 String buttonName = button.getText();
+                NavigationController nav = FXWrapper.getInstance().getNavigationController();
+                nav.executeWithLoadingScreen(() -> {
+                    SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+                    SearchWineService.getInstance().setCurrentSearch(buttonName);
+                    SearchWineService.getInstance().setCurrentMethod("Tags");
+                    Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
 
-                SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+                });
 
-                SearchWineService.getInstance().setCurrentSearch(buttonName);
-                SearchWineService.getInstance().setCurrentMethod("Tags");
-                FXWrapper.getInstance().launchSubPage("searchWine");
             });
         }
     }
@@ -182,7 +186,7 @@ public class PopUpController {
         int currentUserUid = User.getCurrentUser().getId();
 
         if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
-            logWineIcon.setFill(Color.web("#70171e"));
+            logWineIcon.setFill(Color.web("#808080"));
         } else {
             logWineIcon.setFill(Color.web("#d0d0d0"));
         }
@@ -219,29 +223,36 @@ public class PopUpController {
      * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
      */
     public void onWineSearchLinkClicked() {
-        java.awt.Desktop.getDesktop();
-        String query = wineName.getText();
+        try {
+            java.awt.Desktop.getDesktop();
+            String query = wineName.getText();
+            query = Normalizer.normalize(query, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            query = pattern.matcher(query).replaceAll("");
+            String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    // open browser with a thread
+                    Runnable browseRunnable = () -> {
+                        try {
+                            desktop.browse(new URI(googleSearchURL));
+                        } catch (URISyntaxException e) {
+                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Syntax error in URL: {}", googleSearchURL);
+                        } catch (IOException e) {
+                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
+                        }
+                    };
 
-        LOG.info("Launching default browser to search for " + wineName.getText());
-
-        query = Normalizer.normalize(query, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        query = pattern.matcher(query).replaceAll("");
-        String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
-        if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                try {
-                    desktop.browse(new URI(googleSearchURL));
-                } catch (URISyntaxException e) {
-                    LOG.error("Error in PopupController.onWineSearchLinkClicked(): The URL of the search contained unsupported characters.");
-                } catch (IOException e) {
-                    LOG.error("Error in PopupController.onWineSearchLinkClicked(): The device's default browser could not be launched.");
+                    Thread thread = new Thread(browseRunnable);
+                    thread.start();
                 }
+            } else {
+                LOG.error("Error in PopupController.onWIneSearchLinkClicked(): Desktop does not support wine link function");
             }
-        } else {
-            //TODO if not supported don't show button?
-            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Desktop is not supported.");
+        } catch (Exception e) {
+            // TODO wtf is this
+            LOG.error("Something went wrong trying to search for a wine.");
         }
     }
 

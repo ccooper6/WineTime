@@ -1,18 +1,23 @@
 package seng202.team1.gui.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
 
@@ -25,7 +30,11 @@ import java.util.ArrayList;
  */
 public class SearchWineController {
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
-    private final int MAXSIZE = 50;
+    private final int MAXSIZE = 60;
+    public FontAwesomeIconView sortDirection;
+    @FXML
+    public ComboBox<String> sortDropDown;
+
     private ArrayList<Wine> allWines;
     private int currentPage = 0;
 
@@ -58,7 +67,7 @@ public class SearchWineController {
     @FXML
     public void initialize()
     {
-
+        initSortByOptions();
         gotoPane.setVisible(false);
 
         allWines = SearchWineService.getInstance().getWineList();
@@ -67,6 +76,7 @@ public class SearchWineController {
             LOG.error("Error in SearchWineController.initialize(): The wine list is null");
             allWines = new ArrayList<>();
         }
+        
         displayCurrentPage();
 
         // setup goto popup
@@ -75,11 +85,17 @@ public class SearchWineController {
 
         // make goto text field red if input is invalid
         gotoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d+") && !newValue.isEmpty() && Integer.parseInt(newValue) > 0 && Integer.parseInt(newValue) < Math.ceilDiv(allWines.size(), MAXSIZE)) {
-                gotoTextField.setStyle("-fx-border-color: GREEN");
-                gotoButton.setDisable(false);
+            if (newValue.matches("\\d+") && !newValue.isEmpty()) {
+                int pageNumber = Integer.parseInt(newValue);
+                if (pageNumber > 0 && pageNumber <= Math.ceil((double) allWines.size() / MAXSIZE)) { // check if page number is valid
+                    gotoTextField.setStyle("-fx-border-color: GREEN");
+                    gotoButton.setDisable(false);
+                } else {
+                    gotoTextField.setStyle("-fx-border-color: RED");
+                    gotoButton.setDisable(true);
+                }
             } else {
-                gotoTextField.setStyle("-fx-border-color: RED");
+                gotoTextField.setStyle("-fx-border-color: RED"); // if input is not a number
                 gotoButton.setDisable(true);
             }
         });
@@ -120,6 +136,7 @@ public class SearchWineController {
         }
 
         wineGrid.getChildren().clear();
+        wineGrid.getRowConstraints().clear();
 
         scrollPane.setVvalue(0);
 
@@ -131,8 +148,8 @@ public class SearchWineController {
         title.setText("Search Results showing " + (start + 1) + "-" + end + " of " + allWines.size());
 
         int gridRows = Math.ceilDiv(end - start, columns);
-        wineGrid.setMinHeight(gridRows * 130 - 10);
-        scrollAnchorPane.setMinHeight(gridRows * 130 - 10);
+        wineGrid.setMinHeight(gridRows * (135 + 10) + 10); // rows * (height of mini display + padding) + padding
+        scrollAnchorPane.setMinHeight(gridRows * (135 + 10) + 10);
 
 //        page navigation management at bottom
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
@@ -146,7 +163,11 @@ public class SearchWineController {
 
 //        add wines
         for (int i = 0; i < end - start; i++) {
-            SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            if (SearchWineService.getInstance().getSortDirection()) {
+                SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
+            } else {
+                SearchWineService.getInstance().setCurrentWine(allWines.get(allWines.size() - start - i -1));
+            }
 
             int currentRow = i / columns;
             int currentCol = i % columns;
@@ -162,6 +183,20 @@ public class SearchWineController {
                 LOG.error("Error in SearchWineController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i).getWineId());
             }
         }
+    }
+
+    /**
+     * Sets the dropdown options for the sorting
+     */
+    public void initSortByOptions() {
+        sortDropDown.getItems().add("Recommended");
+        sortDropDown.getItems().add("Name");
+        sortDropDown.getItems().add("Price");
+        sortDropDown.getItems().add("Points");
+        sortDropDown.getItems().add("Vintage");
+        sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
+        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+        SearchWineService.getInstance().setSortDirection(true);
     }
 
     /**
@@ -208,22 +243,86 @@ public class SearchWineController {
      * Sets the current page to the page defined by the user.
      */
     @FXML
-    public void gotoPage()
-    {
-        int pageNumber = Integer.parseInt(gotoTextField.getText());
-
-        currentPage = pageNumber - 1;
-        displayCurrentPage();
-
-        gotoPane.setVisible(false);
+    public void gotoPage() {
+        String text = gotoTextField.getText();
+        if (text.matches("\\d+") && !text.isEmpty()) {
+            int pageNumber = Integer.parseInt(text);
+            int totalPages = (int) Math.ceil((double) allWines.size() / MAXSIZE);
+            if (pageNumber > 0 && pageNumber <= totalPages) {
+                currentPage = pageNumber - 1;
+                displayCurrentPage();
+                gotoPane.setVisible(false);
+                gotoTextField.clear();
+            } else {
+                gotoTextField.setStyle("-fx-border-color: RED");
+            }
+        }
     }
 
     /**
-     * Opens up the Goto Page Popup
+     * Opens up the Goto Page Popup.
      */
     @FXML
     public void openGotoPopup()
     {
         gotoPane.setVisible(true);
+    }
+
+    /**
+     * Closes the Goto Page Popup.
+     */
+    @FXML
+    public void closeGotoPopup()
+    {
+        gotoTextField.clear();
+        gotoPane.setVisible(false);
+    }
+
+    /**
+     * When the sort arrow is clicked, the direction is toggled
+     * The display then resets the order of the stored wine elements
+     */
+    public void changeIcon() {
+        if (SearchWineService.getInstance().getSortDirection()) {
+            sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
+            SearchWineService.getInstance().setSortDirection(false);
+            displayCurrentPage();
+        } else {
+            sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+            SearchWineService.getInstance().setSortDirection(true);
+            displayCurrentPage();
+        }
+    }
+
+    /**
+     * Sort by options trigger this function when they're clicked
+     * Re-queries the database with different ORDER BY parameter, then reloads
+     */
+    public void dropDownClicked(){
+        String column_name = null;
+        if (sortDropDown.getValue() != null) {
+            if(sortDropDown.getValue().toString().equals("Recommended")) {
+                SearchWineService.getInstance().searchWinesByRecommend(120);
+            }
+            else{
+                switch (sortDropDown.getValue().toString()) {
+                    case "Name" -> {
+                        column_name = "wine_name";
+                    }
+                    case "Price" -> {
+                        column_name = "price";
+                    }
+                    case "Points" -> {
+                        column_name = "points";
+                    }
+                    case "Vintage" -> {
+                        column_name = "Vintage"; //has different ORDER BY location in DAO
+                    }
+                }
+                SearchWineService.getInstance().setSearchOrder(column_name);
+            }
+            SearchWineService.getInstance().setDropDown(sortDropDown.getValue().toString());
+            FXWrapper.getInstance().launchSubPage("searchWine");
+        }
     }
 }

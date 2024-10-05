@@ -48,12 +48,13 @@ public class ChallengeDAO {
      * @param wineID wine id
      * @param cname challenge name
      */
-    public void insertWineChal(int wineID, String cname) {
-        String sql = "INSERT INTO challenge_wine (wineID, cname) VALUES (?, ?)";
+    public void insertWineChal(int wineID, int uid, String cname) {
+        String sql = "INSERT INTO challenge_wine (wineID, cname, uid) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement chalps = conn.prepareStatement(sql)) {
                 chalps.setInt(1, wineID);
                 chalps.setString(2, cname);
+                chalps.setInt(3, uid);
                 chalps.executeUpdate();
                 conn.commit();
             }
@@ -153,6 +154,7 @@ public class ChallengeDAO {
         }
     }
 
+
     /**
      * Puts the challenge into the copy database with a fixed name and description.
      */
@@ -167,24 +169,24 @@ public class ChallengeDAO {
     /**
      * Inserts the wine into the challenge.
      */
-    public void wineInChallenge() {
+    public void wineInChallenge(ArrayList<Integer> wineIds, int uid, String challengeName) {
         if (challengeHasWines() == false) {
-            insertWineChal(3, "Variety Challenge");
-            insertWineChal(57, "Variety Challenge");
-            insertWineChal(298, "Variety Challenge");
-            insertWineChal(494, "Variety Challenge");
-            insertWineChal(500, "Variety Challenge");
+            for (int i = 0; i < wineIds.size(); i ++) {
+                insertWineChal(wineIds.get(i), uid, challengeName);
+            }
         }
     }
 
+
     /**
      * Checks the user already has the challenge active, if not calls a method to update the database.
-     * @param userID user id
+     * @param uid user id
      * @param cname challenge name
      */
-    public void userActivatesChallenge(int userID, String cname) {
-        if (!userHasChallenge(userID, cname)) {
-            userToChallenge(userID, cname);
+    public void userActivatesChallenge(int uid, String cname, ArrayList<Integer> wineIds) {
+        if (!userHasChallenge(uid, cname)) {
+            userToChallenge(uid, cname);
+            wineInChallenge(wineIds, uid, cname);
         } else {
             System.out.println("User already registered for this challenge");
         }
@@ -193,15 +195,17 @@ public class ChallengeDAO {
     /**
      * Gets the wines for the challenge, and returns them as array list of wines.
      * @param cname challenge name
+     * @param uid the user id
      * @return ArrayList of wines for the challenge
      */
-    public ArrayList<Wine> getWinesForChallenge(String cname) {
+    public ArrayList<Wine> getWinesForChallenge(String cname, int uid) {
         ArrayList<Wine> wineList;
         String sql =    "SELECT id, wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n"
                 + "FROM (SELECT id, name as wine_name, description, points, price\n"
                 + "      FROM wine\n"
                 + "      JOIN challenge_wine ON wine.id = challenge_wine.wineID\n"
-                + "WHERE challenge_wine.cname = ?)\n"
+                + "WHERE challenge_wine.cname = ?\n"
+                + "AND challenge_wine.uid = ?)\n"
                 + "JOIN owned_by ON id = owned_by.wid\n"
                 + "JOIN tag ON owned_by.tname = tag.name\n"
                 + "ORDER BY id;";
@@ -211,6 +215,7 @@ public class ChallengeDAO {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
         ) {
             pstmt.setString(1, cname);
+            pstmt.setInt(2, uid);
             try (ResultSet rs = pstmt.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
@@ -274,5 +279,38 @@ public class ChallengeDAO {
         }
         return wineList;
     }
+
+
+    /**
+     * removes the challenge from the users active challenges.
+     * @param uid users id
+     * @param cname the name of the challenge
+     */
+    public void challengeCompleted(int uid, String cname)
+    {
+        String sql = "DELETE FROM active_challenge WHERE userID = ? AND cname = ?;";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, uid);
+                ps.setString(2, cname);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String sql1 = "DELETE FROM challenge_wine WHERE cname = ? AND uid = ?;";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement chalps = conn.prepareStatement(sql1)) {
+                chalps.setString(1, cname);
+                chalps.setInt(2, uid);
+                chalps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 
 }

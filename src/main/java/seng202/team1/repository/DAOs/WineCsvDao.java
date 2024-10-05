@@ -16,7 +16,7 @@ import java.text.Normalizer;
 import java.text.StringCharacterIterator;
 
 /**
- * The class that handles populating the og.db.
+ * The class that handles populating the main.db.
  * Written by Wen Sheng Thong wst44, despite IntelliJ saying it's written by
  * Yuhao Zhang.
  *
@@ -249,7 +249,7 @@ public class WineCsvDao {
         // TODO change to db function
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/sql/og.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/sql/main.db");
         } catch (SQLException e) {
             LOG.error("Failed to connect to original database");
         }

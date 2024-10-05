@@ -10,6 +10,7 @@ import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.User;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A singleton class which launches the FXML pages.
@@ -20,6 +21,7 @@ public class FXWrapper {
     private Stage stage;
     private NavigationController navigationController;
     private int challenge = 0;
+    private String currentPage = "init";
 
     private static final Logger LOG = LogManager.getLogger(FXWrapper.class);
 
@@ -54,11 +56,11 @@ public class FXWrapper {
      */
     public void launchPage(String name) {
         try {
+            FXWrapper.getInstance().setCurrentPage(name);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
             LOG.error("Error in FXWrapper.launchPage: Could not load fxml content for {}.", name);
@@ -73,18 +75,18 @@ public class FXWrapper {
      */
     public void launchSubPage(String name) {
         try {
+            FXWrapper.getInstance().setCurrentPage(name);
             FXMLLoader navigationLoader = new FXMLLoader(getClass().getResource("/fxml/navigation.fxml"));
             Parent navigationRoot = navigationLoader.load();
             navigationController = navigationLoader.getController();
             // TODO should this be .equals?
-            if (name == "mainpage") {
+            if (name.equals("mainpage")) {
                 navigationController.loadMainScreen();
             } else {
                 navigationController.loadPageContent(name);
             }
             Scene scene = new Scene(navigationRoot);
             stage.setScene(scene);
-            stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
             LOG.error("Error in FXWrapper.launchSubPage: Could not load fxml content for {}.", name);
@@ -97,5 +99,38 @@ public class FXWrapper {
      */
     public NavigationController getNavigationController() {
         return navigationController;
+    }
+
+    /**
+     * Sets the challenge number.
+     * @param chalNum the challenge number.
+     */
+    public void setChallenge(int chalNum) {
+        System.out.println("updated challenge number");
+        challenge = chalNum;
+    }
+
+    /**
+     * Gets the challenge number.
+     * @return the challenge number.
+     */
+    public int getChallenge() {
+        return challenge;
+    }
+
+    /**
+     * Gets the current page that is being shown.
+     * @return current page name
+     */
+    public String getCurrentPage() {
+        return currentPage;
+    }
+
+    /**
+     * Sets the current page that is being shown.
+     * @param page the current page name
+     */
+    public void setCurrentPage(String page) {
+        currentPage = page;
     }
 }

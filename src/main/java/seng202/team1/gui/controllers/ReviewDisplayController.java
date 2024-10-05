@@ -42,6 +42,7 @@ public class ReviewDisplayController {
     @FXML
     private Text tagsLiked;
 
+    private Review review;
     private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
 
     /**
@@ -98,8 +99,12 @@ public class ReviewDisplayController {
     @FXML
     public void onDeletePressed() {
         LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
-        ReviewService.deleteReview(ReviewService.getCurrentReview().getRating());
+        ReviewService.deleteReview(review.getRating(), review);
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 
+    public void setReview(Review review) {
+        this.review = review;
+        initialize();
+    }
 }

@@ -1,6 +1,8 @@
 package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -50,13 +52,12 @@ public class NavigationController {
 
     private Wine wine;
     private boolean dropdownLocked = false;
-    private String currentPage = "init";
 
      /**
      * Initializes the controller.
      */
     public void initialize() {
-        initialseSortByComboBox();
+        initializeSortByComboBox();
 
         initialiseSearchBar();
 
@@ -70,11 +71,11 @@ public class NavigationController {
     /**
      * Inserts options into sort by combo box and selects first.
      */
-    private void initialseSortByComboBox()
+    private void initializeSortByComboBox()
     {
         sortByComboBox.getItems().add("In Name");
         sortByComboBox.getItems().add("In Tags");
-        if (SearchWineService.getInstance().getCurrentMethod() == null) {
+        if (SearchWineService.getInstance().getCurrentMethod() == null || !FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
             sortByComboBox.getSelectionModel().selectFirst();
         } else {
             sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
@@ -86,36 +87,19 @@ public class NavigationController {
      */
     private void initialiseSearchBar()
     {
-        searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+        if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
+            searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+        }
+
         searchBar.setOnAction(e -> {
             if (!searchBar.getText().isEmpty()) {
-
-                if (sortByComboBox.getValue().equals("In Name")) {
-                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-                } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-                }
-
-                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
-                FXWrapper.getInstance().launchSubPage("searchWine");
-                searchBar.getParent().requestFocus();
+                launchSearchWineLoadingScreen();
             }
         });
 
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
-
-                if (sortByComboBox.getValue().equals("In Name")) {
-                    SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-                } else {
-                    SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-                }
-
-                SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-                SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
-                FXWrapper.getInstance().launchSubPage("searchWine");
-                searchBar.getParent().requestFocus();
+                launchSearchWineLoadingScreen();
             }
         });
 
@@ -135,19 +119,39 @@ public class NavigationController {
             }
         });
 
-
         dropdownButton.setOnMouseEntered(event -> openDropDown());
         dropdownButton.setOnMouseExited(event -> {
             if (!userDropDownMenu.isHover() && !dropdownLocked) {
                 closeDropDown();
             }
         });
+
         userDropDownMenu.setOnMouseExited(event -> {
             if (!dropdownButton.isHover() && !dropdownLocked) {
                 closeDropDown();
             }
         });
         userDropDownMenu.setOnMouseEntered(event -> openDropDown());
+    }
+
+    /**
+     * Launches the search wine loading screen by running it as a thread and launching the loading screen
+     * to indicate to the user that there are searches being made behind the scenes.
+     */
+    private void launchSearchWineLoadingScreen() {
+        NavigationController nav = FXWrapper.getInstance().getNavigationController();
+        nav.executeWithLoadingScreen(() -> {
+            if (sortByComboBox.getValue().equals("In Name")) {
+                SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+            } else {
+                SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
+            }
+            SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+            SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
+
+            Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
+        });
+        searchBar.getParent().requestFocus();
     }
 
     /**
@@ -208,7 +212,6 @@ public class NavigationController {
             Parent pageContent = loader.load();
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
-            currentPage = name;
         } catch (IOException e) {
             LOG.error("Error in NavigationController.loadPageContent: Could not load fxml content.");
         }
@@ -219,7 +222,7 @@ public class NavigationController {
      * @return the current page name
      */
     public String getCurrentPage() {
-        return currentPage;
+        return FXWrapper.getInstance().getCurrentPage();
     }
 
     /**
@@ -287,6 +290,36 @@ public class NavigationController {
     }
 
     /**
+     * The method allows blocks of logic to be executed with a loading screen. It also forces them to be run with
+     * dedicated resources which is good when trying to reduce wait times (e.g. search wine service calls from the nav bar)
+     * @param searchLogic the logic to be executed behind a loading screen
+     */
+    public void executeWithLoadingScreen(Runnable searchLogic) {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        Platform.runLater(navigationController::showLoadingScreen);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                searchLogic.run();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                Platform.runLater(navigationController::hideLoadingScreen);
+            }
+
+            @Override
+            protected void failed() {
+                Platform.runLater(navigationController::hideLoadingScreen);
+            }
+        };
+
+        new Thread(task).start();
+    }
+
+    /**
      * Shows the loading screen by adding it to the stack pane.
      */
     public void showLoadingScreen() {
@@ -350,5 +383,12 @@ public class NavigationController {
      */
     public void onUserClicked() {
         FXWrapper.getInstance().launchSubPage("profile");
+    }
+
+    /**
+     * Sends the user to the help page when the help button is clicked.
+     */
+    public void onHelpClicked() {
+        FXWrapper.getInstance().launchSubPage("helpScreen");
     }
 }

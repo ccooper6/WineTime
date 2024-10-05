@@ -1,19 +1,19 @@
 package seng202.team1.gui.controllers;
 
-import static java.sql.Types.NULL;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.models.User;
 import seng202.team1.models.Review;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.util.ArrayList;
+
+import static java.sql.Types.NULL;
 
 /**
  * The controller class for the wine logging popup. Called by {@link PopUpController#loadWineLoggingPopUp()} when the
@@ -48,6 +48,7 @@ public class WineLoggingPopupController {
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
+        likingText.setTextFill(Color.GREEN);
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
@@ -105,6 +106,10 @@ public class WineLoggingPopupController {
             tagCheckBoxArray.add(new CheckBox(wine.getVintage() + " Vintage"));
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
+        if (wine.getCountry() != null) {
+            tagCheckBoxArray.add(new CheckBox(wine.getCountry() + " Country"));
+            tagNameArray.add(wine.getCountry());
+        }
         if (wine.getProvince() != null) {
             tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));
             tagNameArray.add(wine.getProvince());
@@ -135,7 +140,7 @@ public class WineLoggingPopupController {
      * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining.
      */
     private void addDescCharLimit() {
-        int maxLength = 120;
+        int maxLength = 160;
         descriptionTextArea.setWrapText(true);
         descriptionTextArea.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String string = "";
@@ -161,9 +166,11 @@ public class WineLoggingPopupController {
     private void monitorRating() {
         ratingSlider.valueProperty().addListener((observableValue, number, t1) -> {
             if (ratingSlider.getValue() < 3) {
-                likingText.setText("Which of the following parts of the wine did you dislike? (Optional)");
+                likingText.setText(" dislike?");
+                likingText.setTextFill(Color.RED);
             } else {
-                likingText.setText("Which of the following parts of the wine did you like? (Optional)");
+                likingText.setText(" like?");
+                likingText.setTextFill(Color.GREEN);
             }
         });
     }
