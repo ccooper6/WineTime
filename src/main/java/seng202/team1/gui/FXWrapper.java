@@ -20,6 +20,7 @@ public class FXWrapper {
     private NavigationController navigationController;
     private int challenge = 0;
     private String currentPage = "init";
+    private String previousPage = "init";
 
     /**
      * Gets the singleton.
@@ -56,7 +57,6 @@ public class FXWrapper {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,7 +82,6 @@ public class FXWrapper {
             }
             Scene scene = new Scene(navigationRoot);
             stage.setScene(scene);
-            stage.setTitle(name);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,10 +122,20 @@ public class FXWrapper {
     }
 
     /**
+     * Gets the previous page that was being shown.
+     * @return previous page name
+     */
+    public String getPreviousPage() {
+        return previousPage;
+    }
+
+    /**
      * Sets the current page that is being shown.
      * @param page the current page name
      */
     public void setCurrentPage(String page) {
+        previousPage = currentPage;
         currentPage = page;
     }
+
 }

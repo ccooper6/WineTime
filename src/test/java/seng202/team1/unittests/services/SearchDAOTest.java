@@ -34,6 +34,6 @@ public class SearchDAOTest {
 //            tagList.add(tag.trim());
 //        }
 
-        System.out.println(SearchDAO.getInstance().searchByNameAndFilter(tagList, 0, 100, 0, 3000, null, SearchDAO.UNLIMITED));
+        System.out.println(SearchDAO.getInstance().searchByNameAndFilter(tagList, 0, 100, 0, 3000, null, SearchDAO.UNLIMITED, "wine_id"));
     }
 }
