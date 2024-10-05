@@ -24,6 +24,20 @@ public class SelectChallengePopupController {
         challengeService.launchProfile();
     }
 
+    public void startRedsChallenge() {
+        challengeService.startChallengeReds();;
+        challengeService.launchProfile();
+    }
+
+    public void startWhitesChallenge() {
+        challengeService.startChallengeWhites();
+        challengeService.launchProfile();
+    }
+
+    public void startRoseChallenge() {
+        challengeService.startChallengeRose();
+        challengeService.launchProfile();
+    }
 
     /**
      * Closes the popup.

@@ -22,7 +22,7 @@
             </Label>
             <ScrollPane layoutX="6.0" layoutY="63.0" prefHeight="330.0" prefWidth="485.0" style="-fx-background-color: WHITE;">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="557.0" prefWidth="465.0" style="-fx-background-color: WHITE;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="465.0" style="-fx-background-color: WHITE;">
                      <children>
                         <Pane layoutX="7.0" layoutY="8.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
                            <children>
@@ -41,6 +41,36 @@
                                  </cursor>
                               </Button>
                               <Label fx:id="decades" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Time Travallers Challenge&#10;Journey through the years, " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="7.0" layoutY="252.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
+                           <children>
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startRedsChallenge" text="Start Challenge!">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Label fx:id="redDesciption" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="&quot;a good red soothes the head&quot;" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="7.0" layoutY="374.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
+                           <children>
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startWhitesChallenge" text="Start Challenge!">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Label fx:id="whiteDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The great white challenge." />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="7.0" layoutY="496.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
+                           <children>
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startRoseChallenge" text="Start Challenge!">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Label fx:id="roseDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Stop and smell the rose." />
                            </children>
                         </Pane>
                      </children>
