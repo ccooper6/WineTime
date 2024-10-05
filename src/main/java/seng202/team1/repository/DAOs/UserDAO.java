@@ -17,26 +17,16 @@ import java.util.Objects;
  * Data Access Object for the User class.
  * @author Caleb Cooper, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
-public class UserDAO implements DAOInterface<User> {
+public class UserDAO {
 
     private final DatabaseManager databaseManager;
-    private static final Logger log = LogManager.getLogger(UserDAO.class);
+    private static final Logger LOG = LogManager.getLogger(UserDAO.class);
 
     /**
      * Constructor for UserDAO.
      */
     public UserDAO() {
         databaseManager = DatabaseManager.getInstance();
-    }
-
-    @Override
-    public List<User> getAll() {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public User getOne(int id) {
-        throw new NotImplementedException();
     }
 
     /**
@@ -69,13 +59,13 @@ public class UserDAO implements DAOInterface<User> {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in UserDAO.tryLogin(): SQLException {}", e.getMessage());
+            return null; //TODO is this right?
         }
 
 
     }
 
-    @Override
     public int add(User toAdd) throws DuplicateEntryException {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
@@ -85,13 +75,13 @@ public class UserDAO implements DAOInterface<User> {
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
             ps.executeUpdate();
-            log.info("Added user: " + toAdd.getEncryptedUserName());
+            LOG.info("Added user: " + toAdd.getEncryptedUserName());
             return 1; // Username created successfully
         } catch (SQLException sqlException) {
             if (sqlException.getErrorCode() == 19) {
                 return 0; // Duplicate username
             }
-            log.error(sqlException.getMessage());
+            LOG.error("Error in UserDAO.add(): SQLException {}", sqlException.getMessage());
             return 2; // Other error occurred
         }
     }
@@ -115,11 +105,11 @@ public class UserDAO implements DAOInterface<User> {
             }
             return rs.getString("name");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in UserDAO.getName(): SQLException {}", e.getMessage());
+            return null; //TODO is this right?
         }
     }
 
-    @Override
     public void delete(int id) {
         String sql = "DELETE FROM user WHERE id = ?";
         try (
@@ -130,13 +120,8 @@ public class UserDAO implements DAOInterface<User> {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in UserDAO.delete(): SQLException {}", e.getMessage());
         }
-    }
-
-    @Override
-    public void update(User toUpdate) {
-        throw new NotImplementedException();
     }
 }
 

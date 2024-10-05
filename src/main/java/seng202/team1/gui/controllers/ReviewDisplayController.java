@@ -70,14 +70,14 @@ public class ReviewDisplayController {
 
         Wine currentWine = ReviewService.getCurrentWine();
         if (currentWine == null) {
-            LOG.error("Current wine is null for review with ID: " + review.getUid());
+            LOG.error("Error in ReviewDisplay.initialize(): Current wine is null for review with ID {}", review.getUid());
         } else {
             SearchWineService.getInstance().setCurrentWine(currentWine);
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 reviewedWineTile.getChildren().add(loader.load());
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error in ReviewDisplay.initialize(): Could not load fxml content for review with ID {}", review.getUid());
             }
         }
 
@@ -98,6 +98,7 @@ public class ReviewDisplayController {
      */
     @FXML
     public void onDeletePressed() {
+        LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
         ReviewService.deleteReview(review.getRating(), review);
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }

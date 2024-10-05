@@ -25,7 +25,7 @@ import java.text.StringCharacterIterator;
 public class WineCsvDao {
 
 
-    private static final Logger log = LogManager.getLogger(WineCsvDao.class);
+    private static final Logger LOG = LogManager.getLogger(WineCsvDao.class);
     /**
      * Adds a wine into the database as well as its associated tags if there are any new tags. It then links
      * the wine to the tag using the owned_by relationship. Returns the next wine numeric id upon successful addition.
@@ -48,10 +48,9 @@ public class WineCsvDao {
                 }
             }
         } catch (SQLException e) {
-            if (e.getErrorCode() == 19) {
-                log.info("DUPLICATE WINE FOUND AT ROW " + wineValues[0]);
-            } else {
-                log.error(e.getMessage());
+            // if not duplicate wine
+            if (e.getErrorCode() != 19) {
+                LOG.error("Error in WineCsvDao.add(): SQLException: {}", e.getMessage());
             }
             return wineID; //wine not added, reuse unused wineID
         }
@@ -146,7 +145,7 @@ public class WineCsvDao {
                 //tag already exists, link via owned_by anyway.
                 executeOwnedByPs(ownedByPs, wineId, tagName);
             } else {
-                log.error(e.getMessage());
+                LOG.error("Error in WineCsvDao.executeTagPs(): SQLException: {}", e.getMessage());
             }
         }
     }
@@ -164,8 +163,9 @@ public class WineCsvDao {
             ownedByPs.setString(2, tagName);
             ownedByPs.executeUpdate();
         } catch (SQLException e) {
+            // not a duplicate
             if (e.getErrorCode() != 19) {
-                log.info(e.getMessage());
+                LOG.error("Error in WineCsvDao.executeOwnedByPs(): SQLException: {}", e.getMessage());
             }
         }
     }
@@ -234,14 +234,9 @@ public class WineCsvDao {
         String[] wineValues;
         CSVReader csv = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(winePath), StandardCharsets.UTF_8)).withSkipLines(1).build();
         int wineID = 1;
-        int num = -1;
         while ((wineValues = csv.readNext()) != null) {
             wineID = add(wineValues, wineID);
             System.out.println(wineID + "/" + totalRows + ":" + wineValues[11]);
-            if (wineID > num + 1000) {
-                System.out.println(wineID + "/" + totalRows);
-                num += 1000;
-            }
         }
         csv.close();
     }
@@ -251,11 +246,12 @@ public class WineCsvDao {
      */
 
     public Connection emptyConnect() {
+        // TODO change to db function
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/sql/main.db");
         } catch (SQLException e) {
-            log.error("Failed to connect to original database");
+            LOG.error("Failed to connect to original database");
         }
         return conn;
     }
@@ -276,11 +272,13 @@ public class WineCsvDao {
         try {
             wineCsvReader(wineFilePath);
         } catch (FileNotFoundException e) {
+            LOG.error("Error in WineCsvDao.initialiseAllWines(): FileNotFoundException: {}", e.getMessage());
             throw new RuntimeException(e);
         } catch (IOException e) {
+            LOG.error("Error in WineCsvDao.initialiseAllWines(): IOException: {}", e.getMessage());
             throw new RuntimeException(e);
         } catch (CsvValidationException e) {
-            log.error("failed to read csv file");
+            LOG.error("Error in WineCsvDao.initialiseAllWines(): CsvValidException: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

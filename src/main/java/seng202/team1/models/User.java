@@ -11,6 +11,7 @@ public class User {
     private String name;
     private String encryptedUserName;
     private int hashedPassword;
+    // TODO should these be stored or fetched?
     private ArrayList<Wine> favouritedWines;
     private ArrayList<Wine> dislikedWines;
     private ArrayList<String> favouritedTags;
@@ -91,6 +92,8 @@ public class User {
     public String getEncryptedUserName() {
         return encryptedUserName;
     }
+
+    // TODO lots of unused methods
 
     /**
      * Sets the encrypted username of the user.

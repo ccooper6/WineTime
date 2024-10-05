@@ -13,7 +13,9 @@ import java.text.Normalizer;
  */
 
 public class Wine {
-    private int wineId;
+    //TODO are we doing tasters?
+
+    private final int wineId;
     private String name;
     private String description;
     private int price;
@@ -324,11 +326,6 @@ public class Wine {
         if (region2 != null) {
             String normalisedRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
             isTrue = isTrue || normalisedRegion2.equals(location);
-        }
-
-        if (!isTrue) {
-            System.out.println(name);
-            System.out.println(province);
         }
 
         return isTrue;
