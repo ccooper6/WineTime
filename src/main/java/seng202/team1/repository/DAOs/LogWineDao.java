@@ -31,7 +31,7 @@ public class LogWineDao {
      * @param tagName the string tag name of the added tag
      * @param value   the value which determines the ranking of the users liked tags
      */
-    public void likes(int uid, String tagName, int value) {
+    public void likes(int uid, String tagName, int value) { // TODO: NEED TO FIGURE OUT HOW TO REDUCE ALL LIKES TO ZERO IF USER GOES FROM NONE TO SOME AND VICE VERSA
         if (alreadyLikeExists(uid, tagName)) {
             updateLikesValue(uid, tagName, value);
         } else {
