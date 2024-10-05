@@ -2,6 +2,8 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,19 +48,25 @@ public class NavigationController {
     @FXML
     private ComboBox<String> sortByComboBox;
 
+
+
+
+
     private Parent loadingScreen;
 
+    boolean isFiltering = false;
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
     private boolean dropdownLocked = false;
+
+    private final ObservableList<String> options = FXCollections.observableArrayList();
 
      /**
      * Initializes the controller.
      */
     public void initialize() {
         initializeSortByComboBox();
-
         initialiseSearchBar();
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
@@ -92,13 +100,11 @@ public class NavigationController {
         }
 
         searchBar.setOnAction(e -> {
-            if (!searchBar.getText().isEmpty()) {
-                launchSearchWineLoadingScreen();
-            }
+            launchSearchWineLoadingScreen();
         });
 
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
+            if (event.getCode() == KeyCode.ENTER) {
                 launchSearchWineLoadingScreen();
             }
         });

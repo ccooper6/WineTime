@@ -22,6 +22,7 @@ public class FXWrapper {
     private NavigationController navigationController;
     private int challenge = 0;
     private String currentPage = "init";
+    private String previousPage = "init";
 
     private static final Logger LOG = LogManager.getLogger(FXWrapper.class);
 
@@ -127,10 +128,20 @@ public class FXWrapper {
     }
 
     /**
+     * Gets the previous page that was being shown.
+     * @return previous page name
+     */
+    public String getPreviousPage() {
+        return previousPage;
+    }
+
+    /**
      * Sets the current page that is being shown.
      * @param page the current page name
      */
     public void setCurrentPage(String page) {
+        previousPage = currentPage;
         currentPage = page;
     }
+
 }
