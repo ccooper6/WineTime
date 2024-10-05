@@ -61,8 +61,6 @@ public class WineVarietyService {
      */
     public void addWineToSet(InputStream url, HashSet<String> variety) {
         try {
-            //old code in case we get back to it
-//            Files.lines(Paths.get(url.toString().substring(12))).map(String::trim).forEach(variety::add);
             BufferedReader br = new BufferedReader(new InputStreamReader(url));
             String varietyName;
             while ((varietyName = br.readLine()) != null) {
