@@ -201,7 +201,6 @@ public class WineLoggingPopupController {
         }
 
         Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
-
         ArrayList<String> existingTags;
         if (existingReview != null) {
             existingTags = existingReview.getTagsSelected();
@@ -223,8 +222,6 @@ public class WineLoggingPopupController {
         tagsToRemove.removeAll(selectedTags);
 
         wineLoggingPopupService.updateTagLikes(User.getCurrentUser().getId(), tagsToAdd, tagsToRemove, existingTags, newRating, oldRating);
-
-
         wineLoggingPopupService.submitLog(newRating, User.getCurrentUser().getId(), currentWine.getWineId(), selectedTags, noneSelected, descriptionTextArea.getText());
         returnToWinePopUp();
     }

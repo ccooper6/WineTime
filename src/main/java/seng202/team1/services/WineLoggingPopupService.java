@@ -84,18 +84,29 @@ public class WineLoggingPopupService {
      * @param oldRating the old rating of the log
      */
     public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, ArrayList<String> existingTags, int newRating, int oldRating) {
-        int ratingDifference = newRating - oldRating;
 
         for (String tag : tagsToAdd) {
-            updateTagLikes(uid, tag, newRating - 3); // Add the like
+            updateTagLikes(uid, tag, getRatingWeight(newRating)); // Add the like
         }
         for (String tag : tagsToRemove) {
-            updateTagLikes(uid, tag, 3 - oldRating); // Reverse the like
+            updateTagLikes(uid, tag, -1 * getRatingWeight(oldRating)); // Reverse the like by multiplying -1
         }
         for (String tag : existingTags) {
             if (!tagsToRemove.contains(tag)) {
-                updateTagLikes(uid, tag, ratingDifference); // Update the like
+                updateTagLikes(uid, tag, getRatingWeight(newRating)); // Update the like
             }
+        }
+    }
+    /**
+     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively
+     * @param rating the int rating
+     * @return the rating's weight
+     */
+    public int getRatingWeight(int rating) {
+        if (rating >= 3) {
+            return rating - 2;
+        } else {
+            return rating - 3;
         }
     }
 }

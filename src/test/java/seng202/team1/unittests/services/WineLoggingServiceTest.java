@@ -1,13 +1,12 @@
 package seng202.team1.unittests.services;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.LogWineDao;
 import seng202.team1.repository.DAOs.UserDAO;
+import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.WineLoggingPopupService;
 
 import java.time.ZoneId;
@@ -100,7 +99,7 @@ public class WineLoggingServiceTest {
         int uid = 1;
         int initialRating = 5;
         int newRating = 2;
-        int definedRating = (initialRating) - 3;
+        int definedRating = (initialRating) - 2;
 
         ArrayList<String> initialTags = new ArrayList<>(List.of("fruity", "smooth"));
         ArrayList<String> tagsToAdd = new ArrayList<>(List.of("clean", "calebiscool", "sparkly"));
@@ -112,8 +111,8 @@ public class WineLoggingServiceTest {
         HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
         assertEquals(2, result.size());
         assertTrue(result.containsKey("fruity") && result.containsKey("smooth"));
-        assertEquals(2, result.get("fruity"));
-        assertEquals(2, result.get("smooth"));
+        assertEquals(3, result.get("fruity"));
+        assertEquals(3, result.get("smooth"));
 
         wineLoggingPopupService.updateTagLikes(uid, tagsToAdd, tagsToRemove, initialTags, newRating, initialRating);
         HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
