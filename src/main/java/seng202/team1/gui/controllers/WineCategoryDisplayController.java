@@ -360,7 +360,7 @@ public class WineCategoryDisplayController {
         if (displayWines.size() >= 3) {
             mainWine3.getChildren().add(wineDisplays.get(2));
         }
-        if (displayWines.size() == 4) {
+        if (displayWines.size() >= 4) {
             mainWine4.getChildren().add(wineDisplays.get(3));
         }
         if (displayWines.size() == 5) {
