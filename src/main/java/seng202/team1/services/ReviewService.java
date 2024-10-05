@@ -61,7 +61,7 @@ public class ReviewService {
      * Deletes the current review.
      * @param rating The rating of the review.
      */
-    public static void deleteReview(int rating, Review review) {
+    public static void deleteReview(int rating, Review review) { // TODO: Fix this - need to update similar to removing likes in the logging popup controller
         int uid = review.getUid();
         logWineDao.deleteReview(uid, review.getWid());
         ArrayList<String> selectedTags = review.getTagsSelected();
