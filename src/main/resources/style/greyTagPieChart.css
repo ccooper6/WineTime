@@ -1,43 +1,19 @@
 /************* Grayscale Pie Chart CSS *************/
 
-/* Set the general background color for the chart */
-.chart-pie {
-    -fx-background-color: #e0e0e0; /* Light gray background */
-}
 
 /* Customize the pie slices to use shades of gray */
-.chart-pie .chart-pie-data {
-    /* Dark Gray slice */
-    .data0 {
-        -fx-pie-color: #505050; /* Dark Gray */
-    }
-
-    /* Medium Gray slice */
-    .data1 {
-        -fx-pie-color: #707070; /* Medium Gray */
-    }
-
-    /* Light Gray slice */
-    .data2 {
-        -fx-pie-color: #a0a0a0; /* Light Gray */
-    }
-
-    /* Lighter Gray slice */
-    .data3 {
-        -fx-pie-color: #c0c0c0; /* Even Lighter Gray */
-    }
-
-    /* Almost White slice */
-    .data4 {
-        -fx-pie-color: #e0e0e0; /* Lightest Gray */
-    }
+.chart-pie {
+    -fx-border-color: #4B0000;
+}
+.data0.chart-pie {
+    -fx-pie-color: #5e5757;
 }
 
 /* Customize chart title */
 .chart-title {
-    -fx-text-fill: #606060; /* Dark gray title */
-    -fx-font-size: 18px;    /* Adjust title size */
-    -fx-font-weight: bold;  /* Bold title */
+    -fx-text-fill: #000000;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
 
 /* Customize chart legend */
