@@ -185,47 +185,35 @@ public class WineLoggingPopupController {
      * Also updates the likes of the tags in the database depending on whether the user has changed their rating or
      * selected different tags.
      */
-    private void submitLog() {
-        int newRating = (int) ratingSlider.getValue();
-        boolean noneSelected = false;
+    private void submitLog() { // TODO: Need to clean up method, do we really need both tags selected and liked if we track none selected anyways?
+        int rating = (int) ratingSlider.getValue();
+        int currentUserUid = User.getCurrentUser().getId();
+        int currentWineId = currentWine.getWineId();
+        String description = descriptionTextArea.getText();
         ArrayList<String> selectedTags = new ArrayList<>();
+        ArrayList<String> tagsToLike = new ArrayList<>();
         if (hasClickedTag()) {
             for (int i = 0; i < tagNameArray.size(); i++) {
                 if (tagCheckBoxArray.get(i).isSelected()) {
                     selectedTags.add(tagNameArray.get(i));
+                    tagsToLike.add(tagNameArray.get(i));
                 }
             }
         } else {
-            selectedTags = tagNameArray;
-            noneSelected = true;
+            tagsToLike = tagNameArray;
         }
+        boolean noneSelected = selectedTags.isEmpty();
 
-        Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
-
-        ArrayList<String> existingTags;
+        Review existingReview = wineLoggingPopupService.getReview(currentUserUid, currentWineId);
         if (existingReview != null) {
-            existingTags = existingReview.getTagsSelected();
+            ArrayList<String> oldTags = existingReview.getTagsLiked();
+            int oldRating = existingReview.getRating();
+            wineLoggingPopupService.updateTagLikes(currentUserUid, tagsToLike, oldTags, rating, oldRating);
         } else {
-            existingTags = new ArrayList<>();
+            wineLoggingPopupService.updateTagLikes(currentUserUid, tagsToLike, new ArrayList<>(), rating, 0);
         }
 
-        int oldRating;
-        if (existingReview != null) {
-            oldRating = existingReview.getRating();
-        } else {
-            oldRating = 0;
-        }
-
-        ArrayList<String> tagsToAdd = new ArrayList<>(selectedTags);
-        tagsToAdd.removeAll(existingTags);
-
-        ArrayList<String> tagsToRemove = new ArrayList<>(existingTags);
-        tagsToRemove.removeAll(selectedTags);
-
-        wineLoggingPopupService.updateTagLikes(User.getCurrentUser().getId(), tagsToAdd, tagsToRemove, existingTags, newRating, oldRating);
-
-
-        wineLoggingPopupService.submitLog(newRating, User.getCurrentUser().getId(), currentWine.getWineId(), selectedTags, noneSelected, descriptionTextArea.getText());
+        wineLoggingPopupService.submitLog(rating, currentUserUid, currentWineId, selectedTags, tagsToLike, noneSelected, description);
         returnToWinePopUp();
     }
 

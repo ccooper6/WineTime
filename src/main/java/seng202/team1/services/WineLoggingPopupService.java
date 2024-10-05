@@ -37,12 +37,12 @@ public class WineLoggingPopupService {
      * @param description the text description entered by the user
      * @param noneSelected a boolean value indicating if no tags have been selected
      */
-    public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, boolean noneSelected, String description) {
+    public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, @NotNull ArrayList<String> tagsLiked, boolean noneSelected, String description) {
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
-            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, noneSelected);
+            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         } else {
-            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, noneSelected);
+            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         }
     }
 
@@ -67,35 +67,22 @@ public class WineLoggingPopupService {
     /**
      * Uses {@link LogWineDao} to update the tags liked by the user.
      * @param uid the user id
-     * @param tag the tag name
-     * @param definedRating the rating of the tag
-     */
-    public void updateTagLikes(int uid, String tag, int definedRating) {
-        logWineDao.likes(uid, tag, definedRating);
-    }
-
-    /**
-     * Uses {@link LogWineDao} to update the tags liked by the user.
-     * @param uid the user id
      * @param tagsToAdd an ArrayList of strings, containing tag names to add
      * @param tagsToRemove an ArrayList of strings, containing tag names to remove
-     * @param existingTags an ArrayList of strings, containing existing tag names
      * @param newRating the new rating of the log
      * @param oldRating the old rating of the log
      */
-    public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, ArrayList<String> existingTags, int newRating, int oldRating) {
-        int ratingDifference = newRating - oldRating;
+    public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, int newRating, int oldRating) {
+        int scaledNewRating = newRating - 3;
+        int scaledOldRating = oldRating - 3;
+
+        for (String tag : tagsToRemove) {
+            logWineDao.likes(uid, tag, -scaledOldRating);
+        }
 
         for (String tag : tagsToAdd) {
-            updateTagLikes(uid, tag, newRating - 3); // Add the like
+            logWineDao.likes(uid, tag, scaledNewRating);
         }
-        for (String tag : tagsToRemove) {
-            updateTagLikes(uid, tag, 3 - oldRating); // Reverse the like
-        }
-        for (String tag : existingTags) {
-            if (!tagsToRemove.contains(tag)) {
-                updateTagLikes(uid, tag, ratingDifference); // Update the like
-            }
-        }
+
     }
 }
