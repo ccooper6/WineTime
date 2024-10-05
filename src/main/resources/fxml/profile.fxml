@@ -2,31 +2,26 @@
 
 <!--<?import com.gluonhq.charm.glisten.control.TextField?>-->
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
+<AnchorPane prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
    <children>
       <Label layoutX="20.0" layoutY="15.0" text="Your Profile:">
          <font>
-            <Font size="36.0" />
+            <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label layoutX="970.0" layoutY="27.0" text="Need some inspiration? ">
+      <Label layoutX="997.0" layoutY="28.0" text="Need some inspiration? ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="quizButton" layoutX="1201.0" layoutY="22.0" mnemonicParsing="false" onAction="#onQuizClicked" style="-fx-background-color: #d9d9d9;" text="Quiz">
+      <Button fx:id="quizButton" layoutX="1198.0" layoutY="29.0" mnemonicParsing="false" onAction="#onQuizClicked" style="-fx-background-color: #d9d9d9;" text="Quiz">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -34,16 +29,26 @@
          <content>
             <AnchorPane fx:id="profilescrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="1000.0" prefWidth="1255.0" style="-fx-background-color: white;">
                <children>
-                  <Pane fx:id="mainPane" layoutY="300.0" prefHeight="1000.0" prefWidth="1250.0">
+                  <Label layoutX="22.0" text="Tags Stats:">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="noPieChartLabel" layoutX="30.0" layoutY="40.0" prefHeight="27.0" prefWidth="362.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="Review more wines to see your preference">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Pane fx:id="mainPane" layoutY="281.0" prefHeight="1020.0" prefWidth="1250.0">
                      <children>
                         <Label layoutX="20.0" text="Challenge Tracker:">
                            <font>
-                              <Font size="25.0" />
+                              <Font name="System Bold" size="25.0" />
                            </font>
                         </Label>
                         <Pane fx:id="winesPane" layoutY="120.0" prefHeight="700.0" prefWidth="1250.0">
                            <children>
-                              <AnchorPane fx:id="wishlistPane" layoutX="20.0" layoutY="30.0" prefHeight="148.0" prefWidth="1225.0" />
+                              <AnchorPane fx:id="wishlistPane" layoutX="-9.0" layoutY="30.0" prefHeight="148.0" prefWidth="1264.0" />
                            </children>
                         </Pane>
                         <Pane fx:id="completedChalPane" layoutX="20.0" layoutY="30.0" prefHeight="64.0" prefWidth="1255.0" visible="false">
@@ -65,9 +70,9 @@
                         </Pane>
                         <Pane fx:id="challengePane" layoutX="5.0" layoutY="40.0" prefHeight="149.0" prefWidth="1240.0">
                            <children>
-                              <GridPane prefHeight="149.0" prefWidth="1240.0">
+                              <GridPane hgap="20.0" layoutX="60.0" layoutY="10.0" maxHeight="120.0" maxWidth="1030.0" minHeight="120.0" minWidth="1030.0" prefHeight="120.0" prefWidth="1030.0">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -77,11 +82,15 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <AnchorPane fx:id="chal1" maxHeight="135.0" maxWidth="190.0" />
-                                    <AnchorPane fx:id="chal2" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="1" />
-                                    <AnchorPane fx:id="chal3" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="2" />
-                                    <AnchorPane fx:id="chal4" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="3" />
-                                    <AnchorPane fx:id="chal5" maxHeight="135.0" maxWidth="190.0" GridPane.columnIndex="4" />
+                                    <AnchorPane fx:id="chal1" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefHeight="120.0" prefWidth="190.0">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="chal2" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                                    <AnchorPane fx:id="chal3" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="2" />
+                                    <AnchorPane fx:id="chal4" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="3" />
+                                    <AnchorPane fx:id="chal5" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="4" />
                                  </children>
                               </GridPane>
                            </children>
@@ -105,10 +114,20 @@
                         </Pane>
                      </children>
                   </Pane>
-                  <AnchorPane layoutY="20.0" prefHeight="292.0" prefWidth="1256.0">
+                  <AnchorPane fx:id="pieChartAnchorPane" layoutX="14.0" layoutY="18.0" prefHeight="292.0" prefWidth="1256.0">
                      <children>
-                        <PieChart fx:id="likedTagPie" prefHeight="307.0" prefWidth="451.0" stylesheets="@../style/tagPieChart.css" />
-                        <PieChart fx:id="hateTagPie" layoutX="509.0" layoutY="-1.0" prefHeight="307.0" prefWidth="451.0" stylesheets="@../style/tagPieChart.css" />
+                        <PieChart fx:id="likedTagPie" layoutX="36.0" layoutY="30.0" prefHeight="276.0" prefWidth="451.0" style="-fx-border-color: #3f0202;" stylesheets="@../style/tagPieChart.css" />
+                        <PieChart fx:id="hateTagPie" layoutX="587.0" layoutY="28.0" prefHeight="276.0" prefWidth="451.0" style="-fx-border-color: #3f0202;" />
+                        <Label fx:id="notEnoughLiked" layoutX="83.0" layoutY="121.0" prefHeight="64.0" prefWidth="357.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="               Not enough tags liked">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="notEnoughDisliked" layoutX="633.0" layoutY="121.0" prefHeight="64.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="             Not enough tags disliked">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </children>
