@@ -1,5 +1,7 @@
 package seng202.team1.gui.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +9,8 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
@@ -47,10 +51,17 @@ public class ProfileController {
     private PieChart likedTagPie;
     @FXML
     private PieChart hateTagPie;
-
+    @FXML
+    private Label notEnoughDisliked;
+    @FXML
+    private Label notEnoughLiked;
     @FXML
     private Pane mainPane;
-
+    @FXML
+    private AnchorPane pieChartAnchorPane;
+    @FXML
+    private Label noPieChartLabel;
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
     private final ChallengeService challengeService = new ChallengeService();
 
     private final ReviewService reviewService = new ReviewService();
@@ -70,26 +81,93 @@ public class ProfileController {
             activateChallenge();
             displayChallenge();
         }
-        moveMainPane();
         displayTagRankings();
         displayWishlist();
 
     }
 
+    /**
+     * Responsible for shifting the profile page elements depending if a pie chart should be displayed or not
+     */
     private void displayTagRankings() {
         int uid = User.getCurrentUser().getId();
+        if (tagRankingService.hasEnoughLikedTags(uid) || tagRankingService.hasEnoughDislikedTags(uid)) {
+            noPieChartLabel.setVisible(false);
+            likedTagPie.setStyle("-fx-border-color: #3f0202");
+            hateTagPie.setStyle("-fx-border-color: #3f0202");
+            pieChartAnchorPane.setDisable(false);
+            moveMainPane(100);
+            displayPieCharts(uid);
+        } else {
+            makePieChartInvisible();
+            moveMainPane(- 210); //210 is the perfect distance to shift the main page up
+        }
+    }
+
+    /**
+     * Disables the pie chart anchor pane as well as making sure its elements are invisible
+     */
+    private void makePieChartInvisible() {
+        noPieChartLabel.setVisible(true);
+        notEnoughLiked.setVisible(false);
+        likedTagPie.setStyle(null);
+        hateTagPie.setStyle(null);
+        notEnoughDisliked.setVisible(false);
+        pieChartAnchorPane.setDisable(true);
+    }
+
+    /**
+     * Initialises and creates the pie charts.
+     * @param uid user id
+     */
+    private void displayPieCharts(int uid) {
         if (tagRankingService.hasEnoughLikedTags(uid)) {
-            likedTagPie.setData(tagRankingService.getTopTagData(uid,5));
-            likedTagPie.setClockwise(true);
-            likedTagPie.setTitle("Your top 5 liked tags");
-            likedTagPie.setLabelsVisible(true);
+            notEnoughLiked.setVisible(false);
+            createPie(likedTagPie, tagRankingService.getTopTagData(uid, 5), "Your top 5 liked tags");
+        } else {
+            notEnoughLiked.setVisible(true);
+            createEmptyPie(likedTagPie,"Your top 5 liked tags");
         }
         if (tagRankingService.hasEnoughDislikedTags(uid)) {
-            hateTagPie.setData(tagRankingService.getLowestTagData(uid, 5));
-            hateTagPie.setClockwise(true);
-            hateTagPie.setTitle("Your top 5 disliked tags");
-            hateTagPie.setLabelsVisible(true);
+            notEnoughDisliked.setVisible(false);
+            createPie(hateTagPie, tagRankingService.getLowestTagData(uid, 5), "Your top 5 liked tags");
+        } else {
+            notEnoughDisliked.setVisible(true);
+            createEmptyPie(hateTagPie, "Your top 5 disliked tags");
         }
+    }
+
+    /**
+     * Creates and sets the styling of the pie chart
+     * @param pie {@link PieChart}
+     * @param pieChartData an ObservableList of {@link PieChart.Data}
+     * @param title the string title of the pie chart
+     */
+    private void createPie(PieChart pie, ObservableList<PieChart.Data> pieChartData, String title) {
+        pie.setData(pieChartData);
+        pie.setClockwise(true);
+        pie.setTitle(title);
+        pie.setLabelsVisible(true);
+        pie.setLegendVisible(false);
+        pie.getStylesheets().clear();
+        pie.getStylesheets().add(getClass().getResource("/style/tagPieChart.css").toExternalForm());
+    }
+
+    /**
+     * Creates and sets the styling of an empty pie chart
+     * @param pie {@link PieChart}
+     * @param title the string title of the pie chart
+     */
+    private void createEmptyPie(PieChart pie, String title) {
+        ObservableList<PieChart.Data> nullData = FXCollections.observableArrayList();
+        nullData.add(new PieChart.Data("filler", 1));
+        pie.setData(nullData);
+        pie.setClockwise(true);
+        pie.setTitle(title);
+        pie.setLabelsVisible(false);
+        pie.setLegendVisible(false);
+        pie.getStylesheets().clear();
+        pie.getStylesheets().add(getClass().getResource("/style/greyTagPieChart.css").toExternalForm());
     }
 
     /**
@@ -143,7 +221,7 @@ public class ProfileController {
                     completedWineCount += 1;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
             }
         }
         if (completedWineCount == 5) {
@@ -160,14 +238,22 @@ public class ProfileController {
     }
 
     /**
-     * Shifts the main pane to make room for challenge wines.
+     * Shifts the wine pane to make room for challenge wines.
      */
     public void moveWinesPane() {
-        winesPane.setLayoutY(winesPane.getLayoutY()+90);
+        winesPane.setLayoutY(winesPane.getLayoutY()+ 90);
+    }
+    /**
+     * Shifts the main pane to make room for pie charts.
+     * @param moveDistance how much to move the Y distance by
+     */
+    public void moveMainPane(int moveDistance) {
+        mainPane.setLayoutY(mainPane.getLayoutY() + moveDistance);
     }
 
-    public void moveMainPane() { mainPane.setLayoutY(mainPane.getLayoutY() + 100);}
-
+    /**
+     * moves the wishlist back up as well as displaying a congratulatory text for completing the challenge
+     */
     public void challengeCompleted() {
         winesPane.setLayoutY(winesPane.getLayoutY()-90);
         challengePane.setVisible(false);
