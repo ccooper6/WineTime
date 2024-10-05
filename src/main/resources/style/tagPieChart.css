@@ -1,58 +1,53 @@
 /************* Wine-Themed Pie Chart CSS *************/
 
-/* Set the general background color for the chart */
-.chart-pie {
-    -fx-background-color: #f5f5f5; /* Light gray to contrast with the pie */
+.chart-pie. {
+    -fx-border-color: #4B0000;
+}
+.data0.chart-pie {
+    -fx-pie-color: #8B0000;
 }
 
-/* Customize the pie slices with wine-inspired colors */
-.chart-pie .chart-pie-data {
-    /* Deep red wine slice */
-    .data0 {
-        -fx-pie-color: #8B0000; /* Dark Red */
-    }
+/* Purple grape slice */
+.data1.chart-pie {
+    -fx-pie-color: #A52A2A;
+}
 
-    /* Purple grape slice */
-    .data1 {
-        -fx-pie-color: #6A0DAD; /* Grape Purple */
-    }
+/* Rosé wine slice */
+.data2.chart-pie {
+    -fx-pie-color: #B22222;
+}
 
-    /* Rosé wine slice */
-    .data2 {
-        -fx-pie-color: #FFB6C1; /* Light Pink */
-    }
+/* White wine slice */
+.data3.chart-pie {
+    -fx-pie-color: #800000;
+}
 
-    /* White wine slice */
-    .data3 {
-        -fx-pie-color: #F5DEB3; /* Wheat Color for White Wine */
-    }
-
-    /* Champagne slice */
-    .data4 {
-        -fx-pie-color: #FFE135; /* Champagne-like Golden Yellow */
-    }
+/* Champagne slice */
+.data4.chart-pie {
+    -fx-pie-color: #4B0000;
 }
 
 /* Customize chart title */
 .chart-title {
-    -fx-text-fill: #4B0082; /* Indigo text for the title */
-    -fx-font-size: 18px;    /* Slightly larger title */
-    -fx-font-weight: bold;  /* Make title bold */
+    -fx-text-fill: #000000;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
 
 /* Customize chart legend */
 .chart-legend {
     -fx-background-color: #f5f5f5;
-    -fx-border-color: #8B0000; /* Border color same as wine color */
+    -fx-border-color: #8B0000;
 }
 
 .chart-legend-item {
-    -fx-text-fill: #4B0082; /* Indigo color for legend text */
-    -fx-font-size: 12px;    /* Adjust font size */
+    -fx-text-fill: #4B0082;
+    -fx-font-size: 12px;
 }
-
-/* Customize the pie chart data label */
-.chart-pie .chart-pie-label {
-    -fx-text-fill: white;  /* White text for contrast with the pie colors */
-    -fx-font-weight: bold; /* Bold text */
+.chart-pie-label-line {
+    -fx-stroke: #3b0101;
+    -fx-fill: #3b0101;
+}
+.chart-pie-label {
+    -fx-fill: #3b0101;
 }
