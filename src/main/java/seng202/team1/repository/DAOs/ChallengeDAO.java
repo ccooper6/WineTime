@@ -2,7 +2,6 @@ package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
@@ -158,7 +157,7 @@ public class ChallengeDAO {
      * Puts the challenge into the copy database with a fixed name and description.
      */
     public void initaliseChallenge() {
-        if (challengeExists() == false) {
+        if (!challengeExists()) {
             insertChallenge("Variety Challenge", "Expand your palate with the variety challenge, "
                     + "this challenge encourages you to explore wines of different varieties, with wines of a range of "
                     + "colours, from different places and different grapes.");
@@ -167,12 +166,13 @@ public class ChallengeDAO {
 
     /**
      * Inserts the wine into the challenge.
+     * @param wineIds an array list of integer wine id
+     * @param challengeName the name of the challenge
+     * @param uid current user uid
      */
     public void wineInChallenge(ArrayList<Integer> wineIds, int uid, String challengeName) {
-        if (challengeHasWines() == false) {
-            for (int i = 0; i < wineIds.size(); i ++) {
-                insertWineChal(wineIds.get(i), uid, challengeName);
-            }
+        for (Integer wineId : wineIds) {
+            insertWineChal(wineId, uid, challengeName);
         }
     }
 
