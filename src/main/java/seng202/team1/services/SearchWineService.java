@@ -7,6 +7,7 @@ import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Service class for searching wines in the database.
@@ -26,13 +27,16 @@ public class SearchWineService {
     private String currentWineryFilter = null;
     private String currentVarietyFilter = null;
 
-    private int currentMinYear = -1;
-    private int currentMaxYear = -1;
-    private int currentMinPoints = -1;
-    private int currentMaxPoints = -1;
-    private int currentMinPrice = -1;
-    private int currentMaxPrice = -1;
+    private int currentMinYear = 1821;
+    private int currentMaxYear = 2017;
+    private int currentMinPoints = 80;
+    private int currentMaxPoints = 100;
+    private int currentMinPrice = 4;
+    private int currentMaxPrice = 3300;
     private ArrayList<String> selectedVarieties;
+    private String searchOrder = "wine_name";
+    private String prevSearch;
+    private String prevDropDown = "Name";
 
     /**
      * Returns the instance and creates one if none exists.
@@ -117,10 +121,35 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit);
-        //wineList = SearchDAO.getInstance().searchWineByName(filterString, limit);
+
+        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString);
+        prevSearch = filterString;
         fromWishlist = false;
     }
+
+    /**
+     * Gets the non-null filter strings
+     */
+    private ArrayList<String> getFilterStrings() {
+        ArrayList<String> results = new ArrayList<>();
+        if (currentCountryFilter != null) {
+            String normCountryFilter = Normalizer.normalize(currentCountryFilter, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            normCountryFilter = normCountryFilter.trim();
+            results.add(normCountryFilter);
+        }
+        if (currentWineryFilter != null) {
+            String normWineryFilter = Normalizer.normalize(currentWineryFilter, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            normWineryFilter = normWineryFilter.trim();
+            results.add(normWineryFilter);
+        }
+        if (currentVarietyFilter != null) {
+            String normVarietyFilter = Normalizer.normalize(currentVarietyFilter, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            normVarietyFilter = normVarietyFilter.trim();
+            results.add(normVarietyFilter);
+        }
+        return results;
+    }
+
 
     /**
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
@@ -176,12 +205,9 @@ public class SearchWineService {
     }
 
     /**
-     * If from wishlist, behavior in WineDisplay is different.
-     * @return true if the prev page is wishlist, else false
+     * Direction of the sort arrow as a boolean value
+     * @return true = up, false = down
      */
-    public boolean getFromWishlist() {
-        return fromWishlist;
-    }
     public boolean getSortDirection(){ return sortDirection;}
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
@@ -333,4 +359,24 @@ public class SearchWineService {
 
 
 
+    /**
+     *  Sets search order var and requeries using previous query
+     * Triggered by sort-by dropdown in search page
+     * @param searchOrder is the ORDER BY param which is the column name
+     */
+    public void setSearchOrder(String searchOrder) {
+        System.out.println("search order: " + searchOrder);
+        this.searchOrder = searchOrder;
+        searchWinesByName(prevSearch, SearchDAO.UNLIMITED);
+    }
+    /**
+     * Stores the dropdown sort by for later
+     * @param prevDropDown is the name of the dropdown title: "Name" etc.
+     */
+    public void setDropDown(String prevDropDown) {
+        this.prevDropDown = prevDropDown;
+    }
+    public String getPrevDropDown() {
+        return prevDropDown;
+    }
 }

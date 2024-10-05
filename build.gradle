@@ -5,9 +5,9 @@ plugins {
     id 'jacoco'
 }
 
-archivesBaseName = 'wino'
+archivesBaseName = 'WineTime'
 group = 'seng202.team1'
-version = '1.0-SNAPSHOT'
+version = "WineTime"
 mainClassName = 'seng202.team1.App'
 
 def javaVersion = '21'

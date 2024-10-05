@@ -10,6 +10,7 @@ import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,7 +30,7 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public ArrayList getAll() {
+    public List<User> getAll() {
         throw new NotImplementedException();
     }
 

@@ -100,13 +100,11 @@ public class NavigationController {
         }
 
         searchBar.setOnAction(e -> {
-            if (!searchBar.getText().isEmpty()) {
-                launchSearchWineLoadingScreen();
-            }
+            launchSearchWineLoadingScreen();
         });
 
         sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
+            if (event.getCode() == KeyCode.ENTER) {
                 launchSearchWineLoadingScreen();
             }
         });
