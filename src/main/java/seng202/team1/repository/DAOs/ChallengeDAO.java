@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * from the database.
  * @author Lydia Jackson, Wen Sheng Thong
  */
+// TODO LOG after update
 public class ChallengeDAO {
     private static final Logger LOG = LogManager.getLogger(ChallengeDAO.class);
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();

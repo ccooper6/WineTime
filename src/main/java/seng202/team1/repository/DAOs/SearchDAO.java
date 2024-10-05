@@ -214,7 +214,7 @@ public class SearchDAO {
                 wineList = processResultSetIntoWines(rs);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error in SearchDAO.searchWineByTags: SQLException: {}", e.getMessage());
         }
         return wineList;
     }
@@ -226,6 +226,7 @@ public class SearchDAO {
      * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
+    //TODO fix docstring
     public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString)
     {
         for (String tag : tagList) {

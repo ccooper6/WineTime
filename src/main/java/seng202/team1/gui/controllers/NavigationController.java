@@ -203,6 +203,8 @@ public class NavigationController {
      */
     @FXML
     public void onLogOutClicked() {
+        LOG.info("Logging out user " + User.getCurrentUser().getName());
+
         User.setCurrenUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
@@ -217,7 +219,7 @@ public class NavigationController {
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.loadPageContent: {}", e.getMessage());
         }
     }
 
@@ -239,7 +241,7 @@ public class NavigationController {
             Parent mainPage = loader.load();
             contentHere.getChildren().add(mainPage); // Add the main page to the stack
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.loadMainScreen: Could not load fxml content.");
         }
     }
 
@@ -261,7 +263,7 @@ public class NavigationController {
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load wine pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadPopupContent: Could not load fxml content.");
         }
     }
 
@@ -275,7 +277,7 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load wine logging pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadWineLoggingPopupContent: Could not load fxml content.");
         }
     }
 
@@ -289,7 +291,7 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load select challenge pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadSelectChallengePopupContent: Could not load fxml content.");
         }
     }
 
@@ -332,7 +334,7 @@ public class NavigationController {
             loadingScreen = loader.load();
             rootPane.getChildren().add(loadingScreen);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.showLoadingScreen: Could not load fxml content.");
         }
     }
 

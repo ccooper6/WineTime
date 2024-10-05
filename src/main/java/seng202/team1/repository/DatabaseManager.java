@@ -18,7 +18,7 @@ import java.sql.*;
  */
 public class DatabaseManager {
     private static DatabaseManager instance = null;
-    private static final Logger log = LogManager.getLogger(DatabaseManager.class);
+    private static final Logger LOG = LogManager.getLogger(DatabaseManager.class);
     /**
      * The url of the database
      */
@@ -90,7 +90,7 @@ public class DatabaseManager {
         try {
             conn = DriverManager.getConnection(this.url);
         } catch (SQLException e) {
-            log.error(e);
+            LOG.error("Error in DatabaseManager.connect(): SQLException {}", e.getMessage());
         }
         return conn;
     }
@@ -119,9 +119,9 @@ public class DatabaseManager {
         if (reset) {
             try {
                 Files.deleteIfExists(copy);
-                log.info("Existing database file deleted due to reset flag.");
+                LOG.info("Existing database file deleted due to reset flag.");
             } catch (IOException e) {
-                log.error("Error deleting existing database file", e);
+                LOG.error("Error in DatabaseManager.initialiseDB(): Error deleting existing database file", e);
             } finally {
                 reset = false;
             }
@@ -131,19 +131,19 @@ public class DatabaseManager {
         try {
             if (System.getProperty("test.env") == null) {
                 InputStream ogPath = DatabaseManager.class.getResourceAsStream("/sql/main.db");
-                log.info("Copying database from: " + ogPath + " to: " + copy);
+                LOG.info("Copying database from: " + ogPath + " to: " + copy);
                 Files.copy(ogPath, copy);
-                log.info("Database copied successfully.");
+                LOG.info("Database copied successfully.");
             } else {
                 Path ogPath = Paths.get("src/main/resources/sql/main.db");
-                log.info("Copying test database from: " + ogPath + " to: " + copy);
+                LOG.info("Copying test database from: " + ogPath + " to: " + copy);
                 Files.copy(ogPath, copy);
-                log.info("Database copied successfully.");
+                LOG.info("Database copied successfully.");
             }
         } catch (FileNotFoundException e) {
-            log.info("DB File already exists. - Did not replace");
+            LOG.info("DB File already exists. - Did not replace");
         } catch (IOException e) {
-            log.error(e.getMessage());
+            LOG.error("Error in DatabaseManager.initialiseDB(): IOException {}", e.getMessage());
         }
     }
 }
