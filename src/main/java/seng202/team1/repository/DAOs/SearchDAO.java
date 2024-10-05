@@ -212,7 +212,7 @@ public class SearchDAO {
                 wineList = processResultSetIntoWines(rs);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error in SearchDAO.searchWineByTags: SQLException: {}", e.getMessage());
         }
         return wineList;
     }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * from the database.
  * @author Lydia Jackson, Wen Sheng Thong
  */
+// TODO LOG after update
 public class ChallengeDAO {
     private static final Logger LOG = LogManager.getLogger(ChallengeDAO.class);
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -273,20 +274,5 @@ public class ChallengeDAO {
         }
         return wineList;
     }
-
-
-
-
-
-
-//    public static void main(String[] args) {
-//        ChallengeDAO cd = new ChallengeDAO();
-//        cd.databaseManager.initialiseDB();
-//        cd.wineInChallenge();
-////        cd.userToChallenge(1, "Variety Challenge");
-////        cd.wineInChallenge();
-//    }
-
-
 
 }

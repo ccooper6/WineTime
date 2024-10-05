@@ -43,7 +43,6 @@ public class ChallengeServiceTest {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         user = new User(0, "test", "test");
-        System.out.println(user);
         User.setCurrenUser(user);
         challengeDAO = new ChallengeDAO();
         challengeService = new ChallengeService();

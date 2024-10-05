@@ -98,23 +98,4 @@ public class FXWrapper {
     public NavigationController getNavigationController() {
         return navigationController;
     }
-
-    // TODO unused methods
-
-    /**
-     * Sets the challenge number.
-     * @param chalNum the challenge number.
-     */
-    public void setChallenge(int chalNum) {
-        System.out.println("updated challenge number");
-        challenge = chalNum;
-    }
-
-    /**
-     * Gets the challenge number.
-     * @return the challenge number.
-     */
-    public int getChallenge() {
-        return challenge;
-    }
 }

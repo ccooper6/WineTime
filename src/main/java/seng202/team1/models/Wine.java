@@ -328,11 +328,6 @@ public class Wine {
             isTrue = isTrue || normalisedRegion2.equals(location);
         }
 
-        if (!isTrue) {
-            System.out.println(name);
-            System.out.println(province);
-        }
-
         return isTrue;
     }
 
