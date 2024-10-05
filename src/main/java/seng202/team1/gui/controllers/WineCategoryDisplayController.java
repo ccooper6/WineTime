@@ -58,7 +58,7 @@ public class WineCategoryDisplayController {
     private int MAXWINES = 11;
     private int leftDisplay = 7;
     private int rightDisplay;
-    private final double TRANSDURATION = 0.2;
+    private final double TRANSITIONDURATION = 0.2;
     private int DISTANCEBETWEEN = 210;
 
     private boolean isWishlist = false;
@@ -88,13 +88,13 @@ public class WineCategoryDisplayController {
         tags = savedSearchString;
 
         isWishlist = tags.equalsIgnoreCase("wishlist");
-        isRecommenations = tags.equalsIgnoreCase("recommend");
+        isRecommendations = tags.equalsIgnoreCase("recommend");
 
         if (isWishlist) {
             titleText.setText("Your Wishlist: ");
         } else if (isRecommendations) {
             titleText.setText("Recommendations for you: ");
-            if (DISPLAYWINES.size() < 10) {
+            if (displayWines.size() < 10) {
                 seeMoreButton.setDisable(true);
                 seeMoreButton.setVisible(false);
             }
@@ -104,7 +104,7 @@ public class WineCategoryDisplayController {
         if (displayWines.isEmpty()) {
             if (isWishlist) {
                 titleText.setText("Your Wishlist: \n\nYou have no saved wines...\nGo to home or search pages to discover new wines!");
-            } else if (isRecommenations) {
+            } else if (isRecommendations) {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
                 titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()) +
@@ -114,15 +114,15 @@ public class WineCategoryDisplayController {
             leftArrowButton.setVisible(false);
             rightArrowButton.setDisable(true);
             rightArrowButton.setVisible(false);
-        } else if (DISPLAYWINES.size() <= 5) {
+        } else if (displayWines.size() <= 5) {
             fiveOrLess();
         } else {
-            if (DISPLAYWINES.size() == 6) {
+            if (displayWines.size() == 6) {
                 for (int i = 0; i < 6; i++) {
-                    DISPLAYWINES.addLast(DISPLAYWINES.get(i));
+                    displayWines.addLast(displayWines.get(i));
                 }
             }
-            if (DISPLAYWINES.size() == 7) {
+            if (displayWines.size() == 7) {
                 leftDisplay = 0;
             }
             if (displayWines.size() < MAXWINES) {
@@ -182,16 +182,16 @@ public class WineCategoryDisplayController {
             wineDisplay.setDisable(true);
         }
 
-        TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(1)));
-        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(2)));
-        TranslateTransition transition3 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(3)));
-        TranslateTransition transition4 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(4)));
-        TranslateTransition transition5 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(5)));
+        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(2)));
+        TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(1)));
+        TranslateTransition transition3 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(3)));
+        TranslateTransition transition4 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(4)));
+        TranslateTransition transition5 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(5)));
         TranslateTransition transition6;
         if (posOrNeg == 1) {
-            transition6 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(0)));
+            transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(0)));
         } else {
-            transition6 = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(6)));
+            transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(6)));
         }
         List<TranslateTransition> wineTransitions = List.of(transition1, transition2, transition3, transition4, transition5, transition6);
         for (int i = 0; i < wineTransitions.size(); i++) {
@@ -238,7 +238,7 @@ public class WineCategoryDisplayController {
      * @param posOrNeg is the direction of the translation (right = positive)
      */
     public void teleportEnd(int movingFrame, int posOrNeg) {
-        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(TRANSDURATION), wineViews.get(getId(movingFrame)));
+        TranslateTransition transitionReturn = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(movingFrame)));
         transitionReturn.setByX(posOrNeg * DISTANCEBETWEEN * 6);
         transitionReturn.setInterpolator(Interpolator.DISCRETE);
         transitionReturn.play();
@@ -331,7 +331,7 @@ public class WineCategoryDisplayController {
     {
         if (isWishlist) {
             FXWrapper.getInstance().launchSubPage("wishlist");
-        } else if (isRecommenations) {
+        } else if (isRecommendations) {
             SearchWineService.getInstance().searchWinesByRecommend(120);
             FXWrapper.getInstance().launchSubPage("searchWine");
         } else {
@@ -344,7 +344,7 @@ public class WineCategoryDisplayController {
      * Displays the wines in the category if there are 4 or fewer wines.
      */
     public void fiveOrLess() {
-        for (Wine displaywine : DISPLAYWINES) {
+        for (Wine displaywine : displayWines) {
             SearchWineService.getInstance().setCurrentWine(displaywine);
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
@@ -363,7 +363,7 @@ public class WineCategoryDisplayController {
         if (displayWines.size() == 4) {
             mainWine4.getChildren().add(wineDisplays.get(3));
         }
-        if (DISPLAYWINES.size() == 5) {
+        if (displayWines.size() == 5) {
             mainWine5.getChildren().add(wineDisplays.get(4));
         }
         leftArrowButton.setDisable(true);

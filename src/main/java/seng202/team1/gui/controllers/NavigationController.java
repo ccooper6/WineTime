@@ -219,7 +219,7 @@ public class NavigationController {
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
         } catch (IOException e) {
-            LOG.error("Error in NavigationController.loadPageContent: Could not load fxml content.");
+            LOG.error("Error in NavigationController.loadPageContent: {}", e.getMessage());
         }
     }
 
