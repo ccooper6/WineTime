@@ -24,7 +24,6 @@ public class ChallengeService {
 
     private final ChallengeDAO chalDao = new ChallengeDAO();
 
-    private SearchDAO searchDAO = new SearchDAO();
 
     /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.
@@ -36,7 +35,7 @@ public class ChallengeService {
     }
 
     /**
-     * calls challengeDAO to make the time traveeliing challenge and active challenge.
+     * calls challengeDAO to make the time travelling challenge and active challenge.
      */
     public void startChallengeYears()
     {
@@ -44,17 +43,28 @@ public class ChallengeService {
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Time Travelling Challenge", wineids);
     }
 
+    /**
+     * calls the challengeDAO to make red challenge an active challege, sets the name.
+     */
     public void startChallengeReds()
     {
         ArrayList<Integer> wineids = getWinesforChallenge(reds, "name");
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Red Roulette Challenge", wineids);
     }
 
+    /**
+     * calls the challengeDAO to make white challenge an active challege, sets the name.
+     */
+
     public void startChallengeWhites()
     {
         ArrayList<Integer> wineids = getWinesforChallenge(whites, "name");
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Great White Challenge", wineids);
     }
+
+    /**
+     * calls the challengeDAO to make rose challenge an active challege, sets the name.
+     */
 
     public void startChallengeRose()
     {
@@ -72,10 +82,13 @@ public class ChallengeService {
     }
 
     /**
-     * chose 5 random wines of different variety and returns there ids in an array list.
+     * chose 5 random wines of the set type and returns there ids in an array list.
+     * @param types is an array list of strings that are the type of wines for the challenge.
+     * @param searchtype is a string of either tags or name, which determines weather to user search service search in name or search in tags method.
      * @return ArrayList<Integer> list of wine ids </Integer>
      */
-    public ArrayList<Integer> getWinesforChallenge(ArrayList<String> types, String searchtype) {
+    public ArrayList<Integer> getWinesforChallenge(ArrayList<String> types, String searchtype)
+    {
         ArrayList<Integer> wines = new ArrayList<>();
         if (searchtype == "name") {
             SearchWineService.getInstance().searchWinesByName(types.get(0), 100);
@@ -104,31 +117,6 @@ public class ChallengeService {
         return wines;
     }
 
-    /**
-     * Launches/resets the profile.
-     */
-    public void launchProfile() { // take this out
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.closePopUp();
-        navigationController.loadPageContent("profile");
-    }
-
-    /**
-     * Launches the select challenge pop up.
-     */
-    public void launchSelectChallenge() { ///take this out
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.closePopUp();
-        navigationController.loadSelectChallengePopUpContent();
-    }
-
-    /**
-     * Closes the select challenge pop up.
-     */
-    public void closeSelectChallenge() {
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.closePopUp();
-    }
 
 
     /**

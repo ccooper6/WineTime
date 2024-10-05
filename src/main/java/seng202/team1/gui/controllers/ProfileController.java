@@ -71,7 +71,6 @@ public class ProfileController {
     @FXML
     public void displayWishlist() {
         WineCategoryService.getInstance().resetCurrentCategory();
-        int currentUserUid = User.getCurrentUser().getId();
 
         try {
             Parent parent = WineCategoryDisplayController.createCategory("wishlist");
@@ -91,10 +90,15 @@ public class ProfileController {
 
     /**
      * Sends user to the select challenge popup.
+     * launches the select challenge popup.
      */
     public void onChallengeClicked() {
-        challengeService.launchSelectChallenge();
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadSelectChallengePopUpContent();
     }
+
+
 
     /**
      * Displays the challenge wines using the wine mini displays.
