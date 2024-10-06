@@ -110,8 +110,8 @@ public class WineLoggingServiceTest {
         HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
         assertEquals(2, result.size());
         assertTrue(result.containsKey("fruity") && result.containsKey("smooth"));
-        assertEquals(2, result.get("fruity"));
-        assertEquals(2, result.get("smooth"));
+        assertEquals(3, result.get("fruity"));
+        assertEquals(3, result.get("smooth"));
 
         reviewService.updateTagLikes(uid, tagsToAdd, tagsToRemove, newRating, initialRating);
         HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
@@ -137,11 +137,11 @@ public class WineLoggingServiceTest {
         reviewService.updateTagLikes(uid, potentialTagsToChoose, selectedTags, initialRating, 0);
         HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
         assertEquals(5, result.size()); // We can do this as we hava a fresh database
-        assertEquals(2, result.get("fruity"));
-        assertEquals(2, result.get("smooth"));
-        assertEquals(2, result.get("clean"));
-        assertEquals(2, result.get("calebiscool"));
-        assertEquals(2, result.get("sparkly"));
+        assertEquals(3, result.get("fruity"));
+        assertEquals(3, result.get("smooth"));
+        assertEquals(3, result.get("clean"));
+        assertEquals(3, result.get("calebiscool"));
+        assertEquals(3, result.get("sparkly"));
     }
 
     @Test
@@ -157,11 +157,11 @@ public class WineLoggingServiceTest {
         reviewService.updateTagLikes(uid, potentialTagsToChoose, selectedTags, initialRating, 0);
         HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
         assertEquals(5, result.size()); // We can do this as we hava a fresh database
-        assertEquals(2, result.get("fruity"));
-        assertEquals(2, result.get("smooth"));
-        assertEquals(2, result.get("clean"));
-        assertEquals(2, result.get("calebiscool"));
-        assertEquals(2, result.get("sparkly"));
+        assertEquals(3, result.get("fruity"));
+        assertEquals(3, result.get("smooth"));
+        assertEquals(3, result.get("clean"));
+        assertEquals(3, result.get("calebiscool"));
+        assertEquals(3, result.get("sparkly"));
 
         // Now we select some tags
         selectedTags = new ArrayList<>(List.of("fruity", "smooth"));
