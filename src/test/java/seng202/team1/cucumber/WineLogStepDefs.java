@@ -8,7 +8,7 @@ import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.LogWineDao;
-import seng202.team1.services.WineLoggingPopupService;
+import seng202.team1.services.ReviewService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class WineLogStepDefs {
     private DatabaseManager databaseManager;
-    static WineLoggingPopupService wineLoggingPopupService;
+    static ReviewService reviewService;
     static LogWineDao logWineDao;
     private int uid;
     private String description;
@@ -36,7 +36,7 @@ public class WineLogStepDefs {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
-        wineLoggingPopupService = new WineLoggingPopupService();
+        reviewService = new ReviewService();
         logWineDao = new LogWineDao();
         this.wid = 0;
         this.rating = 0;
@@ -64,7 +64,7 @@ public class WineLogStepDefs {
         for (String tag : wineTags) {
             logWineDao.likes(this.uid, tag, this.oldrating - 3);
         }
-        wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,false,this.description);
+        reviewService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.wineTags,false,this.description);
     }
 
     @When("I rate it a {int}")
@@ -87,12 +87,12 @@ public class WineLogStepDefs {
             for (String tag : selectedTags) {
                 logWineDao.likes(this.uid, tag, this.rating - 3);
             }
-            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,false,this.description);
+            reviewService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,this.selectedTags,false,this.description);
         } else {
             for (String tag : wineTags) {
                 logWineDao.likes(this.uid, tag, this.rating - 3);
             }
-            wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.wineTags,true,this.description);
+            reviewService.submitLog(this.rating,this.uid,this.wid,this.wineTags,this.wineTags,true,this.description);
         }
     }
 
