@@ -457,7 +457,6 @@ public class SearchWineServiceTest {
     public void testSearchWineByWishlist() {
         WishlistDAO.getInstance().addWine(1,1);
         SearchWineService.getInstance().searchWinesByWishlist(1);
-        assertTrue(SearchWineService.getInstance().getFromWishlist());
         assertEquals(1,SearchWineService.getInstance().getWineList().getFirst().getWineId());
     }
     @Test

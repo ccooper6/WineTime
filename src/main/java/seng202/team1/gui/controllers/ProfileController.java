@@ -262,9 +262,10 @@ public class ProfileController {
 
     /**
      * moves the wishlist back up as well as displaying a congratulatory text for completing the challenge
+     * @param cname the challenge name
      */
     public void challengeCompleted(String cname) {
-        winesPane.setLayoutY(winesPane.getLayoutY()-90);
+        winesPane.setLayoutY(winesPane.getLayoutY() - 90);
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
