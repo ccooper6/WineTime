@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
-    private static WineLoggingPopupService wineLoggingPopupService = new WineLoggingPopupService();
     private static Review currentReview;
 
     /**
@@ -133,6 +132,19 @@ public class ReviewService {
         for (String tag : tagsToAdd) {
             logWineDao.likes(uid, tag, scaledNewRating);
         }
-
     }
+
+    /**
+     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively
+     * @param rating the int rating
+     * @return the rating's weight
+     */
+    public int getRatingWeight(int rating) {
+        if (rating >= 3) {
+            return rating - 2;
+        } else {
+            return rating - 3;
+        }
+    }
+
 }

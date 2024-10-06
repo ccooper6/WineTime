@@ -19,7 +19,6 @@ import java.util.HashMap;
  * @author Wen Sheng Thong
  */
 public class LogWineDAOTest {
-    static DatabaseManager databaseManager;
     static LogWineDao logWineDao;
     /**
      * Makes sure the database is set up before each test. Overwrites the prev test database with a clean test_database

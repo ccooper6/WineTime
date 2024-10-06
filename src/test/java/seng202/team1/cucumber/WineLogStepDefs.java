@@ -19,7 +19,6 @@ import java.util.HashMap;
  * @author Wen Sheng Thong
  */
 public class WineLogStepDefs {
-    private DatabaseManager databaseManager;
     static ReviewService reviewService;
     static LogWineDao logWineDao;
     private int uid;
@@ -62,7 +61,7 @@ public class WineLogStepDefs {
         this.oldrating = oldRating;
         this.description = oldDescription;
         for (String tag : wineTags) {
-            logWineDao.likes(this.uid, tag, wineLoggingPopupService.getRatingWeight(this.oldrating));
+            logWineDao.likes(this.uid, tag, reviewService.getRatingWeight(this.oldrating));
         }
         reviewService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.wineTags,false,this.description);
     }
@@ -85,12 +84,12 @@ public class WineLogStepDefs {
     public void submitedLog() {
         if (this.selectedTag) {
             for (String tag : selectedTags) {
-                logWineDao.likes(this.uid, tag, wineLoggingPopupService.getRatingWeight(rating));
+                logWineDao.likes(this.uid, tag, reviewService.getRatingWeight(rating));
             }
             reviewService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,this.selectedTags,false,this.description);
         } else {
             for (String tag : wineTags) {
-                logWineDao.likes(this.uid, tag, wineLoggingPopupService.getRatingWeight(rating));
+                logWineDao.likes(this.uid, tag, reviewService.getRatingWeight(rating));
             }
             reviewService.submitLog(this.rating,this.uid,this.wid,this.wineTags,this.wineTags,true,this.description);
         }
@@ -110,7 +109,7 @@ public class WineLogStepDefs {
         HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
-            Assertions.assertEquals(wineLoggingPopupService.getRatingWeight(rating) , result.get(checkTag));
+            Assertions.assertEquals(reviewService.getRatingWeight(rating) , result.get(checkTag));
         }
         ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
         Assertions.assertEquals(rating,reviews.getFirst().getRating());
@@ -125,7 +124,7 @@ public class WineLogStepDefs {
         HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
-            Assertions.assertEquals(wineLoggingPopupService.getRatingWeight(oldrating) + wineLoggingPopupService.getRatingWeight(rating), result.get(checkTag));
+            Assertions.assertEquals(reviewService.getRatingWeight(oldrating) + reviewService.getRatingWeight(rating), result.get(checkTag));
         }
         ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
         Assertions.assertEquals(rating,reviews.getFirst().getRating());

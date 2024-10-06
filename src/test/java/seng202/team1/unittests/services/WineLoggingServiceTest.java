@@ -7,7 +7,6 @@ import seng202.team1.models.Review;
 import seng202.team1.repository.DAOs.LogWineDao;
 import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.services.WineLoggingPopupService;
 import seng202.team1.services.ReviewService;
 
 
@@ -111,8 +110,8 @@ public class WineLoggingServiceTest {
         HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
         assertEquals(2, result.size());
         assertTrue(result.containsKey("fruity") && result.containsKey("smooth"));
-        assertEquals(3, result.get("fruity"));
-        assertEquals(3, result.get("smooth"));
+        assertEquals(2, result.get("fruity"));
+        assertEquals(2, result.get("smooth"));
 
         reviewService.updateTagLikes(uid, tagsToAdd, tagsToRemove, newRating, initialRating);
         HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
