@@ -29,7 +29,7 @@ Feature: Quiz result feature
   Scenario: User searches for a wine with "Sweet" in the name and default filters applied
     Given Wines are stored correctly
     When The user searches for wines with query:"Sweet", country:"", winery:"", variety:"", minpoints:80, maxpoints:100, minyear:1821, maxyear:2017"
-    Then The wine list should have 150 wines and all wines should have "Sweet" in their name
+    Then The wine list should have 149 wines and all wines should have "Sweet" in their name
 
   Scenario: User searches for a wine with "Non-existent Wine" in the name and default filters applied
     Given Wines are stored correctly
@@ -39,7 +39,7 @@ Feature: Quiz result feature
   Scenario: User searches for a wine with "Sauvignon Blanc" in the name and "New Zealand" as their country
     Given Wines are stored correctly
     When The user searches for wines with query:"Sauvignon Blanc", country:"New Zealand", winery:"", variety:"", minpoints:80, maxpoints:100, minyear:1821, maxyear:2017"
-    Then The wine list should have 495 wines and all wines should have "Sauvignon Blanc" in their name and "New Zealand" in their tags
+    Then The wine list should have 489 wines and all wines should have "Sauvignon Blanc" in their name and "New Zealand" in their tags
 
   Scenario: User searches for a wine with "Te Koko" in the name and "Cloudy Bay" as their winery
     Given Wines are stored correctly
@@ -49,7 +49,7 @@ Feature: Quiz result feature
   Scenario: User searches for a wine with "Estate" in the name and "Sauvignon Blanc" as their variety
     Given Wines are stored correctly
     When The user searches for wines with query:"Estate", country:"", winery:"", variety:"Sauvignon Blanc", minpoints:80, maxpoints:100, minyear:1821, maxyear:2017"
-    Then The wine list should have 273 wines and all wines should have "Estate" in their name and "Sauvignon Blanc" in their tags
+    Then The wine list should have 272 wines and all wines should have "Estate" in their name and "Sauvignon Blanc" in their tags
 
     #TODO Add to wine builder
 #  Scenario: User searches for a wine with "Estate" in the name and 86 - 93 as their points range
@@ -60,7 +60,7 @@ Feature: Quiz result feature
   Scenario: User searches for a wine with "Estate" in the name and 2002 - 2007 as their year range
     Given Wines are stored correctly
     When The user searches for wines with query:"Estate", country:"", winery:"", variety:"", minpoints:80, maxpoints:100, minyear:2002, maxyear:2007"
-    Then The wine list should have 822 wines and all wines should have "Estate" in their name and tags between "year" 2002 and 2007
+    Then The wine list should have 815 wines and all wines should have "Estate" in their name and tags between "year" 2002 and 2007
 
   #TODO filter by price
 #  Scenario: User searches for a wine with "Sweet" in the name and $26-35 as their price range

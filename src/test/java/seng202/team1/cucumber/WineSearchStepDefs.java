@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 
 import javafx.collections.ArrayChangeListener;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.SearchDAO;
@@ -107,7 +108,7 @@ public class WineSearchStepDefs {
         searchWineService.setCurrentMaxPoints(maxPoints);
         searchWineService.setCurrentMinYear(minYear);
         searchWineService.setCurrentMaxYear(maxYear);
-
+        FXWrapper.getInstance().setCurrentPage("searchWine");
         searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
         wineList = searchWineService.getWineList();
         System.out.println(wineList);
