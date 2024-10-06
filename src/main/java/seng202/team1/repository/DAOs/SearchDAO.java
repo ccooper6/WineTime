@@ -12,6 +12,8 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static org.apache.commons.collections.CollectionUtils.size;
+
 /**
  * Data Access Object for the Search Wines functionality.
  * Allows for searching by wine names or tags
@@ -286,6 +288,7 @@ public class SearchDAO {
         } catch (SQLException e) {
             LOG.error(e.getMessage());
         }
+        System.out.println("size: " + size(wineList));
         return wineList;
     }
 
