@@ -43,6 +43,7 @@ public class WishlistDAO {
      * @return {@link ArrayList} of wines containing all wines in the result set
      * @throws SQLException when a column mentioned in result set is not provided.
      */
+    //TODO delete this
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
         ArrayList<Wine> wineList = new ArrayList<>();
@@ -125,6 +126,7 @@ public class WishlistDAO {
             }
             return wineList;
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.fetchWines(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -143,6 +145,7 @@ public class WishlistDAO {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.addWine(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -161,6 +164,7 @@ public class WishlistDAO {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.removeWine(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -188,6 +192,7 @@ public class WishlistDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.checkWine(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return false;
@@ -198,6 +203,7 @@ public class WishlistDAO {
      * @param wineID the id of the wine in question
      * @return true if present in wine table
      */
+    // TODO rebase into Wine
     public boolean checkWineID(int wineID) {
         String uidSql = "SELECT COUNT (*) FROM wine WHERE wine.id = ?";
         try (Connection conn = databaseManager.connect();
@@ -211,6 +217,7 @@ public class WishlistDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.checkWineID(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return false;
@@ -221,6 +228,7 @@ public class WishlistDAO {
      * @param userID is the id of the active user
      * @return true if present in database
      */
+    // TODO delete this
     public boolean checkUserID(int userID) {
         String uidSql = "SELECT COUNT (*) FROM user WHERE user.id = ?";
         try (Connection conn = databaseManager.connect();
@@ -234,6 +242,7 @@ public class WishlistDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.getUserID(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return false;

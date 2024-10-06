@@ -3,6 +3,9 @@ package seng202.team1.gui.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team1.models.User;
 import seng202.team1.services.QuizService;
 
 import java.util.ArrayList;
@@ -37,6 +40,8 @@ public class QuizController {
     private ArrayList<String> answer4answers;
 
     private int questionNumber = 0;
+
+    private static final Logger LOG = LogManager.getLogger(QuizController.class);
 
     /**
      * Sets the labels for the quiz.
@@ -103,6 +108,8 @@ public class QuizController {
      */
     @FXML
     public void onShowWineClicked() {
+        LOG.info("Showing quiz wine for user "+ User.getCurrentUser().getName());
+
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
         quizService.launchWinePopup();

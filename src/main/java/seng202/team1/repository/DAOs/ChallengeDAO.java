@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * from the database.
  * @author Lydia Jackson, Wen Sheng Thong
  */
+// TODO LOG after update
 public class ChallengeDAO {
     private static final Logger LOG = LogManager.getLogger(ChallengeDAO.class);
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -54,7 +55,6 @@ public class ChallengeDAO {
                 chalps.setString(2, cname);
                 chalps.setInt(3, uid);
                 chalps.executeUpdate();
-                conn.commit();
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
@@ -74,7 +74,6 @@ public class ChallengeDAO {
                 chalps.setInt(1, useID);
                 chalps.setString(2, cname);
                 chalps.executeUpdate();
-                conn.commit();
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
@@ -101,10 +100,12 @@ public class ChallengeDAO {
      * Checks to see if there are wines for the challenge in database.
      * @return boolean if wine in challenge_wine.
      */
-    private Boolean challengeHasWines() {
-        String test = "SELECT * FROM challenge_wine";
+    private Boolean challengeHasWines(String cname, int uid) {
+        String test = "SELECT * FROM challenge_wine WHERE cname = ? AND uid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(test)) {
+                ps.setString(1, cname);
+                ps.setInt(2, uid);
                 ResultSet rs = ps.executeQuery();
                 return rs.next();
             }
@@ -144,7 +145,6 @@ public class ChallengeDAO {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, userID);
                 ResultSet rs = ps.executeQuery();
-                System.out.println(rs.getFetchSize());
                 return rs.getString("cname");
             }
         } catch (SQLException e) {
@@ -171,8 +171,10 @@ public class ChallengeDAO {
      * @param uid current user uid
      */
     public void wineInChallenge(ArrayList<Integer> wineIds, int uid, String challengeName) {
-        for (Integer wineId : wineIds) {
-            insertWineChal(wineId, uid, challengeName);
+        if (!challengeHasWines(challengeName, uid)) {
+            for (int i = 0; i < wineIds.size(); i ++) {
+                insertWineChal(wineIds.get(i), uid, challengeName);
+            }
         }
     }
 
@@ -187,7 +189,7 @@ public class ChallengeDAO {
             userToChallenge(uid, cname);
             wineInChallenge(wineIds, uid, cname);
         } else {
-            System.out.println("User already registered for this challenge");
+            System.out.println("User already registered for this challenge");  // make this a try catch/log error
         }
     }
 

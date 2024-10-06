@@ -42,9 +42,10 @@ public class LogWineDao {
                     likesPs.setString(2, tagName);
                     likesPs.setInt(3, value);
                     likesPs.executeUpdate();
+                    LOG.info("User: {} liked tag {} with value {}. ", uid, tagName, value);
                 }
             } catch (SQLException e) {
-                LOG.error(e.getMessage());
+                LOG.error("Error in LogWineDAO.likes(): Could not access database.");
             }
         }
     }
@@ -74,8 +75,9 @@ public class LogWineDao {
                 updateValuePs.setString(3, tagName);
                 updateValuePs.executeUpdate();
             }
+            LOG.info("User: {} updated liked tag {} with value {}. ", uid, tagName, value);
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error in LogWineDAO.updateLikesValue(): Could not access database.");
         }
 
     }
@@ -97,7 +99,8 @@ public class LogWineDao {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.alreadyLikeExists(): Could not access database.");
+            return false;
         }
     }
 
@@ -124,7 +127,7 @@ public class LogWineDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.getSelectedTags(): Could not access database.");
         }
         return null;
     }
@@ -155,7 +158,8 @@ public class LogWineDao {
                 return likedTags;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.getLikedTags(): Could not access database.");
+            return likedTags;
         }
     }
 
@@ -182,7 +186,8 @@ public class LogWineDao {
                 return likedTags;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.getLikedTags(): Could not access database.");
+            return likedTags;
         }
     }
 
@@ -275,7 +280,8 @@ public class LogWineDao {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.alreadyReviewExists(): Could not access database.");
+            return true; // if there is an error don't put it in database
         }
     }
 
@@ -307,8 +313,9 @@ public class LogWineDao {
                     ps.setString(6, String.join(",", selectedTags));
                     ps.executeUpdate();
                 }
+                LOG.info("Created review {} for user {}.", "(" + uid + ", " + wid + ")", uid);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                LOG.error("Error in LogWineDAO.reviews(): Could not access database.");
             }
         } else {
             updateReview(uid, wid, rating, description, date, selectedTags, noneSelected);
@@ -340,9 +347,10 @@ public class LogWineDao {
                 updateValuePs.setInt(5, uid);
                 updateValuePs.setInt(6, wid);
                 updateValuePs.executeUpdate();
+                LOG.info("Updated review {} for user {}.", "(" + uid + ", " + wid + ")", wid);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error in LogWineDAO.updateReview(): Could not access database.");
         }
     }
 
@@ -374,7 +382,8 @@ public class LogWineDao {
                 return userReviews;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.getUserReview(): Could not access database.");
+            return userReviews;
         }
     }
 
@@ -430,7 +439,8 @@ public class LogWineDao {
                 return userReviews;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOG.error("Error in LogWineDAO.getUserReview(): Could not access database.");
+            return userReviews;
         }
     }
 
