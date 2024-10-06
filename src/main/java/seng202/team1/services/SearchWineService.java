@@ -7,7 +7,6 @@ import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Service class for searching wines in the database.
@@ -208,7 +207,14 @@ public class SearchWineService {
      * Direction of the sort arrow as a boolean value
      * @return true = up, false = down
      */
-    public boolean getSortDirection(){ return sortDirection;}
+    public boolean getSortDirection() {
+        return sortDirection;
+    }
+
+    /**
+     * Sets the direction to up depending on the bool
+     * @param isUp boolean, true to set it to up
+     */
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
     }
@@ -354,10 +360,6 @@ public class SearchWineService {
     public int getCurrentMaxPrice() {
         return currentMaxPrice;
     }
-
-
-
-
 
     /**
      *  Sets search order var and requeries using previous query
