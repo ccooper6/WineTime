@@ -87,16 +87,16 @@ public class MainController {
      * the recommended category
      */
     private void displayCategoriesWithRec() {
-        Platform.runLater(() -> {
-            List<Parent> allCategories = CategoryService.getAllCategories();
-            Parent reccParent;
-            try {
-                reccParent = WineCategoryDisplayController.createCategory("recommend");
-            } catch (IOException e) {
-                LOG.error("An error has occurred while generating the recommendation category", e);
-                return;
-            }
+        List<Parent> allCategories = CategoryService.getAllCategories();
+        Parent reccParent;
+        try {
+            reccParent = WineCategoryDisplayController.createCategory("recommend");
+        } catch (IOException e) {
+            LOG.error("An error has occurred while generating the recommendation category", e);
+            return;
+        }
 
+        Platform.runLater(() -> {
             contentsGrid.add(reccParent, 0, 0);
             for (int i = 0; i < allCategories.size(); i++) {
                 Parent parent = allCategories.get(i);
