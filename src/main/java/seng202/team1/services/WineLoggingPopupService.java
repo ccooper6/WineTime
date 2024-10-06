@@ -40,9 +40,9 @@ public class WineLoggingPopupService {
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, boolean noneSelected, String description) {
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
-            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, noneSelected);
+            logWineDao.doReview(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, noneSelected);
         } else {
-            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, noneSelected);
+            logWineDao.doReview(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, noneSelected);
         }
     }
 

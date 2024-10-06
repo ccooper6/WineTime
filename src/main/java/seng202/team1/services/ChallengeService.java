@@ -1,12 +1,8 @@
 package seng202.team1.services;
 
-import javafx.scene.layout.AnchorPane;
-import seng202.team1.gui.FXWrapper;
-import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.ChallengeDAO;
-import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.util.*;
 
@@ -135,7 +131,7 @@ public class ChallengeService {
      * @return arraylist of the wines for the challenge the user is participating in.
      */
     public ArrayList<Wine> challengeWines() {
-        return chalDao.getWinesForChallenge(chalDao.getChallengeForUser(User.getCurrentUser().getId()), User.getCurrentUser().getId());
+        return chalDao.getWinesInChallenge(chalDao.getChallengeForUser(User.getCurrentUser().getId()), User.getCurrentUser().getId());
     }
 
     /**

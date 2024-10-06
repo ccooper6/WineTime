@@ -31,7 +31,7 @@ public class ReviewService {
      * @return True if a review exists, false otherwise.
      */
     public boolean reviewExists(int currentUserUid, int wineToCheck) {
-        return logWineDao.alreadyReviewExists(currentUserUid, wineToCheck);
+        return logWineDao.reviewAlreadyExists(currentUserUid, wineToCheck);
     }
 
     /**

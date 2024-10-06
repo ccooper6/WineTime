@@ -48,7 +48,7 @@ public class WineLoggingServiceTest {
 
     /**
      * Tests that {@link WineLoggingPopupService#submitLog(int, int, int, ArrayList, boolean, String)} submits the log properly
-     * by calling {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
+     * by calling {@link LogWineDao#doReview(int, int, int, String, String, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
      * properly, as well as making sure all redundant whitespace is removed from the description text before being added
      * to the database
      */
@@ -79,7 +79,7 @@ public class WineLoggingServiceTest {
     @Test
     public void testGetReviewExists() {
         int testUserId = 1;
-        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
+        logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
         Review testReview = wineLoggingPopupService.getReview(1,1);
         assertEquals(testReview.getUid(), 1);
         assertEquals(testReview.getWid(), 1);

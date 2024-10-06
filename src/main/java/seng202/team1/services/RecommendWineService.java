@@ -53,11 +53,11 @@ public class RecommendWineService {
         ArrayList<Wine> recommendedWines;
         ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 5);
         ArrayList<String> dislikedTags = logWineDao.getDislikedTags(uid);
-        recommendedWines = searchDAO.reccWineByTags(likedTags,dislikedTags,winesToAvoid,limit);
+        recommendedWines = searchDAO.getRecommendedWines(likedTags,dislikedTags,winesToAvoid,limit);
         if (recommendedWines.isEmpty()) {
             dislikedTags = new ArrayList<String>();
             LOG.info("NOT ENOUGH WINES IN RECOMMENDED");
-            recommendedWines = searchDAO.reccWineByTags(likedTags,dislikedTags,winesToAvoid,limit);
+            recommendedWines = searchDAO.getRecommendedWines(likedTags,dislikedTags,winesToAvoid,limit);
         } else {
             LOG.info("WE HAVE ENOUGH WINES TO RECOMMEND, WE HAVE {} WINES", recommendedWines.size());
         }

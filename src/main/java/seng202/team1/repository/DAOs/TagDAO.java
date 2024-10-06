@@ -1,22 +1,19 @@
 package seng202.team1.repository.DAOs;
 
-import com.sun.javafx.scene.shape.ArcHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.models.User;
+import seng202.team1.models.TagType;
 import seng202.team1.repository.DatabaseManager;
 
-import javax.swing.text.html.HTML;
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Objects;
 
+
+// TODO DOCSTRINGS PLS
 public class TagDAO {
 
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
@@ -37,73 +34,49 @@ public class TagDAO {
     }
 
     public ArrayList<String> getVarieties() {
-        ArrayList<String> varieties = new ArrayList<>();
         String sql = "SELECT name FROM tag WHERE type = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, "Variety");
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                String variety = rs.getString("name");
-                varieties.add(variety);
-            }
-
-            Collections.sort(varieties);
-            return varieties;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return getStringTags(sql, TagType.VARIETY);
     }
 
     public ArrayList<String> getCountries() {
-        ArrayList<String> countries = new ArrayList<>();
         String sql = "SELECT name FROM tag WHERE type = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, "Country");
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                String variety = rs.getString("name");
-                countries.add(variety);
-            }
-
-            Collections.sort(countries);
-            return countries;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return getStringTags(sql, TagType.COUNTRY);
     }
 
     public ArrayList<String> getWineries() {
-        ArrayList<String> wineries = new ArrayList<>();
         String sql = "SELECT name FROM tag WHERE type = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, "Winery");
-            ResultSet rs = pstmt.executeQuery();
+
+        return getStringTags(sql, TagType.WINERY);
+    }
+
+    /**
+     * Fetches a list of all tag names that matches a tag type stored in the database
+     *
+     * @param sql The sql query to execute with parameters for tag type
+     * @param type The type of tag to search for
+     * @return An Arraylist of all tags with the matching type
+     */
+    private ArrayList<String> getStringTags(String sql, TagType type)
+    {
+        ArrayList<String> results = new ArrayList<>();
+
+
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement tagPS = conn.prepareStatement(sql)) {
+            tagPS.setString(1, TagType.toString(type));
+            ResultSet rs = tagPS.executeQuery();
 
             while (rs.next()) {
-                String variety = rs.getString("name");
-                wineries.add(variety);
+                String tag = rs.getString("name");
+                results.add(tag);
             }
 
-            Collections.sort(wineries);
-            return wineries;
-
-
+            Collections.sort(results);
+            return results;
         } catch (SQLException e) {
+            LOG.error("Error: Could not get {} tags, {}", type, e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -113,26 +86,9 @@ public class TagDAO {
      * @return the min vintage
      */
     public int getMinVintage() {
-        int minVintage = 0;
         String sql = "SELECT min(name) FROM tag WHERE type = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, "Vintage");
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                minVintage = rs.getInt(1);
-            }
-
-
-            return minVintage;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return getIntTag(sql, TagType.VINTAGE);
     }
 
     /**
@@ -140,26 +96,9 @@ public class TagDAO {
      * @return the max vintage
      */
     public int getMaxVintage() {
-        int minVintage = 0;
         String sql = "SELECT max(name) FROM tag WHERE type = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, "Vintage");
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                minVintage = rs.getInt(1);
-            }
-
-
-            return minVintage;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return getIntTag(sql, TagType.VINTAGE);
     }
 
     /**
@@ -167,25 +106,9 @@ public class TagDAO {
      * @return the min point score
      */
     public int getMinPoints() {
-        int minPoints = 0;
         String sql = "SELECT min(points) FROM wine";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                minPoints = rs.getInt(1);
-            }
-
-
-            return minPoints;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return getIntTag(sql, TagType.POINTS);
     }
 
     /**
@@ -193,23 +116,24 @@ public class TagDAO {
      * @return the max point score
      */
     public int getMaxPoints() {
-        int maxPoints = 0;
         String sql = "SELECT max(points) FROM wine";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                maxPoints = rs.getInt(1);
+        return getIntTag(sql, TagType.POINTS);
+    }
+
+    private int getIntTag(String sql, TagType type)
+    {
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement tagPS = conn.prepareStatement(sql)) {
+            ResultSet rs = tagPS.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                throw new RuntimeException("Tag " + type + " not found");
             }
-
-
-            return maxPoints;
-
-
         } catch (SQLException e) {
+            LOG.error("Error: Could not get {} tag, {}", type, e.getMessage());
             throw new RuntimeException(e);
         }
     }

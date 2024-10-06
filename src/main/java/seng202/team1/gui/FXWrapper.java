@@ -7,10 +7,8 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.controllers.NavigationController;
-import seng202.team1.models.User;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * A singleton class which launches the FXML pages.
@@ -31,12 +29,9 @@ public class FXWrapper {
      * @return the FXWrapper singleton
      */
     public static FXWrapper getInstance() {
-        // TODO why check for null twice?
         if (instance == null) {
             synchronized (FXWrapper.class) {
-                if (instance == null) {
-                    instance = new FXWrapper();
-                }
+                instance = new FXWrapper();
             }
         }
         return instance;
@@ -57,6 +52,7 @@ public class FXWrapper {
      */
     public void launchPage(String name) {
         try {
+            System.out.println("here?");
             FXWrapper.getInstance().setCurrentPage(name);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent root = loader.load();
@@ -80,7 +76,6 @@ public class FXWrapper {
             FXMLLoader navigationLoader = new FXMLLoader(getClass().getResource("/fxml/navigation.fxml"));
             Parent navigationRoot = navigationLoader.load();
             navigationController = navigationLoader.getController();
-            // TODO should this be .equals?
             if (name.equals("mainpage")) {
                 navigationController.loadMainScreen();
             } else {
@@ -104,11 +99,11 @@ public class FXWrapper {
 
     /**
      * Sets the challenge number.
-     * @param chalNum the challenge number.
+     * @param challengeNum the challenge number.
      */
-    public void setChallenge(int chalNum) {
+    public void setChallenge(int challengeNum) {
         System.out.println("updated challenge number");
-        challenge = chalNum;
+        challenge = challengeNum;
     }
 
     /**

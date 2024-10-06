@@ -29,7 +29,7 @@ public class WishlistService {
      */
     public static void addToWishlist(int wineID, int userID) {
         WishlistDAO wishlistDAO = WishlistDAO.getInstance();
-        if (wishlistDAO.checkWineID(wineID) && wishlistDAO.checkUserID(userID) && !wishlistDAO.checkWine(wineID, userID)) {
+        if (Wine.checkWineExists(wineID) && User.getCurrentUser().getId() > 0 && !wishlistDAO.checkWine(wineID, userID)) {
             wishlistDAO.addWine(wineID, userID);
         }
     }

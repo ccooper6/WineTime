@@ -2,7 +2,6 @@ package seng202.team1.unittests.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
@@ -45,8 +44,8 @@ public class ReviewServiceTest {
     @Test
     public void testGoodGetUserReviews() {
         int testUserId = 1;
-        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
-        logWineDao.reviews(testUserId, 2, 4, "Good wine!", "12/12/12", new ArrayList<>(List.of("dry", "bold")), false);
+        logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
+        logWineDao.doReview(testUserId, 2, 4, "Good wine!", "12/12/12", new ArrayList<>(List.of("dry", "bold")), false);
 
         ArrayList<Review> userReviews = ReviewService.getUserReviews(testUserId);
 
@@ -63,8 +62,8 @@ public class ReviewServiceTest {
     @Test
     public void testBadGetUserReviews() {
         int testUserId = 1;
-        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
-        logWineDao.reviews(testUserId, 2, 4, "Good wine!", "12/12/12", new ArrayList<>(List.of("dry", "bold")), false);
+        logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
+        logWineDao.doReview(testUserId, 2, 4, "Good wine!", "12/12/12", new ArrayList<>(List.of("dry", "bold")), false);
 
         ArrayList<Review> userReviews = ReviewService.getUserReviews(testUserId);
 
@@ -79,14 +78,14 @@ public class ReviewServiceTest {
     @Test
     public void testReviewDoesExist() {
         int testUserId = 1;
-        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
+        logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
         assertTrue(reviewService.reviewExists(1,1));
     }
 
     @Test
     public void testReviewDoesNotExist() {
         int testUserId = 1;
-        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
+        logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), false);
         assertFalse(reviewService.reviewExists(1,2));
         assertFalse(reviewService.reviewExists(2,1));
     }
@@ -101,7 +100,7 @@ public class ReviewServiceTest {
         ArrayList<String> tags = new ArrayList<>(List.of("fruity", "smooth"));
 
         Review testReview = new Review(uid, wid, rating, desc, date, tags);
-        logWineDao.reviews(uid, wid, rating, desc, date, tags, false);
+        logWineDao.doReview(uid, wid, rating, desc, date, tags, false);
 
         assertTrue(reviewService.reviewExists(1,3));
         ReviewService.deleteReview(rating, testReview);

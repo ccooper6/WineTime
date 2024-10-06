@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The set of tests that covers {@link RecommendWineService} and
- * {@link seng202.team1.repository.DAOs.SearchDAO#reccWineByTags(ArrayList, ArrayList, ArrayList, int)}
+ * {@link seng202.team1.repository.DAOs.SearchDAO#getRecommendedWines(ArrayList, ArrayList, ArrayList, int)}
  *
  * @author Wen Sheng Thong
  */

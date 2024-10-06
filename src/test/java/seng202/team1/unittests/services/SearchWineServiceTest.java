@@ -124,26 +124,10 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 2557;
+        assertEquals(2557, fromDB.size());
 
-        boolean hasCorrectTags = true;
-
-        for (Wine wine : fromDB) {
-            if (!wine.hasLocation("Oregon")) {
-                hasCorrectTags = false;
-                break;
-            }
-
-            String variety = Normalizer.normalize(wine.getVariety(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-            if (!variety.equals("pinot noir")) {
-                hasCorrectTags = false;
-                break;
-            }
-        }
-
-        boolean didPassTest = isCorrectLength && hasCorrectTags;
-
-        assertTrue(didPassTest);
+        assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getVariety().equals("Pinot Noir")));
     }
 
     /**
@@ -268,7 +252,6 @@ public class SearchWineServiceTest {
 
         boolean isCorrectLength = fromDB.size() == 6;
         //Should display 9, only displays 6 from special characters using new method
-        System.out.println(fromDB.size());
         boolean hasCorrectName = true;
 
         for (Wine wine : fromDB) {
