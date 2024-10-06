@@ -55,7 +55,7 @@ public class ReviewsController {
     @FXML
     public void initialize() {
         int currentUserUid = User.getCurrentUser().getId();
-        allReviews = reviewService.getUserReviews(currentUserUid);
+        allReviews = ReviewService.getUserReviews(currentUserUid);
         displayCurrentPage();
     }
 
