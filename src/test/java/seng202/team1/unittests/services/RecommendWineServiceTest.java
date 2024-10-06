@@ -181,7 +181,7 @@ public class RecommendWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
+        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01", tags, tags, false);
         ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
         Assertions.assertFalse(reccWine.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
