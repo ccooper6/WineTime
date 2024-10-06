@@ -44,7 +44,6 @@ public class ReviewDisplayController {
 
     private Review review;
     private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
-    private final ReviewService reviewService = new ReviewService();
 
     /**
      * Initialises the controller.
@@ -100,7 +99,7 @@ public class ReviewDisplayController {
     @FXML
     public void onDeletePressed() {
         LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
-        reviewService.deleteReview(review);
+        ReviewService.deleteReview(review.getRating(), review);
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 
