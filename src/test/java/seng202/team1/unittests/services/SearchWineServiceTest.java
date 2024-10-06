@@ -1,6 +1,7 @@
 package seng202.team1.unittests.services;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.User;
@@ -39,6 +40,11 @@ public class SearchWineServiceTest {
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         logWineDao = new LogWineDao();
         DatabaseManager.getInstance().forceReset();
+    }
+
+    @BeforeEach
+    public void resetFilters() {
+        SearchWineService.getInstance().resetFilters();
     }
 
     /**
@@ -467,4 +473,141 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().setCurrentWine(wine);
         assertEquals(wine, SearchWineService.getInstance().getCurrentWine());
     }
+
+    @Test
+    public void testSearchWineWithFilteringWithTags_PinotGris_US_2000to2005() {
+
+        boolean correctLength = false;
+        boolean allWinesMeetFilters = true;
+        SearchWineService.getInstance().setCurrentMinYear(2000);
+        SearchWineService.getInstance().setCurrentMaxYear(2005);
+        SearchWineService.getInstance().setCurrentVarietyFilter("Pinot Gris");
+        SearchWineService.getInstance().setCurrentCountryFilter("US");
+
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        for (Wine wine : wines) {
+            if ((wine.getVintage() < 2000 || wine.getVintage() > 2005 ) && wine.getVintage() != -1) {
+                allWinesMeetFilters = false;
+            }
+            if (!wine.getVariety().equals("Pinot Gris")) {
+                allWinesMeetFilters = false;
+            }
+            if (!wine.getCountry().equals("US")) {
+                allWinesMeetFilters = false;
+            }
+        }
+
+        correctLength = wines.size() == 35;
+
+        boolean testResult = correctLength && allWinesMeetFilters;
+
+        assertTrue(testResult);
+
+    }
+
+    @Test
+    public void testSearchWineWithFilteringWithTags_PinotGris_US_1900to1901() {
+
+        boolean allWinesMeetFilters = true;
+        SearchWineService.getInstance().setCurrentMinYear(1900);
+        SearchWineService.getInstance().setCurrentMaxYear(1901);
+        SearchWineService.getInstance().setCurrentVarietyFilter("Pinot Gris");
+        SearchWineService.getInstance().setCurrentCountryFilter("US");
+        System.out.println("----------------");
+        System.out.println(SearchWineService.getInstance().getCurrentVarietyFilter());
+        System.out.println("----------------");
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+        System.out.println("----------------");
+        System.out.println(SearchWineService.getInstance().getCurrentVarietyFilter());
+        System.out.println("----------------");
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        for (Wine wine : wines) {
+            if ((wine.getVintage() < 1900 || wine.getVintage() > 1901) && wine.getVintage() != -1) {
+                allWinesMeetFilters = false;
+            }
+            if (!wine.getVariety().equals("Pinot Gris")) {
+                allWinesMeetFilters = false;
+            }
+            if (!wine.getCountry().equals("US")) {
+                allWinesMeetFilters = false;
+            }
+        }
+
+        assertTrue(allWinesMeetFilters);
+
+    }
+
+    @Test
+    public void testSearchWineWithFilteringWithTags_US_Abouriou() {
+
+        SearchWineService.getInstance().setCurrentMinYear(1900);
+        SearchWineService.getInstance().setCurrentMaxYear(1901);
+        SearchWineService.getInstance().setCurrentVarietyFilter("Abouriou");
+        SearchWineService.getInstance().setCurrentCountryFilter("US");
+
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        assertTrue(wines.isEmpty());
+
+    }
+
+    @Test
+    public void testSearchWineWithFilteringWithNonsenceTestsVariety() {
+
+        SearchWineService.getInstance().setCurrentVarietyFilter("Pinot griddy");
+
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        assertTrue(wines.isEmpty());
+
+    }
+
+    @Test
+    public void testSearchWineWithFilteringWithNonsenceTestsCountry() {
+
+        SearchWineService.getInstance().setCurrentCountryFilter("US of freaking A");
+
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        assertTrue(wines.isEmpty());
+
+    }
+
+    @Test
+    public void testSearchWineWithFilteringWithNonsenceTestsWinery() {
+
+        SearchWineService.getInstance().setCurrentWineryFilter("5 boys 1 temple Garden Shed Winery Inc");
+
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        assertTrue(wines.isEmpty());
+
+    }
+
+    @Test
+    public void testSearchWineWithFilteringWithNonsenceTestsPoints() {
+
+        SearchWineService.getInstance().setCurrentMinPoints(110);
+        SearchWineService.getInstance().setCurrentMinPoints(120);
+
+        SearchWineService.getInstance().searchWinesByName("", SearchDAO.UNLIMITED);
+
+        ArrayList<Wine> wines = SearchWineService.getInstance().getWineList();
+
+        assertTrue(wines.isEmpty());
+
+    }
+
 }
