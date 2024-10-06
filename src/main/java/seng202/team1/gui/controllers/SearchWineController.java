@@ -181,6 +181,8 @@ public class SearchWineController {
             SearchWineService.getInstance().setCurrentVarietyFilter(newValue);
         });
 
+        varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
+
     }
 
     /**
@@ -195,6 +197,8 @@ public class SearchWineController {
             SearchWineService.getInstance().setCurrentCountryFilter(newValue);
         });
 
+        countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
+
     }
 
     /**
@@ -207,6 +211,8 @@ public class SearchWineController {
         wineryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentWineryFilter(newValue);
         });
+
+        wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
 
     }
 
@@ -274,6 +280,9 @@ public class SearchWineController {
                 validateAndSetSliderHighValueVintage();
             }
         });
+
+        vintageSlider.setLowValue(SearchWineService.getInstance().getCurrentMinYear());
+        vintageSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxYear());
 
 
     }
@@ -344,6 +353,9 @@ public class SearchWineController {
             }
         });
 
+        pointsSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPoints());
+        pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
+
     }
 
     /**
@@ -412,6 +424,9 @@ public class SearchWineController {
                 validateAndSetSliderHighValuePrice();
             }
         });
+
+        priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
+        priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
 
     }
 
