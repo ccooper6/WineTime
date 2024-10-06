@@ -22,6 +22,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
@@ -144,7 +145,7 @@ public class NavigationController {
      * Launches the search wine loading screen by running it as a thread and launching the loading screen
      * to indicate to the user that there are searches being made behind the scenes.
      */
-    private void launchSearchWineLoadingScreen() {
+    public void launchSearchWineLoadingScreen() {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         nav.executeWithLoadingScreen(() -> {
             if (sortByComboBox.getValue().equals("In Name")) {
@@ -158,6 +159,13 @@ public class NavigationController {
             Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
         });
         searchBar.getParent().requestFocus();
+    }
+
+    /**
+     * Launches the search page when the search icon is clicked.
+     */
+    public void onSearchIconClicked() {
+        launchSearchWineLoadingScreen();
     }
 
     /**
@@ -206,6 +214,7 @@ public class NavigationController {
         LOG.info("Logging out user " + User.getCurrentUser().getName());
 
         User.setCurrenUser(null);
+        CategoryService.resetCategories();
         FXWrapper.getInstance().launchPage("login");
     }
 

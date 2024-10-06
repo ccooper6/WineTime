@@ -3,6 +3,7 @@ package seng202.team1.models;
 import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The review class that contains the attributes of a user review.
@@ -33,7 +34,7 @@ public class Review {
         this.rating = rating;
         this.reviewDescription = reviewDescription;
         this.reviewDate = reviewDate;
-        this.tagsSelected = tagsSelected;
+        this.tagsSelected = Objects.requireNonNullElseGet(tagsSelected, ArrayList::new);
     }
 
     /**
