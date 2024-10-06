@@ -427,7 +427,7 @@ public class SearchWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
+        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
         User.setCurrenUser(new User(1, "user1", "User1"));
         SearchWineService.getInstance().searchWinesByRecommend(10);
         ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
