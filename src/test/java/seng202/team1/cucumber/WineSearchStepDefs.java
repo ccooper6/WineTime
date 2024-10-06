@@ -110,7 +110,7 @@ public class WineSearchStepDefs {
 
         searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
         wineList = searchWineService.getWineList();
-        System.out.println(size(wineList));
+        System.out.println(wineList);
     }
 
     @Then("The wine list should have {int} wines and all wines should have {string} in their name")
@@ -129,7 +129,53 @@ public class WineSearchStepDefs {
         assertTrue(didPass);
     }
 
-    @Then("The wine list should have {int} wines and all wines should have {string} in their name and tags between {int} and {int}")
-    public void winesMatchTheSearchNameAndRange(int size, String filter, int lowerBound, int upperBound) {
+    @Then("The wine list should have {int} wines and all wines should have {string} in their name and tags between {string} {int} and {int}")
+    public void winesMatchTheSearchNameAndRange(int size, String filter, String type, int lowerBound, int upperBound) {
+        boolean didPass = size == wineList.size();
+        System.out.println(didPass);
+        filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
+
+        for (Wine wine : wineList) {
+            String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
+            if (!wineName.contains(filter)) {
+                didPass = false;
+                break;
+            }
+            if (Objects.equals(type, "year")) {
+                if (wine.getVintage() < lowerBound || wine.getVintage() > upperBound) {
+                    didPass = false;
+                    break;
+                }
+//            } else if (Objects.equals(type, "points")) {
+//                if (wine.getPoint() < lowerBound || wine.getVintage() > upperBound) {
+//                    didPass = false;
+//                    break;
+//                }
+            } else {
+                throw new IllegalArgumentException(type + " must be 'year' or 'points'");
+            }
+        }
+        assertTrue(didPass);
+    }
+
+
+    @Then("The wine list should have {int} wines and all wines should have {string} in their name and {string} in their tags")
+    public void winesMatchTheSearchName (int size, String filter, String tag) {
+        boolean didPass = size == wineList.size();
+
+        filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
+
+        for (Wine wine : wineList) {
+            String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
+            if (!wineName.contains(filter)) {
+                didPass = false;
+                break;
+            }
+            if (!wine.hasTag(tag)) {
+                didPass = false;
+                break;
+            }
+        }
+        assertTrue(didPass);
     }
 }
