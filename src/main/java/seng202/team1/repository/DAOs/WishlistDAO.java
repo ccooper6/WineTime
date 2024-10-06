@@ -2,12 +2,14 @@ package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -41,6 +43,7 @@ public class WishlistDAO {
      * @return {@link ArrayList} of wines containing all wines in the result set
      * @throws SQLException when a column mentioned in result set is not provided.
      */
+    //TODO delete this
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
         ArrayList<Wine> wineList = new ArrayList<>();
@@ -123,6 +126,7 @@ public class WishlistDAO {
             }
             return wineList;
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.fetchWines(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -141,6 +145,7 @@ public class WishlistDAO {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.addWine(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -159,6 +164,7 @@ public class WishlistDAO {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.removeWine(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -186,29 +192,10 @@ public class WishlistDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.checkWine(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return false;
-    }
-
-    /**
-     * Returns the int user id of the current user. Called during initialization
-     * @param currentUser the current user
-     * @return int uid
-     */
-    public int getUId(User currentUser) {
-        int uid = 0;
-        String uidSql = "SELECT id FROM user WHERE username = ? AND name = ?";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement uidPs = conn.prepareStatement(uidSql)) {
-                uidPs.setString(1, currentUser.getEncryptedUserName());
-                uidPs.setString(2, currentUser.getName());
-                uid = uidPs.executeQuery().getInt(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return uid;
     }
 
     /**
@@ -216,6 +203,7 @@ public class WishlistDAO {
      * @param wineID the id of the wine in question
      * @return true if present in wine table
      */
+    // TODO rebase into Wine
     public boolean checkWineID(int wineID) {
         String uidSql = "SELECT COUNT (*) FROM wine WHERE wine.id = ?";
         try (Connection conn = databaseManager.connect();
@@ -229,6 +217,7 @@ public class WishlistDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.checkWineID(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return false;
@@ -239,6 +228,7 @@ public class WishlistDAO {
      * @param userID is the id of the active user
      * @return true if present in database
      */
+    // TODO delete this
     public boolean checkUserID(int userID) {
         String uidSql = "SELECT COUNT (*) FROM user WHERE user.id = ?";
         try (Connection conn = databaseManager.connect();
@@ -252,6 +242,7 @@ public class WishlistDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error("Error in WishlistDAO.getUserID(): SQLException {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return false;

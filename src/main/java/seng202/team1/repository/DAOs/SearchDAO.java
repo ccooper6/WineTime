@@ -62,8 +62,6 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
-//        System.out.println("Start processing");
-
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
         int currentID = -1;
@@ -147,7 +145,7 @@ public class SearchDAO {
         ArrayList<Wine> wineList = new ArrayList<>();
 
         try (Connection conn = databaseManager.connect();
-                PreparedStatement ps = conn.prepareStatement(stmt)) {
+             PreparedStatement ps = conn.prepareStatement(stmt)) {
             ps.setString(1, filterString);
             ps.setInt(2, limit);
 
@@ -204,12 +202,84 @@ public class SearchDAO {
 
         // get results
         try (Connection conn = databaseManager.connect();
-                PreparedStatement ps = conn.prepareStatement(sql) ) {
+             PreparedStatement ps = conn.prepareStatement(sql) ) {
             for (int i = 0; i < tagList.size(); i++) {
                 ps.setString(i + 1, tagList.get(i));
             }
             ps.setInt(tagList.size() + 1, tagList.size());
             ps.setInt(tagList.size() + 2, limit);
+            try (ResultSet rs = ps.executeQuery()) {
+                wineList = processResultSetIntoWines(rs);
+            }
+        } catch (SQLException e) {
+            LOG.error("Error in SearchDAO.searchWineByTags: SQLException: {}", e.getMessage());
+        }
+        return wineList;
+    }
+
+    /**
+     * Searches for wines given a String of tags.
+     *
+     * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
+     * @param lowerPoints the lowest amount of points that a wine can have.
+     * @param upperPoints the highest amounts of points that a wine can have.
+     * @param lowerVintage the lowest vintage a wine can have.
+     * @param upperVintage the highest vintage a wine can have.
+     * @param filterString the string that must match to a wines title.
+     * @return {@link ArrayList} of Wine objects for all wines that matched the given string
+     */
+    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString)
+    {
+        for (String tag : tagList) {
+            if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
+                LOG.error("{} is not normalised!", tag);
+            }
+        }
+        // Build the SQL query with dynamic placeholders
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n")
+                .append("FROM (SELECT id as temp_id\n")
+                .append("        FROM (SELECT id, count(wid) as c\n")
+                .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
+                .append("                        JOIN tag on owned_by.tname = tag.name\n")
+                .append("              WHERE tag.normalised_name IN (");
+
+        // Add placeholders
+        for (int i = 0; i < tagList.size(); i++) {
+            if (i > 0) {
+                sqlBuilder.append(",");
+            }
+            sqlBuilder.append("?");
+        }
+        sqlBuilder.append(")\n")
+                .append("              OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?\n")
+                .append("              GROUP BY wid)\n")
+                .append("        WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage')))\n")
+                .append("JOIN wine on wine.id = temp_id\n")
+                .append("JOIN owned_by on id = owned_by.wid\n")
+                .append("JOIN tag on owned_by.tname = tag.name\n")
+                .append("WHERE points >= ? AND points <= ?")
+                .append("AND wine_name like ?")
+                .append("ORDER BY id;");
+
+        ArrayList<Wine> wineList = new ArrayList<>();
+        String sql = sqlBuilder.toString();
+
+        // get results
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql) ) {
+            for (int i = 0; i < tagList.size(); i++) {
+                ps.setString(i + 1, tagList.get(i));
+            }
+            ps.setInt(tagList.size() + 1, lowerVintage);
+            ps.setInt(tagList.size() + 2, upperVintage);
+            ps.setInt(tagList.size() + 3, tagList.size() + 1);
+            ps.setInt(tagList.size() + 4, tagList.size());
+            ps.setInt(tagList.size() + 5, lowerPoints);
+            ps.setInt(tagList.size() + 6, upperPoints);
+            ps.setString(tagList.size() + 7, '%' + filterString + '%');
+            System.out.println(ps.toString());
+
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
@@ -235,8 +305,13 @@ public class SearchDAO {
         ArrayList<Wine> wineList = new ArrayList<>();
         String sql = sqlBuilder.toString();
 
+        System.out.println("------TRY------");
+
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql) ) {
+
+            System.out.println("--------DID--------");
+
             int z = 1;
 
             for (int i = 0; i < varietyLocationWinery.size(); i++) {
@@ -328,16 +403,18 @@ public class SearchDAO {
             }
 
             sqlBuilder.append("LIMIT ?\n" +
-                            ") AS filtered_wines\n" +
-                            "JOIN wine ON wine.id = filtered_wines.temp_id\n" +
-                            "JOIN owned_by ON wine.id = owned_by.wid\n" +
-                            "JOIN tag ON owned_by.tname = tag.name");
+                    ") AS filtered_wines\n" +
+                    "JOIN wine ON wine.id = filtered_wines.temp_id\n" +
+                    "JOIN owned_by ON wine.id = owned_by.wid\n" +
+                    "JOIN tag ON owned_by.tname = tag.name");
 
             // Performs other order by functions
             if(!Objects.equals(orderBy, "Vintage")) {
                 sqlBuilder.append("\nORDER BY " + orderBy);
             }
             sqlBuilder.append(";");
+
+            System.out.println(sqlBuilder.toString());
 
             // get results using helper function
             return getResults(varietyLocationWinery, lowerPoints, upperPoints, lowerVintage, upperVintage, filterString, limit, sqlBuilder);

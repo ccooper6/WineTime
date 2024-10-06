@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
@@ -21,6 +22,17 @@ public class SearchWineService {
     private String currentSearch;
     private String currentMethod;
     private boolean fromWishlist = false;
+
+    private String currentCountryFilter = null;
+    private String currentWineryFilter = null;
+    private String currentVarietyFilter = null;
+
+    private int currentMinYear = 1821;
+    private int currentMaxYear = 2017;
+    private int currentMinPoints = 80;
+    private int currentMaxPoints = 100;
+    private int currentMinPrice = 4;
+    private int currentMaxPrice = 3300;
     private ArrayList<String> selectedVarieties;
     private String searchOrder = "wine_name";
     private String prevSearch;
@@ -36,6 +48,21 @@ public class SearchWineService {
             instance = new SearchWineService();
         }
         return instance;
+    }
+
+    /**
+     * resets the filters back to default values.
+     */
+    public void resetFilters() {
+        currentCountryFilter = null;
+        currentWineryFilter = null;
+        currentVarietyFilter = null;
+        currentMinYear = 1821;
+        currentMaxYear = 2017;
+        currentMinPoints = 80;
+        currentMaxPoints = 100;
+        currentMinPrice = 4;
+        currentMaxPrice = 3300;
     }
 
     /**
@@ -109,10 +136,40 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-        wineList = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<>(), 0, 101 , 0, 3000, filterString, limit, searchOrder);
+        if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
+            System.out.println("from search page");
+        } else {
+            resetFilters();
+            System.out.println("not from search page");
+        }
+        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString);
         prevSearch = filterString;
         fromWishlist = false;
     }
+
+    /**
+     * Gets the non-null filter strings
+     */
+    private ArrayList<String> getFilterStrings() {
+        ArrayList<String> results = new ArrayList<>();
+        if (currentCountryFilter != null) {
+            String normCountryFilter = Normalizer.normalize(currentCountryFilter, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            normCountryFilter = normCountryFilter.trim();
+            results.add(normCountryFilter);
+        }
+        if (currentWineryFilter != null) {
+            String normWineryFilter = Normalizer.normalize(currentWineryFilter, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            normWineryFilter = normWineryFilter.trim();
+            results.add(normWineryFilter);
+        }
+        if (currentVarietyFilter != null) {
+            String normVarietyFilter = Normalizer.normalize(currentVarietyFilter, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+            normVarietyFilter = normVarietyFilter.trim();
+            results.add(normVarietyFilter);
+        }
+        return results;
+    }
+
 
     /**
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
@@ -171,9 +228,158 @@ public class SearchWineService {
      * Direction of the sort arrow as a boolean value
      * @return true = up, false = down
      */
-    public boolean getSortDirection(){ return sortDirection;}
+    public boolean getSortDirection() {
+        return sortDirection;
+    }
+
+    /**
+     * Sets the direction to up depending on the bool
+     * @param isUp boolean, true to set it to up
+     */
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
+    }
+
+    /**
+     * Sets the current country filter
+     * @param countryFilter the country filter
+     */
+    public void setCurrentCountryFilter(String countryFilter) {
+        currentCountryFilter = countryFilter;
+    }
+
+    /**
+     * Sets the current winery filter
+     * @param wineryFilter the winery filter
+     */
+    public void setCurrentWineryFilter(String wineryFilter) {
+        currentWineryFilter = wineryFilter;
+    }
+
+    /**
+     * Sets the current variety filter
+     * @param varietyFilter the country filter
+     */
+    public void setCurrentVarietyFilter(String varietyFilter) {
+        currentVarietyFilter = varietyFilter;
+    }
+
+    /**
+     * Gets the current country filter
+     * @return the country filter
+     */
+    public String getCurrentCountryFilter() {
+        return currentCountryFilter;
+    }
+    /**
+     * Gets the current winery filter
+     * @return the winery filter
+     */
+    public String getCurrentWineryFilter() {
+        return currentWineryFilter;
+    }
+    /**
+     * Gets the current variety filter
+     * @return the variety filter
+     */
+    public String getCurrentVarietyFilter() {
+        return currentVarietyFilter;
+    }
+
+    /**
+     * Sets the current minimum year
+     * @param minYear the minimum year
+     */
+    public void setCurrentMinYear(int minYear) {
+        currentMinYear = minYear;
+    }
+
+    /**
+     * Sets the current minimum year
+     * @param maxYear the minimum year
+     */
+    public void setCurrentMaxYear(int maxYear) {
+        currentMaxYear = maxYear;
+    }
+
+    /**
+     * Sets the current minimum year
+     * @param minPoints the minimum year
+     */
+    public void setCurrentMinPoints(int minPoints) {
+        currentMinPoints = minPoints;
+    }
+
+    /**
+     * Sets the current max points
+     * @param maxPoints the max points
+     */
+    public void setCurrentMaxPoints(int maxPoints) {
+        currentMaxPoints = maxPoints;
+    }
+
+    /**
+     * Sets the current minimum price
+     * @param minPrice the minimum price
+     */
+    public void setCurrentMinPrice(int minPrice) {
+        currentMinPrice = minPrice;
+    }
+
+    /**
+     * Sets the current max price
+     * @param maxPrice the max price
+     */
+    public void setCurrentMaxPrice(int maxPrice) {
+        currentMaxPrice = maxPrice;
+    }
+
+    /**
+     * Returns the current min year
+     * @return the min year
+     */
+    public int getCurrentMinYear() {
+        return currentMinYear;
+    }
+
+    /**
+     * Returns the current max year
+     * @return the max year
+     */
+    public int getCurrentMaxYear() {
+        return currentMaxYear;
+    }
+
+    /**
+     * Returns the current min points
+     * @return the min points
+     */
+    public int getCurrentMinPoints() {
+        return currentMinPoints;
+    }
+
+    /**
+     * Returns the current max points
+     * @return the max points
+     */
+    public int getCurrentMaxPoints() {
+        return currentMaxPoints;
+    }
+
+    /**
+     * Returns the current min price
+     * @return the min price
+     */
+    public int getCurrentMinPrice() {
+        return currentMinPrice;
+    }
+
+    /**
+     * Returns the current max price
+     * @return the max price
+     */
+    public int getCurrentMaxPrice() {
+        return currentMaxPrice;
     }
 
     /**

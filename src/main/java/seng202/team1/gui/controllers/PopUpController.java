@@ -88,8 +88,8 @@ public class PopUpController {
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
         Wine wine = navigationController.getWine();
         if (wine == null) {
-            LOG.error("Wine is null");
-            wine = WineBuilder.genericSetup(-1, "Error Wine", "Wine is null", -1).build();
+            LOG.error("Error in PopUpController.initialize(): Wine is null");
+            wine = WineBuilder.genericSetup(-1, "There was an error loading your wine", "Wine could not be found.", -1).build();
         }
 
         int currentUserUid = User.getCurrentUser().getId();
@@ -248,9 +248,10 @@ public class PopUpController {
                     thread.start();
                 }
             } else {
-                System.out.println("Not supported");
+                LOG.error("Error in PopupController.onWIneSearchLinkClicked(): Desktop does not support wine link function");
             }
         } catch (Exception e) {
+            // TODO wtf is this
             LOG.error("Something went wrong trying to search for a wine.");
         }
     }

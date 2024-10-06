@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
+    private static WineLoggingPopupService wineLoggingPopupService = new WineLoggingPopupService();
     private static Review currentReview;
 
     /**
@@ -67,7 +68,7 @@ public class ReviewService {
         ArrayList<String> selectedTags = review.getTagsSelected();
         if (selectedTags != null && !selectedTags.isEmpty()) {
             for (String tag : selectedTags) {
-                logWineDao.likes(uid, tag, 3 - rating); // Reverse the like
+                logWineDao.likes(uid, tag, -1 * wineLoggingPopupService.getRatingWeight(rating)); // Reverse the like
             }
         }
     }

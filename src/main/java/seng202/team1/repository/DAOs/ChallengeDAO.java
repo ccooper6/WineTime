@@ -2,7 +2,6 @@ package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
  * from the database.
  * @author Lydia Jackson, Wen Sheng Thong
  */
+// TODO LOG after update
 public class ChallengeDAO {
     private static final Logger LOG = LogManager.getLogger(ChallengeDAO.class);
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -55,7 +55,6 @@ public class ChallengeDAO {
                 chalps.setString(2, cname);
                 chalps.setInt(3, uid);
                 chalps.executeUpdate();
-                conn.commit();
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
@@ -75,7 +74,6 @@ public class ChallengeDAO {
                 chalps.setInt(1, useID);
                 chalps.setString(2, cname);
                 chalps.executeUpdate();
-                conn.commit();
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
@@ -102,10 +100,12 @@ public class ChallengeDAO {
      * Checks to see if there are wines for the challenge in database.
      * @return boolean if wine in challenge_wine.
      */
-    private Boolean challengeHasWines() {
-        String test = "SELECT * FROM challenge_wine";
+    private Boolean challengeHasWines(String cname, int uid) {
+        String test = "SELECT * FROM challenge_wine WHERE cname = ? AND uid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(test)) {
+                ps.setString(1, cname);
+                ps.setInt(2, uid);
                 ResultSet rs = ps.executeQuery();
                 return rs.next();
             }
@@ -145,7 +145,6 @@ public class ChallengeDAO {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, userID);
                 ResultSet rs = ps.executeQuery();
-                System.out.println(rs.getFetchSize());
                 return rs.getString("cname");
             }
         } catch (SQLException e) {
@@ -158,7 +157,7 @@ public class ChallengeDAO {
      * Puts the challenge into the copy database with a fixed name and description.
      */
     public void initaliseChallenge() {
-        if (challengeExists() == false) {
+        if (!challengeExists()) {
             insertChallenge("Variety Challenge", "Expand your palate with the variety challenge, "
                     + "this challenge encourages you to explore wines of different varieties, with wines of a range of "
                     + "colours, from different places and different grapes.");
@@ -167,9 +166,12 @@ public class ChallengeDAO {
 
     /**
      * Inserts the wine into the challenge.
+     * @param wineIds an array list of integer wine id
+     * @param challengeName the name of the challenge
+     * @param uid current user uid
      */
     public void wineInChallenge(ArrayList<Integer> wineIds, int uid, String challengeName) {
-        if (challengeHasWines() == false) {
+        if (!challengeHasWines(challengeName, uid)) {
             for (int i = 0; i < wineIds.size(); i ++) {
                 insertWineChal(wineIds.get(i), uid, challengeName);
             }
@@ -187,7 +189,7 @@ public class ChallengeDAO {
             userToChallenge(uid, cname);
             wineInChallenge(wineIds, uid, cname);
         } else {
-            System.out.println("User already registered for this challenge");
+            System.out.println("User already registered for this challenge");  // make this a try catch/log error
         }
     }
 
