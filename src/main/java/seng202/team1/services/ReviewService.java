@@ -122,8 +122,8 @@ public class ReviewService {
      * @param oldRating the old rating of the log
      */
     public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, int newRating, int oldRating) {
-        int scaledNewRating = newRating - 3;
-        int scaledOldRating = oldRating - 3;
+        int scaledNewRating = getRatingWeight(newRating);
+        int scaledOldRating = getRatingWeight(oldRating);
 
         for (String tag : tagsToRemove) {
             logWineDao.likes(uid, tag, -scaledOldRating);
