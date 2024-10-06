@@ -62,7 +62,7 @@ public class WineLogStepDefs {
         this.oldrating = oldRating;
         this.description = oldDescription;
         for (String tag : wineTags) {
-            logWineDao.likes(this.uid, tag, this.oldrating - 3);
+            logWineDao.likes(this.uid, tag, wineLoggingPopupService.getRatingWeight(this.oldrating));
         }
         wineLoggingPopupService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,false,this.description);
     }
@@ -85,12 +85,12 @@ public class WineLogStepDefs {
     public void submitedLog() {
         if (this.selectedTag) {
             for (String tag : selectedTags) {
-                logWineDao.likes(this.uid, tag, this.rating - 3);
+                logWineDao.likes(this.uid, tag, wineLoggingPopupService.getRatingWeight(rating));
             }
             wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.selectedTags,false,this.description);
         } else {
             for (String tag : wineTags) {
-                logWineDao.likes(this.uid, tag, this.rating - 3);
+                logWineDao.likes(this.uid, tag, wineLoggingPopupService.getRatingWeight(rating));
             }
             wineLoggingPopupService.submitLog(this.rating,this.uid,this.wid,this.wineTags,true,this.description);
         }
@@ -110,7 +110,7 @@ public class WineLogStepDefs {
         HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
-            Assertions.assertEquals(rating - 3 , result.get(checkTag));
+            Assertions.assertEquals(wineLoggingPopupService.getRatingWeight(rating) , result.get(checkTag));
         }
         ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
         Assertions.assertEquals(rating,reviews.getFirst().getRating());
@@ -125,7 +125,7 @@ public class WineLogStepDefs {
         HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
-            Assertions.assertEquals((rating + oldrating) - 3 - 3, result.get(checkTag));
+            Assertions.assertEquals(wineLoggingPopupService.getRatingWeight(oldrating) + wineLoggingPopupService.getRatingWeight(rating), result.get(checkTag));
         }
         ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
         Assertions.assertEquals(rating,reviews.getFirst().getRating());

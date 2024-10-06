@@ -34,11 +34,11 @@ public class RecommendWineService {
     /**
      * Returns a {@link Boolean} on whether the user has liked enough tags to start recommending wines to them
      * @param uid the user id
-     * @return a {@link Boolean}. True if the user has positively liked 3 tags.
+     * @return a {@link Boolean}. True if the user has positively liked 5 tags.
      */
     public Boolean hasEnoughFavouritesTag(int uid) {
-        ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 3);
-        return likedTags.size() == 3;
+        ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 5);
+        return likedTags.size() == 5;
     }
 
     /**

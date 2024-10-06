@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.services.UserLoginService;
@@ -47,6 +49,8 @@ public class LoginController {
     Button goBackButton;
     @FXML
     Button createUserButton;
+
+    private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     /**
      * Initialises the login page.
@@ -190,6 +194,7 @@ public class LoginController {
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.checkLogin(username, password)
                 && !username.isEmpty() && !password.isEmpty()) {
+            LOG.info("Logged in as " + username);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
@@ -224,7 +229,9 @@ public class LoginController {
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.storeLogin(name, username, password);
             if (outcome == 1) {
+                LOG.info("Account created for user" + username);
                 userLoginService.checkLogin(username, password);
+                LOG.info("Logged in as " + username);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
                 accountCreatedSuccessfully(outcome);

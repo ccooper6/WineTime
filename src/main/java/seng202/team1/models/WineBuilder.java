@@ -1,10 +1,15 @@
 package seng202.team1.models;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Builder class for the Wine object.
  * @author Yuhao Zhang
  */
 public class WineBuilder {
+    //TODO tasters?
+
     private int id;
     private String name = null;
     private String description = null;
@@ -19,6 +24,8 @@ public class WineBuilder {
     private String tasterName = null;
     private String tasterTwitter = null;
 
+    private static final Logger LOG = LogManager.getLogger(WineBuilder.class);
+
     /**
      * Returns the built Wine object using the values stored in this class as arguments.
      * Returns null if name is not assigned
@@ -26,6 +33,7 @@ public class WineBuilder {
      */
     public Wine build() {
         if (name == null || name.isEmpty()) {
+            LOG.error("Error in WineBuilder.build: Wine name is null or empty");
             return null;
         }
 
