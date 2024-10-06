@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * The class containing the functions to add entries to the "Likes" and "Reviews" table,
+ * The class containing the functions to add and retrieve entries to the "Likes" and "Reviews" table,
  * mainly called by the WineLoggingPopupController when the user logs a wine.
  *
  * @author Wen Sheng Thong, Caleb Cooper
@@ -204,7 +204,7 @@ public class LogWineDao {
      */
     public ArrayList<String> getFavouritedTags(int uid, int maximumTag) {
         ArrayList<String> likedTags = new ArrayList<>();
-        String sql = "SELECT tname, value FROM likes WHERE uid = ? AND value >= 0 ORDER BY value DESC";
+        String sql = "SELECT tname, value FROM likes WHERE uid = ? AND value >= 1 ORDER BY value DESC";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
@@ -245,6 +245,30 @@ public class LogWineDao {
             LOG.error("Error: Could not get disliked tags, {}", e.getMessage());
         }
         return dislikedTags;
+    }
+
+    /**
+     * Returns a hashmap of &lt;tagName, tagValue&gt; of the most negatively rated tags belonging to the user.
+     * @param uid user id
+     * @param limit number of tags to retunr
+     * @return  a hashmap of &lt;tagName, tagValue&gt
+     */
+    public HashMap<String, Integer> getMostDislikedTags(int uid, int limit) {
+        HashMap<String, Integer> likedTags = new HashMap<>();
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value < 0 ORDER BY value ASC LIMIT ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(likePs)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, limit);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    likedTags.put(rs.getString(1), rs.getInt(2));
+                }
+                return likedTags;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -478,7 +502,6 @@ public class LogWineDao {
         } catch (SQLException e) {
             LOG.error("Error: Could not get wine, {}", e.getMessage());
         }
-        return null;
     }
 
     /**

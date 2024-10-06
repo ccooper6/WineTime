@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -50,36 +51,6 @@ public class RecommendWineServiceTest {
     void testDBConnection() {
         assertNotNull(databaseManager);
     }
-    /**
-     * Gets all tags in the database
-     * @return an array of tag names
-     */
-    private ArrayList<String> getAllTags() {
-        ArrayList<String> allTags = new ArrayList<>();
-        String tagPs = "SELECT name FROM tag";
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement ps = conn.prepareStatement(tagPs)) {
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    allTags.add(rs.getString(1));
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return allTags;
-    }
-
-    /**
-     * Causes the user to dislike all tags
-     * @param uid the uid of the user
-     */
-    private void dislikedAllTags(int uid) {
-        ArrayList<String> allTags = getAllTags();
-        for (String tag : allTags) {
-            logWineDao.likes(uid, tag, -1);
-        }
-    }
 
     /**
      * Gets all the tags belonging to the wine
@@ -103,23 +74,6 @@ public class RecommendWineServiceTest {
             throw new RuntimeException(e);
         }
         return wineTags;
-    }
-    /**
-     * Verifies that the wine have at least one liked tag
-     * @param wine wine
-     * @param likedTags array of liked tags
-     * @return boolean
-     */
-    private boolean verifyWine(String[] likedTags, Wine wine) {
-        ArrayList<String> wineTags = getWineTags(wine);
-        boolean hasLikedTags = false;
-        for (String tag : likedTags) {
-            if (wineTags.contains(tag)) {
-                hasLikedTags = true;
-                break;
-            }
-        }
-        return hasLikedTags;
     }
     /**
      * Verifies that the wine have at least one liked tag and no disliked tags
@@ -146,22 +100,6 @@ public class RecommendWineServiceTest {
     }
 
     /**
-     * Verifies that all the wines have at least one liked tag
-     * @param wines array of wine
-     * @param likedTags array of liked tags
-     * @return boolean
-     */
-    private boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags) {
-        for (Wine wine : wines) {
-            boolean hasLikedTags = verifyWine(likedTags, wine);
-            if (!hasLikedTags) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Verifies that all the wines have at least one liked tag and no disliked tags
      * @param wines array of wine
      * @param likedTags array of liked tags
@@ -170,8 +108,29 @@ public class RecommendWineServiceTest {
      */
     private boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags) {
         for (Wine wine : wines) {
-            boolean hasLikedTags = verifyWine(likedTags, wine, dislikedTags);
-            if (!hasLikedTags) {
+            boolean isValid = verifyWine(likedTags, wine, dislikedTags);
+            if (!isValid) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * Verifies that all the wines have at least one liked tag, no disliked tags and are not wines that should be avoided
+     * @param wines array of wine
+     * @param likedTags array of liked tags
+     * @param dislikedTags array of disliked tags
+     * @param wineIdToAvoid array of wine id to avoid
+     * @return boolean
+     */
+    public boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags, Integer[] wineIdToAvoid) {
+        for (Wine wine : wines) {
+            if (!Arrays.asList(wineIdToAvoid).contains(wine.getWineId())) {
+                boolean isValid = verifyWine(likedTags, wine, dislikedTags);
+                if (!isValid) {
+                    return false;
+                }
+            } else {
                 return false;
             }
         }
@@ -185,7 +144,7 @@ public class RecommendWineServiceTest {
      */
     @Test
     public void testHasEnoughFavTag() {
-        String[] tags = {"2012", "2004", "2006"};
+        String[] tags = {"2012", "2004", "2006", "2005", "2003"};
         for (String tag : tags) {
             logWineDao.likes(1, tag, 5);
             logWineDao.likes(2, tag, -5);
@@ -204,9 +163,39 @@ public class RecommendWineServiceTest {
         logWineDao.likes(1, "2004", 1000);
         logWineDao.likes(1, "2005", 1000);
         logWineDao.likes(1, "2006", -1000);
+        logWineDao.likes(1, "2008", -1000);
         ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
         Assertions.assertFalse(reccWine.isEmpty());
-        Assertions.assertTrue(verfiyWines(reccWine, new String[]{"2012", "2004", "2005"}, new String[]{"2006"}));
+        Assertions.assertTrue(verfiyWines(reccWine, new String[]{"2012", "2004", "2005"}, new String[]{"2006", "2008"}));
+    }
+
+    @Test
+    public void testWineIDAreProperlyAvoided() {
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("2012");
+        tags.add("US");
+        tags.add("Willamette Valley");
+        tags.add("Pinot Noir");
+        tags.add("Sweet Cheeks");
+        for (String tag:tags) {
+            logWineDao.likes(1, tag, 5);
+        }
+        //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
+        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
+        ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
+        Assertions.assertFalse(reccWine.isEmpty());
+        //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
+        Assertions.assertTrue(verfiyWines(reccWine, new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"}, new String[]{}, new Integer[]{5}));
+    }
+
+    @Test
+    public void testEmptyEmptyWineList() {
+        logWineDao.likes(1, "2012", 1000);
+        logWineDao.likes(1, "2004", 1000);
+        logWineDao.likes(1, "2005", 1000);
+        logWineDao.likes(1, "2006", -1000);
+        ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, 0);
+        Assertions.assertTrue(reccWine.isEmpty());
     }
 
 }

@@ -5,7 +5,10 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DatabaseManager;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
