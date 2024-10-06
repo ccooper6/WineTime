@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
@@ -7,7 +8,6 @@ import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Service class for searching wines in the database.
@@ -48,6 +48,21 @@ public class SearchWineService {
             instance = new SearchWineService();
         }
         return instance;
+    }
+
+    /**
+     * resets the filters back to default values.
+     */
+    public void resetFilters() {
+        currentCountryFilter = null;
+        currentWineryFilter = null;
+        currentVarietyFilter = null;
+        currentMinYear = 1821;
+        currentMaxYear = 2017;
+        currentMinPoints = 80;
+        currentMaxPoints = 100;
+        currentMinPrice = 4;
+        currentMaxPrice = 3300;
     }
 
     /**
@@ -121,7 +136,12 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-
+        if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
+            System.out.println("from search page");
+        } else {
+            resetFilters();
+            System.out.println("not from search page");
+        }
         wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString);
         prevSearch = filterString;
         fromWishlist = false;
@@ -208,7 +228,14 @@ public class SearchWineService {
      * Direction of the sort arrow as a boolean value
      * @return true = up, false = down
      */
-    public boolean getSortDirection(){ return sortDirection;}
+    public boolean getSortDirection() {
+        return sortDirection;
+    }
+
+    /**
+     * Sets the direction to up depending on the bool
+     * @param isUp boolean, true to set it to up
+     */
     public void setSortDirection(boolean isUp) {
         sortDirection = isUp;
     }
@@ -354,10 +381,6 @@ public class SearchWineService {
     public int getCurrentMaxPrice() {
         return currentMaxPrice;
     }
-
-
-
-
 
     /**
      *  Sets search order var and requeries using previous query
