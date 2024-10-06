@@ -521,7 +521,7 @@ public class SearchWineController {
      * Apply the selected filters, just researches
      */
     public void onApplyFiltersButtonPushed() {
-        System.out.println("Not implemented");
+        FXWrapper.getInstance().getNavigationController().launchSearchWineLoadingScreen();
     }
 
 
