@@ -9,7 +9,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.services.WineLoggingPopupService;
+import seng202.team1.services.ReviewService;
 
 import java.util.ArrayList;
 
@@ -42,7 +42,7 @@ public class WineLoggingPopupController {
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
-    private WineLoggingPopupService wineLoggingPopupService;
+    private ReviewService reviewService;
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
@@ -52,7 +52,7 @@ public class WineLoggingPopupController {
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
-        wineLoggingPopupService = new WineLoggingPopupService();
+        reviewService = new ReviewService();
         implementFxmlFunction();
     }
 
@@ -69,7 +69,7 @@ public class WineLoggingPopupController {
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
-        Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        Review existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
         if (existingReview != null) {
             promptText.setText("Edit your review");
             populateReviewData(existingReview);
@@ -81,7 +81,7 @@ public class WineLoggingPopupController {
     /**
      * Populates the review data of the current wine into the wine logging popup.
      * Called if the user has already previously reviewed the wine.
-     * @param review The review object obtained from {@link WineLoggingPopupService#getReview(int, int)}
+     * @param review The review object obtained from {@link ReviewService#getReview(int, int)}
      */
     private void populateReviewData(Review review) {
         ratingSlider.setValue(review.getRating());
@@ -204,16 +204,16 @@ public class WineLoggingPopupController {
         }
         boolean noneSelected = selectedTags.isEmpty();
 
-        Review existingReview = wineLoggingPopupService.getReview(currentUserUid, currentWineId);
+        Review existingReview = reviewService.getReview(currentUserUid, currentWineId);
         if (existingReview != null) {
             ArrayList<String> oldTags = existingReview.getTagsLiked();
             int oldRating = existingReview.getRating();
-            wineLoggingPopupService.updateTagLikes(currentUserUid, tagsToLike, oldTags, rating, oldRating);
+            reviewService.updateTagLikes(currentUserUid, tagsToLike, oldTags, rating, oldRating);
         } else {
-            wineLoggingPopupService.updateTagLikes(currentUserUid, tagsToLike, new ArrayList<>(), rating, 0);
+            reviewService.updateTagLikes(currentUserUid, tagsToLike, new ArrayList<>(), rating, 0);
         }
 
-        wineLoggingPopupService.submitLog(rating, currentUserUid, currentWineId, selectedTags, tagsToLike, noneSelected, description);
+        reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, tagsToLike, noneSelected, description);
         returnToWinePopUp();
     }
 
