@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
+    private static WineLoggingPopupService wineLoggingPopupService = new WineLoggingPopupService();
     private static Review currentReview;
 
     /**
