@@ -70,8 +70,6 @@ public class MainController {
             };
 
             List<Parent> allCategories = CategoryService.getAllCategories();
-            Parent reccParent = WineCategoryDisplayController.createCategory("recommend"); // TODO: Refresh recommend every time maybe?
-            allCategories.add(reccParent);
 
             for (String tag : tags) {
                 Parent parent = WineCategoryDisplayController.createCategory(tag);
@@ -91,6 +89,15 @@ public class MainController {
     private void displayCategoriesWithRec() {
         Platform.runLater(() -> {
             List<Parent> allCategories = CategoryService.getAllCategories();
+            Parent reccParent;
+            try {
+                reccParent = WineCategoryDisplayController.createCategory("recommend");
+            } catch (IOException e) {
+                LOG.error("An error has occurred while generating the recommendation category", e);
+                return;
+            }
+
+            contentsGrid.add(reccParent, 0, 0);
             for (int i = 0; i < allCategories.size(); i++) {
                 Parent parent = allCategories.get(i);
                 if (i >= contentsGrid.getRowCount()) {
@@ -98,7 +105,7 @@ public class MainController {
                     contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
                     contentsGrid.addRow(contentsGrid.getRowCount());
                 }
-                contentsGrid.add(parent, 0, i);
+                contentsGrid.add(parent, 0, i + 1);
             }
         });
     }
