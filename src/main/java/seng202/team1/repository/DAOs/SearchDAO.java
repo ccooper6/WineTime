@@ -62,8 +62,6 @@ public class SearchDAO {
      */
     private ArrayList<Wine> processResultSetIntoWines(ResultSet resultSet) throws SQLException
     {
-//        System.out.println("Start processing");
-
         ArrayList<Wine> wineList = new ArrayList<Wine>();
 
         int currentID = -1;
@@ -147,7 +145,7 @@ public class SearchDAO {
         ArrayList<Wine> wineList = new ArrayList<>();
 
         try (Connection conn = databaseManager.connect();
-                PreparedStatement ps = conn.prepareStatement(stmt)) {
+             PreparedStatement ps = conn.prepareStatement(stmt)) {
             ps.setString(1, filterString);
             ps.setInt(2, limit);
 
@@ -223,10 +221,13 @@ public class SearchDAO {
      * Searches for wines given a String of tags.
      *
      * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
-     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
+     * @param lowerPoints the lowest amount of points that a wine can have.
+     * @param upperPoints the highest amounts of points that a wine can have.
+     * @param lowerVintage the lowest vintage a wine can have.
+     * @param upperVintage the highest vintage a wine can have.
+     * @param filterString the string that must match to a wines title.
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    //TODO fix docstring
     public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString)
     {
         for (String tag : tagList) {
@@ -253,7 +254,7 @@ public class SearchDAO {
         sqlBuilder.append(")\n")
                 .append("              OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?\n")
                 .append("              GROUP BY wid)\n")
-                .append("        WHERE c = ?)\n")
+                .append("        WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage')))\n")
                 .append("JOIN wine on wine.id = temp_id\n")
                 .append("JOIN owned_by on id = owned_by.wid\n")
                 .append("JOIN tag on owned_by.tname = tag.name\n")
@@ -273,9 +274,11 @@ public class SearchDAO {
             ps.setInt(tagList.size() + 1, lowerVintage);
             ps.setInt(tagList.size() + 2, upperVintage);
             ps.setInt(tagList.size() + 3, tagList.size() + 1);
-            ps.setInt(tagList.size() + 4, lowerPoints);
-            ps.setInt(tagList.size() + 5, upperPoints);
-            ps.setString(tagList.size() + 6, '%' + filterString + '%');
+            ps.setInt(tagList.size() + 4, tagList.size());
+            ps.setInt(tagList.size() + 5, lowerPoints);
+            ps.setInt(tagList.size() + 6, upperPoints);
+            ps.setString(tagList.size() + 7, '%' + filterString + '%');
+            System.out.println(ps.toString());
 
             try (ResultSet rs = ps.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
@@ -400,10 +403,10 @@ public class SearchDAO {
             }
 
             sqlBuilder.append("LIMIT ?\n" +
-                            ") AS filtered_wines\n" +
-                            "JOIN wine ON wine.id = filtered_wines.temp_id\n" +
-                            "JOIN owned_by ON wine.id = owned_by.wid\n" +
-                            "JOIN tag ON owned_by.tname = tag.name");
+                    ") AS filtered_wines\n" +
+                    "JOIN wine ON wine.id = filtered_wines.temp_id\n" +
+                    "JOIN owned_by ON wine.id = owned_by.wid\n" +
+                    "JOIN tag ON owned_by.tname = tag.name");
 
             // Performs other order by functions
             if(!Objects.equals(orderBy, "Vintage")) {
