@@ -38,7 +38,7 @@ public class RecommendWineService {
      */
     public Boolean hasEnoughFavouritesTag(int uid) {
         ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 5);
-        return likedTags.size() == 3;
+        return likedTags.size() == 5;
     }
 
     /**
