@@ -764,27 +764,20 @@ public class SearchWineController {
      */
     public void resetFilters() {
 
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
         try {
             countryComboBox.setValue(null);
             countryComboBox.setSkin(new SearchableComboBoxSkin<>(countryComboBox));
-        } catch (Exception ignore){}
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
         try {
             varietyComboBox.setValue(null);
             varietyComboBox.setSkin(new SearchableComboBoxSkin<>(varietyComboBox));
-        } catch (Exception ignore){}
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
-
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
         try {
             wineryComboBox.setValue(null);
             wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){}
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
 
         priceSlider.setLowValue(priceSlider.getMin());
