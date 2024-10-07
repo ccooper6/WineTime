@@ -35,7 +35,7 @@ public class MainController {
         LocalTime currentTime = java.time.LocalTime.now();
         if (currentTime.isAfter(java.time.LocalTime.of(6, 0)) && currentTime.isBefore(java.time.LocalTime.of(12, 0))) {
             helloText.setText("Good morning, " + User.getCurrentUser().getName() + "!");
-        } else if (currentTime.isAfter(java.time.LocalTime.of(12, 0)) && currentTime.isBefore(java.time.LocalTime.of(5, 0))) {
+        } else if (currentTime.isAfter(java.time.LocalTime.of(12, 0)) && currentTime.isBefore(java.time.LocalTime.of(17, 0))) {
             helloText.setText("Good afternoon, " + User.getCurrentUser().getName() + "!");
         } else {
             helloText.setText("Good evening, " + User.getCurrentUser().getName() + "!");
