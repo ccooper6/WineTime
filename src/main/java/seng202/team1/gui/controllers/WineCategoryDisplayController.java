@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +19,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -101,7 +103,7 @@ public class WineCategoryDisplayController {
                 seeMoreButton.setVisible(false);
             }
         } else {
-            titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
+            titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle());
         }
         if (displayWines.isEmpty()) {
             if (isWishlist) {
@@ -109,7 +111,7 @@ public class WineCategoryDisplayController {
             } else if (isRecommendations) {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
-                titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()) +
+                titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle() +
                         "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
             }
             leftArrowButton.setDisable(true);
@@ -386,28 +388,27 @@ public class WineCategoryDisplayController {
      * @throws IOException if fxmlLoader cannot load the display
      * @return the parent of the new category
      */
-    public static Parent createCategory(String searchString) throws IOException {
+    public static Parent createCategory(String searchString) {
+        try {
+            if (searchString.equalsIgnoreCase("wishlist")) {
+                SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
+            } else if (searchString.equalsIgnoreCase("recommend")) {
+                SearchWineService.getInstance().searchWinesByRecommend(10);
+            } else {
+                SearchWineService.getInstance().searchWinesByTags(searchString, 10);
+            }
 
-        if (searchString.equalsIgnoreCase("wishlist")) {
-            SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
-        } else if (searchString.equalsIgnoreCase("recommend")) {
-            SearchWineService.getInstance().searchWinesByRecommend(10);
-        } else {
-            SearchWineService.getInstance().searchWinesByTags(searchString, 10);
+            savedWineList = SearchWineService.getInstance().getWineList();
+            savedSearchString = searchString;
+            WineCategoryService.getInstance().setCurrentCategoryTitle(searchString);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(WineCategoryDisplayController.class
+                    .getResource("/fxml/wineCategoryDisplay.fxml"));
+
+            return fxmlLoader.load();
+        } catch (IOException e) {
+            LOG.error("Error in WineCategoryDisplayController.createCategory: Could not load fxml content for category {}", searchString);
+            return null;
         }
-
-        savedWineList = SearchWineService.getInstance().getWineList();
-        savedSearchString = searchString;
-
-
-        FXMLLoader fxmlLoader = new FXMLLoader(WineCategoryDisplayController.class
-                .getResource("/fxml/wineCategoryDisplay.fxml"));
-        Parent parent = fxmlLoader.load();
-        // Have to do this as it requires multiple loops to finish completely
-        // - need to use for "A Task Which Returns Partial Results", from the Task documentation
-        if (!searchString.equalsIgnoreCase("recommend")) {
-            WineCategoryService.getInstance().incrementCurrentCategory();
-        }
-        return parent;
     }
 }
