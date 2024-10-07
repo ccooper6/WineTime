@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
@@ -38,6 +39,8 @@ import java.util.regex.Pattern;
  * @author Caleb Cooper, Elise Newman, Yuhao Zhang, Wen Sheng Thong
  */
 public class PopUpController {
+    public TextFlow valueDisplay;
+    public TextFlow pointsDisplay;
     @FXML
     private Button popUpCloseButton;
     @FXML
@@ -86,6 +89,7 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> closePopUp());
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
+
         Wine wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Error in PopUpController.initialize(): Wine is null");
@@ -101,6 +105,19 @@ public class PopUpController {
         } else {
             icon.setFill(Color.web("#d0d0d0"));
         }
+
+        Text dollarSign = new Text("$");
+        dollarSign.setStyle("-fx-font-size: 18;");
+        Text value = new Text(String.valueOf(wine.getPrice()));
+        value.setStyle("-fx-font-size: 18;");
+        Text currency = new Text(" NZD");
+        currency.setStyle("-fx-font-size: 10;");
+        valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        Text points = new Text("100"); //todo- change to variable
+        points.setStyle("-fx-font-size: 18;");
+        Text range = new Text(" / 100");
+        range.setStyle("-fx-font-size: 12;");
+        pointsDisplay.getChildren().addAll(points, range);
 
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
