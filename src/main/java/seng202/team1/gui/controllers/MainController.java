@@ -31,14 +31,10 @@ public class MainController {
     @FXML
     private AnchorPane categoryAnchorPane;
 
-    private static final Logger LOG = LogManager.getLogger(MainController.class);
-
     /**
      * Initializes the main page view.
      */
     public void initialize() {
-        WineCategoryService.getInstance().resetCurrentCategory();
-
         LocalTime currentTime = java.time.LocalTime.now();
         if (currentTime.isAfter(java.time.LocalTime.of(6, 0)) && currentTime.isBefore(java.time.LocalTime.of(12, 0))) {
             helloText.setText("Good morning, " + User.getCurrentUser().getName() + "!");
