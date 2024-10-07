@@ -3,6 +3,7 @@ package seng202.team1.gui.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import seng202.team1.gui.FXWrapper;
 
 public class HelpController {
 
@@ -32,14 +33,16 @@ public class HelpController {
     private ImageView wineTimeLogo;
 
     public void initialize() {
-        homePageHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/homePageHelp.gif")));
-        loginHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/loginHelp.gif")));
-        profilePageHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/profileHelp.gif")));
-        reviewWineHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/reviewWineHelp.gif")));
-        wishListHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/wishListHelp.gif")));
-        winePopUpHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/winePopupHelp.gif")));
-        searchPageHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/searchHelp.gif")));
-        wineTimeLogo.setImage(new Image(getClass().getResourceAsStream("/images/logo.png")));
-        wineTimeText.setImage(new Image(getClass().getResourceAsStream("/images/winetime-nobg.png")));
+        FXWrapper.getInstance().getNavigationController().executeWithLoadingScreen(() -> {
+            wineTimeLogo.setImage(new Image(getClass().getResourceAsStream("/images/logo.png")));
+            wineTimeText.setImage(new Image(getClass().getResourceAsStream("/images/winetime-nobg.png")));
+            loginHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/loginHelp.gif")));
+            homePageHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/homePageHelp.gif")));
+            profilePageHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/profileHelp.gif")));
+            reviewWineHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/reviewWineHelp.gif")));
+            wishListHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/wishListHelp.gif")));
+            winePopUpHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/winePopupHelp.gif")));
+            searchPageHelp.setImage(new Image(getClass().getResourceAsStream("/images/helpScreen/searchHelp.gif")));
+        });
     }
 }
