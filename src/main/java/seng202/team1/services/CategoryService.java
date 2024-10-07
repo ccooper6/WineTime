@@ -3,6 +3,8 @@ package seng202.team1.services;
 import javafx.scene.Parent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,10 +13,11 @@ import java.util.List;
  */
 public class CategoryService {
     private static final List<Parent> allCategories = new ArrayList<>();
-    private static boolean categoriesGenerated = false;
+    private static boolean tagsGenerated = false;
+    private static String[] generatedTags;
 
     /**
-     * Returns a list of generated wine categories.
+     * Returns a list of generated wine categories.w
      * @return List of Parent objects representing wine categories.
      */
     public static List<Parent> getAllCategories() {
@@ -22,19 +25,60 @@ public class CategoryService {
     }
 
     /**
-     * Returns whether the categories have been generated yet or not.
-     * @return boolean representing whether the categories have been generated.
+     *
+     * @return
      */
-    public static boolean isCategoriesGenerated() {
-        return categoriesGenerated;
+    public static void generateTags() {
+        String[] tags = {
+                "Bordeaux, Merlot",
+                "Marlborough, Sauvignon Blanc",
+                "Tuscany, Sangiovese",
+                "Hawke's Bay, Syrah",
+                "Spain, Rioja, Tempranillo",
+                "Mendoza, Malbec",
+                "US, Napa Valley, Cabernet Sauvignon",
+                "Central Otago, Pinot Noir, New Zealand",
+                "Chianti Classico, Sangiovese",
+                "Champagne, Pinot Meunier",
+                "Provence, Rosé",
+                "Veneto, Prosecco",
+                "Hunter Valley, Semillon",
+                "Willamette Valley, Pinot Gris",
+                "Burgundy, Chardonnay",
+                "Mosel, Riesling",
+                "Puglia, Primitivo",
+                "South Africa, Chenin Blanc",
+                "Alsace, Gewurztraminer",
+                "Tuscany, Vermentino",
+                "Loire Valley, Sauvignon Blanc",
+                "Wairarapa, Pinot Noir"
+        };
+
+        List<String> tagsList = Arrays.asList(tags);
+        Collections.shuffle(tagsList);
+        tags = tagsList.toArray(new String[0]);
+        generatedTags = tags;
+        tagsGenerated = true;
     }
 
+    public static String[] getGeneratedTags() {
+        return generatedTags;
+    }
+
+    public static boolean areTagsGenerated() {
+        return tagsGenerated;
+    }
+
+
     /**
-     * Sets whether the categories have been generated or not.
-     * @param generated boolean representing whether the categories have been generated.
+     * Resets the categories list and sets categoriesGenerated to false.
+     * @param fullReset Whether to reset the tags as well.
      */
-    public static void setCategoriesGenerated(boolean generated) {
-        categoriesGenerated = generated;
+    public static void resetCategories(Boolean fullReset) {
+        allCategories.clear();
+        if (fullReset) {
+            tagsGenerated = false;
+        }
     }
 
     /**
@@ -42,6 +86,5 @@ public class CategoryService {
      */
     public static void resetCategories() {
         allCategories.clear();
-        categoriesGenerated = false;
     }
 }
