@@ -16,6 +16,8 @@ import seng202.team1.services.RecommendWineService;
 import seng202.team1.services.WineCategoryService;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,30 +38,28 @@ public class MainController {
      * Initializes the main page view.
      */
     public void initialize() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.executeWithLoadingScreen(() -> {
-            WineCategoryService.getInstance().resetCurrentCategory();
-            helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
+        WineCategoryService.getInstance().resetCurrentCategory();
+        helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
 
-            if (!CategoryService.isCategoriesGenerated()) {
-                generateAllCategories();
-            }
+        if (!CategoryService.isCategoriesGenerated()) {
+            generateAllCategories();
+        }
 
-            Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
-            if (hasRecommended) {
-                displayCategoriesWithRec();
-            } else {
-                displayCategoriesNoRec();
-            }
-        });
+        Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
+        if (hasRecommended) {
+            displayCategoriesWithRec();
+        } else {
+            displayCategoriesNoRec();
+        }
     }
+
 
     /**
      * Generates all the wine category displays for the main page.
      */
     private void generateAllCategories() {
         try {
-            String[] tags = {
+            String[] tags = { // TODO: Current problem lies in generation of the titles, instead just remove comma from tag
                     "Bordeaux, Merlot",
                     "Marlborough, Sauvignon Blanc",
                     "Tuscany, Sangiovese",
@@ -67,13 +67,36 @@ public class MainController {
                     "Spain, Rioja, Tempranillo",
                     "Mendoza, Malbec",
                     "US, Napa Valley, Cabernet Sauvignon",
-                    "Central Otago, Pinot Noir, New Zealand"
+                    "Central Otago, Pinot Noir, New Zealand",
+                    "Chianti Classico, Sangiovese",
+                    "Champagne, Pinot Meunier",
+                    "Provence, Rosé",
+                    "Veneto, Prosecco",
+                    "Bordeaux, Cabernet Franc",
+                    "Hunter Valley, Semillon",
+                    "Willamette Valley, Pinot Gris",
+                    "Burgundy, Chardonnay",
+                    "Sonoma, Coast Zinfandel",
+                    "Mosel, Riesling",
+                    "Puglia, Primitivo",
+                    "South Africa, Chenin Blanc",
+                    "Rheingau, Silvaner",
+                    "Alsace, Gewurztraminer",
+                    "Tuscany, Vermentino",
+                    "Loire Valley, Sauvignon Blanc",
+                    "Languedoc, Grenache",
+                    "Wairarapa, Pinot Noir"
             };
+
+            List<String> tagsList = Arrays.asList(tags);
+            Collections.shuffle(tagsList);
+            tags = tagsList.toArray(new String[0]);
 
             List<Parent> allCategories = CategoryService.getAllCategories();
 
-            for (String tag : tags) {
-                Parent parent = WineCategoryDisplayController.createCategory(tag);
+            for (int i = 0; i < tags.length && i < 8; i++) {
+                System.out.println("Generating category: " + tags[i]);
+                Parent parent = WineCategoryDisplayController.createCategory(tags[i]);
                 allCategories.add(parent);
             }
 
@@ -123,5 +146,14 @@ public class MainController {
             }
         });
 
+    }
+
+    /**
+     * Refreshes the selection of wines in the main page.
+     */
+    @FXML
+    private void refreshCategories() {
+        CategoryService.resetCategories();
+        FXWrapper.getInstance().getNavigationController().loadMainScreen();
     }
 }

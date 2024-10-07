@@ -101,7 +101,7 @@ public class WineCategoryDisplayController {
                 seeMoreButton.setVisible(false);
             }
         } else {
-            titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()));
+            titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle());
         }
         if (displayWines.isEmpty()) {
             if (isWishlist) {
@@ -109,7 +109,7 @@ public class WineCategoryDisplayController {
             } else if (isRecommendations) {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
-                titleText.setText(WineCategoryService.getInstance().getCategoryTitles().get(WineCategoryService.getInstance().getCurrentCategory()) +
+                titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle() +
                         "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
             }
             leftArrowButton.setDisable(true);
@@ -398,7 +398,7 @@ public class WineCategoryDisplayController {
 
         savedWineList = SearchWineService.getInstance().getWineList();
         savedSearchString = searchString;
-
+        WineCategoryService.getInstance().setCurrentCategoryTitle(searchString);
 
         FXMLLoader fxmlLoader = new FXMLLoader(WineCategoryDisplayController.class
                 .getResource("/fxml/wineCategoryDisplay.fxml"));
