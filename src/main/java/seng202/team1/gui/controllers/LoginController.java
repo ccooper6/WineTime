@@ -92,7 +92,7 @@ public class LoginController {
 
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (confirmPasswordField.isVisible()) {
-                if (newValue.equals(confirmPasswordField.getText())) {
+                if (newValue.equals(confirmPasswordField.getText()) && !newValue.isEmpty()) {
                     passwordField.setStyle("-fx-border-color: GREEN");
                     confirmPasswordField.setStyle("-fx-border-color: GREEN");
                 } else {
@@ -161,6 +161,12 @@ public class LoginController {
                 } else {
                     onLoginPressed();
                 }
+            }
+        });
+
+        confirmPasswordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onCreateUserPressed();
             }
         });
     }
