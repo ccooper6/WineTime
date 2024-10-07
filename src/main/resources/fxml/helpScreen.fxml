@@ -3,27 +3,36 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.HelpController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0" vvalue="0.76">
+      <ScrollPane hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0">
          <content>
-            <VBox prefHeight="5000.0" prefWidth="998.0">
+            <VBox alignment="CENTER" maxWidth="694.0" prefHeight="4000.0" prefWidth="694.0">
                <children>
-                  <Label prefHeight="69.0" prefWidth="236.0" text="WineTime">
-                     <padding>
-                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
-                     </padding>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label prefHeight="163.0" prefWidth="570.0" text="WineTime is an application designed to help users find, track, log, and review wines. There are a number of features that WineTime provides and this page outlines a guide on how to get the most out of WineTime, presented in the order that you will most likely use the app." wrapText="true">
+                  <HBox maxWidth="280.0" minWidth="280.0" prefHeight="120.0" prefWidth="280.0">
+                     <children>
+                        <ImageView fx:id="wineTimeText" fitHeight="100.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Pane maxHeight="120.0" minHeight="120.0" minWidth="120.0" prefHeight="120.0" prefWidth="120.0">
+                           <children>
+                              <Circle fill="#b5b5b5" layoutX="60.0" layoutY="60.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <ImageView fx:id="wineTimeLogo" fitHeight="95.0" fitWidth="65.0" layoutX="28.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
+                  <Label prefHeight="102.0" prefWidth="570.0" text="WineTime is an application designed to help users find, track, log, and review wines. There are a number of features that WineTime provides and this page outlines a guide on how to get the most out of WineTime, presented in the order that you will most likely use the app." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -40,9 +49,6 @@
                      </font>
                   </Label>
                   <ImageView fx:id="loginHelp" fitHeight="382.0" fitWidth="545.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/loginHelp.gif" />
-                     </image>
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -64,9 +70,6 @@
                      </font>
                   </Label>
                   <ImageView fx:id="homePageHelp" fitHeight="382.0" fitWidth="545.0" layoutX="35.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/homePageHelp.gif" />
-                     </image>
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -88,9 +91,6 @@
                      </font>
                   </Label>
                   <ImageView fx:id="searchPageHelp" fitHeight="382.0" fitWidth="545.0" layoutX="35.0" layoutY="744.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/homePageHelp.gif" />
-                     </image>
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -112,9 +112,6 @@
                      </font>
                   </Label>
                   <ImageView fx:id="winePopUpHelp" fitHeight="382.0" fitWidth="545.0" layoutX="35.0" layoutY="1458.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/winePopupHelp.gif" />
-                     </image>
                      <VBox.margin>
                         <Insets left="30.0" />
                      </VBox.margin>
@@ -136,9 +133,6 @@
                      </font>
                   </Label>
                   <ImageView fx:id="reviewWineHelp" fitHeight="382.0" fitWidth="545.0" layoutX="40.0" layoutY="1968.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/winePopupHelp.gif" />
-                     </image>
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -159,10 +153,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="reviewWineHelp1" fitHeight="260.0" fitWidth="551.0" layoutX="35.0" layoutY="2477.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../Downloads/wishListHelp.gif" />
-                     </image>
+                  <ImageView fx:id="wishListHelp" fitHeight="260.0" fitWidth="551.0" layoutX="35.0" layoutY="2477.0" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -184,9 +175,6 @@
                      </font>
                   </Label>
                   <ImageView fx:id="profilePageHelp" fitHeight="382.0" fitWidth="545.0" layoutX="40.0" layoutY="1899.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/winePopupHelp.gif" />
-                     </image>
                      <VBox.margin>
                         <Insets left="25.0" />
                      </VBox.margin>
@@ -200,6 +188,9 @@
                      </padding>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="340.0" />
+               </padding>
             </VBox>
          </content>
       </ScrollPane>

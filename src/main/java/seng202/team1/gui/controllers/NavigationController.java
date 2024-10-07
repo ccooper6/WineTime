@@ -410,6 +410,6 @@ public class NavigationController {
      * Sends the user to the help page when the help button is clicked.
      */
     public void onHelpClicked() {
-        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("help")));
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("helpScreen")));
     }
 }
