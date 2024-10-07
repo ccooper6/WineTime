@@ -386,28 +386,32 @@ public class WineCategoryDisplayController {
      * @throws IOException if fxmlLoader cannot load the display
      * @return the parent of the new category
      */
-    public static Parent createCategory(String searchString) throws IOException {
+    public static Parent createCategory(String searchString) {
+        try {
+            if (searchString.equalsIgnoreCase("wishlist")) {
+                SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
+            } else if (searchString.equalsIgnoreCase("recommend")) {
+                SearchWineService.getInstance().searchWinesByRecommend(10);
+            } else {
+                SearchWineService.getInstance().searchWinesByTags(searchString, 10);
+            }
 
-        if (searchString.equalsIgnoreCase("wishlist")) {
-            SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
-        } else if (searchString.equalsIgnoreCase("recommend")) {
-            SearchWineService.getInstance().searchWinesByRecommend(10);
-        } else {
-            SearchWineService.getInstance().searchWinesByTags(searchString, 10);
+            savedWineList = SearchWineService.getInstance().getWineList();
+            savedSearchString = searchString;
+            WineCategoryService.getInstance().setCurrentCategoryTitle(searchString);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(WineCategoryDisplayController.class
+                    .getResource("/fxml/wineCategoryDisplay.fxml"));
+            Parent parent = fxmlLoader.load();
+            // Have to do this as it requires multiple loops to finish completely
+            // - need to use for "A Task Which Returns Partial Results", from the Task documentation
+            if (!searchString.equalsIgnoreCase("recommend")) {
+                WineCategoryService.getInstance().incrementCurrentCategory();
+            }
+            return parent;
+        } catch (IOException e) {
+            LOG.error("Error in WineCategoryDisplayController.createCategory: Could not load fxml content for category {}", searchString);
+            return null;
         }
-
-        savedWineList = SearchWineService.getInstance().getWineList();
-        savedSearchString = searchString;
-        WineCategoryService.getInstance().setCurrentCategoryTitle(searchString);
-
-        FXMLLoader fxmlLoader = new FXMLLoader(WineCategoryDisplayController.class
-                .getResource("/fxml/wineCategoryDisplay.fxml"));
-        Parent parent = fxmlLoader.load();
-        // Have to do this as it requires multiple loops to finish completely
-        // - need to use for "A Task Which Returns Partial Results", from the Task documentation
-        if (!searchString.equalsIgnoreCase("recommend")) {
-            WineCategoryService.getInstance().incrementCurrentCategory();
-        }
-        return parent;
     }
 }
