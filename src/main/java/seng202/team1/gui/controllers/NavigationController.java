@@ -31,6 +31,7 @@ import java.io.IOException;
  * Controller class for the navigation.fxml page.
  * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
+@SuppressWarnings("checkstyle:RightCurly")
 public class NavigationController {
     @FXML
     private FontAwesomeIconView dropdownButton;
@@ -383,27 +384,27 @@ public class NavigationController {
      * Sends the user to the wine log page when the log button is clicked.
      */
     public void onLogsClicked() {
-        FXWrapper.getInstance().launchSubPage("wineReviews");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wineReviews")));
     }
 
     /**
      * Sends the user to the wishlist page when the heart icon is clicked.
      */
     public void onLikesClicked() {
-        FXWrapper.getInstance().launchSubPage("wishlist");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wishlist")));
     }
 
     /**
      * Sends the user to the profile page when the user button is clicked.
      */
     public void onUserClicked() {
-        FXWrapper.getInstance().launchSubPage("profile");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("profile")));
     }
 
     /**
      * Sends the user to the help page when the help button is clicked.
      */
     public void onHelpClicked() {
-        FXWrapper.getInstance().launchSubPage("helpScreen");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("help")));
     }
 }
