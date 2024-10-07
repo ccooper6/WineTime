@@ -130,7 +130,7 @@ public class ProfileController {
         }
         if (tagRankingService.hasEnoughDislikedTags(uid)) {
             notEnoughDisliked.setVisible(false);
-            createPie(hateTagPie, tagRankingService.getLowestTagData(uid, 5), "Your top 5 liked tags");
+            createPie(hateTagPie, tagRankingService.getLowestTagData(uid, 5), "Your top 5 disliked tags");
         } else {
             notEnoughDisliked.setVisible(true);
             createEmptyPie(hateTagPie, "Your top 5 disliked tags");
