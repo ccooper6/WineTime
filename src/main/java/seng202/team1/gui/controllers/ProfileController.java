@@ -176,7 +176,6 @@ public class ProfileController {
      */
     @FXML
     public void displayWishlist() {
-        WineCategoryService.getInstance().resetCurrentCategory();
         LOG.info("Fetching wishlist.");
 
         Parent parent = WineCategoryDisplayController.createCategory("wishlist");

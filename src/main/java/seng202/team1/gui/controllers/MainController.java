@@ -36,7 +36,6 @@ public class MainController {
      * Initializes the main page view.
      */
     public void initialize() {
-        WineCategoryService.getInstance().resetCurrentCategory();
         helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
 
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
