@@ -66,10 +66,6 @@ public class SearchWineController {
     private TextField gotoTextField;
     @FXML
     private Button gotoButton;
-    @FXML
-    private Button clearFiltersButton;
-    @FXML
-    private Button applyFiltersButton;
 
     @FXML
     private SearchableComboBox<String> varietyComboBox;

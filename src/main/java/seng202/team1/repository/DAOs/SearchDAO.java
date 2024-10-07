@@ -206,9 +206,10 @@ public class SearchDAO {
      * @param lowerVintage the lowest vintage a wine can have.
      * @param upperVintage the highest vintage a wine can have.
      * @param filterString the string that must match to a wines title.
+     * @param limit the maximum number of wines to fetch
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString)
+    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit)
     {
         for (String tag : tagList) {
             if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
@@ -235,6 +236,10 @@ public class SearchDAO {
 
             try (ResultSet rs = searchPS.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
+
+                if (wineList.size() >= limit) {
+                    wineList = new ArrayList<>(wineList.subList(0, limit));
+                }
             }
         } catch (SQLException e) {
             LOG.error("Error: Could not perform search for wines with filter, {}", e.getMessage());

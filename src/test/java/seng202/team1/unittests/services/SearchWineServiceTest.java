@@ -3,6 +3,7 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
+import seng202.team1.models.TagType;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
@@ -410,7 +411,7 @@ public class SearchWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
+        logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
         User.setCurrenUser(new User(1, "user1", "User1"));
         SearchWineService.getInstance().searchWinesByRecommend(10);
         ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
@@ -445,7 +446,7 @@ public class SearchWineServiceTest {
     @Test
     public void testSetCurrentWine() {
         WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5);
-        wineBuilder.setVariety("Früburgunder");
+        wineBuilder.setTag(TagType.VINTAGE, "Früburgunder");
         Wine wine = wineBuilder.build();
         SearchWineService.getInstance().setCurrentWine(wine);
         assertEquals(wine, SearchWineService.getInstance().getCurrentWine());

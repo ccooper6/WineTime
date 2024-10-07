@@ -2,7 +2,6 @@ package seng202.team1.repository.DAOs;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.models.User;
 import seng202.team1.repository.DatabaseManager;
 
@@ -58,7 +57,13 @@ public class UserDAO {
         }
     }
 
-    public int add(User toAdd) throws DuplicateEntryException {
+    /**
+     * Adds a new user to the database
+     *
+     * @param toAdd The user to add. Must contain username, hashed password and name
+     * @return The result of the sql query. 0 if user already exists, 1 if successful, 2 if an error occurred
+     */
+    public int add(User toAdd) {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -96,18 +101,6 @@ public class UserDAO {
         } catch (SQLException e) {
             LOG.error("Error: Could not get user's name {}", e.getMessage());
             return null;
-        }
-    }
-
-    public void delete(int id) {
-        String sql = "DELETE FROM user WHERE id = ?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setInt(1, id);
-            userPS.executeUpdate();
-
-        } catch (SQLException e) {
-            LOG.error("Error: Could not delete user, {}", e.getMessage());
         }
     }
 }

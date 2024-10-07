@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class RecommendWineService {
     private static final Logger LOG = LogManager.getLogger(RecommendWineService.class);
     private static RecommendWineService instance;
-    private SearchDAO searchDAO;
-    private LogWineDao logWineDao;
+    private final SearchDAO searchDAO;
+    private final LogWineDao logWineDao;
 
     public static RecommendWineService getInstance() {
         if (instance == null) {
@@ -55,7 +55,7 @@ public class RecommendWineService {
         ArrayList<String> dislikedTags = logWineDao.getDislikedTags(uid);
         recommendedWines = searchDAO.getRecommendedWines(likedTags,dislikedTags,winesToAvoid,limit);
         if (recommendedWines.isEmpty()) {
-            dislikedTags = new ArrayList<String>();
+            dislikedTags = new ArrayList<>();
             LOG.info("NOT ENOUGH WINES IN RECOMMENDED");
             recommendedWines = searchDAO.getRecommendedWines(likedTags,dislikedTags,winesToAvoid,limit);
         } else {

@@ -5,12 +5,17 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.models.TagType;
 import seng202.team1.repository.DatabaseManager;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 
 // TODO DOCSTRINGS PLS
@@ -138,4 +143,22 @@ public class TagDAO {
         }
     }
 
+
+    /**
+     * This method takes the url of a wine varieties text file and puts all of them in a set.
+     * @param url the filepath of the text file.
+     * @param variety the set to put the lines of the text file in.
+     */
+    public void addWineToSet(InputStream url, HashSet<String> variety) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(url));
+            String varietyName;
+            while ((varietyName = br.readLine()) != null) {
+                variety.add(varietyName);
+            }
+        } catch (IOException e ) {
+            LOG.error("Error: Could not add wines from text file, {}", e.getMessage());
+        }
+
+    }
 }

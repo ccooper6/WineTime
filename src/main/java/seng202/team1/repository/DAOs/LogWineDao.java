@@ -255,7 +255,7 @@ public class LogWineDao {
      */
     public HashMap<String, Integer> getMostDislikedTags(int uid, int limit) {
         HashMap<String, Integer> likedTags = new HashMap<>();
-        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value < 0 ORDER BY value ASC LIMIT ?";
+        String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value < 0 ORDER BY value LIMIT ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(likePs)) {
                 ps.setInt(1, uid);
@@ -501,6 +501,7 @@ public class LogWineDao {
             }
         } catch (SQLException e) {
             LOG.error("Error: Could not get wine, {}", e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

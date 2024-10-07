@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class WishlistService {
     /**
      * Checks the existence of a wine in the wishlist.
-     * @param wineID int value repr wine object
-     * @param userID int value repr active user
+     * @param wineID int of the wine object to check
+     * @param userID user id for user to add wishlist to
      * @return true if in wishlist, else false
      */
     public static boolean checkInWishlist(int wineID, int userID) {
@@ -24,8 +24,8 @@ public class WishlistService {
 
     /**
      * Matches a wine with a user in the wishlist table.
-     * @param wineID int value repr wine object
-     * @param userID int value repr active user
+     * @param wineID int of the wine object to add
+     * @param userID user id for user to add wishlist to
      */
     public static void addToWishlist(int wineID, int userID) {
         WishlistDAO wishlistDAO = WishlistDAO.getInstance();
@@ -36,8 +36,8 @@ public class WishlistService {
 
     /**
      * Deletes a pairing of a user and wine in the wishlist table.
-     * @param wineID int value repr wine object
-     * @param userID int value repr active user
+     * @param wineID int of the wine object to add
+     * @param userID user id for user to add wishlist to
      * @throws SQLException throws when trying to remove a wine from the wishlist that isn't there
      */
     public static void removeFromWishlist(int wineID, int userID) throws SQLException {
@@ -51,10 +51,10 @@ public class WishlistService {
 
     /**
      * Gets the wines which match with the current user in the wishlist table as an array.
-     * @param userId is the id of the active user
+     * @param userID user id for user to add wishlist to
      * @return wineList array of wines from the user's wishlist
      */
-    public static ArrayList<Wine> getWishlistWines(int userId) {
-        return WishlistDAO.getInstance().fetchWines(userId);
+    public static ArrayList<Wine> getWishlistWines(int userID) {
+        return WishlistDAO.getInstance().fetchWines(userID);
     }
 }

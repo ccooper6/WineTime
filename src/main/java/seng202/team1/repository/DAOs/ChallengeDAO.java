@@ -119,18 +119,6 @@ public class ChallengeDAO {
         }
     }
 
-
-    /**
-     * Puts the challenge into the copy database with a fixed name and description.
-     */
-    public void initaliseChallenge() {
-        if (!challengeExists()) {
-            insertChallenge("Variety Challenge", "Expand your palate with the variety challenge, "
-                    + "this challenge encourages you to explore wines of different varieties, with wines of a range of "
-                    + "colours, from different places and different grapes.");
-        }
-    }
-
     /**
      * Inserts the wine into the challenge.
      * @param wineIds an array list of integer wine id
