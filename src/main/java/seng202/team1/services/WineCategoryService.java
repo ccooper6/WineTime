@@ -8,8 +8,6 @@ import java.util.Arrays;
  * @author Isaac Macdonald
  */
 public class WineCategoryService {
-
-    private int currentCategory = 0;
     private String currentCategoryTitle;
     private static WineCategoryService instance;
 
@@ -24,15 +22,6 @@ public class WineCategoryService {
             instance = new WineCategoryService();
         }
         return instance;
-    }
-
-    /**
-     * This method gets the current category to set the title.
-     * @return the current category
-     */
-    public int getCurrentCategory()
-    {
-        return currentCategory;
     }
 
     /**
@@ -51,21 +40,5 @@ public class WineCategoryService {
     public void setCurrentCategoryTitle(String title) {
         title = title.replace(",", "");
         currentCategoryTitle = title;
-    }
-
-    /**
-     * This method increments current category.
-     */
-    public void incrementCurrentCategory()
-    {
-        currentCategory++;
-    }
-
-    /**
-     * This method resets the current category to 0.
-     */
-    public void resetCurrentCategory()
-    {
-        currentCategory = 0;
     }
 }

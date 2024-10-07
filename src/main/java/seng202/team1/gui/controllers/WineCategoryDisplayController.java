@@ -402,13 +402,8 @@ public class WineCategoryDisplayController {
 
             FXMLLoader fxmlLoader = new FXMLLoader(WineCategoryDisplayController.class
                     .getResource("/fxml/wineCategoryDisplay.fxml"));
-            Parent parent = fxmlLoader.load();
-            // Have to do this as it requires multiple loops to finish completely
-            // - need to use for "A Task Which Returns Partial Results", from the Task documentation
-            if (!searchString.equalsIgnoreCase("recommend")) {
-                WineCategoryService.getInstance().incrementCurrentCategory();
-            }
-            return parent;
+
+            return fxmlLoader.load();
         } catch (IOException e) {
             LOG.error("Error in WineCategoryDisplayController.createCategory: Could not load fxml content for category {}", searchString);
             return null;

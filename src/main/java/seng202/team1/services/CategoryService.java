@@ -15,7 +15,7 @@ public class CategoryService {
     private static boolean categoriesGenerated = false;
 
     /**
-     * Returns a list of generated wine categories.
+     * Returns a list of generated wine categories.w
      * @return List of Parent objects representing wine categories.
      */
     public static List<Parent> getAllCategories() {
