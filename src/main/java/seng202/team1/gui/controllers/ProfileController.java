@@ -176,17 +176,11 @@ public class ProfileController {
      */
     @FXML
     public void displayWishlist() {
-        WineCategoryService.getInstance().resetCurrentCategory();
         LOG.info("Fetching wishlist.");
-        int currentUserUid = User.getCurrentUser().getId();
 
-        try {
-            Parent parent = WineCategoryDisplayController.createCategory("wishlist");
-            wishlistPane.getChildren().add(parent);
+        Parent parent = WineCategoryDisplayController.createCategory("wishlist");
+        wishlistPane.getChildren().add(parent);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -205,8 +199,6 @@ public class ProfileController {
         navigationController.closePopUp();
         navigationController.loadSelectChallengePopUpContent();
     }
-
-
 
     /**
      * Displays the challenge wines using the wine mini displays.

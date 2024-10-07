@@ -8,10 +8,7 @@ import java.util.Arrays;
  * @author Isaac Macdonald
  */
 public class WineCategoryService {
-
-    private int currentCategory = 0;
-    private final ArrayList<String> categoryTitles = new ArrayList<>(Arrays.asList("Bordeaux Merlot", "Marlborough Sauvignon Blanc", "Tuscany Sangiovese", "Hawke's Bay Syrah",
-                                                                     "Rioja Tempranillo", "Mendoza Malbec", "Napa Valley Cabernet Sauvignon", "Central Otago Pinot Noir"));
+    private String currentCategoryTitle;
     private static WineCategoryService instance;
 
     /**
@@ -28,36 +25,20 @@ public class WineCategoryService {
     }
 
     /**
-     * This method gets the current category to set the title.
-     * @return the current category
-     */
-    public int getCurrentCategory()
-    {
-        return currentCategory;
-    }
-
-    /**
      * Gets the category titles to set the current category title.
      * @return the category titles arraylist.
      */
-    public ArrayList<String> getCategoryTitles()
+    public String getCurrentCategoryTitle()
     {
-        return categoryTitles;
+        return currentCategoryTitle;
     }
 
     /**
-     * This method increments current category.
+     * This method sets the current category title.
+     * @param title the title to set
      */
-    public void incrementCurrentCategory()
-    {
-        currentCategory++;
-    }
-
-    /**
-     * This method resets the current category to 0.
-     */
-    public void resetCurrentCategory()
-    {
-        currentCategory = 0;
+    public void setCurrentCategoryTitle(String title) {
+        title = title.replace(",", "");
+        currentCategoryTitle = title;
     }
 }

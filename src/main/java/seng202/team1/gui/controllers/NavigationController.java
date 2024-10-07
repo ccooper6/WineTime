@@ -213,7 +213,7 @@ public class NavigationController {
         LOG.info("Logging out user " + User.getCurrentUser().getName());
 
         User.setCurrenUser(null);
-        CategoryService.resetCategories();
+        CategoryService.resetCategories(true);
         FXWrapper.getInstance().launchPage("login");
     }
 
