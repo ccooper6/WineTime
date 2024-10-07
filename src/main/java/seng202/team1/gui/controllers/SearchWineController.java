@@ -2,6 +2,7 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import impl.org.controlsfx.skin.SearchableComboBoxSkin;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -763,15 +764,27 @@ public class SearchWineController {
      */
     public void resetFilters() {
 
-        countryComboBox.setValue(null);
-        countryComboBox.setPromptText("Country");
+        //This try block can throw a null pointer exception when the skin is null.
+        // However this can be safely ignored.
+        try {
+            countryComboBox.setValue(null);
+            countryComboBox.setSkin(new SearchableComboBoxSkin<>(countryComboBox));
+        } catch (Exception ignore){}
 
-        varietyComboBox.setValue(null);
-        varietyComboBox.setPromptText("Variety");
+        //This try block can throw a null pointer exception when the skin is null.
+        // However this can be safely ignored.
+        try {
+            varietyComboBox.setValue(null);
+            varietyComboBox.setSkin(new SearchableComboBoxSkin<>(varietyComboBox));
+        } catch (Exception ignore){}
 
 
-        wineryComboBox.setValue(null);
-        wineryComboBox.setPromptText("Winery");
+        //This try block can throw a null pointer exception when the skin is null.
+        // However this can be safely ignored.
+        try {
+            wineryComboBox.setValue(null);
+            wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
+        } catch (Exception ignore){}
 
 
         priceSlider.setLowValue(priceSlider.getMin());
