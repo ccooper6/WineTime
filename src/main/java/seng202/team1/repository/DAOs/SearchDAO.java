@@ -105,12 +105,13 @@ public class SearchDAO {
     {
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
-                .append("FROM (SELECT id as temp_id\n")
-                .append("        FROM (SELECT id, count(wid) as c\n")
-                .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
-                .append("                        JOIN tag on owned_by.tname = tag.name\n")
-                .append("              WHERE tag.normalised_name IN (");
+        sqlBuilder.append("""
+                    SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type
+                    FROM (SELECT id as temp_id
+                            FROM (SELECT id, count(wid) as c
+                                  FROM wine JOIN owned_by on wine.id = owned_by.wid
+                                            JOIN tag on owned_by.tname = tag.name
+                                  WHERE tag.normalised_name IN (""");
 
         // Add placeholders
         for (int i = 0; i < numTags; i++) {
@@ -119,13 +120,14 @@ public class SearchDAO {
             }
             sqlBuilder.append("?");
         }
-        sqlBuilder.append(")\n")
-                .append("              GROUP BY wid)\n")
-                .append("        WHERE c = ? LIMIT ?)\n")
-                .append("JOIN wine on wine.id = temp_id\n")
-                .append("JOIN owned_by on id = owned_by.wid\n")
-                .append("JOIN tag on owned_by.tname = tag.name\n")
-                .append("ORDER BY id;");
+        sqlBuilder.append("""
+                    )
+                                  GROUP BY wid)
+                            WHERE c = ? LIMIT ?)
+                    JOIN wine on wine.id = temp_id
+                    JOIN owned_by on id = owned_by.wid
+                    JOIN tag on owned_by.tname = tag.name
+                    ORDER BY id;""");
 
         return sqlBuilder.toString();
     }
@@ -169,12 +171,13 @@ public class SearchDAO {
     {
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type\n")
-                .append("FROM (SELECT id as temp_id\n")
-                .append("        FROM (SELECT id, count(wid) as c\n")
-                .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
-                .append("                        JOIN tag on owned_by.tname = tag.name\n")
-                .append("              WHERE tag.normalised_name IN (");
+        sqlBuilder.append("""
+                    SELECT id, wine.name as wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type
+                    FROM (SELECT id as temp_id
+                          FROM (SELECT id, count(wid) as c
+                              FROM wine JOIN owned_by on wine.id = owned_by.wid
+                              JOIN tag on owned_by.tname = tag.name
+                          WHERE tag.normalised_name IN (""");
 
         // Add placeholders
         for (int i = 0; i < numTags; i++) {
@@ -183,16 +186,16 @@ public class SearchDAO {
             }
             sqlBuilder.append("?");
         }
-        sqlBuilder.append(")\n")
-                .append("              OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?\n")
-                .append("              GROUP BY wid)\n")
-                .append("        WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage')))\n")
-                .append("JOIN wine on wine.id = temp_id\n")
-                .append("JOIN owned_by on id = owned_by.wid\n")
-                .append("JOIN tag on owned_by.tname = tag.name\n")
-                .append("WHERE points >= ? AND points <= ?")
-                .append("AND wine_name like ?")
-                .append("ORDER BY id;");
+        sqlBuilder.append("""
+                    )
+                                  OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?
+                                  GROUP BY wid)
+                            WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage')))
+                    JOIN wine on wine.id = temp_id
+                    JOIN owned_by on id = owned_by.wid
+                    JOIN tag on owned_by.tname = tag.name
+                    WHERE points >= ? AND points <= ?
+                    AND wine_name like ?;""");
 
         return sqlBuilder.toString();
     }
@@ -324,8 +327,6 @@ public class SearchDAO {
                 }
                 sqlBuilder.append("?");
             }
-        } else {
-            sqlBuilder.append("''");
         }
         sqlBuilder.append(")\n");
     }
@@ -336,10 +337,11 @@ public class SearchDAO {
      * @param sqlBuilder the PS string builder
      */
     private static void addTagsToAvoidToPs(int numTagsToAvoid, StringBuilder sqlBuilder) {
-        sqlBuilder.append("      AND id NOT IN (SELECT id\n")
-                .append("                       FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
-                .append("                                 JOIN tag on owned_by.tname = tag.name\n")
-                .append("                       WHERE tag.name IN (");
+        sqlBuilder.append("""
+                      AND id NOT IN (SELECT id
+                                     FROM wine JOIN owned_by on wine.id = owned_by.wid
+                                               JOIN tag on owned_by.tname = tag.name
+                                     WHERE tag.name IN (""");
 
         addTag(sqlBuilder, numTagsToAvoid);
 
@@ -367,9 +369,6 @@ public class SearchDAO {
      */
     private static void addTag(StringBuilder sqlBuilder, int numTags)
     {
-        if (numTags == 0) {
-            sqlBuilder.append("''");
-        }
         for (int i = 0; i < numTags; i++) {
             if (i > 0) {
                 sqlBuilder.append(",");
@@ -383,19 +382,40 @@ public class SearchDAO {
      * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
      */
     private static void initializeSqlRecommendedString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid) {
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
-                .append("FROM (SELECT id as temp_id, count(id) as c\n")
-                .append("      FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
-                .append("                JOIN tag on owned_by.tname = tag.name\n");
+        sqlBuilder.append("""
+                    SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type
+                    FROM (SELECT id as temp_id, count(id) as c
+                          FROM wine JOIN owned_by on wine.id = owned_by.wid
+                                    JOIN tag on owned_by.tname = tag.name
+                    """);
         addLikedTagsToPs(tagsLiked.size(),sqlBuilder);
         addTagsToAvoidToPs(dislikedTags.size(), sqlBuilder);
         addWineIdToAvoidToPs(winesToAvoid.size(), sqlBuilder);
         sqlBuilder.append("""
-                      GROUP BY temp_id
-                      ORDER BY c DESC, random()
-                      LIMIT ?)
-                         JOIN wine ON wine.id = temp_id
-                         JOIN owned_by ON wine.id = owned_by.wid
-                      JOIN tag ON owned_by.tname = tag.name;""");
+                    GROUP BY temp_id
+                    ORDER BY c DESC, random()
+                    LIMIT ?)
+                     JOIN wine ON wine.id = temp_id
+                     JOIN owned_by ON wine.id = owned_by.wid
+                    JOIN tag ON owned_by.tname = tag.name;""");
+    }
+
+    /**
+     * Checks the existence of a wine in the database.
+     * @param wineID the id of the wine in question
+     * @return true if present in wine table
+     */
+    public boolean checkWineExists(int wineID) {
+        String sql = "SELECT id FROM wine WHERE wine.id = ?";
+        try (Connection conn = DatabaseManager.getInstance().connect();
+             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+            wishlistPS.setInt(1, wineID);
+            try (ResultSet rs = wishlistPS.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            LOG.error("Error: Could not check if wine exists, {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

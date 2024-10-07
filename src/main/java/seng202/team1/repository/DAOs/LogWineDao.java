@@ -496,7 +496,11 @@ public class LogWineDao {
                     TagType tagType = TagType.fromString(rs.getString("tag_type"));
                     wineBuilder.setTag(tagType, rs.getString("tag_name"));
                 }
-                assert wineBuilder != null;
+
+                if (wineBuilder == null) {
+                    throw new NullPointerException("Fetched wine does not exist");
+                }
+
                 return wineBuilder.build();
             }
         } catch (SQLException e) {

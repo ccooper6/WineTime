@@ -95,6 +95,8 @@ javafx {
 test {
     useJUnitPlatform()
 
+    systemProperty 'test.env', 'env'
+
     filter {
         includeTestsMatching "seng202.team1.unittests.*"
     }

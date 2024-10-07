@@ -122,11 +122,8 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-        if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
-            System.out.println("from search page");
-        } else {
+        if (!FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
             resetFilters();
-            System.out.println("not from search page");
         }
         wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString, limit);
         prevSearch = filterString;
@@ -154,7 +151,6 @@ public class SearchWineService {
         }
         return results;
     }
-
 
     /**
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines

@@ -2,6 +2,8 @@ package seng202.team1.services;
 
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.sql.SQLException;
@@ -29,7 +31,8 @@ public class WishlistService {
      */
     public static void addToWishlist(int wineID, int userID) {
         WishlistDAO wishlistDAO = WishlistDAO.getInstance();
-        if (Wine.checkWineExists(wineID) && User.getCurrentUser().getId() > 0 && !wishlistDAO.checkWine(wineID, userID)) {
+        UserDAO userDao = new UserDAO();
+        if (SearchDAO.getInstance().checkWineExists(wineID) && userDao.userExists(userID) && !wishlistDAO.checkWine(wineID, userID)) {
             wishlistDAO.addWine(wineID, userID);
         }
     }

@@ -103,6 +103,24 @@ public class UserDAO {
             return null;
         }
     }
+
+    /**
+     * Checks whether the given user exists in the database
+     */
+    public boolean userExists(int id)
+    {
+        String sql = "SELECT id FROM user WHERE id = ?";
+        try (Connection conn = DatabaseManager.getInstance().connect();
+             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+            wishlistPS.setInt(1, id);
+            try (ResultSet rs = wishlistPS.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            LOG.error("Error: Could not check if wine exists, {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

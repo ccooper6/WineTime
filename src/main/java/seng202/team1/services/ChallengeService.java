@@ -20,7 +20,6 @@ public class ChallengeService {
 
     private final ChallengeDAO challengeDAO = new ChallengeDAO();
 
-
     /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.
      */
@@ -87,6 +86,7 @@ public class ChallengeService {
     {
         ArrayList<Integer> wines = new ArrayList<>();
         if (searchType.equals("name")) {
+            System.out.println(types.getFirst());
             SearchWineService.getInstance().searchWinesByName(types.getFirst(), 100);
         }
         for (String type : types) {
@@ -97,6 +97,7 @@ public class ChallengeService {
             }
             while (wineInvalid) {
                 Random random = new Random();
+                System.out.println(SearchWineService.getInstance().getWineList().size());
                 wine = SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId();
                 boolean winefound = false;
                 for (Integer integer : wines) {

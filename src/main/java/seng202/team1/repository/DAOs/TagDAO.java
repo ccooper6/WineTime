@@ -101,7 +101,7 @@ public class TagDAO {
      * @return the max vintage
      */
     public int getMaxVintage() {
-        String sql = "SELECT max(name) FROM tag WHERE type = ?";
+        String sql = "SELECT max(name) FROM tag WHERE type = ?;";
 
         return getIntTag(sql, TagType.VINTAGE);
     }
@@ -111,7 +111,7 @@ public class TagDAO {
      * @return the min point score
      */
     public int getMinPoints() {
-        String sql = "SELECT min(points) FROM wine";
+        String sql = "SELECT min(points) FROM wine;";
 
         return getIntTag(sql, TagType.POINTS);
     }
@@ -130,6 +130,10 @@ public class TagDAO {
     {
         try (Connection conn = databaseManager.connect();
              PreparedStatement tagPS = conn.prepareStatement(sql)) {
+            if (type == TagType.VINTAGE) {
+                tagPS.setString(1, TagType.toString(type));
+            }
+
             ResultSet rs = tagPS.executeQuery();
 
             if (rs.next()) {

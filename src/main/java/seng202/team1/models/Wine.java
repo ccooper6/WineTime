@@ -343,24 +343,4 @@ public class Wine {
 
         return false;
     }
-
-
-    /**
-     * Checks the existence of a wine in the database.
-     * @param wineID the id of the wine in question
-     * @return true if present in wine table
-     */
-    public static boolean checkWineExists(int wineID) {
-        String sql = "SELECT id FROM wine WHERE wine.id = ?";
-        try (Connection conn = DatabaseManager.getInstance().connect();
-             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
-            wishlistPS.setInt(1, wineID);
-            try (ResultSet rs = wishlistPS.executeQuery()) {
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            LOG.error("Error: Could not check if wine exists, {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -33,13 +33,13 @@ public enum TagType {
 
     public static String toString(TagType tagType) {
         return switch (tagType) {
-            case VARIETY -> "variety";
-            case PROVINCE -> "province";
-            case REGION -> "region";
-            case VINTAGE -> "vintage";
-            case COUNTRY -> "country";
-            case WINERY -> "winery";
-            case POINTS -> "points";
+            case VARIETY -> "Variety";
+            case PROVINCE -> "Province";
+            case REGION -> "Region";
+            case VINTAGE -> "Vintage";
+            case COUNTRY -> "Country";
+            case WINERY -> "Winery";
+            case POINTS -> "Points";
         };
     }
 }

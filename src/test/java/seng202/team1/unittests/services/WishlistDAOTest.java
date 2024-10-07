@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.services.UserLoginService;
@@ -45,10 +46,10 @@ public class WishlistDAOTest {
      */
     @Test
     public void testCheckWineIDBad() {
-        assertFalse(Wine.checkWineExists(999999999));
+        assertFalse(SearchDAO.getInstance().checkWineExists(999999999));
     }
     @Test
     public void testCheckWineIDGood() {
-        assertTrue(Wine.checkWineExists(1));
+        assertTrue(SearchDAO.getInstance().checkWineExists(1));
     }
 }

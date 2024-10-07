@@ -446,7 +446,7 @@ public class SearchWineServiceTest {
     @Test
     public void testSetCurrentWine() {
         WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5);
-        wineBuilder.setTag(TagType.VINTAGE, "Früburgunder");
+        wineBuilder.setTag(TagType.VARIETY, "Früburgunder");
         Wine wine = wineBuilder.build();
         SearchWineService.getInstance().setCurrentWine(wine);
         assertEquals(wine, SearchWineService.getInstance().getCurrentWine());
