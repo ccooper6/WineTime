@@ -49,6 +49,15 @@
                            <Font name="Noto Serif Regular" size="13.0" />
                         </font></TextField>
                      <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="302.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
+                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="341.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
+<!--                  <opaqueInsets>-->
+<!--                     <Insets />-->
+<!--                  </opaqueInsets>-->
+               </TextField>
+                     <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="302.0" layoutY="57.0" onMouseClicked="#onSearchIconClicked" size="30" text="" wrappingWidth="38.85714340209961">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor></FontAwesomeIconView>
                      <Circle fill="#b5b5b5" layoutX="130.0" layoutY="47.0" onMouseClicked="#onHomeClicked" radius="32.0" stroke="TRANSPARENT" strokeType="INSIDE">
                         <cursor>
                            <Cursor fx:constant="HAND" />

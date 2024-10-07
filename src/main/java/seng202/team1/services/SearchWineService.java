@@ -1,5 +1,6 @@
 package seng202.team1.services;
 
+import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
@@ -47,6 +48,21 @@ public class SearchWineService {
             instance = new SearchWineService();
         }
         return instance;
+    }
+
+    /**
+     * resets the filters back to default values.
+     */
+    public void resetFilters() {
+        currentCountryFilter = null;
+        currentWineryFilter = null;
+        currentVarietyFilter = null;
+        currentMinYear = 1821;
+        currentMaxYear = 2017;
+        currentMinPoints = 80;
+        currentMaxPoints = 100;
+        currentMinPrice = 4;
+        currentMaxPrice = 3300;
     }
 
     /**
@@ -120,8 +136,16 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-
-        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString);
+        System.out.println(System.getProperty("test.env"));
+        if (System.getProperty("test.env") == null) {
+            if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
+                System.out.println("from search page");
+            } else {
+                resetFilters();
+                System.out.println("RESET FILTERS");
+            }
+        }
+        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString, searchOrder);
         prevSearch = filterString;
         fromWishlist = false;
     }

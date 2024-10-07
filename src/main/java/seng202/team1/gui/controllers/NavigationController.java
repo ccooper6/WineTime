@@ -22,6 +22,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ import java.io.IOException;
  * Controller class for the navigation.fxml page.
  * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
+@SuppressWarnings("checkstyle:RightCurly")
 public class NavigationController {
     @FXML
     private FontAwesomeIconView dropdownButton;
@@ -47,9 +49,7 @@ public class NavigationController {
     private TextField searchBar;
 
 
-
-
-
+    private int openPopups = 0; // Counter for open popups
 
     private Parent loadingScreen;
 
@@ -124,7 +124,7 @@ public class NavigationController {
      * Launches the search wine loading screen by running it as a thread and launching the loading screen
      * to indicate to the user that there are searches being made behind the scenes.
      */
-    private void launchSearchWineLoadingScreen() {
+    public void launchSearchWineLoadingScreen() {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         nav.executeWithLoadingScreen(() -> {
         SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
@@ -132,6 +132,13 @@ public class NavigationController {
         Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
         });
         searchBar.getParent().requestFocus();
+    }
+
+    /**
+     * Launches the search page when the search icon is clicked.
+     */
+    public void onSearchIconClicked() {
+        launchSearchWineLoadingScreen();
     }
 
     /**
@@ -185,6 +192,7 @@ public class NavigationController {
         LOG.info("Logging out user " + User.getCurrentUser().getName());
 
         User.setCurrenUser(null);
+        CategoryService.resetCategories();
         FXWrapper.getInstance().launchPage("login");
     }
 
@@ -236,11 +244,16 @@ public class NavigationController {
      * Loads the wine popup when a wine is clicked by the user.
      */
     private void loadPopUpContent() {
+        if (openPopups >= 1) {
+            LOG.error("Error in NavigationController.loadPopupContent: There is already a popup open, you cannot have more than 1 at a time. Close the popup and try again.");
+            return;
+        }
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
             overlayContent = paneLoader.load();
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
+            openPopups++;
         } catch (IOException e) {
             LOG.error("Error in NavigationController.loadPopupContent: Could not load fxml content.");
         }
@@ -339,6 +352,8 @@ public class NavigationController {
     public void closePopUp() {
         if (overlayContent != null) {
             overlayContent.setVisible(false);
+            contentHere.getChildren().remove(overlayContent);
+            openPopups--;
         }
     }
 
@@ -353,27 +368,27 @@ public class NavigationController {
      * Sends the user to the wine log page when the log button is clicked.
      */
     public void onLogsClicked() {
-        FXWrapper.getInstance().launchSubPage("wineReviews");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wineReviews")));
     }
 
     /**
      * Sends the user to the wishlist page when the heart icon is clicked.
      */
     public void onLikesClicked() {
-        FXWrapper.getInstance().launchSubPage("wishlist");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wishlist")));
     }
 
     /**
      * Sends the user to the profile page when the user button is clicked.
      */
     public void onUserClicked() {
-        FXWrapper.getInstance().launchSubPage("profile");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("profile")));
     }
 
     /**
      * Sends the user to the help page when the help button is clicked.
      */
     public void onHelpClicked() {
-        FXWrapper.getInstance().launchSubPage("helpScreen");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("help")));
     }
 }

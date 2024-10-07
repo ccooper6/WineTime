@@ -10,12 +10,13 @@ import seng202.team1.services.ChallengeService;
 public class SelectChallengePopupController {
 
     private final ChallengeService challengeService = new ChallengeService();
+    private NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
     /**
      * calls challenge service method to start the variety challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startVarietyChallenge() {
-        challengeService.startChallengeVariety();
+        navigationController.executeWithLoadingScreen(challengeService::startChallengeVariety);
         launchProfile();
     }
 
@@ -23,7 +24,7 @@ public class SelectChallengePopupController {
      * calls challenge service method to start the decades challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startYearsChallenge() {
-        challengeService.startChallengeYears();
+        navigationController.executeWithLoadingScreen(challengeService::startChallengeYears);
         launchProfile();
     }
 
@@ -31,7 +32,7 @@ public class SelectChallengePopupController {
      * calls challenge service method to start the reds challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startRedsChallenge() {
-        challengeService.startChallengeReds();;
+        navigationController.executeWithLoadingScreen(challengeService::startChallengeReds);
         launchProfile();
     }
 
@@ -39,7 +40,7 @@ public class SelectChallengePopupController {
      * calls challenge service method to start the whites challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startWhitesChallenge() {
-        challengeService.startChallengeWhites();
+        navigationController.executeWithLoadingScreen(challengeService::startChallengeWhites);
         launchProfile();
     }
 
@@ -47,7 +48,7 @@ public class SelectChallengePopupController {
      * calls challenge service method to start the rose challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startRoseChallenge() {
-        challengeService.startChallengeRose();
+        navigationController.executeWithLoadingScreen(challengeService::startChallengeRose);
         launchProfile();
     }
 

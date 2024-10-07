@@ -156,7 +156,7 @@
          </cursor>
       </Button>
        <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="32.0" onMouseClicked="#changeIcon" size="25" />
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="10.0" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="4" />
+       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="10.0" prefWidth="150.0" promptText="Sort by" onAction="#dropDownClicked" stylesheets="@../style/comboBox.css" visibleRowCount="4" />
       <Label layoutX="865.0" layoutY="55.0" text="Points">
          <font>
             <Font name="Noto Serif Regular" size="13.0" />

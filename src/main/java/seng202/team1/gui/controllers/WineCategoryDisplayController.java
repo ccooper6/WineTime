@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,6 +74,7 @@ public class WineCategoryDisplayController {
     private String tags;
 
     private static final Logger LOG = LogManager.getLogger(WineCategoryDisplayController.class);
+    private static final NavigationController navigationController = new NavigationController();
 
     /**
      * Only initialises on login.
@@ -329,15 +331,19 @@ public class WineCategoryDisplayController {
     @FXML
     public void seeMore()
     {
-        if (isWishlist) {
-            FXWrapper.getInstance().launchSubPage("wishlist");
-        } else if (isRecommendations) {
-            SearchWineService.getInstance().searchWinesByRecommend(120);
-            FXWrapper.getInstance().launchSubPage("searchWine");
-        } else {
-            SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
-            FXWrapper.getInstance().launchSubPage("searchWine");
-        }
+        navigationController.executeWithLoadingScreen(() -> {
+            String subpage;
+            if (isWishlist) {
+                subpage = "wishlist";
+            } else if (isRecommendations) {
+                SearchWineService.getInstance().searchWinesByRecommend(120);
+                subpage = "searchWine";
+            } else {
+                SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+                subpage = "searchWine";
+            }
+            Platform.runLater(() -> FXWrapper.getInstance().launchSubPage(subpage));
+        });
     }
 
     /**
@@ -360,7 +366,7 @@ public class WineCategoryDisplayController {
         if (displayWines.size() >= 3) {
             mainWine3.getChildren().add(wineDisplays.get(2));
         }
-        if (displayWines.size() == 4) {
+        if (displayWines.size() >= 4) {
             mainWine4.getChildren().add(wineDisplays.get(3));
         }
         if (displayWines.size() == 5) {
