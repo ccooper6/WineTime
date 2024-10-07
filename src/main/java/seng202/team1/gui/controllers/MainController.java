@@ -14,6 +14,7 @@ import seng202.team1.services.CategoryService;
 import seng202.team1.services.RecommendWineService;
 import seng202.team1.services.WineCategoryService;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,15 @@ public class MainController {
      */
     public void initialize() {
         WineCategoryService.getInstance().resetCurrentCategory();
-        helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
+
+        LocalTime currentTime = java.time.LocalTime.now();
+        if (currentTime.isAfter(java.time.LocalTime.of(6, 0)) && currentTime.isBefore(java.time.LocalTime.of(12, 0))) {
+            helloText.setText("Good morning, " + User.getCurrentUser().getName() + "!");
+        } else if (currentTime.isAfter(java.time.LocalTime.of(12, 0)) && currentTime.isBefore(java.time.LocalTime.of(5, 0))) {
+            helloText.setText("Good afternoon, " + User.getCurrentUser().getName() + "!");
+        } else {
+            helloText.setText("Good evening, " + User.getCurrentUser().getName() + "!");
+        }
 
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
