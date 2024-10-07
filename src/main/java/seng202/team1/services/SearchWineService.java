@@ -145,7 +145,7 @@ public class SearchWineService {
                 System.out.println("RESET FILTERS");
             }
         }
-        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString);
+        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString, searchOrder);
         prevSearch = filterString;
         fromWishlist = false;
     }

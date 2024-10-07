@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.services.SearchWineService;
 
 import java.sql.*;
 import java.text.Normalizer;
@@ -222,15 +221,16 @@ public class SearchDAO {
     /**
      * Searches for wines given a String of tags.
      *
-     * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
-     * @param lowerPoints the lowest amount of points that a wine can have.
-     * @param upperPoints the highest amounts of points that a wine can have.
+     * @param tagList      {@link String} of tag names seperated by commas. Must be normalised and lower case.
+     * @param lowerPoints  the lowest amount of points that a wine can have.
+     * @param upperPoints  the highest amounts of points that a wine can have.
      * @param lowerVintage the lowest vintage a wine can have.
      * @param upperVintage the highest vintage a wine can have.
      * @param filterString the string that must match to a wines title.
+     * @param orderBy
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString)
+    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, String orderBy)
     {
         for (String tag : tagList) {
             if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
@@ -256,13 +256,17 @@ public class SearchDAO {
         sqlBuilder.append(")\n")
                 .append("              OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?\n")
                 .append("              GROUP BY wid)\n")
-                .append("        WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage')))\n")
-                .append("JOIN wine on wine.id = temp_id\n")
+                .append("        WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage'");
+        sqlBuilder.append(")))\nJOIN wine on wine.id = temp_id\n")
                 .append("JOIN owned_by on id = owned_by.wid\n")
                 .append("JOIN tag on owned_by.tname = tag.name\n")
                 .append("WHERE points >= ? AND points <= ?")
-                .append("AND wine_name like ?")
-                .append("ORDER BY id;");
+                .append("AND wine_name like ?");
+
+        if(!Objects.equals(orderBy, "Vintage")) {
+            sqlBuilder.append("\nORDER BY " + orderBy);
+        }
+        sqlBuilder.append(";");
 
         ArrayList<Wine> wineList = new ArrayList<>();
         String sql = sqlBuilder.toString();
