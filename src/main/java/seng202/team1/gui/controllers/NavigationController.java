@@ -265,6 +265,7 @@ public class NavigationController {
      */
     private void loadPopUpContent() {
         if (openPopups >= 1) {
+            LOG.error("Error in NavigationController.loadPopupContent: There is already a popup open, you cannot have more than 1 at a time. Close the popup and try again.");
             return;
         }
         try {
