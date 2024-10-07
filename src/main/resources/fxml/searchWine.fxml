@@ -135,11 +135,16 @@
             </Text>
          </children>
       </AnchorPane>
-      <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Variety" stylesheets="@../style/comboBox.css">
+      <Text fx:id="resetCountry" fill="BLUE" layoutX="156.0" layoutY="110.0" onMouseClicked="#onResetCountryClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Text>
+      <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Country" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
-      <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Country" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Variety" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
@@ -160,7 +165,7 @@
          </cursor>
       </Button>
        <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25" />
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Sort by" onAction="#dropDownClicked" stylesheets="@../style/comboBox.css" visibleRowCount="5" />
+       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" onAction="#dropDownClicked" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5" />
       <Label layoutX="865.0" layoutY="55.0" text="Points" />
       <Label layoutX="1078.0" layoutY="55.0" text="Price" />
       <TextField fx:id="minPointsTextField" layoutX="920.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
@@ -174,5 +179,30 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <Text fx:id="resetWinery" fill="BLUE" layoutX="368.0" layoutY="110.0" onMouseClicked="#onResetWineryClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Text>
+      <Text fx:id="resetVariety" fill="BLUE" layoutX="580.0" layoutY="110.0" onMouseClicked="#onResetVarietyClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Text>
+      <Text fx:id="resetVintage" fill="BLUE" layoutX="789.0" layoutY="114.0" onMouseClicked="#onResetVintageClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Text>
+      <Text fx:id="resetPoints" fill="BLUE" layoutX="1002.0" layoutY="114.0" onMouseClicked="#onResetPointsClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Text>
+      <Text fx:id="resetPrice" fill="BLUE" layoutX="1215.0" layoutY="114.0" onMouseClicked="#onResetPriceClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Text>
    </children>
 </Pane>
