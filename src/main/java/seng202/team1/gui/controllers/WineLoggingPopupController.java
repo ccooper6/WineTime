@@ -44,6 +44,8 @@ public class WineLoggingPopupController {
     private Wine currentWine;
     private ReviewService reviewService;
 
+    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
@@ -205,16 +207,19 @@ public class WineLoggingPopupController {
         boolean noneSelected = selectedTags.isEmpty();
 
         Review existingReview = reviewService.getReview(currentUserUid, currentWineId);
-        if (existingReview != null) {
-            ArrayList<String> oldTags = existingReview.getTagsLiked();
-            int oldRating = existingReview.getRating();
-            reviewService.updateTagLikes(currentUserUid, tagsToLike, oldTags, rating, oldRating);
-        } else {
-            reviewService.updateTagLikes(currentUserUid, tagsToLike, new ArrayList<>(), rating, 0);
-        }
+        ArrayList<String> finalTagsToLike = tagsToLike;
+        navigationController.executeWithLoadingScreen(() -> {
+            if (existingReview != null) {
+                ArrayList<String> oldTags = existingReview.getTagsLiked();
+                int oldRating = existingReview.getRating();
+                reviewService.updateTagLikes(currentUserUid, finalTagsToLike, oldTags, rating, oldRating);
+            } else {
+                reviewService.updateTagLikes(currentUserUid, finalTagsToLike, new ArrayList<>(), rating, 0);
+            }
 
-        reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, tagsToLike, noneSelected, description);
-        returnToWinePopUp();
+            reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);
+            returnToWinePopUp();
+        });
     }
 
     /**
