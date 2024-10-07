@@ -217,23 +217,23 @@ public class QuizService {
         ArrayList<Wine> possibleWines = new ArrayList<>();
         switch (earliestYear) {
             case "1990":
-                possibleWines = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<String>(List.of(country)),
-                        0, 100, 1990, 1999, "", SearchDAO.UNLIMITED, "Vintage");
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                        0, 100, 1990, 1999, "");
                 break;
 
             case "2000":
-                possibleWines = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<String>(List.of(country)),
-                        0, 100, 2000, 2004, "", SearchDAO.UNLIMITED, "Vintage");
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                        0, 100, 2000, 2004, "");
                 break;
 
             case "2005":
-                possibleWines = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<String>(List.of(country)),
-                        0, 100, 2005, 2010, "", SearchDAO.UNLIMITED, "Vintage");
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                        0, 100, 2005, 2010, "");
                 break;
 
             case "2010":
-                possibleWines = SearchDAO.getInstance().searchByNameAndFilter(new ArrayList<String>(List.of(country)),
-                        0, 100, 2010, 2014, null, SearchDAO.UNLIMITED, "Vintage");
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                        0, 100, 2010, 2014, null);
                 break;
             default:
                 break;
