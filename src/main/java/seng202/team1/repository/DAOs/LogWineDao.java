@@ -132,6 +132,28 @@ public class LogWineDao {
         return null;
     }
 
+    public ArrayList<String> getWineLikedTags(int uid, int wid) {
+        String tags;
+        String getSelectedTags = "SELECT tagsliked FROM reviews WHERE uid = ? AND wid = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getSelectedTags)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, wid);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    tags = rs.getString(1);
+                    if (tags != null && !tags.isEmpty()) {
+                        String[] tagArray = tags.split(",");
+                        return new ArrayList<>(Arrays.asList(tagArray));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("Error in LogWineDAO.getLikedTags(): Could not access database.");
+        }
+        return null;
+    }
+
     /**
      * Returns a hashmap of tagName, tagValue of the likedTags by the user.
      *
@@ -297,9 +319,9 @@ public class LogWineDao {
      * @param selectedTags the ArrayList of tags selected by the user
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
-    public void reviews(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, boolean noneSelected) {
+    public void reviews(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
         if (!alreadyReviewExists(uid, wid)) {
-            String reviewSql = "INSERT INTO reviews (uid, wid, rating, description, date, selectedtags) VALUES (?,?,?,?,?,?)";
+            String reviewSql = "INSERT INTO reviews (uid, wid, rating, description, date, selectedtags, tagsliked) VALUES (?,?,?,?,?,?,?)";
             try (Connection conn = databaseManager.connect()) {
                 try (PreparedStatement ps = conn.prepareStatement(reviewSql)) {
                     ps.setInt(1, uid);
@@ -311,6 +333,7 @@ public class LogWineDao {
                         selectedTags = new ArrayList<>();
                     }
                     ps.setString(6, String.join(",", selectedTags));
+                    ps.setString(7, String.join(",", tagsLiked));
                     ps.executeUpdate();
                 }
                 LOG.info("Created review {} for user {}.", "(" + uid + ", " + wid + ")", uid);
@@ -318,7 +341,7 @@ public class LogWineDao {
                 LOG.error("Error in LogWineDAO.reviews(): Could not access database.");
             }
         } else {
-            updateReview(uid, wid, rating, description, date, selectedTags, noneSelected);
+            updateReview(uid, wid, rating, description, date, selectedTags, tagsLiked, noneSelected);
         }
     }
 
@@ -333,8 +356,8 @@ public class LogWineDao {
      * @param selectedTags   the ArrayList of tags selected by the user
      * @param noneSelected   a boolean value to indicate if no tags were selected
      */
-    public void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, boolean noneSelected) {
-        String updateSql = "UPDATE reviews SET description = ?, rating = ?, date = ?, selectedtags = ? WHERE uid = ? AND wid = ?";
+    public void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
+        String updateSql = "UPDATE reviews SET description = ?, rating = ?, date = ?, selectedtags = ? , tagsliked = ? WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement updateValuePs = conn.prepareStatement(updateSql)) {
                 updateValuePs.setString(1, newDescription);
@@ -344,8 +367,9 @@ public class LogWineDao {
                     selectedTags = new ArrayList<>();
                 }
                 updateValuePs.setString(4, String.join(",", selectedTags));
-                updateValuePs.setInt(5, uid);
-                updateValuePs.setInt(6, wid);
+                updateValuePs.setString(5, String.join(",", tagsLiked));
+                updateValuePs.setInt(6, uid);
+                updateValuePs.setInt(7, wid);
                 updateValuePs.executeUpdate();
                 LOG.info("Updated review {} for user {}.", "(" + uid + ", " + wid + ")", wid);
             }
@@ -376,7 +400,7 @@ public class LogWineDao {
                 while (index < maxNumbers && rs.next()) {
                     userReviews.add(new Review(rs.getInt(1), rs.getInt(2),
                             rs.getInt(3), rs.getString(4), rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2))));
+                            getSelectedTags(uid, rs.getInt(2)), getWineLikedTags(uid, rs.getInt(2))));
                     index++;
                 }
                 return userReviews;
@@ -433,7 +457,8 @@ public class LogWineDao {
                             rs.getInt(3),
                             rs.getString(4),
                             rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2)));
+                            getSelectedTags(uid, rs.getInt(2)),
+                            getWineLikedTags(uid, rs.getInt(2)));
                     userReviews.add(review);
                 }
                 return userReviews;
@@ -546,7 +571,8 @@ public class LogWineDao {
                             rs.getInt(3),
                             rs.getString(4),
                             rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2))
+                            getSelectedTags(uid, rs.getInt(2)),
+                            getWineLikedTags(uid, rs.getInt(2))
                     );
                 }
             }

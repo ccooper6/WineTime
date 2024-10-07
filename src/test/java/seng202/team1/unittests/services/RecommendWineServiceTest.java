@@ -157,7 +157,7 @@ public class RecommendWineServiceTest {
      * Tests that it will try to recommend wines to the user without including wines with disliked tags and making sure
      * that the wines recommended have at least one tag that is liked
      */
-    @Test 
+    @Test
     public void testReccWithDislikedTags() {
         logWineDao.likes(1, "2012", 1000);
         logWineDao.likes(1, "2004", 1000);
@@ -181,7 +181,7 @@ public class RecommendWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
+        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01", tags, tags, false);
         ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
         Assertions.assertFalse(reccWine.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
