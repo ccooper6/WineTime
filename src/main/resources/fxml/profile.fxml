@@ -16,19 +16,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
+<AnchorPane prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ProfileController">
    <children>
       <Text layoutX="20.0" layoutY="30.0" text="Your Profile:">
          <font>
             <Font name="Noto Serif Regular" size="24.0" />
          </font>
       </Text>
-      <Label layoutX="980.0" layoutY="30.0" text="Need some inspiration? ">
+      <Label layoutX="930.0" layoutY="30.0" text="Need some inspiration? ">
          <font>
             <Font name="Noto Serif Regular" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="quizButton" layoutX="1198.0" layoutY="29.0" mnemonicParsing="false" onAction="#onQuizClicked" stylesheets="@../style/greyButton.css" text="Quiz">
+      <Button fx:id="quizButton" layoutX="1140.0" layoutY="29.0" mnemonicParsing="false" onAction="#onQuizClicked" stylesheets="@../style/greyButton.css" text="Quiz">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -141,5 +141,6 @@
             </AnchorPane>
          </content>
       </ScrollPane>
+      <Button layoutX="1200.0" layoutY="28.0" mnemonicParsing="false" onAction="#logOutButton" stylesheets="@../style/redButton.css" text="Log Out" />
    </children>
 </AnchorPane>

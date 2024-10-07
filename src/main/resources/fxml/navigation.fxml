@@ -62,6 +62,7 @@
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </ImageView>
+                     <FontAwesomeIconView fx:id="closeButton" glyphName="CLOSE" layoutX="1255.0" layoutY="24.0" onMouseClicked="#closeApp" size="20" />
                   </children>
                </Pane>
             </top>

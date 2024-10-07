@@ -149,6 +149,11 @@ public class NavigationController {
         userDropDownMenu.setVisible(false);
     }
 
+    @FXML
+    public void closeApp() {
+        FXWrapper.getInstance().closeApplication();
+    }
+
     /**
      * Toggles the dropdown menu open and closed.
      */

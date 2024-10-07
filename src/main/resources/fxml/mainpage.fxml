@@ -12,7 +12,7 @@
                     <children>
                         <Text fx:id="helloText" layoutX="9.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello [Name]!">
                             <font>
-                                <Font name="Noto Serif Regular" size="36.0" />
+                                <Font name="Georgia" size="36.0" />
                             </font>
                         </Text>
                         <GridPane fx:id="contentsGrid" layoutX="42.0" layoutY="63.0" prefHeight="1600.0" prefWidth="1280.0">
