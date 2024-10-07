@@ -4,7 +4,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -97,7 +96,7 @@ public class PopUpController {
         wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Error in PopUpController.initialize(): Wine is null");
-            wine = WineBuilder.genericSetup(-1, "There was an error loading your wine", "Wine could not be found.", -1).build();
+            wine = WineBuilder.genericSetup(-1, "There was an error loading your wine", "Wine could not be found.", -1, -1).build();
         }
 
         currentUserUid = User.getCurrentUser().getId();
@@ -120,7 +119,7 @@ public class PopUpController {
         Text currency = new Text(" NZD");
         currency.setStyle("-fx-font-size: 10;");
         valueDisplay.getChildren().addAll(dollarSign, value, currency);
-        Text points = new Text("100"); //todo- change to variable
+        Text points = new Text(String.valueOf(wine.getPoints()));
         points.setStyle("-fx-font-size: 18;");
         Text range = new Text(" / 100");
         range.setStyle("-fx-font-size: 12;");

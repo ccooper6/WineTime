@@ -79,7 +79,8 @@ public class SearchDAO {
                 currentWineBuilder = WineBuilder.genericSetup(resultSet.getInt("id"),
                         resultSet.getString("wine_name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("price"));
+                        resultSet.getInt("price"),
+                        resultSet.getInt("points"));
 
                 currentID = resultSet.getInt("id");
             }
@@ -176,7 +177,7 @@ public class SearchDAO {
         }
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, points, tag.name as tag_name, tag.type as tag_type\n")
                 .append("FROM (SELECT id as temp_id\n")
                 .append("        FROM (SELECT id, count(wid) as c\n")
                 .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
