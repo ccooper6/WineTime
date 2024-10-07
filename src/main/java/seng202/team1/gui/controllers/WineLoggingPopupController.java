@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.User;
@@ -38,18 +40,22 @@ public class WineLoggingPopupController {
     private Label likingText;
     @FXML
     private Text promptText;
+    @FXML
+    private Button deleteReviewButton;
 
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
     private ReviewService reviewService;
-
+    private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
     private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
+        deleteReviewButton.setOpacity(0);
+        deleteReviewButton.setDisable(true);
         likingText.setTextFill(Color.GREEN);
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
@@ -73,11 +79,24 @@ public class WineLoggingPopupController {
 
         Review existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
         if (existingReview != null) {
+            deleteReviewButton.setDisable(false);
+            deleteReviewButton.setOpacity(1);
             promptText.setText("Edit your review");
             populateReviewData(existingReview);
         } else {
             promptText.setText("Review this wine!");
         }
+    }
+
+    /**
+     * Deletes the review that is being edited
+     */
+    public void onDeleteReviewPushed() {
+
+        LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
+        reviewService.deleteReview(reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId()));
+        returnToWinePopUp();
+
     }
 
     /**
