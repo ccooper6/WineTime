@@ -461,7 +461,7 @@ public class SearchWineServiceTest {
     }
     @Test
     public void testSetCurrentWine() {
-        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5);
+        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5, resultSet.getInt("points"));
         wineBuilder.setVariety("Früburgunder");
         Wine wine = wineBuilder.build();
         SearchWineService.getInstance().setCurrentWine(wine);
