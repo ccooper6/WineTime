@@ -6,17 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.services.CategoryService;
 import seng202.team1.services.RecommendWineService;
-import seng202.team1.services.WineCategoryService;
 
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,6 +30,8 @@ public class MainController {
      * Initializes the main page view.
      */
     public void initialize() {
+        CategoryService.resetCategories();
+
         LocalTime currentTime = java.time.LocalTime.now();
         if (currentTime.isAfter(java.time.LocalTime.of(6, 0)) && currentTime.isBefore(java.time.LocalTime.of(12, 0))) {
             helloText.setText("Good morning, " + User.getCurrentUser().getName() + "!");
@@ -47,9 +44,12 @@ public class MainController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
         navigationController.executeWithLoadingScreen(() -> {
-            if (!CategoryService.isCategoriesGenerated()) {
-                generateAllCategories();
+
+            if (!CategoryService.areTagsGenerated()) {
+                CategoryService.generateTags();
             }
+
+            generateAllCategories();
 
             Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
             if (hasRecommended) {
@@ -65,45 +65,13 @@ public class MainController {
      * Generates all the wine category displays for the main page.
      */
     private void generateAllCategories() {
-        String[] tags = {
-                "Bordeaux, Merlot",
-                "Marlborough, Sauvignon Blanc",
-                "Tuscany, Sangiovese",
-                "Hawke's Bay, Syrah",
-                "Spain, Rioja, Tempranillo",
-                "Mendoza, Malbec",
-                "US, Napa Valley, Cabernet Sauvignon",
-                "Central Otago, Pinot Noir, New Zealand",
-                "Chianti Classico, Sangiovese",
-                "Champagne, Pinot Meunier",
-                "Provence, Rosé",
-                "Veneto, Prosecco",
-                "Hunter Valley, Semillon",
-                "Willamette Valley, Pinot Gris",
-                "Burgundy, Chardonnay",
-                "Mosel, Riesling",
-                "Puglia, Primitivo",
-                "South Africa, Chenin Blanc",
-                "Alsace, Gewurztraminer",
-                "Tuscany, Vermentino",
-                "Loire Valley, Sauvignon Blanc",
-                "Languedoc, Grenache",
-                "Wairarapa, Pinot Noir"
-        };
-
-        List<String> tagsList = Arrays.asList(tags);
-        Collections.shuffle(tagsList);
-        tags = tagsList.toArray(new String[0]);
-
         List<Parent> allCategories = CategoryService.getAllCategories();
+        String[] tagsList = CategoryService.getGeneratedTags();
 
-        for (int i = 0; i < tags.length && i < 8; i++) {
-            Parent parent = WineCategoryDisplayController.createCategory(tags[i]);
+        for (int i = 0; i < tagsList.length && i < 8; i++) {
+            Parent parent = WineCategoryDisplayController.createCategory(tagsList[i]);
             allCategories.add(parent);
         }
-
-        CategoryService.setCategoriesGenerated(true);
-
     }
 
     /**
@@ -148,7 +116,7 @@ public class MainController {
      */
     @FXML
     private void refreshCategories() {
-        CategoryService.resetCategories();
+        CategoryService.resetCategories(true);
         FXWrapper.getInstance().getNavigationController().loadMainScreen();
     }
 }
