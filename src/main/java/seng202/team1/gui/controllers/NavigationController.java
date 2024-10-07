@@ -49,9 +49,7 @@ public class NavigationController {
     @FXML
     private ComboBox<String> sortByComboBox;
 
-
-
-
+    private int openPopups = 0; // Counter for open popups
 
     private Parent loadingScreen;
 
@@ -266,11 +264,15 @@ public class NavigationController {
      * Loads the wine popup when a wine is clicked by the user.
      */
     private void loadPopUpContent() {
+        if (openPopups >= 1) {
+            return;
+        }
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
             overlayContent = paneLoader.load();
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
+            openPopups++;
         } catch (IOException e) {
             LOG.error("Error in NavigationController.loadPopupContent: Could not load fxml content.");
         }
@@ -369,6 +371,8 @@ public class NavigationController {
     public void closePopUp() {
         if (overlayContent != null) {
             overlayContent.setVisible(false);
+            contentHere.getChildren().remove(overlayContent);
+            openPopups--;
         }
     }
 
