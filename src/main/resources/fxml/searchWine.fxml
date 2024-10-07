@@ -160,7 +160,7 @@
          </cursor>
       </Button>
        <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25" />
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="4" />
+       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" prefWidth="150.0" promptText="Sort by" onAction="#dropDownClicked" stylesheets="@../style/comboBox.css" visibleRowCount="5" />
       <Label layoutX="865.0" layoutY="55.0" text="Points" />
       <Label layoutX="1078.0" layoutY="55.0" text="Price" />
       <TextField fx:id="minPointsTextField" layoutX="920.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />

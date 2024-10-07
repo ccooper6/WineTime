@@ -74,19 +74,12 @@ public class WishlistServiceTest {
 
     @Test
     public void testGetWishlistWinesEmpty() throws SQLException {
-        if (wishlistDAO.checkWine(2, 1)) {
-            WishlistService.removeFromWishlist(2, 1);
-        }
         ArrayList<Wine> testNull = new ArrayList<>();
         ArrayList<Wine> myWines = WishlistService.getWishlistWines(1);
         assertEquals(testNull, myWines);
     }
     @Test
     public void testGetWishlistWinesFull() throws SQLException {
-        if (wishlistDAO.checkWine(2, 1)) {
-            WishlistService.removeFromWishlist(2, 1);
-        }
-        //make sure wishlist empty, then add 3 wines
         WishlistService.addToWishlist(4, 1);
         WishlistService.addToWishlist(5, 1);
         WishlistService.addToWishlist(6, 1);

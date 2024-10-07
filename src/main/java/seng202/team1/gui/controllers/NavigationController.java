@@ -31,6 +31,7 @@ import java.io.IOException;
  * Controller class for the navigation.fxml page.
  * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
+@SuppressWarnings("checkstyle:RightCurly")
 public class NavigationController {
     @FXML
     private FontAwesomeIconView dropdownButton;
@@ -49,9 +50,7 @@ public class NavigationController {
     @FXML
     private ComboBox<String> sortByComboBox;
 
-
-
-
+    private int openPopups = 0; // Counter for open popups
 
     private Parent loadingScreen;
 
@@ -266,11 +265,16 @@ public class NavigationController {
      * Loads the wine popup when a wine is clicked by the user.
      */
     private void loadPopUpContent() {
+        if (openPopups >= 1) {
+            LOG.error("Error in NavigationController.loadPopupContent: There is already a popup open, you cannot have more than 1 at a time. Close the popup and try again.");
+            return;
+        }
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
             overlayContent = paneLoader.load();
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
+            openPopups++;
         } catch (IOException e) {
             LOG.error("Error in NavigationController.loadPopupContent: Could not load fxml content.");
         }
@@ -369,6 +373,8 @@ public class NavigationController {
     public void closePopUp() {
         if (overlayContent != null) {
             overlayContent.setVisible(false);
+            contentHere.getChildren().remove(overlayContent);
+            openPopups--;
         }
     }
 
@@ -383,27 +389,27 @@ public class NavigationController {
      * Sends the user to the wine log page when the log button is clicked.
      */
     public void onLogsClicked() {
-        FXWrapper.getInstance().launchSubPage("wineReviews");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wineReviews")));
     }
 
     /**
      * Sends the user to the wishlist page when the heart icon is clicked.
      */
     public void onLikesClicked() {
-        FXWrapper.getInstance().launchSubPage("wishlist");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wishlist")));
     }
 
     /**
      * Sends the user to the profile page when the user button is clicked.
      */
     public void onUserClicked() {
-        FXWrapper.getInstance().launchSubPage("profile");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("profile")));
     }
 
     /**
      * Sends the user to the help page when the help button is clicked.
      */
     public void onHelpClicked() {
-        FXWrapper.getInstance().launchSubPage("helpScreen");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("help")));
     }
 }
