@@ -1,0 +1,17 @@
+.slider {
+    -fx-background-color: transparent; /* Ensures background is transparent */
+}
+
+.slider .track {
+    -fx-background-color: #D3D3D3; /* Light grey track background */
+    -fx-height: 6; /* Track height */
+}
+
+.slider .range-bar {
+    -fx-background-color: #70171e; /* Color of the selected range */
+}
+
+.slider .thumb {
+    -fx-background-color: #70171e; /* Thumb color */
+    -fx-background-radius: 50%; /* Circular thumbs */
+}
