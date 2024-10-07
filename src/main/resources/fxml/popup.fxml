@@ -93,30 +93,34 @@
                </content>
             </ScrollPane>
             <Button fx:id="logWine" layoutX="354.0" layoutY="341.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;">
-               <graphic>
-                  <FontAwesomeIconView fx:id="logWineIcon" fill="#d0d0d0" glyphName="COMMENT" size="30" />
-               </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <FontAwesomeIconView fx:id="logWineIcon" fill="#c0c0c0" glyphName="COMMENT" layoutX="389.0" layoutY="375.0" size="32" text="" />
+               </graphic>
             </Button>
-            <Button fx:id="addToWishlist" layoutX="413.0" layoutY="340.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;" textFill="WHITE">
-               <graphic>
-                  <FontAwesomeIconView fill="#70171e" glyphName="HEART" size="30" text="" />
-               </graphic>
+            <Button fx:id="addToWishlist" layoutX="413.0" layoutY="343.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <FontAwesomeIconView fill="#70171e" glyphName="HEART" layoutX="437.0" layoutY="376.0" size="32" text="" />
+               </graphic>
             </Button>
-            <Label layoutX="60.0" layoutY="351.0" prefHeight="12.0" prefWidth="55.0" text="Buy Now" />
-            <Label layoutX="60.0" layoutY="365.0" prefHeight="17.0" prefWidth="104.0" text="on winesearcher" />
-            <Button fx:id="wineSearchLink" layoutX="13.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: WHITE;">
-               <graphic>
-                  <FontAwesomeIconView fill="GREY" glyphName="SHOPPING_CART" onMouseClicked="#onWineSearchLinkClicked" selectionFill="#b9b9b9" size="30" wrappingWidth="24.21630859375" />
-               </graphic>
+            <Button fx:id="wineSearchLink" alignment="TOP_LEFT" layoutX="13.0" layoutY="350.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: WHITE;" text="Purchase" textFill="#c0c0c0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <FontAwesomeIconView fill="#c0c0c0" glyphName="LINK" onMouseClicked="#onWineSearchLinkClicked" selectionFill="#ffffff" size="30" text="" wrappingWidth="31.21630859375">
+                     <font>
+                        <Font size="16.0" />
+                     </font></FontAwesomeIconView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
          </children>
       </Pane>
