@@ -26,6 +26,7 @@ public class WineCsvDao {
 
 
     private static final Logger LOG = LogManager.getLogger(WineCsvDao.class);
+
     /**
      * Adds a wine into the database as well as its associated tags if there are any new tags. It then links
      * the wine to the tag using the owned_by relationship. Returns the next wine numeric id upon successful addition.
@@ -33,12 +34,11 @@ public class WineCsvDao {
      * @param wineID an integer num id for the added wine
      * @return the next wine id to be used
      */
-
-    public int add(String[] wineValues, int wineID) {
+    private int add(String[] wineValues, int wineID) {
         String wineSql = "INSERT INTO wine (id, name, price, description, points, normalised_name) VALUES (?, ?, ?, ?, ?, ?)";
         String tagSql = "INSERT INTO tag (name, type, normalised_name) VALUES (?, ?, ?)";
         String ownedBySql = "INSERT INTO owned_by (wid, tname) VALUES (?, ?)";
-        try (Connection conn = emptyConnect()) {
+        try (Connection conn = connectToMainDB()) {
             try (PreparedStatement winePs = conn.prepareStatement(wineSql)) {
                 executeWinePs(winePs, wineValues, wineID);
             }
@@ -98,7 +98,7 @@ public class WineCsvDao {
      * @throws SQLException handled by method caller
      */
 
-    public void executeWinePs(PreparedStatement winePs, String[] wineValues, int wineID) throws SQLException {
+    private void executeWinePs(PreparedStatement winePs, String[] wineValues, int wineID) throws SQLException {
         winePs.setInt(1, wineID);
         //adds wine name
         winePs.setString(2, wineValues[10]);
@@ -129,8 +129,7 @@ public class WineCsvDao {
      * @param tagType the type of tag being added to the tag database.
      * @param wineId the wine integer id
      */
-
-    public void executeTagPs(PreparedStatement tagPs, String tagName, PreparedStatement ownedByPs, String tagType, int wineId) {
+    private void executeTagPs(PreparedStatement tagPs, String tagName, PreparedStatement ownedByPs, String tagType, int wineId) {
         try {
             if (!tagName.isEmpty()) {
                 tagPs.setString(1, tagName);
@@ -157,7 +156,7 @@ public class WineCsvDao {
      * @param tagName the string tag name
      */
 
-    public void executeOwnedByPs(PreparedStatement ownedByPs, int wineId, String tagName) {
+    private void executeOwnedByPs(PreparedStatement ownedByPs, int wineId, String tagName) {
         try {
             ownedByPs.setInt(1, wineId);
             ownedByPs.setString(2, tagName);
@@ -176,8 +175,7 @@ public class WineCsvDao {
      * @param wineName the wineName String
      * @return the vintage year if found, returns a 0 otherwise.
      */
-
-    public int extractVintage(String wineName) {
+    private int extractVintage(String wineName) {
         StringBuilder vintageString = new StringBuilder();
         boolean notFoundVintage = true;
         boolean typingVintage = false;
@@ -228,7 +226,7 @@ public class WineCsvDao {
      * @throws CsvValidationException Throws when there is an error validating the CSV
      */
 
-    public void wineCsvReader(String winePath) throws IOException, CsvValidationException {
+    private void wineCsvReader(String winePath) throws IOException, CsvValidationException {
         int totalRows = getLines(winePath);
 
         String[] wineValues;
@@ -236,17 +234,17 @@ public class WineCsvDao {
         int wineID = 1;
         while ((wineValues = csv.readNext()) != null) {
             wineID = add(wineValues, wineID);
+            // Display how many wines have been added / total wines to user on terminal
             System.out.println(wineID + "/" + totalRows + ":" + wineValues[11]);
         }
         csv.close();
     }
+
     /**
-     * Connects to the empty database.
+     * Connects to main database. Database must be empty.
      * @return database connection
      */
-
-    public Connection emptyConnect() {
-        // TODO change to db function
+    private Connection connectToMainDB() {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:src/main/resources/sql/main.db");
