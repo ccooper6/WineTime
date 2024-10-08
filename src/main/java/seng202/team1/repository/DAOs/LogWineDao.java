@@ -475,7 +475,7 @@ public class LogWineDao {
      * @return a {@link Wine} object
      */
     public Wine getWine(int wid) {
-        String getWine = "SELECT id, wine.name as wine_name, description, price, tag.type as tag_type, tag.name as tag_name FROM wine "
+        String getWine = "SELECT id, wine.name as wine_name, description, price, points, tag.type as tag_type, tag.name as tag_name FROM wine "
                 + "JOIN owned_by ON id = owned_by.wid "
                 + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
         WineBuilder wineBuilder = null;
@@ -488,7 +488,8 @@ public class LogWineDao {
                         wineBuilder = WineBuilder.genericSetup(rs.getInt("id"),
                                 rs.getString("wine_name"),
                                 rs.getString("description"),
-                                rs.getInt("price"));
+                                rs.getInt("price"),
+                                rs.getInt("points"));
                     }
                     String tagType = rs.getString("tag_type");
                     String tagName = rs.getString("tag_name");

@@ -794,11 +794,11 @@ public class SearchWineController {
     public void dropDownClicked(){
         String column_name = null;
         if (sortDropDown.getValue() != null) {
-            if(sortDropDown.getValue().toString().equals("Recommended")) {
+            if(sortDropDown.getValue().equals("Recommended")) {
                 SearchWineService.getInstance().searchWinesByRecommend(120);
             }
             else{
-                switch (sortDropDown.getValue().toString()) {
+                switch (sortDropDown.getValue()) {
                     case "Name" -> {
                         column_name = "wine_name";
                     }
@@ -814,7 +814,7 @@ public class SearchWineController {
                 }
                 SearchWineService.getInstance().setSearchOrder(column_name);
             }
-            SearchWineService.getInstance().setDropDown(sortDropDown.getValue().toString());
+            SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
             FXWrapper.getInstance().launchSubPage("searchWine");
         }
     }

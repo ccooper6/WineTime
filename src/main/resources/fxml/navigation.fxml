@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
+<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.NavigationController">
    <children>
       <AnchorPane fx:id="navigationAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
          <BorderPane fx:id="mainPane" prefHeight="720.0" prefWidth="1280.0">
@@ -33,7 +26,7 @@
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </FontAwesomeIconView>
-                     <FontAwesomeIconView fill="GREY" glyphName="USER_CIRCLE" layoutX="1138.0" layoutY="67.0" onMouseClicked="#onUserClicked" size="50" wrappingWidth="50.000000953674316">
+                     <FontAwesomeIconView fill="GREY" glyphName="USER_CIRCLE" layoutX="1138.0" layoutY="67.0" onMouseClicked="#onUserClicked" size="50" text="" wrappingWidth="50.000000953674316">
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor>
@@ -51,7 +44,12 @@
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </ImageView>
-                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="341.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="TYPE HERE TO SEARCH FOR WINES" style="-fx-background-color: #d9d9d9;">
+                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="341.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="528.0" promptText="SEARCH WINE NAME" style="-fx-background-color: #d9d9d9;">
+                        <font>
+                           <Font name="Noto Serif Regular" size="13.0" />
+                        </font></TextField>
+                     <FontAwesomeIconView fx:id="searchIcon" glyphName="SEARCH" layoutX="302.0" layoutY="57.0" size="30" text="" wrappingWidth="38.85714340209961" />
+                     <TextField fx:id="searchBar" focusTraversable="false" layoutX="341.0" layoutY="30.0" opacity="0.98" prefHeight="34.0" prefWidth="460.0" promptText="SEARCH WINES SEPARATING FILTES WITH ','" style="-fx-background-color: #d9d9d9;">
 <!--                  <opaqueInsets>-->
 <!--                     <Insets />-->
 <!--                  </opaqueInsets>-->
@@ -73,11 +71,7 @@
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </ImageView>
-                     <ComboBox fx:id="sortByComboBox" layoutX="808.0" layoutY="35.0" prefHeight="24.0" prefWidth="116.0" promptText="To Sort By" visibleRowCount="2">
-                        <cursor>
-                           <Cursor fx:constant="DEFAULT" />
-                        </cursor>
-                     </ComboBox>
+                     <FontAwesomeIconView fx:id="closeButton" glyphName="CLOSE" layoutX="1255.0" layoutY="24.0" onMouseClicked="#closeApp" size="20" />
                   </children>
                </Pane>
             </top>
@@ -97,7 +91,7 @@
             <children>
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onHelpClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Help" textFill="WHITE">
                   <font>
-                     <Font size="15.0" />
+                     <Font name="Noto Serif Regular" size="15.0" />
                   </font>
                   <cursor>
                      <Cursor fx:constant="HAND" />
@@ -105,7 +99,7 @@
                </Button>
                <Button onAction="#onLogOutClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Log Out" textFill="WHITE">
                   <font>
-                     <Font size="15.0" />
+                     <Font name="Noto Serif Regular" size="15.0" />
                   </font>
                   <cursor>
                      <Cursor fx:constant="HAND" />
