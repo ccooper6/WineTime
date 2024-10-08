@@ -138,13 +138,6 @@ public class SearchWineController {
             resetFilters();
             System.out.println("not from search page");
         }
-
-        allWines = SearchWineService.getInstance().getWineList();
-
-        if (allWines == null) {
-            LOG.error("Error in SearchWineController.initialize(): The wine list is null");
-            allWines = new ArrayList<>();
-        }
         
         displayCurrentPage();
 
@@ -563,6 +556,13 @@ public class SearchWineController {
     @FXML
     public void displayCurrentPage()
     {
+        allWines = SearchWineService.getInstance().getWineList();
+
+        if (allWines == null) {
+            LOG.error("Error in SearchWineController.initialize(): The wine list is null");
+            allWines = new ArrayList<>();
+        }
+
         if (allWines == null || allWines.size() == 0) {
             title.setText("\n\n\nSorry, there were no results for your search.\n\nTry:\n    - Checking your spelling\n    - A different combination of filters");
 
@@ -636,11 +636,10 @@ public class SearchWineController {
      * Sets the dropdown options for the sorting
      */
     public void initSortByOptions() {
-        sortDropDown.getItems().add("Recommended");
         sortDropDown.getItems().add("Name");
         sortDropDown.getItems().add("Price");
         sortDropDown.getItems().add("Points");
-        sortDropDown.getItems().add("Vintage");
+        //sortDropDown.getItems().add("Vintage"); not working yet
         sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
         SearchWineService.getInstance().setSortDirection(true);
@@ -814,21 +813,29 @@ public class SearchWineController {
                 switch (sortDropDown.getValue()) {
                     case "Name" -> {
                         column_name = "wine_name";
+                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                        SearchWineService.getInstance().setSortDirection(true);
                     }
                     case "Price" -> {
                         column_name = "price";
+                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                        SearchWineService.getInstance().setSortDirection(true);
                     }
                     case "Points" -> {
                         column_name = "points";
+                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
+                        SearchWineService.getInstance().setSortDirection(false);
                     }
                     case "Vintage" -> {
-                        column_name = "Vintage"; //has different ORDER BY location in DAO
+                        column_name = "vintage"; // TODO add vintage to database
+                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
+                        SearchWineService.getInstance().setSortDirection(false);
                     }
                 }
                 SearchWineService.getInstance().setSearchOrder(column_name);
             }
             SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
-            FXWrapper.getInstance().launchSubPage("searchWine");
+            displayCurrentPage();
         }
     }
 
