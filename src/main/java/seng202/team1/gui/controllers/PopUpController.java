@@ -4,13 +4,14 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
@@ -38,6 +39,8 @@ import java.util.regex.Pattern;
  * @author Caleb Cooper, Elise Newman, Yuhao Zhang, Wen Sheng Thong
  */
 public class PopUpController {
+    public TextFlow valueDisplay;
+    public TextFlow pointsDisplay;
     @FXML
     private Button popUpCloseButton;
     @FXML
@@ -75,6 +78,9 @@ public class PopUpController {
 
     private final ReviewService reviewService = new ReviewService();
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
+    Wine wine;
+    int wineID;
+    int currentUserUid;
 
     /**
      * Initializes the controller.
@@ -86,21 +92,38 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> closePopUp());
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
-        Wine wine = navigationController.getWine();
+
+        wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Error in PopUpController.initialize(): Wine is null");
-            wine = WineBuilder.genericSetup(-1, "There was an error loading your wine", "Wine could not be found.", -1).build();
+            wine = WineBuilder.genericSetup(-1, "There was an error loading your wine", "Wine could not be found.", -1, -1).build();
         }
 
-        int currentUserUid = User.getCurrentUser().getId();
-        int wineID = wine.getWineId();
+        currentUserUid = User.getCurrentUser().getId();
+        wineID = wine.getWineId();
+
         boolean inWishlist = WishlistService.checkInWishlist(wineID, currentUserUid);
         FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();
         if (inWishlist) {
             icon.setFill(Color.web("#70171e"));
         } else {
-            icon.setFill(Color.web("#d0d0d0"));
+            icon.setFill(Color.web("#c0c0c0"));
         }
+
+        initializeHovers();
+
+        Text dollarSign = new Text("$");
+        dollarSign.setStyle("-fx-font-size: 18;");
+        Text value = new Text(String.valueOf(wine.getPrice()));
+        value.setStyle("-fx-font-size: 18;");
+        Text currency = new Text(" NZD");
+        currency.setStyle("-fx-font-size: 10;");
+        valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        Text points = new Text(String.valueOf(wine.getPoints()));
+        points.setStyle("-fx-font-size: 18;");
+        Text range = new Text(" / 100");
+        range.setStyle("-fx-font-size: 12;");
+        pointsDisplay.getChildren().addAll(points, range);
 
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
@@ -112,7 +135,7 @@ public class PopUpController {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                icon.setFill(Color.web("#d0d0d0"));
+                icon.setFill(Color.web("#c0c0c0"));
             } else {
                 WishlistService.addToWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#70171e"));
@@ -161,6 +184,43 @@ public class PopUpController {
             });
         }
     }
+    private void initializeHovers() {
+        wineSearchLink.setOnMouseEntered(event -> {
+            wineSearchLink.setTextFill(Paint.valueOf("#808080"));
+            wineSearchLink.setUnderline(true);
+            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
+        });
+        wineSearchLink.setOnMouseExited(event -> {
+            wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
+            wineSearchLink.setUnderline(false);
+            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
+        });
+
+        addToWishlist.setOnMouseEntered(event -> {
+            ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(Paint.valueOf("#A05252"));
+        });
+        addToWishlist.setOnMouseExited(event -> {
+            Paint paint;
+            if (WishlistService.checkInWishlist(wineID, currentUserUid)) {
+                paint = Paint.valueOf("#70171e");
+            } else {
+                paint = Paint.valueOf("#c0c0c0");
+            }
+            ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(paint);
+        });
+
+        logWine.setOnMouseEntered(event -> {
+            ((FontAwesomeIconView) logWine.getGraphic()).setFill(Paint.valueOf("#808080"));
+        });
+
+        logWine.setOnMouseExited(event -> {
+            if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
+                logWineIcon.setFill(Color.web("#333333"));
+            } else {
+                logWineIcon.setFill(Color.web("#c0c0c0"));
+            }
+        });
+    }
 
     /**
      * Populates the text fields and image with the data of the given wine.
@@ -186,9 +246,9 @@ public class PopUpController {
         int currentUserUid = User.getCurrentUser().getId();
 
         if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
-            logWineIcon.setFill(Color.web("#808080"));
+            logWineIcon.setFill(Color.web("#333333"));
         } else {
-            logWineIcon.setFill(Color.web("#d0d0d0"));
+            logWineIcon.setFill(Color.web("#c0c0c0"));
         }
     }
 
