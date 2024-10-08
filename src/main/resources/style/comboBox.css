@@ -5,6 +5,7 @@
     -fx-border-radius: 15px; /* Rounded corners */
     -fx-padding: 0px; /* Inner padding */
     -fx-font-size: 14px; /* Font size */
+    -fx-font-family: 'Noto Serif';
 }
 
 /* Styling for the text field inside the combo box */
@@ -17,6 +18,7 @@
     -fx-text-fill: black;
     -fx-border-radius: 15px;
     -fx-border-width: 2px;
+    -fx-font-family: 'Noto Serif';
 }
 
 /* Styling for the dropdown list */
@@ -32,6 +34,7 @@
 .combo-box .list-view .list-cell {
     -fx-background-color: transparent; /* Transparent background for items */
     -fx-padding: 5px; /* Padding for list items */
+
 }
 
 /* Item hover effect */
@@ -43,6 +46,7 @@
 .combo-box .list-view .list-cell:selected {
     -fx-background-color: #a0c4ff; /* Background color for selected item */
     -fx-text-fill: #ffffff; /* Text color for selected item */
+    -fx-font-family: 'Noto Serif';
 }
 
 .combo-box .search-icon {

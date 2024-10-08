@@ -47,8 +47,7 @@ public class NavigationController {
     private StackPane contentHere;
     @FXML
     private TextField searchBar;
-    @FXML
-    private ComboBox<String> sortByComboBox;
+
 
     private int openPopups = 0; // Counter for open popups
 
@@ -66,7 +65,6 @@ public class NavigationController {
      * Initializes the controller.
      */
     public void initialize() {
-        initializeSortByComboBox();
         initialiseSearchBar();
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
@@ -76,19 +74,6 @@ public class NavigationController {
         });
     }
 
-    /**
-     * Inserts options into sort by combo box and selects first.
-     */
-    private void initializeSortByComboBox()
-    {
-        sortByComboBox.getItems().add("In Name");
-        sortByComboBox.getItems().add("In Tags");
-        if (SearchWineService.getInstance().getCurrentMethod() == null || !FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
-            sortByComboBox.getSelectionModel().selectFirst();
-        } else {
-            sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
-        }
-    }
 
     /**
      * Sets action events to when to search. Searches by name / tag depending on combo box
@@ -103,11 +88,6 @@ public class NavigationController {
             launchSearchWineLoadingScreen();
         });
 
-        sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                launchSearchWineLoadingScreen();
-            }
-        });
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
             if (searchBar.isFocused()) {
@@ -147,15 +127,9 @@ public class NavigationController {
     public void launchSearchWineLoadingScreen() {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         nav.executeWithLoadingScreen(() -> {
-            if (sortByComboBox.getValue().equals("In Name")) {
-                SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-            } else {
-                SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-            }
-            SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-            SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
-
-            Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
+        SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+        Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
         });
         searchBar.getParent().requestFocus();
     }
@@ -180,6 +154,11 @@ public class NavigationController {
     private void closeDropDown() {
         dropdownLocked = false;
         userDropDownMenu.setVisible(false);
+    }
+
+    @FXML
+    public void closeApp() {
+        FXWrapper.getInstance().closeApplication();
     }
 
     /**

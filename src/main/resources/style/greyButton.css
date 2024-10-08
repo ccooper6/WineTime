@@ -1,11 +1,12 @@
 .button {
-    -fx-border-color: #70171e; /* Normal color */
-    -fx-border-radius: 2px;
-    -fx-background-color: #8f8f8f;
-    -fx-background-radius: 2px;
-    -fx-text-fill: black;
+    /*-fx-border-color: #70171e; !* Normal color *!*/
+    /*-fx-border-radius: 4px;*/
+    -fx-background-color: #707070;
+    -fx-background-radius: 4px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Noto Serif';
 }
 
 .button:hover {
-    -fx-background-color: #707070; /* Color when hovered */
+    -fx-background-color: #616161; /* Color when hovered */
 }
