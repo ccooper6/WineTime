@@ -51,7 +51,7 @@ public class SelectChallengePopupController {
      */
     public void startRoseChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeRose);
-        launchProfile();
+        Platform.runLater(()->launchProfile());
     }
 
     /**
