@@ -65,6 +65,11 @@
                   <Font name="Noto Serif Regular" size="13.0" />
                </font></Label>
             <Label layoutX="415.0" layoutY="104.0" prefHeight="17.0" prefWidth="57.0" text="(Optional)" />
+            <Button fx:id="deleteReviewButton" layoutX="27.0" layoutY="361.0" mnemonicParsing="false" onAction="#onDeleteReviewPushed" style="-fx-background-color: #edf0f5;" stylesheets="@../style/greyButton.css" text="Delete Review">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children></Pane>
    </children>
 </StackPane>
