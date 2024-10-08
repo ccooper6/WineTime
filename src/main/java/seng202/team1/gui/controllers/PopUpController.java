@@ -5,6 +5,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +44,10 @@ import java.util.regex.Pattern;
 public class PopUpController {
     public TextFlow valueDisplay;
     public TextFlow pointsDisplay;
+    public Button helpButton;
+    public TextFlow helpText;
+    public Label searchText;
+    public FontAwesomeIconView searchArrow;
     @FXML
     private Button popUpCloseButton;
     @FXML
@@ -137,6 +142,12 @@ public class PopUpController {
         range.setStyle("-fx-font-size: 12;");
         pointsDisplay.getChildren().addAll(points, range);
 
+        Text firstLine = new Text("\nBased scores from WineEnthusiast:\n\n");
+        firstLine.setStyle("-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
+        Text secondLine = new Text("98-100 = Classic\n94-97 = Superb\n90-93 = Excellent\n87-89 = Very Good\n83-86 = Good\n80-82 = Acceptable\nMore info on help page\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        helpText.getChildren().addAll(firstLine, secondLine);
+
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
@@ -207,11 +218,15 @@ public class PopUpController {
             wineSearchLink.setTextFill(Paint.valueOf("#808080"));
             wineSearchLink.setUnderline(true);
             ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
+            searchText.setVisible(true);
+            searchArrow.setVisible(true);
         });
         wineSearchLink.setOnMouseExited(event -> {
             wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
             wineSearchLink.setUnderline(false);
             ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
+            searchText.setVisible(false);
+            searchArrow.setVisible(false);
         });
 
         addToWishlist.setOnMouseEntered(event -> {
@@ -238,6 +253,8 @@ public class PopUpController {
                 logWineIcon.setFill(Color.web("#c0c0c0"));
             }
         });
+        helpButton.setOnMouseEntered(event -> helpText.setVisible(true));
+        helpButton.setOnMouseExited(event -> helpText.setVisible(false));
     }
 
     /**

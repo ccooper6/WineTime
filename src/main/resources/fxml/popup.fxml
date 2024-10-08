@@ -39,6 +39,18 @@
                      <children>
                         <TextFlow fx:id="valueDisplay" prefHeight="28.0" prefWidth="104.0" />
                         <TextFlow fx:id="pointsDisplay" layoutX="113.0" prefHeight="28.0" prefWidth="62.0" textAlignment="RIGHT" />
+                        <Button fx:id="helpButton" layoutX="181.0" layoutY="-7.0" style="-fx-background-color: none;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <FontAwesomeIconView fill="#c0c0c0" glyphName="QUESTION_CIRCLE" selectionFill="#ffffff" size="18" wrappingWidth="16.000000000000114">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </FontAwesomeIconView>
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="190.0" prefWidth="225.0" style="-fx-background: white; -fx-border-color: white;">
@@ -122,6 +134,13 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+            <FontAwesomeIconView fx:id="searchArrow" fill="grey" glyphName="ARROW_RIGHT" layoutX="117.0" layoutY="373.0" visible="false" />
+            <Label fx:id="searchText" layoutX="133.0" layoutY="348.0" prefHeight="40.0" prefWidth="172.0" style="-fx-background-radius: 7;" text="www.wine-searcher.com" textFill="GREY" visible="false" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <TextFlow fx:id="helpText" layoutX="250.0" layoutY="70.0" prefHeight="150.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 7;" visible="false" />
+<!--        Based on the rating system from WineEnthusiast:  -->
          </children>
       </Pane>
    </children>
