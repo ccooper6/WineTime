@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Logger;
  * @author Yuhao Zhang
  */
 public class WineBuilder {
-    //TODO tasters?
-
     private int id;
     private String name = null;
     private String description = null;
@@ -22,15 +20,13 @@ public class WineBuilder {
     private String region2 = null;
     private String variety = null;
     private String winery = null;
-    private String tasterName = null;
-    private String tasterTwitter = null;
 
     private static final Logger LOG = LogManager.getLogger(WineBuilder.class);
 
     /**
      * Returns the built Wine object using the values stored in this class as arguments.
      * Returns null if name is not assigned
-     * @return {@link Wine} the built wine object
+     * @return {@link Wine} the built wine object, null if wine has no name
      */
     public Wine build() {
         if (name == null || name.isEmpty()) {
@@ -38,7 +34,7 @@ public class WineBuilder {
             return null;
         }
 
-        return new Wine(id, name, description, price, points, vintage, country, province, region1, region2, variety, winery, tasterName, tasterTwitter);
+        return new Wine(id, name, description, price, points, vintage, country, province, region1, region2, variety, winery);
     }
 
     /**
@@ -63,66 +59,23 @@ public class WineBuilder {
     }
 
     /**
-     * Setter for id.
-     * @param id The id of the wine
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Setter for name.
-     * @param name The name of the wine
-     */
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    /**
-     * Setter for description.
-     * @param description The description of the wine
-     */
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    /**
-     * Setter for price.
-     * @param price The price of the wine
-     */
-    public void setPrice(int price)
-    {
-        this.price = price;
-    }
-
-    /**
-     * Setter for points.
-     * @param points The point value of the wine
-     */
-    public void setPoints(int points) {this.points = points;}
-    /**
      * Setter for vintage.
      * @param vintage The vintage of the wine
      */
-    public void setVintage(int vintage) {
-        this.vintage = vintage;
-    }
-
-    /**
-     * Setter for province.
-     * @param province The province of the wine
-     */
-    public void setProvince(String province) {
-        this.province = province;
+    private void setVintage(String vintage)
+    {
+        if (vintage != null && !vintage.isEmpty()) {
+            this.vintage = Integer.parseInt(vintage);
+        } else {
+            this.vintage = -1;
+        }
     }
 
     /**
      * Setter for region.
      * @param region The region of the wine
      */
-    public void setRegion(String region) {
+    private void setRegion(String region) {
         if (this.region1 == null) {
             this.region1 = region;
         } else {
@@ -131,42 +84,35 @@ public class WineBuilder {
     }
 
     /**
-     * Setter for variety.
-     * @param variety The variety of the wine
+     *
+     *
+     * @param type The type of tag to set
+     * @param value The value to set the tag to
      */
-    public void setVariety(String variety) {
-        this.variety = variety;
-    }
-
-    /**
-     * Setter for winery.
-     * @param winery The winery of the wine
-     */
-    public void setWinery(String winery) {
-        this.winery = winery;
-    }
-
-    /**
-     * Setter for tasterName.
-     * @param tasterName The name of the taster
-     */
-    public void setTasterName(String tasterName) {
-        this.tasterName = tasterName;
-    }
-
-    /**
-     * Setter for tasterTwitter.
-     * @param tasterTwitter The twitter of the taster
-     */
-    public void setTasterTwitter(String tasterTwitter) {
-        this.tasterTwitter = tasterTwitter;
-    }
-
-    /**
-     * Setter for country.
-     * @param country The country of the wine
-     */
-    public void setCountry(String country) {
-        this.country = country;
+    public void setTag(TagType type, String value)
+    {
+        switch (type) {
+            case TagType.VARIETY:
+                variety = value;
+                break;
+            case TagType.PROVINCE:
+                province = value;
+                break;
+            case TagType.REGION:
+                setRegion(value);
+                break;
+            case TagType.VINTAGE:
+                setVintage(value);
+                break;
+            case TagType.COUNTRY:
+                country = value;
+                break;
+            case TagType.WINERY:
+                winery = value;
+                break;
+            case null:
+            default:
+                LOG.error("Error: Tag type {} is not supported!", type);
+        }
     }
 }

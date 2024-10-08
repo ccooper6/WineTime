@@ -3,8 +3,6 @@ package seng202.team1.services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.util.HashMap;
@@ -15,11 +13,10 @@ import java.util.HashMap;
  * liked/disliked tags for the respective pie charts to be shown
  */
 public class TagRankingService {
-    private static final Logger LOG = LogManager.getLogger(TagRankingService.class);
     private final LogWineDao logWineDao;
 
     /**
-     * initialises a logWineDao
+     * Initialises a TagRankingService with a LogWineDAO
      */
     public TagRankingService() {
         this.logWineDao = new LogWineDao();
@@ -65,7 +62,7 @@ public class TagRankingService {
      */
     public ObservableList<PieChart.Data> getLowestTagData(int uid, int numTags) {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-        HashMap<String, Integer> topFiveTags = logWineDao.getMostDislikedTags(uid, 5);
+        HashMap<String, Integer> topFiveTags = logWineDao.getMostDislikedTags(uid, numTags);
         for (String tagName : topFiveTags.keySet()) {
             data.add(new PieChart.Data(tagName, -1 * topFiveTags.get(tagName)));
         }

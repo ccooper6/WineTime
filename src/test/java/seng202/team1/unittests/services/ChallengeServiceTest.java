@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.DuplicateEntryException;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.ChallengeDAO;
@@ -46,7 +45,7 @@ public class ChallengeServiceTest {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         user = new User(0, "test", "test");
-        System.out.println(user);
+
         User.setCurrenUser(user);
         challengeDAO = new ChallengeDAO();
         challengeService = new ChallengeService();
@@ -129,7 +128,7 @@ public class ChallengeServiceTest {
     @Test
     public void activeChallengeTest() throws DuplicateEntryException {
         userDAO.add(user);
-        challengeDAO.userToChallenge(0, "Variety Challenge");
+        challengeDAO.startChallenge(0, "Variety Challenge");
         assertEquals(true, challengeService.activeChallenge());
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
@@ -49,7 +50,7 @@ public class WineLoggingServiceTest {
 
     /**
      * Tests that {@link ReviewService#submitLog(int, int, int, ArrayList, ArrayList, boolean, String)} submits the log properly
-     * by calling {@link LogWineDao#reviews(int, int, int, String, String, ArrayList, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
+     * by calling {@link LogWineDao#doReview(int, int, int, String, String, ArrayList, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
      * properly, as well as making sure all redundant whitespace is removed from the description text before being added
      * to the database
      */
@@ -81,7 +82,7 @@ public class WineLoggingServiceTest {
     @Test
     public void testGetReviewExists() {
         int testUserId = 1;
-        logWineDao.reviews(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), new ArrayList<>(List.of("fruity", "smooth")), false);
+        logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), new ArrayList<>(List.of("fruity", "smooth")), false);
         Review testReview = reviewService.getReview(1,1);
         assertEquals(testReview.getUid(), 1);
         assertEquals(testReview.getWid(), 1);
@@ -107,14 +108,14 @@ public class WineLoggingServiceTest {
         ArrayList<String> tagsToRemove = new ArrayList<>(List.of("fruity", "smooth"));
 
         reviewService.updateTagLikes(uid, initialTags, new ArrayList<>(), initialRating, 0);
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(2, result.size());
         assertTrue(result.containsKey("fruity") && result.containsKey("smooth"));
         assertEquals(3, result.get("fruity"));
         assertEquals(3, result.get("smooth"));
 
         reviewService.updateTagLikes(uid, tagsToAdd, tagsToRemove, newRating, initialRating);
-        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertTrue(newResult.containsKey("clean") && newResult.containsKey("calebiscool") && newResult.containsKey("sparkly"));
         assertEquals(-1, newResult.get("clean"));
         assertEquals(-1, newResult.get("calebiscool"));
@@ -135,7 +136,7 @@ public class WineLoggingServiceTest {
 
         // Add the value to all the tags as we assume if none are selected, all are liked/disliked
         reviewService.updateTagLikes(uid, potentialTagsToChoose, selectedTags, initialRating, 0);
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(5, result.size()); // We can do this as we hava a fresh database
         assertEquals(3, result.get("fruity"));
         assertEquals(3, result.get("smooth"));
@@ -155,7 +156,7 @@ public class WineLoggingServiceTest {
 
         // Add the value to all the tags as we assume if none are selected, all are liked/disliked
         reviewService.updateTagLikes(uid, potentialTagsToChoose, selectedTags, initialRating, 0);
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(5, result.size()); // We can do this as we hava a fresh database
         assertEquals(3, result.get("fruity"));
         assertEquals(3, result.get("smooth"));
@@ -166,7 +167,7 @@ public class WineLoggingServiceTest {
         // Now we select some tags
         selectedTags = new ArrayList<>(List.of("fruity", "smooth"));
         reviewService.updateTagLikes(uid, selectedTags, potentialTagsToChoose, newRating, initialRating);
-        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(5, newResult.size());
         assertEquals(-1, newResult.get("fruity"));
         assertEquals(-1, newResult.get("smooth"));
