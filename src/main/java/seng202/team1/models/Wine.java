@@ -19,6 +19,7 @@ public class Wine {
     private String name;
     private String description;
     private int price;
+    private int points;
     private int vintage;
     private String country;
     private String province;
@@ -36,6 +37,7 @@ public class Wine {
      * @param name String {@link Wine#name}
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
+     * @param points int
      * @param vintage int {@link Wine#vintage}
      * @param country String
      * @param province String {@link Wine#province}
@@ -47,11 +49,12 @@ public class Wine {
      * @param tasterTwitter String {@link Wine#tasterTwitter}
      * @param wineId int {@link Wine#wineId}
      */
-    public Wine(int wineId, String name, String description, int price, int vintage, String country, String province, String region1,
+    public Wine(int wineId, String name, String description, int price, int points, int vintage, String country, String province, String region1,
                 String region2, String variety, String winery, String tasterName, String tasterTwitter) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.points = points;
         this.vintage = vintage;
         this.country = country;
         this.province = province;
@@ -113,7 +116,21 @@ public class Wine {
         this.price = price;
     }
 
+    /**
+     * Getter for the int points of the wine.
+     * @return {@link Wine#points}
+     */
+    public int getPoints() {
+        return points;
+    }
 
+    /**
+     * Sets the points value of the wine to the int parameter.
+     * @param points Integer points
+     */
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     /**
      * Getter for the int vintage of the wine.

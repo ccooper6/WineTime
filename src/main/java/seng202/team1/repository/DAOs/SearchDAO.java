@@ -79,7 +79,8 @@ public class SearchDAO {
                 currentWineBuilder = WineBuilder.genericSetup(resultSet.getInt("id"),
                         resultSet.getString("wine_name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("price"));
+                        resultSet.getInt("price"),
+                        resultSet.getInt("points"));
 
                 currentID = resultSet.getInt("id");
             }
@@ -176,7 +177,7 @@ public class SearchDAO {
         }
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, points, tag.name as tag_name, tag.type as tag_type\n")
                 .append("FROM (SELECT id as temp_id\n")
                 .append("        FROM (SELECT id, count(wid) as c\n")
                 .append("              FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
@@ -560,7 +561,7 @@ public class SearchDAO {
      * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
      */
     private static void initializeSqlReccString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid, int limit) {
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, points, tag.name as tag_name, tag.type as tag_type\n")
                 .append("FROM (SELECT id as temp_id, count(id) as c\n")
                 .append("      FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
                 .append("                JOIN tag on owned_by.tname = tag.name\n");
