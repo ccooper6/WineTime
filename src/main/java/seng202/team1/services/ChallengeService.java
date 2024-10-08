@@ -124,7 +124,7 @@ public class ChallengeService {
 
 
     /**
-     * Checks to see if user has the variety challenge as an active challenge.
+     * Checks to see if user has an active challenge.
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {

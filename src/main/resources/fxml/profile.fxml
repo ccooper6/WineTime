@@ -41,7 +41,7 @@
                         <Font name="Noto Serif Regular" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="noPieChartLabel" layoutX="30.0" layoutY="40.0" prefHeight="27.0" prefWidth="362.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="Review more wines to see your preference">
+                  <Label fx:id="noPieChartLabel" layoutX="30.0" layoutY="40.0" prefHeight="27.0" prefWidth="362.0" style="-fx-background-color: #FFFFFF; " text="Review more wines to see your preference">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font>
