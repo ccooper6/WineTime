@@ -202,10 +202,10 @@ public class WineLoggingPopupController {
     private void monitorRating() {
         ratingSlider.valueProperty().addListener((observableValue, number, t1) -> {
             if (ratingSlider.getValue() < 3) {
-                likingText.setText(" dislike?");
+                likingText.setText("Which of the following parts of the wine did you dislike?");
                 likingText.setTextFill(Color.RED);
             } else {
-                likingText.setText(" like?");
+                likingText.setText("Which of the following parts of the wine did you like?");
                 likingText.setTextFill(Color.GREEN);
             }
         });

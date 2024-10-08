@@ -59,8 +59,8 @@ public class SearchWineService {
         currentMaxYear = TagDAO.getInstance().getMaxVintage();
         currentMinPoints = TagDAO.getInstance().getMinPoints();
         currentMaxPoints = TagDAO.getInstance().getMaxPoints();
-        currentMinPrice = TagDAO.getInstance().getMinPoints();
-        currentMaxPrice = 3300;
+        currentMinPrice = TagDAO.getInstance().getMinPrice();
+        currentMaxPrice = TagDAO.getInstance().getMaxPrice();
     }
 
     /**
