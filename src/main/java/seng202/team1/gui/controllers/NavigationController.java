@@ -10,12 +10,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
@@ -24,6 +28,7 @@ import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
+import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
 
@@ -33,6 +38,14 @@ import java.io.IOException;
  */
 @SuppressWarnings("checkstyle:RightCurly")
 public class NavigationController {
+    public FontAwesomeIconView wishlistButton;
+    public FontAwesomeIconView reviewsButton;
+    public ImageView homeExampleButton;
+    public FontAwesomeIconView userButton;
+    public ImageView logo;
+    public Pane logoPane;
+    public Circle circle;
+    public FontAwesomeIconView closeButton;
     @FXML
     private FontAwesomeIconView dropdownButton;
     @FXML
@@ -88,6 +101,51 @@ public class NavigationController {
             launchSearchWineLoadingScreen();
         });
 
+        wishlistButton.setOnMouseEntered(event -> {
+            wishlistButton.setFill(Paint.valueOf("#A05252"));
+        });
+        wishlistButton.setOnMouseExited(event -> {
+            wishlistButton.setFill(Paint.valueOf("#70171e"));
+        });
+        reviewsButton.setOnMouseEntered(event -> {
+            reviewsButton.setFill(Paint.valueOf("#909090"));
+        });
+        reviewsButton.setOnMouseExited(event -> {
+            reviewsButton.setFill(Paint.valueOf("#707070"));
+        });
+        userButton.setOnMouseEntered(event -> {
+            userButton.setFill(Paint.valueOf("#909090"));
+        });
+        userButton.setOnMouseExited(event -> {
+            userButton.setFill(Paint.valueOf("#707070"));
+        });
+        closeButton.setOnMouseEntered(event -> {
+            closeButton.setFill(Paint.valueOf("#909090"));
+        });
+        closeButton.setOnMouseExited(event -> {
+            closeButton.setFill(Paint.valueOf("#b0b0b0"));
+        });
+        logoPane.setOnMouseEntered(event -> { //random values
+            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() + 5);
+            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() + 5);
+            homeExampleButton.setTranslateX(-1.25);
+            homeExampleButton.setTranslateY(-1.25);
+            logo.setFitWidth(logo.getFitWidth() + 5);
+            logo.setFitHeight(logo.getFitHeight() + 5);
+            logo.setTranslateY(-1.25);
+            logo.setTranslateX(-1.25);
+            circle.setRadius(circle.getRadius() + 2.5);
+        });
+        logoPane.setOnMouseExited(event -> {
+            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() - 5);
+            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() - 5);
+            homeExampleButton.setTranslateX(1.25);
+            homeExampleButton.setTranslateY(1.25);
+            logo.setFitHeight(logo.getFitHeight() - 5);
+            logo.setTranslateY(1.25);
+            logo.setTranslateX(1.25);
+            circle.setRadius(circle.getRadius() - 2.5);
+        });
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
             if (searchBar.isFocused()) {
@@ -133,6 +191,7 @@ public class NavigationController {
         });
         searchBar.getParent().requestFocus();
     }
+
 
     /**
      * Launches the search page when the search icon is clicked.

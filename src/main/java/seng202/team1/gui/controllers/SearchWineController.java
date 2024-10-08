@@ -7,10 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -84,6 +81,8 @@ public class SearchWineController {
     private TextField minPriceTextField;
     @FXML
     private TextField maxPriceTextField;
+    @FXML
+    private Label pricePlusLabel;
     @FXML
     private TextField minPointsTextField;
     @FXML
@@ -415,6 +414,7 @@ public class SearchWineController {
             maxPriceTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxPrice(newValue.intValue());
             resetPrice.setVisible(priceSlider.getLowValue() != priceSlider.getMin() || newValue.intValue() != priceSlider.getMax());
+            pricePlusLabel.setVisible(newValue.intValue() == 200);
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
