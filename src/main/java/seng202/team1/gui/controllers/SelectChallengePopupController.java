@@ -18,8 +18,7 @@ public class SelectChallengePopupController {
      */
     public void startVarietyChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeVariety);
-        Platform.runLater(()->launchProfile());
-
+        Platform.runLater(this::launchProfile);
     }
 
     /**
@@ -27,7 +26,7 @@ public class SelectChallengePopupController {
      */
     public void startYearsChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeYears);
-        launchProfile();
+        Platform.runLater(this::launchProfile);
     }
 
     /**
@@ -35,7 +34,7 @@ public class SelectChallengePopupController {
      */
     public void startRedsChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeReds);
-        launchProfile();
+        Platform.runLater(this::launchProfile);
     }
 
     /**
@@ -43,7 +42,7 @@ public class SelectChallengePopupController {
      */
     public void startWhitesChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeWhites);
-        launchProfile();
+        Platform.runLater(this::launchProfile);
     }
 
     /**
@@ -51,7 +50,7 @@ public class SelectChallengePopupController {
      */
     public void startRoseChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeRose);
-        launchProfile();
+        Platform.runLater(this::launchProfile);
     }
 
     /**
