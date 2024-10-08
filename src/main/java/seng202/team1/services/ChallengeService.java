@@ -82,7 +82,7 @@ public class ChallengeService {
             rose.add(roseList.get(i));
         }
         ArrayList<Integer> wineIDs = getWinesforChallenge(rose);
-        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rose challenge", wineIDs);
+        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rosè challenge", wineIDs);
     }
 
     /**
