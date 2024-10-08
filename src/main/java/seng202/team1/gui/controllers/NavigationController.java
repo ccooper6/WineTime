@@ -192,7 +192,7 @@ public class NavigationController {
         LOG.info("Logging out user " + User.getCurrentUser().getName());
 
         User.setCurrenUser(null);
-        CategoryService.resetCategories();
+        CategoryService.resetCategories(true);
         FXWrapper.getInstance().launchPage("login");
     }
 
@@ -389,6 +389,6 @@ public class NavigationController {
      * Sends the user to the help page when the help button is clicked.
      */
     public void onHelpClicked() {
-        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("help")));
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("helpScreen")));
     }
 }
