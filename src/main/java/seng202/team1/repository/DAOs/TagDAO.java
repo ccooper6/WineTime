@@ -132,7 +132,7 @@ public class TagDAO {
     public int getMinPrice() {
         String sql = "SELECT min(price) FROM wine;";
 
-        return getIntTag(sql, TagType.POINTS);
+        return getIntTag(sql, TagType.PRICE);
     }
 
     /**
@@ -142,7 +142,7 @@ public class TagDAO {
     public int getMaxPrice() {
         String sql = "SELECT max(price) FROM wine";
 
-        return getIntTag(sql, TagType.POINTS);
+        return getIntTag(sql, TagType.PRICE);
     }
 
     private int getIntTag(String sql, TagType type)
