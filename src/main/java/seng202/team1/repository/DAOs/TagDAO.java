@@ -125,6 +125,25 @@ public class TagDAO {
 
         return getIntTag(sql, TagType.POINTS);
     }
+    /**
+     * Gets the min price in the wines
+     * @return the min price
+     */
+    public int getMinPrice() {
+        String sql = "SELECT min(price) FROM wine;";
+
+        return getIntTag(sql, TagType.POINTS);
+    }
+
+    /**
+     * Gets the max price in the wines
+     * @return the max price
+     */
+    public int getMaxPrice() {
+        String sql = "SELECT max(price) FROM wine";
+
+        return getIntTag(sql, TagType.POINTS);
+    }
 
     private int getIntTag(String sql, TagType type)
     {
