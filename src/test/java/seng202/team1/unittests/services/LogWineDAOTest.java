@@ -154,8 +154,8 @@ public class LogWineDAOTest {
     @Test
     public void testAddingGettingDiffReview() {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
-        logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
-        logWineDao.doReview(2,6,3,"I really like wine", "2025-09-15 14:59:51", likedTags, false);
+        logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, likedTags, false);
+        logWineDao.doReview(2,6,3,"I really like wine", "2025-09-15 14:59:51", likedTags, likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, false);
         ArrayList<Review> reviews2 = logWineDao.getUserReview(2, SearchDAO.UNLIMITED, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
@@ -192,7 +192,6 @@ public class LogWineDAOTest {
 
     /**
      * Checks that {@link LogWineDao#doReview(int, int, int, String, String, ArrayList, ArrayList, boolean)} (int, int, int, String, String, ArrayList, ArrayList, boolean) calls
-     * {@link LogWineDao#updateReview(int, int, int, String, String)}} correctly and updates the review appropriately
      * and that {@link LogWineDao#reviewAlreadyExists(int, int)} returns the right boolean.
      */
     @Test

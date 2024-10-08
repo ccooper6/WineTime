@@ -109,7 +109,7 @@ public class SearchDAO {
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("""
-                    SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type
+                    SELECT id, wine.name as wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type
                     FROM (SELECT id as temp_id
                             FROM (SELECT id, count(wid) as c
                                   FROM wine JOIN owned_by on wine.id = owned_by.wid
@@ -200,6 +200,7 @@ public class SearchDAO {
                     WHERE points >= ? AND points <= ?
                     AND wine_name like ?;""");
 
+
         return sqlBuilder.toString();
     }
 
@@ -242,47 +243,9 @@ public class SearchDAO {
 
             try (ResultSet rs = searchPS.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
-
-//                if (wineList.size() >= limit) {
-//                    wineList = new ArrayList<>(wineList.subList(0, limit));
-//                }
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
-        }
-        return wineList;
-    }
-
-    /**
-     * Helper function for searchByNameAndFilter to take sql generated and apply parameters
-     * @param varietyLocationWinery is an ArrayList of selected tags. Only returns results which match ALL tags
-     * @param lowerPoints is the lower bound for the points slider
-     * @param upperPoints is the upper bound for the points slider
-     * @param lowerVintage is the lower bound for the vintage slider
-     * @param upperVintage is the upper bound for the vintage slider
-     * @param filterString is the search query in the navigation bar
-     * @param limit is the maximum number of wines returned
-     * @param sqlBuilder is the sql string the parent function generated
-     * @return an ArrayList of wine objects
-     */
-    public ArrayList<Wine> getResults(ArrayList<String> varietyLocationWinery, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit, StringBuilder sqlBuilder) {
-        ArrayList<Wine> wineList = new ArrayList<>();
-        String sql = sqlBuilder.toString();
-
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql) ) {
-
-            int z = 1;
-
-            try (ResultSet rs = searchPS.executeQuery()) {
-                wineList = processResultSetIntoWines(rs);
-
-                if (wineList.size() >= limit) {
-                    wineList = new ArrayList<>(wineList.subList(0, limit));
-                }
-            }
-        } catch (SQLException e) {
-            LOG.error("Error: Could not perform search for wines with filter, {}", e.getMessage());
         }
         return wineList;
     }
@@ -462,7 +425,7 @@ public class SearchDAO {
      * @return a {@link Wine} object
      */
     public Wine getWine(int wid) {
-        String sql = "SELECT id, wine.name as wine_name, description, price, tag.type as tag_type, tag.name as tag_name FROM wine "
+        String sql = "SELECT id, wine.name as wine_name, description, points, price, tag.type as tag_type, tag.name as tag_name FROM wine "
                 + "JOIN owned_by ON id = owned_by.wid "
                 + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
         WineBuilder wineBuilder = null;
@@ -475,7 +438,8 @@ public class SearchDAO {
                         wineBuilder = WineBuilder.genericSetup(rs.getInt("id"),
                                 rs.getString("wine_name"),
                                 rs.getString("description"),
-                                rs.getInt("price"));
+                                rs.getInt("price"),
+                                rs.getInt("points"));
                     }
 
                     TagType tagType = TagType.fromString(rs.getString("tag_type"));

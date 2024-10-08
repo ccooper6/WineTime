@@ -136,7 +136,7 @@ public class WineLoggingServiceTest {
 
         // Add the value to all the tags as we assume if none are selected, all are liked/disliked
         reviewService.updateTagLikes(uid, potentialTagsToChoose, selectedTags, initialRating, 0);
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(5, result.size()); // We can do this as we hava a fresh database
         assertEquals(3, result.get("fruity"));
         assertEquals(3, result.get("smooth"));
@@ -156,7 +156,7 @@ public class WineLoggingServiceTest {
 
         // Add the value to all the tags as we assume if none are selected, all are liked/disliked
         reviewService.updateTagLikes(uid, potentialTagsToChoose, selectedTags, initialRating, 0);
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(5, result.size()); // We can do this as we hava a fresh database
         assertEquals(3, result.get("fruity"));
         assertEquals(3, result.get("smooth"));
@@ -167,7 +167,7 @@ public class WineLoggingServiceTest {
         // Now we select some tags
         selectedTags = new ArrayList<>(List.of("fruity", "smooth"));
         reviewService.updateTagLikes(uid, selectedTags, potentialTagsToChoose, newRating, initialRating);
-        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(5, newResult.size());
         assertEquals(-1, newResult.get("fruity"));
         assertEquals(-1, newResult.get("smooth"));

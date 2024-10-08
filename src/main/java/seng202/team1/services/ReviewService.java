@@ -90,9 +90,9 @@ public class ReviewService {
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, @NotNull ArrayList<String> tagsLiked, boolean noneSelected, String description) {
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
-            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
+            logWineDao.doReview(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         } else {
-            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
+            logWineDao.doReview(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         }
     }
 
