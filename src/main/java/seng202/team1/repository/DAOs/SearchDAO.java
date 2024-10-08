@@ -170,7 +170,7 @@ public class SearchDAO {
         return wineList;
     }
 
-    private String buildSearchByFilterString(int numTags)
+    private String buildSearchByFilterString(int numTags, String orderBy)
     {
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
@@ -199,7 +199,9 @@ public class SearchDAO {
                     JOIN tag on owned_by.tname = tag.name
                     WHERE points >= ? AND points <= ?
                     AND ((price >= ? and price <= ?) OR price is null)
-                    AND wine_name like ?;""");
+                    AND wine_name like ?
+                    """);
+        sqlBuilder.append("ORDER BY ").append(orderBy).append(";");
 
 
         return sqlBuilder.toString();
@@ -226,7 +228,7 @@ public class SearchDAO {
         }
 
         ArrayList<Wine> wineList = new ArrayList<>();
-        String sql = buildSearchByFilterString(tagList.size());
+        String sql = buildSearchByFilterString(tagList.size(), orderBy);
 
         // get results
         try (Connection conn = databaseManager.connect();
