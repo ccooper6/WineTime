@@ -50,6 +50,7 @@ public class WineLoggingPopupController {
     private ReviewService reviewService;
     private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
     private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+    private Review existingReview;
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
@@ -78,7 +79,7 @@ public class WineLoggingPopupController {
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
-        Review existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
         if (existingReview != null) {
             deleteReviewButton.setDisable(false);
             deleteReviewButton.setOpacity(1);
@@ -93,11 +94,9 @@ public class WineLoggingPopupController {
      * Deletes the review that is being edited
      */
     public void onDeleteReviewPushed() {
-
-        LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
-        reviewService.deleteReview(reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId()));
+        LOG.info("Deleting review with ID {}", existingReview);
+        reviewService.deleteReview(existingReview);
         returnToWinePopUp();
-
     }
 
     /**
