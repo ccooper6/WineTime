@@ -1,7 +1,5 @@
 package seng202.team1.unittests.services;
 
-import org.apache.commons.text.WordUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.models.Wine;
@@ -14,7 +12,7 @@ public class WineTest {
 
     @BeforeEach
     void setup() {
-        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5);
+        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5, 5);
         wineBuilder.setVariety("Früburgunder");
         wine = wineBuilder.build();
     }
