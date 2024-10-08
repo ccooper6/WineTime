@@ -64,7 +64,7 @@
                <font>
                   <Font name="Noto Serif Regular" size="13.0" />
                </font></Label>
-            <Button fx:id="deleteReviewButton" layoutX="27.0" layoutY="361.0" mnemonicParsing="false" onAction="#onDeleteReviewPushed" style="-fx-background-color: #edf0f5;" stylesheets="@../style/greyButton.css" text="Delete Review">
+            <Button fx:id="deleteReviewButton" layoutX="27.0" layoutY="361.0" mnemonicParsing="false" onAction="#onDeleteReviewPushed" style="-fx-border-color: red; -fx-border-radius: 5; -fx-background-radius: 5;" stylesheets="@../style/greyButton.css" text="Delete Review">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
