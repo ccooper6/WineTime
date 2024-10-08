@@ -1,5 +1,6 @@
 package seng202.team1.gui.controllers;
 
+import javafx.application.Platform;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.ChallengeService;
 
@@ -17,7 +18,8 @@ public class SelectChallengePopupController {
      */
     public void startVarietyChallenge() {
         navigationController.executeWithLoadingScreen(challengeService::startChallengeVariety);
-        launchProfile();
+        Platform.runLater(()->launchProfile());
+
     }
 
     /**

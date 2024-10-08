@@ -264,6 +264,11 @@ public class ProfileController {
         challengeService.challengeCompleted(cname);
     }
 
+    @FXML
+    public void quitChallenge() {
+        challengeCompleted(challengeService.usersChallenge());
+    }
+
     /**
      * logs the user out.
      */
