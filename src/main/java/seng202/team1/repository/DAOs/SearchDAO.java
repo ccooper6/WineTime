@@ -198,6 +198,7 @@ public class SearchDAO {
                     JOIN owned_by on id = owned_by.wid
                     JOIN tag on owned_by.tname = tag.name
                     WHERE points >= ? AND points <= ?
+                    AND ((price >= ? and price <= ?) OR price is null)
                     AND wine_name like ?;""");
 
 
@@ -216,7 +217,7 @@ public class SearchDAO {
      * @param orderBy TODO update this
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, String orderBy)
+    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, int lowerPrice, int upperPrice, String filterString, String orderBy)
     {
         for (String tag : tagList) {
             if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
@@ -239,7 +240,9 @@ public class SearchDAO {
             searchPS.setInt(tagList.size() + 4, tagList.size());
             searchPS.setInt(tagList.size() + 5, lowerPoints);
             searchPS.setInt(tagList.size() + 6, upperPoints);
-            searchPS.setString(tagList.size() + 7, '%' + filterString + '%');
+            searchPS.setInt(tagList.size() + 7, lowerPrice);
+            searchPS.setInt(tagList.size() + 8, upperPrice);
+            searchPS.setString(tagList.size() + 9, '%' + filterString + '%');
 
             try (ResultSet rs = searchPS.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);

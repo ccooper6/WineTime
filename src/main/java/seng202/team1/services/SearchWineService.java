@@ -26,12 +26,12 @@ public class SearchWineService {
     private String currentWineryFilter = null;
     private String currentVarietyFilter = null;
 
-    private int currentMinYear = 1821;
-    private int currentMaxYear = 2017;
-    private int currentMinPoints = 80;
-    private int currentMaxPoints = 100;
-    private int currentMinPrice = 4;
-    private int currentMaxPrice = 3300;
+    private int currentMinYear = TagDAO.getInstance().getMinVintage();
+    private int currentMaxYear = TagDAO.getInstance().getMaxVintage();
+    private int currentMinPoints = TagDAO.getInstance().getMinPoints();
+    private int currentMaxPoints = TagDAO.getInstance().getMaxPoints();
+    private int currentMinPrice = TagDAO.getInstance().getMinPrice();
+    private int currentMaxPrice = TagDAO.getInstance().getMaxPrice();
     private String searchOrder = "wine_name";
     private String prevSearch;
     private String prevDropDown = "Name";
@@ -59,8 +59,8 @@ public class SearchWineService {
         currentMaxYear = TagDAO.getInstance().getMaxVintage();
         currentMinPoints = TagDAO.getInstance().getMinPoints();
         currentMaxPoints = TagDAO.getInstance().getMaxPoints();
-        currentMinPrice = TagDAO.getInstance().getMinPoints();
-        currentMaxPrice = 3300;
+        currentMinPrice = TagDAO.getInstance().getMinPrice();
+        currentMaxPrice = TagDAO.getInstance().getMaxPrice();
     }
 
     /**
@@ -131,7 +131,7 @@ public class SearchWineService {
                 System.out.println("RESET FILTERS");
             }
         }
-        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString, searchOrder);
+        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, currentMinPrice, currentMaxPrice, filterString, searchOrder);
         prevSearch = filterString;
     }
 
@@ -317,7 +317,12 @@ public class SearchWineService {
      * @param maxPrice the max price
      */
     public void setCurrentMaxPrice(int maxPrice) {
-        currentMaxPrice = maxPrice;
+
+        if (maxPrice < 200) {
+            currentMaxPrice = maxPrice;
+        } else {
+            currentMaxPrice = 3300;
+        }
     }
 
     /**

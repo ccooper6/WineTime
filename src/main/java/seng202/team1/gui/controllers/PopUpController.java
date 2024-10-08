@@ -1,6 +1,7 @@
 package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
@@ -110,15 +112,25 @@ public class PopUpController {
             icon.setFill(Color.web("#c0c0c0"));
         }
 
-        initializeHovers();
+        PauseTransition pause = new PauseTransition(Duration.millis(100));
+        pause.setOnFinished(event -> initializeHovers());
+        pause.play();
 
         Text dollarSign = new Text("$");
         dollarSign.setStyle("-fx-font-size: 18;");
         Text value = new Text(String.valueOf(wine.getPrice()));
-        value.setStyle("-fx-font-size: 18;");
-        Text currency = new Text(" NZD");
-        currency.setStyle("-fx-font-size: 10;");
-        valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        if (!"0".equals(value.getText())) {
+            value.setStyle("-fx-font-size: 18;");
+            Text currency = new Text(" NZD");
+            currency.setStyle("-fx-font-size: 10;");
+            valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        } else {
+            Text buffer = new Text(" ");
+            buffer.setStyle("-fx-font-size: 18;");
+            Text unknown = new Text("Price Unknown");
+            unknown.setStyle("-fx-font-size: 14;");
+            valueDisplay.getChildren().addAll(buffer, unknown);
+        }
         Text points = new Text(String.valueOf(wine.getPoints()));
         points.setStyle("-fx-font-size: 18;");
         Text range = new Text(" / 100");
@@ -154,7 +166,6 @@ public class PopUpController {
                 navigationController.initPopUp(finalWine);
             }
 
-
         });
         populatePopup(wine);
 
@@ -187,6 +198,10 @@ public class PopUpController {
             });
         }
     }
+
+    /**
+     * Initializes the hover effects for the buttons on the popup.
+     */
     private void initializeHovers() {
         wineSearchLink.setOnMouseEntered(event -> {
             wineSearchLink.setTextFill(Paint.valueOf("#808080"));
