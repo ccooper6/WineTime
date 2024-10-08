@@ -4,7 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.User;
@@ -38,18 +41,22 @@ public class WineLoggingPopupController {
     private Label likingText;
     @FXML
     private Text promptText;
+    @FXML
+    private Button deleteReviewButton;
 
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
     private ReviewService reviewService;
-
+    private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
     private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
+        deleteReviewButton.setOpacity(0);
+        deleteReviewButton.setDisable(true);
         likingText.setTextFill(Color.GREEN);
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
@@ -73,11 +80,24 @@ public class WineLoggingPopupController {
 
         Review existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
         if (existingReview != null) {
+            deleteReviewButton.setDisable(false);
+            deleteReviewButton.setOpacity(1);
             promptText.setText("Edit your review");
             populateReviewData(existingReview);
         } else {
             promptText.setText("Review this wine!");
         }
+    }
+
+    /**
+     * Deletes the review that is being edited
+     */
+    public void onDeleteReviewPushed() {
+
+        LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
+        reviewService.deleteReview(reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId()));
+        returnToWinePopUp();
+
     }
 
     /**
@@ -105,31 +125,45 @@ public class WineLoggingPopupController {
      */
     private void addTagCheckBoxes(Wine wine) {
         if (wine.getVintage() != NULL) {
-            tagCheckBoxArray.add(new CheckBox(wine.getVintage() + " Vintage"));
+            CheckBox vintageCheckBox = new CheckBox(wine.getVintage() + " Vintage");
+            vintageCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(vintageCheckBox);
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
         if (wine.getCountry() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getCountry() + " Country"));
+            CheckBox countryCheckBox = new CheckBox(wine.getCountry() + " Country");
+            countryCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(countryCheckBox);
             tagNameArray.add(wine.getCountry());
         }
         if (wine.getProvince() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));
+            CheckBox provinceCheckBox = new CheckBox(wine.getProvince() + " province");
+            provinceCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(provinceCheckBox);
             tagNameArray.add(wine.getProvince());
         }
         if (wine.getRegion1() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getRegion1() + " region"));
+            CheckBox region1CheckBox = new CheckBox(wine.getRegion1() + " region");
+            region1CheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(region1CheckBox);
             tagNameArray.add(wine.getRegion1());
         }
         if (wine.getRegion2() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getRegion2() + " region"));
+            CheckBox region2CheckBox = new CheckBox(wine.getRegion2() + " region");
+            region2CheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(region2CheckBox);
             tagNameArray.add(wine.getRegion2());
         }
         if (wine.getVariety() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getVariety()));
+            CheckBox varietyCheckBox = new CheckBox(wine.getVariety());
+            varietyCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(varietyCheckBox);
             tagNameArray.add(wine.getVariety());
         }
         if (wine.getWinery() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getWinery() + " winery"));
+            CheckBox wineryCheckBox = new CheckBox(wine.getWinery() + " winery");
+            wineryCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(wineryCheckBox);
             tagNameArray.add(wine.getWinery());
         }
         for (CheckBox checkbox : tagCheckBoxArray) {

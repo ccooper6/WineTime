@@ -6,16 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.services.CategoryService;
 import seng202.team1.services.RecommendWineService;
-import seng202.team1.services.WineCategoryService;
 
-import java.io.IOException;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -30,20 +26,30 @@ public class MainController {
     @FXML
     private AnchorPane categoryAnchorPane;
 
-    private static final Logger LOG = LogManager.getLogger(MainController.class);
-
     /**
      * Initializes the main page view.
      */
     public void initialize() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.executeWithLoadingScreen(() -> {
-            WineCategoryService.getInstance().resetCurrentCategory();
-            helloText.setText("Hello, " + User.getCurrentUser().getName() + "!");
+        CategoryService.resetCategories();
 
-            if (!CategoryService.isCategoriesGenerated()) {
-                generateAllCategories();
+        LocalTime currentTime = java.time.LocalTime.now();
+        if (currentTime.isAfter(java.time.LocalTime.of(6, 0)) && currentTime.isBefore(java.time.LocalTime.of(12, 0))) {
+            helloText.setText("Good morning, " + User.getCurrentUser().getName() + "!");
+        } else if (currentTime.isAfter(java.time.LocalTime.of(12, 0)) && currentTime.isBefore(java.time.LocalTime.of(17, 0))) {
+            helloText.setText("Good afternoon, " + User.getCurrentUser().getName() + "!");
+        } else {
+            helloText.setText("Good evening, " + User.getCurrentUser().getName() + "!");
+        }
+
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+
+        navigationController.executeWithLoadingScreen(() -> {
+
+            if (!CategoryService.areTagsGenerated()) {
+                CategoryService.generateTags();
             }
+
+            generateAllCategories();
 
             Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
             if (hasRecommended) {
@@ -54,32 +60,17 @@ public class MainController {
         });
     }
 
+
     /**
      * Generates all the wine category displays for the main page.
      */
     private void generateAllCategories() {
-        try {
-            String[] tags = {
-                    "Bordeaux, Merlot",
-                    "Marlborough, Sauvignon Blanc",
-                    "Tuscany, Sangiovese",
-                    "Hawke's Bay, Syrah",
-                    "Spain, Rioja, Tempranillo",
-                    "Mendoza, Malbec",
-                    "US, Napa Valley, Cabernet Sauvignon",
-                    "Central Otago, Pinot Noir, New Zealand"
-            };
+        List<Parent> allCategories = CategoryService.getAllCategories();
+        String[] tagsList = CategoryService.getGeneratedTags();
 
-            List<Parent> allCategories = CategoryService.getAllCategories();
-
-            for (String tag : tags) {
-                Parent parent = WineCategoryDisplayController.createCategory(tag);
-                allCategories.add(parent);
-            }
-
-            CategoryService.setCategoriesGenerated(true);
-        } catch (IOException e) {
-            LOG.error("An error has occurred while generating categories", e);
+        for (int i = 0; i < tagsList.length && i < 8; i++) {
+            Parent parent = WineCategoryDisplayController.createCategory(tagsList[i]);
+            allCategories.add(parent);
         }
     }
 
@@ -90,12 +81,7 @@ public class MainController {
     private void displayCategoriesWithRec() {
         List<Parent> allCategories = CategoryService.getAllCategories();
         Parent reccParent;
-        try {
-            reccParent = WineCategoryDisplayController.createCategory("recommend");
-        } catch (IOException e) {
-            LOG.error("An error has occurred while generating the recommendation category", e);
-            return;
-        }
+        reccParent = WineCategoryDisplayController.createCategory("recommend");
 
         Platform.runLater(() -> {
             contentsGrid.add(reccParent, 0, 0);
@@ -123,5 +109,14 @@ public class MainController {
             }
         });
 
+    }
+
+    /**
+     * Refreshes the selection of wines in the main page.
+     */
+    @FXML
+    private void refreshCategories() {
+        CategoryService.resetCategories(true);
+        FXWrapper.getInstance().getNavigationController().loadMainScreen();
     }
 }

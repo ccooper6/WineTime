@@ -28,7 +28,7 @@
                            <children>
                               <Text fx:id="wineName" layoutY="25.0" text="Wine Name..." wrappingWidth="212.0">
                                  <font>
-                                    <Font name="PT Serif" size="19.0" />
+                                    <Font name="Noto Serif Regular" size="19.0" />
                                  </font>
                               </Text>
                            </children>
@@ -47,7 +47,7 @@
                            <children>
                               <Text fx:id="description" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description..." wrappingWidth="212.0">
                                  <font>
-                                    <Font name="PT Serif" size="14.0" />
+                                    <Font name="Noto Serif Regular" size="14.0" />
                                  </font></Text>
                            </children>
                         </AnchorPane>
@@ -64,27 +64,27 @@
                <content>
                   <FlowPane fx:id="tagFlowPane" hgap="15.0" prefHeight="101.0" prefWidth="224.0" style="-fx-background-color: white;" vgap="10.0">
                      <children>
-                        <Button fx:id="vintageTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Vintage" textFill="WHITE">
+                        <Button fx:id="vintageTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Vintage" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button fx:id="varietyTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Variety" textFill="WHITE">
+                        <Button fx:id="varietyTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Variety" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button fx:id="countryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Country" textFill="WHITE">
+                        <Button fx:id="countryTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Country" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button fx:id="provinceTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Province" textFill="WHITE">
+                        <Button fx:id="provinceTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Province" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button fx:id="wineryTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Winery" textFill="WHITE">
+                        <Button fx:id="wineryTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Winery" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button fx:id="regionTag" mnemonicParsing="false" style="-fx-background-color: #808080;" text="Region" textFill="WHITE">
+                        <Button fx:id="regionTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Region" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>

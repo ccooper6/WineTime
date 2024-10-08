@@ -1,7 +1,9 @@
 .button {
-    -fx-background-color: #70171e; /* Normal color */
-    -fx-text-fill: white;
+    -fx-background-color: #70171e;
+    -fx-background-radius: 4px;
+    -fx-text-fill: #ffffff;
     -fx-font-family: 'Noto Serif';
+
 }
 
 .button:hover {

@@ -548,7 +548,7 @@ public class SearchWineController {
     public void displayCurrentPage()
     {
         if (allWines == null || allWines.size() == 0) {
-            title.setText("\n\n\nSorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
+            title.setText("\n\n\nSorry, there were no results for your search.\n\nTry:\n    - Checking your spelling\n    - A different combination of filters");
 
             pageCounterText.getParent().setVisible(false);
 
@@ -764,27 +764,20 @@ public class SearchWineController {
      */
     public void resetFilters() {
 
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
         try {
             countryComboBox.setValue(null);
             countryComboBox.setSkin(new SearchableComboBoxSkin<>(countryComboBox));
-        } catch (Exception ignore){}
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
         try {
             varietyComboBox.setValue(null);
             varietyComboBox.setSkin(new SearchableComboBoxSkin<>(varietyComboBox));
-        } catch (Exception ignore){}
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
-
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
         try {
             wineryComboBox.setValue(null);
             wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){}
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
 
         priceSlider.setLowValue(priceSlider.getMin());

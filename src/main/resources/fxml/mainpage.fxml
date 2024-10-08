@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.MainController">
     <children>
         <ScrollPane depthTest="ENABLE" focusTraversable="false" hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-background: #FFFFFF;">
             <content>
@@ -17,7 +17,7 @@
                     <children>
                         <Text fx:id="helloText" layoutX="9.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello [Name]!">
                             <font>
-                                <Font name="PT Serif" size="36.0" />
+                                <Font name="Georgia" size="36.0" />
                             </font>
                         </Text>
                         <GridPane fx:id="contentsGrid" layoutX="42.0" layoutY="63.0" prefHeight="1600.0" prefWidth="1280.0">
@@ -35,6 +35,16 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                         </GridPane>
+                  <FontAwesomeIconView glyphName="REFRESH" layoutX="1132.0" layoutY="48.0" onMouseClicked="#refreshCategories" size="30">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+                  <Label alignment="CENTER_RIGHT" layoutX="779.0" layoutY="28.0" prefHeight="19.0" prefWidth="333.0" text="Not liking the selection? Try refreshing!">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                     </children>
                 </AnchorPane>
             </content>
