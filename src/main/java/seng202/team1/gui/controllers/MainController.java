@@ -86,6 +86,7 @@ public class MainController {
             contentsGrid.add(reccParent, 0, 0);
             for (int i = 0; i < 8 && i < allCategories.size(); i++) {
                 Parent parent = allCategories.get(i);
+                contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 20);
                 if (i >= contentsGrid.getRowCount()) {
                     categoryAnchorPane.setPrefHeight(categoryAnchorPane.getPrefHeight() + 200);
                     contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
