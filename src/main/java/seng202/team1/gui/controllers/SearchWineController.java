@@ -98,11 +98,11 @@ public class SearchWineController {
     private TextField maxYearTextField;
 
     @FXML
-    private Text resetCountry;
+    private Button resetCountry;
     @FXML
-    private Text resetWinery;
+    private Button resetWinery;
     @FXML
-    private Text resetVariety;
+    private Button resetVariety;
     @FXML
     private Text resetVintage;
     @FXML
@@ -193,11 +193,11 @@ public class SearchWineController {
 
         varietyComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentVarietyFilter(newValue);
-            resetVariety.setVisible(newValue != null && !newValue.isEmpty());
+            resetVariety.setDisable(!(newValue != null && !newValue.isEmpty()));
         });
 
         varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
-        resetVariety.setVisible(varietyComboBox.getValue() != null && !varietyComboBox.getValue().isEmpty());
+        resetVariety.setDisable(!(varietyComboBox.getValue() != null && !varietyComboBox.getValue().isEmpty()));
     }
 
     /**
@@ -209,11 +209,11 @@ public class SearchWineController {
 
         countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentCountryFilter(newValue);
-            resetCountry.setVisible(newValue != null && !newValue.isEmpty());
+            resetCountry.setDisable(!(newValue != null && !newValue.isEmpty()));
         });
 
         countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
-        resetCountry.setVisible(countryComboBox.getValue() != null && !countryComboBox.getValue().isEmpty());
+        resetCountry.setDisable(!(countryComboBox.getValue() != null && !countryComboBox.getValue().isEmpty()));
     }
 
     /**
@@ -225,11 +225,11 @@ public class SearchWineController {
 
         wineryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentWineryFilter(newValue);
-            resetWinery.setVisible(newValue != null && !newValue.isEmpty());
+            resetWinery.setDisable(!(newValue != null && !newValue.isEmpty()));
         });
 
         wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
-        resetWinery.setVisible(wineryComboBox.getValue() != null && !wineryComboBox.getValue().isEmpty());
+        resetWinery.setDisable(!(wineryComboBox.getValue() != null && !wineryComboBox.getValue().isEmpty()));
     }
 
     /**
@@ -567,7 +567,7 @@ public class SearchWineController {
     public void displayCurrentPage()
     {
         if (allWines == null || allWines.size() == 0) {
-            title.setText("\n\n\nSorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
+            title.setText("\n\n\nSorry, there were no results for your search.\n\nTry:\n    - Checking your spelling\n    - A different combination of filters");
 
             pageCounterText.getParent().setVisible(false);
 
@@ -812,6 +812,16 @@ public class SearchWineController {
         pointsSlider.setHighValue(pointsSlider.getMax());
         vintageSlider.setHighValue(vintageSlider.getMax());
         priceSlider.setHighValue(priceSlider.getMax());
+
+        SearchWineService.getInstance().setCurrentCountryFilter(null);
+        SearchWineService.getInstance().setCurrentWineryFilter(null);
+        SearchWineService.getInstance().setCurrentVarietyFilter(null);
+        SearchWineService.getInstance().setCurrentMinYear((int) vintageSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxYear((int) vintageSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinPoints((int) pointsSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxPoints((int) pointsSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinPrice((int) priceSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxPrice((int) priceSlider.getMax());
     }
 
     /**
@@ -857,7 +867,7 @@ public class SearchWineController {
             countryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
         } catch (Exception ignore){ }
         SearchWineService.getInstance().setCurrentCountryFilter(null);
-        resetCountry.setVisible(false);
+        resetCountry.setDisable(true);
     }
 
     /**
@@ -872,7 +882,7 @@ public class SearchWineController {
             wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
         } catch (Exception ignore){ }
         SearchWineService.getInstance().setCurrentWineryFilter(null);
-        resetWinery.setVisible(false);
+        resetWinery.setDisable(true);
     }
 
     /**
@@ -887,7 +897,7 @@ public class SearchWineController {
             varietyComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
         } catch (Exception ignore){ }
         SearchWineService.getInstance().setCurrentVarietyFilter(null);
-        resetVariety.setVisible(false);
+        resetVariety.setDisable(true);
     }
 
     /**

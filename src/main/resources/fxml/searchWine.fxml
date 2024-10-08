@@ -135,20 +135,15 @@
             </Text>
          </children>
       </AnchorPane>
-      <Text fx:id="resetCountry" fill="BLUE" layoutX="156.0" layoutY="110.0" onMouseClicked="#onResetCountryClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Text>
-      <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Country" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" promptText="Variety" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
-      <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Variety" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="31.0" prefWidth="159.0" promptText="Country" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
-      <SearchableComboBox fx:id="wineryComboBox" layoutX="223.0" layoutY="65.0" prefHeight="26.0" prefWidth="180.0" promptText="Winery" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="wineryComboBox" layoutX="223.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" promptText="Winery" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
@@ -179,27 +174,41 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Text fx:id="resetWinery" fill="BLUE" layoutX="368.0" layoutY="110.0" onMouseClicked="#onResetWineryClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+      <Button fx:id="resetCountry" layoutX="169.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetCountryClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="resetWinery" layoutX="382.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetWineryClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="resetVariety" layoutX="595.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetVarietyClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: 15px;">
+         <graphic>
+            <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Text fx:id="resetPoints" fill="#434343" layoutX="1000.0" layoutY="115.0" onMouseClicked="#onResetPointsClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Text>
-      <Text fx:id="resetVariety" fill="BLUE" layoutX="580.0" layoutY="110.0" onMouseClicked="#onResetVarietyClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+      <Text fx:id="resetPrice" fill="#434343" layoutX="1216.0" layoutY="115.0" onMouseClicked="#onResetPriceClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Text>
-      <Text fx:id="resetVintage" fill="BLUE" layoutX="789.0" layoutY="114.0" onMouseClicked="#onResetVintageClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Text>
-      <Text fx:id="resetPoints" fill="BLUE" layoutX="1002.0" layoutY="114.0" onMouseClicked="#onResetPointsClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Text>
-      <Text fx:id="resetPrice" fill="BLUE" layoutX="1215.0" layoutY="114.0" onMouseClicked="#onResetPriceClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
+      <Text fx:id="resetVintage" fill="#434343" layoutX="788.0" layoutY="115.0" onMouseClicked="#onResetVintageClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
