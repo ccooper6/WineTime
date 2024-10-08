@@ -101,6 +101,8 @@ test {
         includeTestsMatching "seng202.team1.unittests.*"
     }
 
+    systemProperty 'test.env', 'true'
+
     finalizedBy jacocoTestReport
 }
 

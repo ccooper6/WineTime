@@ -15,9 +15,10 @@ public class Review {
     private int uid;
     private int wid;
     private int rating;
-    private final String reviewDescription;
-    private final String reviewDate;
-    private final ArrayList<String> tagsSelected;
+    private String reviewDescription;
+    private String reviewDate;
+    private ArrayList<String> tagsSelected;
+    private ArrayList<String> tagsLiked;
 
     /**
      * Constructor for the review class.
@@ -28,13 +29,14 @@ public class Review {
      * @param reviewDate The date the review was made.
      * @param tagsSelected The tags selected by the user.
      */
-    public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate, ArrayList<String> tagsSelected) {
+    public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate, ArrayList<String> tagsSelected, ArrayList<String> tagsLiked) {
         this.uid = uid;
         this.wid = wid;
         this.rating = rating;
         this.reviewDescription = reviewDescription;
         this.reviewDate = reviewDate;
         this.tagsSelected = Objects.requireNonNullElseGet(tagsSelected, ArrayList::new);
+        this.tagsLiked = Objects.requireNonNullElseGet(tagsLiked, ArrayList::new);
     }
 
     /**
@@ -107,5 +109,17 @@ public class Review {
      */
     public ArrayList<String> getTagsSelected() {
         return tagsSelected;
+    }
+
+    /**
+     * Setter for tagsSelected.
+     * @param tagsSelected The tags selected by the user.
+     */
+    public void setTagsSelected(ArrayList<String> tagsSelected) {
+        this.tagsSelected = tagsSelected;
+    }
+
+    public ArrayList<String> getTagsLiked() {
+        return tagsLiked;
     }
 }

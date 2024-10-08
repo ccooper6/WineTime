@@ -411,7 +411,7 @@ public class SearchWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, false);
+        logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
         User.setCurrenUser(new User(1, "user1", "User1"));
         SearchWineService.getInstance().searchWinesByRecommend(10);
         ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
@@ -445,7 +445,7 @@ public class SearchWineServiceTest {
     }
     @Test
     public void testSetCurrentWine() {
-        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5);
+        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5, 97);
         wineBuilder.setTag(TagType.VARIETY, "Früburgunder");
         Wine wine = wineBuilder.build();
         SearchWineService.getInstance().setCurrentWine(wine);

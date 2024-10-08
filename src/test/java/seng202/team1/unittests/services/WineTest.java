@@ -13,7 +13,7 @@ public class WineTest {
 
     @BeforeEach
     void setup() {
-        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5);
+        WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5, 5);
         wineBuilder.setTag(TagType.VARIETY, "Früburgunder");
         wine = wineBuilder.build();
     }

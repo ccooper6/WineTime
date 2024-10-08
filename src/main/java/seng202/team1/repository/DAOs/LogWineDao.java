@@ -131,6 +131,28 @@ public class LogWineDao {
         return null;
     }
 
+    public ArrayList<String> getWineLikedTags(int uid, int wid) {
+        String tags;
+        String getSelectedTags = "SELECT tagsliked FROM reviews WHERE uid = ? AND wid = ?";
+        try (Connection conn = databaseManager.connect()) {
+            try (PreparedStatement ps = conn.prepareStatement(getSelectedTags)) {
+                ps.setInt(1, uid);
+                ps.setInt(2, wid);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    tags = rs.getString(1);
+                    if (tags != null && !tags.isEmpty()) {
+                        String[] tagArray = tags.split(",");
+                        return new ArrayList<>(Arrays.asList(tagArray));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("Error in LogWineDAO.getLikedTags(): Could not access database.");
+        }
+        return null;
+    }
+
     /**
      * Returns a hashmap of tagName, tagValue of the likedTags by the user.
      *
@@ -271,13 +293,14 @@ public class LogWineDao {
      * @param description  the string description of the review
      * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
+     *                     TODO update this
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
-    public void doReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, boolean noneSelected) {
+    public void doReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
         if (!reviewAlreadyExists(uid, wid)) {
-            createReview(uid, wid, rating, description, date, selectedTags, noneSelected);
+            createReview(uid, wid, rating, description, date, selectedTags, tagsLiked, noneSelected);
         } else {
-            updateReview(uid, wid, rating, description, date, selectedTags, noneSelected);
+            updateReview(uid, wid, rating, description, date, selectedTags, tagsLiked, noneSelected);
         }
     }
 
@@ -289,11 +312,12 @@ public class LogWineDao {
      * @param description  the string description of the review
      * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
+     *                     TODO update this
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
-    private void createReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, boolean noneSelected)
+    private void createReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected)
     {
-        String sql = "INSERT INTO reviews (uid, wid, rating, description, date, selectedtags) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO reviews (uid, wid, rating, description, date, selectedtags, tagsLiked) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
@@ -305,6 +329,7 @@ public class LogWineDao {
                     selectedTags = new ArrayList<>();
                 }
                 loggingPS.setString(6, String.join(",", selectedTags));
+                loggingPS.setString(7, String.join(",", tagsLiked));
                 loggingPS.executeUpdate();
             }
             LOG.info("Successfully created review for user");
@@ -322,10 +347,11 @@ public class LogWineDao {
      * @param newDescription the string description of the review
      * @param date           the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags   the ArrayList of tags selected by the user
+     *                       TODO update this
      * @param noneSelected   a boolean value to indicate if no tags were selected
      */
-    private void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, boolean noneSelected) {
-        String sql = "UPDATE reviews SET description = ?, rating = ?, date = ?, selectedtags = ? WHERE uid = ? AND wid = ?";
+    private void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
+        String sql = "UPDATE reviews SET description = ?, rating = ?, date = ?, selectedtags = ?, tagsliked = ? WHERE uid = ? AND wid = ?";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setString(1, newDescription);
@@ -335,8 +361,9 @@ public class LogWineDao {
                     selectedTags = new ArrayList<>();
                 }
                 loggingPS.setString(4, String.join(",", selectedTags));
-                loggingPS.setInt(5, uid);
-                loggingPS.setInt(6, wid);
+                loggingPS.setString(5, String.join(",", tagsLiked));
+                loggingPS.setInt(6, uid);
+                loggingPS.setInt(7, wid);
                 loggingPS.executeUpdate();
                 LOG.info("Successfully updated review for user");
             }
@@ -369,7 +396,7 @@ public class LogWineDao {
 
                     userReviews.add(new Review(rs.getInt(1), rs.getInt(2),
                             rs.getInt(3), rs.getString(4), rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2))));
+                            getSelectedTags(uid, rs.getInt(2)), getWineLikedTags(uid, rs.getInt(2))));
                 }
 
                 return userReviews;
@@ -441,7 +468,8 @@ public class LogWineDao {
                             rs.getInt(3),
                             rs.getString(4),
                             rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2))
+                            getSelectedTags(uid, rs.getInt(2)),
+                            getWineLikedTags(uid, rs.getInt(2))
                     );
                 }
             }

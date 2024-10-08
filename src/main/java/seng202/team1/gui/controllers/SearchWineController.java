@@ -2,6 +2,7 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import impl.org.controlsfx.skin.SearchableComboBoxSkin;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -543,7 +544,7 @@ public class SearchWineController {
     public void displayCurrentPage()
     {
         if (allWines == null || allWines.size() == 0) {
-            title.setText("\n\n\nSorry, your search query had no results.\n\nTry:\n    - Checking your spelling\n    - Making sure you're searching for the correct attributes (e.g\n      Tags or Title)\n    - Making sure your tags are correct (e.g Winery, Variety,\n      Vintage, Country, Region)\n    - Different Keywords");
+            title.setText("\n\n\nSorry, there were no results for your search.\n\nTry:\n    - Checking your spelling\n    - A different combination of filters");
 
             pageCounterText.getParent().setVisible(false);
 
@@ -759,15 +760,20 @@ public class SearchWineController {
      */
     public void resetFilters() {
 
-        countryComboBox.setValue(null);
-        countryComboBox.setPromptText("Country");
+        try {
+            countryComboBox.setValue(null);
+            countryComboBox.setSkin(new SearchableComboBoxSkin<>(countryComboBox));
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
-        varietyComboBox.setValue(null);
-        varietyComboBox.setPromptText("Variety");
+        try {
+            varietyComboBox.setValue(null);
+            varietyComboBox.setSkin(new SearchableComboBoxSkin<>(varietyComboBox));
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
-
-        wineryComboBox.setValue(null);
-        wineryComboBox.setPromptText("Winery");
+        try {
+            wineryComboBox.setValue(null);
+            wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
+        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
 
 
         priceSlider.setLowValue(priceSlider.getMin());
@@ -784,11 +790,11 @@ public class SearchWineController {
     public void dropDownClicked(){
         String column_name = null;
         if (sortDropDown.getValue() != null) {
-            if(sortDropDown.getValue().toString().equals("Recommended")) {
+            if(sortDropDown.getValue().equals("Recommended")) {
                 SearchWineService.getInstance().searchWinesByRecommend(120);
             }
             else{
-                switch (sortDropDown.getValue().toString()) {
+                switch (sortDropDown.getValue()) {
                     case "Name" -> {
                         column_name = "wine_name";
                     }
@@ -804,7 +810,7 @@ public class SearchWineController {
                 }
                 SearchWineService.getInstance().setSearchOrder(column_name);
             }
-            SearchWineService.getInstance().setDropDown(sortDropDown.getValue().toString());
+            SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
             FXWrapper.getInstance().launchSubPage("searchWine");
         }
     }

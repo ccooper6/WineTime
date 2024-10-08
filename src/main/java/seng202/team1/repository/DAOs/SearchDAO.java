@@ -11,6 +11,8 @@ import java.sql.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
+import static org.apache.commons.collections.CollectionUtils.size;
+
 /**
  * Data Access Object for the Search Wines functionality.
  * Allows for searching by wine names or tags
@@ -77,7 +79,8 @@ public class SearchDAO {
                 currentWineBuilder = WineBuilder.genericSetup(rs.getInt("id"),
                         rs.getString("wine_name"),
                         rs.getString("description"),
-                        rs.getInt("price"));
+                        rs.getInt("price"),
+                        rs.getInt("points"));
 
                 currentID = rs.getInt("id");
             }
@@ -203,16 +206,16 @@ public class SearchDAO {
     /**
      * Searches for wines given a String of tags.
      *
-     * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
-     * @param lowerPoints the lowest amount of points that a wine can have.
-     * @param upperPoints the highest amounts of points that a wine can have.
+     * @param tagList      {@link String} of tag names seperated by commas. Must be normalised and lower case.
+     * @param lowerPoints  the lowest amount of points that a wine can have.
+     * @param upperPoints  the highest amounts of points that a wine can have.
      * @param lowerVintage the lowest vintage a wine can have.
      * @param upperVintage the highest vintage a wine can have.
      * @param filterString the string that must match to a wines title.
-     * @param limit the maximum number of wines to fetch
+     * @param orderBy TODO update this
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
-    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit)
+    public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, String orderBy)
     {
         for (String tag : tagList) {
             if (!Normalizer.isNormalized(tag, Normalizer.Form.NFD)) {
@@ -236,6 +239,40 @@ public class SearchDAO {
             searchPS.setInt(tagList.size() + 5, lowerPoints);
             searchPS.setInt(tagList.size() + 6, upperPoints);
             searchPS.setString(tagList.size() + 7, '%' + filterString + '%');
+
+            try (ResultSet rs = searchPS.executeQuery()) {
+                wineList = processResultSetIntoWines(rs);
+
+//                if (wineList.size() >= limit) {
+//                    wineList = new ArrayList<>(wineList.subList(0, limit));
+//                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        return wineList;
+    }
+
+    /**
+     * Helper function for searchByNameAndFilter to take sql generated and apply parameters
+     * @param varietyLocationWinery is an ArrayList of selected tags. Only returns results which match ALL tags
+     * @param lowerPoints is the lower bound for the points slider
+     * @param upperPoints is the upper bound for the points slider
+     * @param lowerVintage is the lower bound for the vintage slider
+     * @param upperVintage is the upper bound for the vintage slider
+     * @param filterString is the search query in the navigation bar
+     * @param limit is the maximum number of wines returned
+     * @param sqlBuilder is the sql string the parent function generated
+     * @return an ArrayList of wine objects
+     */
+    public ArrayList<Wine> getResults(ArrayList<String> varietyLocationWinery, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, String filterString, int limit, StringBuilder sqlBuilder) {
+        ArrayList<Wine> wineList = new ArrayList<>();
+        String sql = sqlBuilder.toString();
+
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql) ) {
+
+            int z = 1;
 
             try (ResultSet rs = searchPS.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
@@ -383,7 +420,7 @@ public class SearchDAO {
      */
     private static void initializeSqlRecommendedString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid) {
         sqlBuilder.append("""
-                    SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type
+                    SELECT id, wine.name as wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type
                     FROM (SELECT id as temp_id, count(id) as c
                           FROM wine JOIN owned_by on wine.id = owned_by.wid
                                     JOIN tag on owned_by.tname = tag.name

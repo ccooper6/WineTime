@@ -139,4 +139,8 @@ public class FXWrapper {
         currentPage = page;
     }
 
+    public void closeApplication() {
+        System.exit(0);
+    }
+
 }

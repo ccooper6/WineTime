@@ -1,6 +1,7 @@
 .button {
     -fx-background-color: #70171e; /* Normal color */
     -fx-text-fill: white;
+    -fx-font-family: 'Noto Serif';
 }
 
 .button:hover {

@@ -4,12 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.services.WineLoggingPopupService;
+import seng202.team1.services.ReviewService;
 
 import java.util.ArrayList;
 
@@ -38,21 +41,27 @@ public class WineLoggingPopupController {
     private Label likingText;
     @FXML
     private Text promptText;
+    @FXML
+    private Button deleteReviewButton;
 
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
-    private WineLoggingPopupService wineLoggingPopupService;
+    private ReviewService reviewService;
+    private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
+    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
+        deleteReviewButton.setOpacity(0);
+        deleteReviewButton.setDisable(true);
         likingText.setTextFill(Color.GREEN);
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
-        wineLoggingPopupService = new WineLoggingPopupService();
+        reviewService = new ReviewService();
         implementFxmlFunction();
     }
 
@@ -69,8 +78,10 @@ public class WineLoggingPopupController {
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
-        Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        Review existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
         if (existingReview != null) {
+            deleteReviewButton.setDisable(false);
+            deleteReviewButton.setOpacity(1);
             promptText.setText("Edit your review");
             populateReviewData(existingReview);
         } else {
@@ -79,9 +90,20 @@ public class WineLoggingPopupController {
     }
 
     /**
+     * Deletes the review that is being edited
+     */
+    public void onDeleteReviewPushed() {
+
+        LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
+        reviewService.deleteReview(reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId()));
+        returnToWinePopUp();
+
+    }
+
+    /**
      * Populates the review data of the current wine into the wine logging popup.
      * Called if the user has already previously reviewed the wine.
-     * @param review The review object obtained from {@link WineLoggingPopupService#getReview(int, int)}
+     * @param review The review object obtained from {@link ReviewService#getReview(int, int)}
      */
     private void populateReviewData(Review review) {
         ratingSlider.setValue(review.getRating());
@@ -103,31 +125,45 @@ public class WineLoggingPopupController {
      */
     private void addTagCheckBoxes(Wine wine) {
         if (wine.getVintage() != NULL) {
-            tagCheckBoxArray.add(new CheckBox(wine.getVintage() + " Vintage"));
+            CheckBox vintageCheckBox = new CheckBox(wine.getVintage() + " Vintage");
+            vintageCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(vintageCheckBox);
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
         if (wine.getCountry() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getCountry() + " Country"));
+            CheckBox countryCheckBox = new CheckBox(wine.getCountry() + " Country");
+            countryCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(countryCheckBox);
             tagNameArray.add(wine.getCountry());
         }
         if (wine.getProvince() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));
+            CheckBox provinceCheckBox = new CheckBox(wine.getProvince() + " province");
+            provinceCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(provinceCheckBox);
             tagNameArray.add(wine.getProvince());
         }
         if (wine.getRegion1() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getRegion1() + " region"));
+            CheckBox region1CheckBox = new CheckBox(wine.getRegion1() + " region");
+            region1CheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(region1CheckBox);
             tagNameArray.add(wine.getRegion1());
         }
         if (wine.getRegion2() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getRegion2() + " region"));
+            CheckBox region2CheckBox = new CheckBox(wine.getRegion2() + " region");
+            region2CheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(region2CheckBox);
             tagNameArray.add(wine.getRegion2());
         }
         if (wine.getVariety() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getVariety()));
+            CheckBox varietyCheckBox = new CheckBox(wine.getVariety());
+            varietyCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(varietyCheckBox);
             tagNameArray.add(wine.getVariety());
         }
         if (wine.getWinery() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getWinery() + " winery"));
+            CheckBox wineryCheckBox = new CheckBox(wine.getWinery() + " winery");
+            wineryCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(wineryCheckBox);
             tagNameArray.add(wine.getWinery());
         }
         for (CheckBox checkbox : tagCheckBoxArray) {
@@ -185,45 +221,39 @@ public class WineLoggingPopupController {
      * Also updates the likes of the tags in the database depending on whether the user has changed their rating or
      * selected different tags.
      */
-    private void submitLog() {
-        int newRating = (int) ratingSlider.getValue();
-        boolean noneSelected = false;
+    private void submitLog() { // TODO: Need to clean up method, do we really need both tags selected and liked if we track none selected anyways?
+        int rating = (int) ratingSlider.getValue();
+        int currentUserUid = User.getCurrentUser().getId();
+        int currentWineId = currentWine.getWineId();
+        String description = descriptionTextArea.getText();
         ArrayList<String> selectedTags = new ArrayList<>();
+        ArrayList<String> tagsToLike = new ArrayList<>();
         if (hasClickedTag()) {
             for (int i = 0; i < tagNameArray.size(); i++) {
                 if (tagCheckBoxArray.get(i).isSelected()) {
                     selectedTags.add(tagNameArray.get(i));
+                    tagsToLike.add(tagNameArray.get(i));
                 }
             }
         } else {
-            selectedTags = tagNameArray;
-            noneSelected = true;
+            tagsToLike = tagNameArray;
         }
+        boolean noneSelected = selectedTags.isEmpty();
 
-        Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
-        ArrayList<String> existingTags;
-        if (existingReview != null) {
-            existingTags = existingReview.getTagsSelected();
-        } else {
-            existingTags = new ArrayList<>();
-        }
+        Review existingReview = reviewService.getReview(currentUserUid, currentWineId);
+        ArrayList<String> finalTagsToLike = tagsToLike;
+        navigationController.executeWithLoadingScreen(() -> {
+            if (existingReview != null) {
+                ArrayList<String> oldTags = existingReview.getTagsLiked();
+                int oldRating = existingReview.getRating();
+                reviewService.updateTagLikes(currentUserUid, finalTagsToLike, oldTags, rating, oldRating);
+            } else {
+                reviewService.updateTagLikes(currentUserUid, finalTagsToLike, new ArrayList<>(), rating, 0);
+            }
 
-        int oldRating;
-        if (existingReview != null) {
-            oldRating = existingReview.getRating();
-        } else {
-            oldRating = 0;
-        }
-
-        ArrayList<String> tagsToAdd = new ArrayList<>(selectedTags);
-        tagsToAdd.removeAll(existingTags);
-
-        ArrayList<String> tagsToRemove = new ArrayList<>(existingTags);
-        tagsToRemove.removeAll(selectedTags);
-
-        wineLoggingPopupService.updateTagLikes(User.getCurrentUser().getId(), tagsToAdd, tagsToRemove, existingTags, newRating, oldRating);
-        wineLoggingPopupService.submitLog(newRating, User.getCurrentUser().getId(), currentWine.getWineId(), selectedTags, noneSelected, descriptionTextArea.getText());
-        returnToWinePopUp();
+            reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);
+            returnToWinePopUp();
+        });
     }
 
     /**

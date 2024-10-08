@@ -3,25 +3,36 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.HelpController">
    <children>
       <ScrollPane hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0">
          <content>
-            <VBox prefHeight="2000.0" prefWidth="998.0">
+            <VBox alignment="CENTER" maxWidth="694.0" prefHeight="4000.0" prefWidth="694.0">
                <children>
-                  <Label prefHeight="69.0" prefWidth="236.0" text="WineTime">
-                     <padding>
-                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
-                     </padding>
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label prefHeight="107.0" prefWidth="531.0" text="WineTime is an application designed to help users find, track, log, and review wines. There are a number of features that WineTime provides and this page outlines a guide on how to get the most out of WineTime, presented in the order that you will most likely use the app." wrapText="true">
+                  <HBox maxWidth="280.0" minWidth="280.0" prefHeight="120.0" prefWidth="280.0">
+                     <children>
+                        <ImageView fx:id="wineTimeText" fitHeight="100.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Pane maxHeight="120.0" minHeight="120.0" minWidth="120.0" prefHeight="120.0" prefWidth="120.0">
+                           <children>
+                              <Circle fill="#b5b5b5" layoutX="60.0" layoutY="60.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <ImageView fx:id="wineTimeLogo" fitHeight="95.0" fitWidth="65.0" layoutX="28.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
+                  <Label prefHeight="102.0" prefWidth="570.0" text="WineTime is an application designed to help users find, track, log, and review wines. There are a number of features that WineTime provides and this page outlines a guide on how to get the most out of WineTime, presented in the order that you will most likely use the app." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -37,7 +48,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="WineTime is designed to be a personalised experience, so upon launching the app, the user will be brought to the login screen. From here if you are a first time user you can register an account, or if you have used the app before, you can log inWineTime is designed to be a personalised experience, so upon launching the app, the user will be brought to the login screen. From here if you are a first time user you can register an account, or if you have used the app before, you can log in." wrapText="true">
+                  <ImageView fx:id="loginHelp" fitHeight="382.0" fitWidth="545.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="194.0" prefWidth="567.0" text="WineTime is designed to be a personalised experience, so upon launching the app, the user will be brought to the login screen. From here if you are a first time user you can register an account, or if you have used the app before, you can log inWineTime is designed to be a personalised experience, so upon launching the app, the user will be brought to the login screen. From here if you are a first time user you can register an account, or if you have used the app before, you can log in." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -53,7 +69,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="The home page is the screen that you will be presented with when you login/register. Here there are a number of categories of famous wine growing regions and their wines. You can browse wines from here. On the home page there is also a “recommended wines for you” section. As you continue to use WineTime and log wines, this will be filled with wines that match your taste." wrapText="true">
+                  <ImageView fx:id="homePageHelp" fitHeight="382.0" fitWidth="545.0" layoutX="35.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="130.0" prefWidth="570.0" text="The home page is the screen that you will be presented with when you login/register. Here there are a number of categories of famous wine growing regions and their wines. You can browse wines from here. On the home page there is also a “recommended wines for you” section which will show after you have liked at least 5 tags. Each category has a 'see more' button which when clicked, will bring you to the search result page for that category." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -69,7 +90,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="#TODO" wrapText="true">
+                  <ImageView fx:id="searchPageHelp" fitHeight="382.0" fitWidth="545.0" layoutX="35.0" layoutY="744.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="135.0" prefWidth="572.0" text="Users can search for wines by their name or simply not enter any name into the search bar to fetch all the wines instead. Users can filter the search results by selecting specific filters. To apply the filters, click on the 'Apply filters' button and the page will be refreshed. Click 'Clear filters' button to remove all selected filters. The results can also be sorted by selecting the sort by category via the drop down. By default it is sorted by the wine id." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -85,7 +111,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="If you click on a wine anywhere on the app you will be presented with a wine popup. On this popup there is more detailed information about the wine, such as name, description, and also some tags. These tags are information about the wine such as vintage, region, and variety. These tags are what is used to tell what wines you like for your recommended wines. If you click on a tag, you will see the wines that have that tag in common. " wrapText="true">
+                  <ImageView fx:id="winePopUpHelp" fitHeight="382.0" fitWidth="545.0" layoutX="35.0" layoutY="1458.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="30.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="135.0" prefWidth="578.0" text="If you click on a wine anywhere on the app you will be presented with a wine popup. On this popup there is more detailed information about the wine, such as name, description, and also some tags. These tags are information about the wine such as vintage, region, and variety. These tags are what is used to tell what wines you like for your recommended wines. If you click on a tag, you will be brought to the search page to see the wines that have that tag in common. " wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -93,7 +124,7 @@
                         <Insets left="25.0" />
                      </padding>
                   </Label>
-                  <Label text="Logging wine">
+                  <Label text="Reviewing a wine">
                      <padding>
                         <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
                      </padding>
@@ -101,7 +132,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="If you click the speech bubble button on the wine popup, you will be prompted to review the wine. You can give it a rating 1 through 5, and also you can select the tags you liked/disliked about the wine. If you give the wine a score 3 - 5, the tags you select will be the tags you liked, and if the score was 1 - 2 it will be the tags you disliked. This is how the recommended wines are calculated, based on how much you like/dislike certain tags. If you don’t select any tags, it will be assumed you liked/disliked all the tags equally.  You can also leave some tasting notes when you review wines. You can see all the logs you have made if you click on the speech bubble button in the navigation bar. From here you can edit or delete past logs." wrapText="true">
+                  <ImageView fx:id="reviewWineHelp" fitHeight="382.0" fitWidth="545.0" layoutX="40.0" layoutY="1968.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="222.0" prefWidth="570.0" text="If you click the speech bubble button on the wine popup, you will be prompted to review the wine. You can give it a rating 1 through 5, and also you can select the tags you liked/disliked about the wine. If you give the wine a score 3 - 5, the tags you select will be the tags you liked, and if the score was 1 - 2 it will be the tags you disliked. This is how the recommended wines are calculated, based on how much you like/dislike certain tags. If you don’t select any tags, it will be assumed you liked/disliked all the tags equally.  You can also leave some tasting notes when you review wines. You can see all the reviews you have made if you click on the speech bubble button in the navigation bar. From here you can edit or delete past logs. Deleting a review will revert the ratings applied to the tags" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -117,7 +153,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="On the wine popup there is a heart icon, if you click this it will toggle on or off. If it is on (red) it will be in your wishlist. You can view the rest of your wishlist if you click on the heart button in the navigation bar." wrapText="true">
+                  <ImageView fx:id="wishListHelp" fitHeight="260.0" fitWidth="551.0" layoutX="35.0" layoutY="2477.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="79.0" prefWidth="579.0" text="On the wine popup there is a heart icon, if you click this it will toggle on or off. If it is on (red) it will be in your wishlist. You can view the rest of your wishlist if you click on the heart button in the navigation bar, as well as in the profile page." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -133,7 +174,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="135.0" prefWidth="531.0" text="On the profile page there is a challenge section. You can assign yourself a challenge from here. A challenge consists of a list of wines, from a themed collection, and the goal is to try all the wines on this list. Once you log a wine on this list, it will be ticked off from this list. As well on the profile page is a quiz. This is a fun questionnaire, which upon completing, will recommend you a wine based on your answers. It is suggested that you add this wine to your wishlist if you like the sound of it, so you can try it later. A snapshot of your wishlist will also be shown on your profile page. " wrapText="true">
+                  <ImageView fx:id="profilePageHelp" fitHeight="382.0" fitWidth="545.0" layoutX="40.0" layoutY="1899.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets left="25.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label prefHeight="178.0" prefWidth="570.0" text="On the profile page there is a challenge section. You can assign yourself a challenge from here. A challenge consists of a list of wines, from a themed collection, and the goal is to try all the wines on this list. Once you review a wine on this list, it will be ticked off from this list. As well on the profile page is a quiz. This is a fun questionnaire, which upon completing, will recommend you a wine based on your answers. It is suggested that you add this wine to your wishlist if you like the sound of it, so you can try it later. A snapshot of your wishlist will also be shown on your profile page. " wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -142,6 +188,9 @@
                      </padding>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="340.0" />
+               </padding>
             </VBox>
          </content>
       </ScrollPane>

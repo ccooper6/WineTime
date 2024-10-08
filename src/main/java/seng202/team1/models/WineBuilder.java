@@ -12,6 +12,7 @@ public class WineBuilder {
     private String name = null;
     private String description = null;
     private int price = -1;
+    private int points = -1;
     private int vintage = -1;
     private String country = null;
     private String province = null;
@@ -33,24 +34,27 @@ public class WineBuilder {
             return null;
         }
 
-        return new Wine(id, name, description, price, vintage, country, province, region1, region2, variety, winery);
+        return new Wine(id, name, description, price, points, vintage, country, province, region1, region2, variety, winery);
     }
 
     /**
      * Basic Setup for WineBuilder taking in arguments found in the wine.
-     * @param id The id of the wine
-     * @param name The name of the wine
+     *
+     * @param id          The id of the wine
+     * @param name        The name of the wine
      * @param description The description of the wine
-     * @param price The price of the wine
+     * @param price       The price of the wine
+     * @param points
      * @return {@link WineBuilder} with id, name, description and price setup
      */
-    public static WineBuilder genericSetup(int id, String name, String description, int price)
+    public static WineBuilder genericSetup(int id, String name, String description, int price, int points)
     {
         WineBuilder builder = new WineBuilder();
         builder.id = id;
         builder.name = name;
         builder.description = description;
         builder.price = price;
+        builder.points = points;
         return builder;
     }
 
