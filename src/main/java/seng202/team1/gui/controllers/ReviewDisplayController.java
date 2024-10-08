@@ -54,12 +54,12 @@ public class ReviewDisplayController {
     @FXML
     public void initialize() {
         Review review = ReviewService.getCurrentReview();
-        reviewDate.setText("Date Reviewed: " + review.getReviewDate());
+        reviewDate.setText(review.getReviewDate());
 
         if (!review.getReviewDescription().isEmpty()) {
-            reviewDescription.setText("Description: " + review.getReviewDescription());
+            reviewDescription.setText('"' + " " + review.getReviewDescription() + " " + '"');
         } else {
-            reviewDescription.setText("No description provided");
+            reviewDescription.setText("None");
         }
 
         List<FontAwesomeIconView> stars = List.of(star1, star2, star3, star4, star5);
