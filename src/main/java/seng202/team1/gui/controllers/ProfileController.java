@@ -263,6 +263,16 @@ public class ProfileController {
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
         challengeService.challengeCompleted(cname);
     }
+
+    /**
+     * logs the user out.
+     */
+    @FXML
+    public void logOutButton() {
+        LOG.info("Logging out user " + User.getCurrentUser().getName());
+        User.setCurrenUser(null);
+        FXWrapper.getInstance().launchPage("login");
+    }
 }
 
 
