@@ -782,29 +782,9 @@ public class SearchWineController {
      * Resets the filters to default values
      */
     public void resetFilters() {
-
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
-        try {
-            countryComboBox.setValue(null);
-            countryComboBox.setSkin(new SearchableComboBoxSkin<>(countryComboBox));
-        } catch (Exception ignore){}
-
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
-        try {
-            varietyComboBox.setValue(null);
-            varietyComboBox.setSkin(new SearchableComboBoxSkin<>(varietyComboBox));
-        } catch (Exception ignore){}
-
-
-        //This try block can throw a null pointer exception when the skin is null.
-        // However this can be safely ignored.
-        try {
-            wineryComboBox.setValue(null);
-            wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){ }
-
+        countryComboBox.setValue(null);
+        varietyComboBox.setValue(null);
+        wineryComboBox.setValue(null);
 
         priceSlider.setLowValue(priceSlider.getMin());
         vintageSlider.setLowValue(vintageSlider.getMin());
@@ -860,14 +840,11 @@ public class SearchWineController {
      */
     @FXML
     public void onResetCountryClicked() {
-        //This try block can throw a null pointer exception when the skin is null.
-        // However, this can be safely ignored.
-        try {
-            countryComboBox.setValue(null);
-            countryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){ }
+
+        countryComboBox.setValue(null);
         SearchWineService.getInstance().setCurrentCountryFilter(null);
         resetCountry.setDisable(true);
+
     }
 
     /**
@@ -875,12 +852,7 @@ public class SearchWineController {
      */
     @FXML
     public void onResetWineryClicked() {
-        //This try block can throw a null pointer exception when the skin is null.
-        // However, this can be safely ignored.
-        try {
-            wineryComboBox.setValue(null);
-            wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){ }
+        wineryComboBox.setValue(null);
         SearchWineService.getInstance().setCurrentWineryFilter(null);
         resetWinery.setDisable(true);
     }
@@ -890,14 +862,11 @@ public class SearchWineController {
      */
     @FXML
     public void onResetVarietyClicked() {
-        //This try block can throw a null pointer exception when the skin is null.
-        // However, this can be safely ignored.
-        try {
-            varietyComboBox.setValue(null);
-            varietyComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){ }
+
+        varietyComboBox.setValue(null);
         SearchWineService.getInstance().setCurrentVarietyFilter(null);
         resetVariety.setDisable(true);
+
     }
 
     /**

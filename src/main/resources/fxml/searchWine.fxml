@@ -135,15 +135,15 @@
             </Text>
          </children>
       </AnchorPane>
-      <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" promptText="Variety" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
-      <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="31.0" prefWidth="159.0" promptText="Country" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="31.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
-      <SearchableComboBox fx:id="wineryComboBox" layoutX="223.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" promptText="Winery" stylesheets="@../style/comboBox.css">
+      <SearchableComboBox fx:id="wineryComboBox" layoutX="223.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
@@ -213,5 +213,8 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Text>
+      <Label layoutX="20.0" layoutY="47.0" text="Country" />
+      <Label layoutX="236.0" layoutY="47.0" text="Winery" />
+      <Label layoutX="446.0" layoutY="47.0" text="Variety" />
    </children>
 </Pane>
