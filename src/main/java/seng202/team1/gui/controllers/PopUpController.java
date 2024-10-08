@@ -141,12 +141,15 @@ public class PopUpController {
                 icon.setFill(Color.web("#70171e"));
             }
             if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
+                navigationController.closePopUp();
                 navigationController.loadPageContent("wishlist");
                 navigationController.initPopUp(finalWine);
             } else if (navigationController.getCurrentPage().equals("profile")) { // refresh the profile page behind the popup
+                navigationController.closePopUp();
                 navigationController.loadPageContent("profile");
                 navigationController.initPopUp(finalWine);
             } else if (navigationController.getCurrentPage().equals("wineReviews")) { // refresh the wine reviews page behind the popup
+                navigationController.closePopUp();
                 navigationController.loadPageContent("wineReviews");
                 navigationController.initPopUp(finalWine);
             }
