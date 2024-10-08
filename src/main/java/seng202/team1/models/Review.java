@@ -96,27 +96,11 @@ public class Review {
     }
 
     /**
-     * Setter for reviewDescription.
-     * @param reviewDescription The description of the review.
-     */
-    public void setReviewDescription(String reviewDescription) {
-        this.reviewDescription = reviewDescription;
-    }
-
-    /**
      * Getter for reviewDate.
      * @return The date the review was made.
      */
     public String getReviewDate() {
         return reviewDate;
-    }
-
-    /**
-     * Setter for reviewDate.
-     * @param reviewDate The date the review was made.
-     */
-    public void setReviewDate(String reviewDate) {
-        this.reviewDate = reviewDate;
     }
 
     /**

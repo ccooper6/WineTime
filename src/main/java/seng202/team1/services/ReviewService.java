@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -23,8 +24,8 @@ public class ReviewService {
      * @param currentUserUid The user id of the current user.
      * @return An ArrayList of all the reviews for the current user.
      */
-    public ArrayList<Review> getUserReviews(int currentUserUid) {
-        return logWineDao.getUserReview(currentUserUid, true);
+    public static ArrayList<Review> getUserReviews(int currentUserUid) {
+        return logWineDao.getUserReview(currentUserUid, SearchDAO.UNLIMITED, true);
     }
 
     /**
@@ -34,7 +35,7 @@ public class ReviewService {
      * @return True if a review exists, false otherwise.
      */
     public boolean reviewExists(int currentUserUid, int wineToCheck) {
-        return logWineDao.alreadyReviewExists(currentUserUid, wineToCheck);
+        return logWineDao.reviewAlreadyExists(currentUserUid, wineToCheck);
     }
 
     /**
@@ -58,7 +59,7 @@ public class ReviewService {
      * @return The wine associated with the current review.
      */
     public static Wine getCurrentWine() {
-        return logWineDao.getWine(currentReview.getWid());
+        return SearchDAO.getInstance().getWine(currentReview.getWid());
     }
 
     /**
@@ -89,9 +90,9 @@ public class ReviewService {
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, @NotNull ArrayList<String> tagsLiked, boolean noneSelected, String description) {
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
-            logWineDao.reviews(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
+            logWineDao.doReview(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         } else {
-            logWineDao.reviews(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
+            logWineDao.doReview(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         }
     }
 

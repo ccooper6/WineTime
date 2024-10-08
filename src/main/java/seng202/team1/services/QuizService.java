@@ -1,7 +1,6 @@
 package seng202.team1.services;
 
 import javafx.application.Platform;
-import javafx.stage.Stage;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.Wine;
@@ -18,7 +17,6 @@ import java.util.Random;
  */
 public class QuizService {
     private Wine wine = null;
-    private Stage loadingStage;
 
     private final ArrayList<String> questions = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
@@ -58,9 +56,6 @@ public class QuizService {
     ));
 
     private ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
-    private String earliestYear;
-    private String type;
-    private String country;
 
     /**
      * The getter for the question labels.
@@ -144,76 +139,33 @@ public class QuizService {
     }
 
     /**
-     * Method to show the loading screen.
-     */
-    private void showLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.showLoadingScreen();
-    }
-
-    /**
-     * Method to hide the loading screen.
-     */
-    private void hideLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.hideLoadingScreen();
-    }
-
-    /**
      * Method to run the wine algorithm.
      */
     public void wineAlgorithm() {
 
-        switch (getRecordOfAnswers().get(0)) {
-            case 1:
-                earliestYear = "1990";
-                break;
-            case 2:
-                earliestYear = "2000";
-                break;
-            case 3:
-                earliestYear = "2005";
-                break;
-            case 4:
-                earliestYear = "2010";
-                break;
-            default:
-                earliestYear = "1990";
-                break;
-        }
+        String earliestYear = switch (getRecordOfAnswers().getFirst()) {
+            case 1 -> "1990";
+            case 2 -> "2000";
+            case 3 -> "2005";
+            case 4 -> "2010";
+            default -> "1990";
+        };
 
-        switch (getRecordOfAnswers().get(1)) {
-            case 1:
-                type = "pinot noir";
-                break;
-            case 2:
-                type = "sauvignon blanc";
-                break;
-            case 3:
-                type = "rose";
-                break;
-            case 4:
-                type = "prosecco";
-                break;
-            default:
-                type = "pinot noir";
-        }
-        switch (getRecordOfAnswers().get(3)) {
-            case 1:
-                country = "us";
-                break;
-            case 2:
-                country = "new zealand";
-                break;
-            case 3:
-                country = "spain";
-                break;
-            case 4:
-                country = "france";
-                break;
-            default:
-                country = "us";
-        }
+        String type = switch (getRecordOfAnswers().get(1)) {
+            case 1 -> "pinot noir";
+            case 2 -> "sauvignon blanc";
+            case 3 -> "rose";
+            case 4 -> "prosecco";
+            default -> "pinot noir";
+        };
+
+        String country = switch (getRecordOfAnswers().get(3)) {
+            case 1 -> "us";
+            case 2 -> "new zealand";
+            case 3 -> "spain";
+            case 4 -> "france";
+            default -> "us";
+        };
 
         ArrayList<Wine> possibleWines = new ArrayList<>();
         switch (earliestYear) {
@@ -241,10 +193,6 @@ public class QuizService {
 
         }
 
-        System.out.println("Wines:\n");
-        for (Wine w : possibleWines) {
-            System.out.println(w.getName() + "\n");
-        }
         if (possibleWines.isEmpty()) {
             possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(),
                     0, 100, 2000, 2014, null, "wine_name");

@@ -3,6 +3,7 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
+import seng202.team1.models.TagType;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
@@ -135,26 +136,10 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 2557;
+        assertEquals(2557, fromDB.size());
 
-        boolean hasCorrectTags = true;
-
-        for (Wine wine : fromDB) {
-            if (!wine.hasLocation("Oregon")) {
-                hasCorrectTags = false;
-                break;
-            }
-
-            String variety = Normalizer.normalize(wine.getVariety(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-            if (!variety.equals("pinot noir")) {
-                hasCorrectTags = false;
-                break;
-            }
-        }
-
-        boolean didPassTest = isCorrectLength && hasCorrectTags;
-
-        assertTrue(didPassTest);
+        assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getVariety().equals("Pinot Noir")));
     }
     //TODO: PLEASE FIX THIS ELISE/YUHAO
     /**
@@ -279,7 +264,6 @@ public class SearchWineServiceTest {
 
         boolean isCorrectLength = fromDB.size() == 6;
         //Should display 9, only displays 6 from special characters using new method
-        System.out.println(fromDB.size());
         boolean hasCorrectName = true;
 
         for (Wine wine : fromDB) {
@@ -427,7 +411,7 @@ public class SearchWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
+        logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
         User.setCurrenUser(new User(1, "user1", "User1"));
         SearchWineService.getInstance().searchWinesByRecommend(10);
         ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
@@ -462,7 +446,7 @@ public class SearchWineServiceTest {
     @Test
     public void testSetCurrentWine() {
         WineBuilder wineBuilder = WineBuilder.genericSetup(1, "TestName", "TestDescription", 5, 97);
-        wineBuilder.setVariety("Früburgunder");
+        wineBuilder.setTag(TagType.VARIETY, "Früburgunder");
         Wine wine = wineBuilder.build();
         SearchWineService.getInstance().setCurrentWine(wine);
         assertEquals(wine, SearchWineService.getInstance().getCurrentWine());

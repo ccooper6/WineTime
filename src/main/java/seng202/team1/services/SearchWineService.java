@@ -4,6 +4,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
@@ -16,12 +17,10 @@ import java.util.ArrayList;
 public class SearchWineService {
     private Wine currentWine;
     private ArrayList<Wine> wineList;
-    private String currentTags;
     private boolean sortDirection = true;
     private static SearchWineService instance;
     private String currentSearch;
     private String currentMethod;
-    private boolean fromWishlist = false;
 
     private String currentCountryFilter = null;
     private String currentWineryFilter = null;
@@ -33,7 +32,6 @@ public class SearchWineService {
     private int currentMaxPoints = 100;
     private int currentMinPrice = 4;
     private int currentMaxPrice = 3300;
-    private ArrayList<String> selectedVarieties;
     private String searchOrder = "wine_name";
     private String prevSearch;
     private String prevDropDown = "Name";
@@ -57,11 +55,11 @@ public class SearchWineService {
         currentCountryFilter = null;
         currentWineryFilter = null;
         currentVarietyFilter = null;
-        currentMinYear = 1821;
-        currentMaxYear = 2017;
-        currentMinPoints = 80;
-        currentMaxPoints = 100;
-        currentMinPrice = 4;
+        currentMinYear = TagDAO.getInstance().getMinVintage();
+        currentMaxYear = TagDAO.getInstance().getMaxVintage();
+        currentMinPoints = TagDAO.getInstance().getMinPoints();
+        currentMaxPoints = TagDAO.getInstance().getMaxPoints();
+        currentMinPrice = TagDAO.getInstance().getMinPoints();
         currentMaxPrice = 3300;
     }
 
@@ -84,15 +82,6 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the last used tags when searching by tags.
-     *
-     * @return {@link String} last used tags
-     */
-    public String getCurrentTags() {
-        return currentTags;
-    }
-
-    /**
      * Returns the stored wines list.
      *
      * @return an array list of stored wines
@@ -109,8 +98,6 @@ public class SearchWineService {
      * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
     public void searchWinesByTags(String tags, int limit) {
-        currentTags = tags;
-
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         String[] tagsArray = tags.split(",");
 
@@ -121,7 +108,6 @@ public class SearchWineService {
             tagList.add(tag.trim());
         }
         wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
-        fromWishlist = false;
     }
 
     /**
@@ -147,7 +133,6 @@ public class SearchWineService {
         }
         wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString, searchOrder);
         prevSearch = filterString;
-        fromWishlist = false;
     }
 
     /**
@@ -172,7 +157,6 @@ public class SearchWineService {
         }
         return results;
     }
-
 
     /**
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
@@ -224,7 +208,6 @@ public class SearchWineService {
      */
     public void searchWinesByWishlist(int userId) {
         wineList = WishlistDAO.getInstance().fetchWines(userId);
-        fromWishlist = true;
     }
 
     /**
@@ -386,12 +369,11 @@ public class SearchWineService {
     }
 
     /**
-     *  Sets search order var and requeries using previous query
+     *  Sets search order var and re-queries using previous query
      * Triggered by sort-by dropdown in search page
      * @param searchOrder is the ORDER BY param which is the column name
      */
     public void setSearchOrder(String searchOrder) {
-        System.out.println("search order: " + searchOrder);
         this.searchOrder = searchOrder;
         searchWinesByName(prevSearch, SearchDAO.UNLIMITED);
     }
