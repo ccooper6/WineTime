@@ -45,7 +45,7 @@ public class PopUpController {
     public TextFlow valueDisplay;
     public TextFlow pointsDisplay;
     public Button helpButton;
-    public Label helpText;
+    public TextFlow helpText;
     public Label searchText;
     public FontAwesomeIconView searchArrow;
     @FXML
@@ -141,6 +141,12 @@ public class PopUpController {
         Text range = new Text(" / 100");
         range.setStyle("-fx-font-size: 12;");
         pointsDisplay.getChildren().addAll(points, range);
+
+        Text firstLine = new Text("\nBased scores from WineEnthusiast:\n\n");
+        firstLine.setStyle("-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
+        Text secondLine = new Text("98-100 = Classic\n94-97 = Superb\n90-93 = Excellent\n87-89 = Very Good\n83-86 = Good\n80-82 = Acceptable\nMore info on help page\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        helpText.getChildren().addAll(firstLine, secondLine);
 
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
