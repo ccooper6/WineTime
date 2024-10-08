@@ -18,11 +18,14 @@ public class ChallengeService {
 
     private ArrayList<String> varities = new ArrayList<>(Arrays.asList("merlot", "pinot gris", "chardonnay", "red blend", "rose"));
     private ArrayList<String> years = new ArrayList<>(Arrays.asList("1989", "1990", "2000", "2010", "2005"));
-    private ArrayList<String> reds = new ArrayList<>(Arrays.asList("red", "red", "red", "red", "red"));
-    private ArrayList<String> whites = new ArrayList<>(Arrays.asList("whites", "whites", "whites", "whites", "whites"));
-    private ArrayList<String> rose = new ArrayList<>(Arrays.asList("rose", "rose", "rose", "rose", "rose"));
+    private ArrayList<String> reds = new ArrayList<>();
+    private ArrayList<String> whites = new ArrayList<>();
+    private ArrayList<String> rose = new ArrayList<>();
 
     private final ChallengeDAO chalDao = new ChallengeDAO();
+    private WineVarietyService wineVarietyService = new WineVarietyService();
+
+    private Random random = new Random();
 
 
     /**
@@ -30,7 +33,7 @@ public class ChallengeService {
      */
     public void startChallengeVariety()
     {
-        ArrayList<Integer> wineids = getWinesforChallenge(varities, "tags");
+        ArrayList<Integer> wineids = getWinesforChallenge(varities);
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineids);
     }
 
@@ -39,7 +42,7 @@ public class ChallengeService {
      */
     public void startChallengeYears()
     {
-        ArrayList<Integer> wineids = getWinesforChallenge(years, "tags");
+        ArrayList<Integer> wineids = getWinesforChallenge(years);
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Time Travelling Challenge", wineids);
     }
 
@@ -48,8 +51,14 @@ public class ChallengeService {
      */
     public void startChallengeReds()
     {
-        ArrayList<Integer> wineids = getWinesforChallenge(reds, "name");
+        ArrayList<String> redsList = new ArrayList<>(wineVarietyService.getReds());
+        for (int i = 0; i < 5; i++) {
+            reds.add(redsList.get(i));
+        }
+        ArrayList<Integer> wineids = getWinesforChallenge(reds);
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Red Roulette Challenge", wineids);
+
+
     }
 
     /**
@@ -58,7 +67,11 @@ public class ChallengeService {
 
     public void startChallengeWhites()
     {
-        ArrayList<Integer> wineids = getWinesforChallenge(whites, "name");
+        ArrayList<String> whitesList = new ArrayList<>(wineVarietyService.getWhites());
+        for (int i = 0; i < 5; i++) {
+            whites.add(whitesList.get(i));
+        }
+        ArrayList<Integer> wineids = getWinesforChallenge(whites);
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Great White Challenge", wineids);
     }
 
@@ -68,7 +81,11 @@ public class ChallengeService {
 
     public void startChallengeRose()
     {
-        ArrayList<Integer> wineids = getWinesforChallenge(rose, "name");
+        ArrayList<String> roseList = new ArrayList<>(wineVarietyService.getRose());
+        for (int i = 0; i < 5; i++) {
+            rose.add(roseList.get(i));
+        }
+        ArrayList<Integer> wineids = getWinesforChallenge(rose);
         chalDao.userActivatesChallenge(User.getCurrentUser().getId(), "Rose challenge", wineids);
     }
 
@@ -84,23 +101,16 @@ public class ChallengeService {
     /**
      * chose 5 random wines of the set type and returns there ids in an array list.
      * @param types is an array list of strings that are the type of wines for the challenge.
-     * @param searchtype is a string of either tags or name, which determines weather to user search service search in name or search in tags method.
      * @return ArrayList<Integer> list of wine ids </Integer>
      */
-    public ArrayList<Integer> getWinesforChallenge(ArrayList<String> types, String searchtype)
+    public ArrayList<Integer> getWinesforChallenge(ArrayList<String> types)
     {
         ArrayList<Integer> wines = new ArrayList<>();
-        if (searchtype == "name") {
-            SearchWineService.getInstance().searchWinesByName(types.get(0), 100);
-        }
         for (int i = 0; i < types.size(); i ++) {
             int wine = 0;
             boolean wineInvalid = true;
-            if (searchtype == "tags") {
-                SearchWineService.getInstance().searchWinesByTags(types.get(i), 100);
-            }
+            SearchWineService.getInstance().searchWinesByTags(types.get(i), 100);
             while (wineInvalid) {
-                Random random = new Random();
                 wine = SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId();
                 boolean winefound = false;
                 for (int l = 0; l < wines.size(); l++) {

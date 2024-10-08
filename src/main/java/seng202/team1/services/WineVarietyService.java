@@ -18,6 +18,34 @@ public class WineVarietyService {
     private static WineVarietyService instance;
 
     /**
+     * gets the set of red wines
+     */
+    public HashSet<String> getReds() {
+        return reds;
+    }
+
+    /**
+     * gets the set of white wines
+     */
+    public HashSet<String> getWhites() {
+        return whites;
+    }
+
+    /**
+     * gets the set of rose wines
+     */
+    public HashSet<String> getRose() {
+        return rose;
+    }
+
+    /**
+     * gets the set of sparkling wines
+     */
+    public HashSet<String> getSparkling() {
+        return sparkling;
+    }
+
+    /**
      Returns the instance and creates one if none exists.
      @return {@link WineVarietyService instance}
      */
