@@ -418,4 +418,42 @@ public class SearchDAO {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Returns a specific wine object using the specified wine id.
+     * @param wid the wine id
+     * @return a {@link Wine} object
+     */
+    public Wine getWine(int wid) {
+        String sql = "SELECT id, wine.name as wine_name, description, price, tag.type as tag_type, tag.name as tag_name FROM wine "
+                + "JOIN owned_by ON id = owned_by.wid "
+                + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
+        WineBuilder wineBuilder = null;
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement loggingPS = conn.prepareStatement(sql)) {
+            loggingPS.setInt(1, wid);
+            try (ResultSet rs = loggingPS.executeQuery()) {
+                while (rs.next()) {
+                    if (wineBuilder == null) {
+                        wineBuilder = WineBuilder.genericSetup(rs.getInt("id"),
+                                rs.getString("wine_name"),
+                                rs.getString("description"),
+                                rs.getInt("price"));
+                    }
+
+                    TagType tagType = TagType.fromString(rs.getString("tag_type"));
+                    wineBuilder.setTag(tagType, rs.getString("tag_name"));
+                }
+
+                if (wineBuilder == null) {
+                    throw new NullPointerException("Fetched wine does not exist");
+                }
+
+                return wineBuilder.build();
+            }
+        } catch (SQLException e) {
+            LOG.error("Error: Could not get wine, {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }

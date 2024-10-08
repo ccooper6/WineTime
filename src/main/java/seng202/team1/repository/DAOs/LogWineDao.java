@@ -3,9 +3,6 @@ package seng202.team1.repository.DAOs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Review;
-import seng202.team1.models.TagType;
-import seng202.team1.models.Wine;
-import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
@@ -167,35 +164,6 @@ public class LogWineDao {
         }
     }
 
-    // TODO wtf is &lt?
-    /**
-     * Returns a hashmap of &lt;tagName, tagValue&gt; of all the likedTags by the user.
-     *
-     * @param uid          the current user int id
-     * @param orderByValue set to true to return the highest valued tags
-     * @return HashMap of likedTags
-     */
-    public HashMap<String, Integer> getLikedTags(int uid, boolean orderByValue) {
-        HashMap<String, Integer> likedTags = new HashMap<>();
-        String sql = "SELECT tname, value FROM likes WHERE uid = ?";
-        if (orderByValue) {
-            sql = "SELECT tname, value FROM likes WHERE uid = ? ORDER BY value DESC";
-        }
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
-                loggingPS.setInt(1, uid);
-                ResultSet rs = loggingPS.executeQuery();
-                while (rs.next()) {
-                    likedTags.put(rs.getString(1), rs.getInt(2));
-                }
-                return likedTags;
-            }
-        } catch (SQLException e) {
-            LOG.error("Error: Could not get liked tags, {}", e.getMessage());
-            return likedTags;
-        }
-    }
-
     /**
      * Returns the top tags that have a positive value by the user
      * @param uid the user uid
@@ -305,7 +273,6 @@ public class LogWineDao {
      * @param selectedTags the ArrayList of tags selected by the user
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
-    // TODO is noneSelected necessary or can we do selectedTags.isEmpty()
     public void doReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, boolean noneSelected) {
         if (!reviewAlreadyExists(uid, wid)) {
             createReview(uid, wid, rating, description, date, selectedTags, noneSelected);
@@ -379,41 +346,6 @@ public class LogWineDao {
     }
 
     /**
-     * Returns all the user reviews and returns the most recent reviews if specified.
-     *
-     * @param uid         the int user id
-     * @param orderByDate a boolean value to return the most recent reviews
-     * @return an ArrayList of {@link Review}
-     */
-    public ArrayList<Review> getUserReview(int uid, Boolean orderByDate) {
-        ArrayList<Review> userReviews = new ArrayList<>();
-        String sql = "SELECT * FROM reviews WHERE uid = ?";
-        if (orderByDate) {
-            sql = "SELECT * FROM reviews WHERE uid = ? ORDER BY date DESC";
-        }
-        try (Connection conn = databaseManager.connect()) {
-            try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
-                loggingPS.setInt(1, uid);
-                ResultSet rs = loggingPS.executeQuery();
-                while (rs.next()) {
-                    Review review = new Review(
-                            rs.getInt(1),
-                            rs.getInt(2),
-                            rs.getInt(3),
-                            rs.getString(4),
-                            rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2)));
-                    userReviews.add(review);
-                }
-                return userReviews;
-            }
-        } catch (SQLException e) {
-            LOG.error("Error: Could not get user review, {}", e.getMessage());
-            return userReviews;
-        }
-    }
-
-    /**
      * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified.
      *
      * @param uid         the int user id
@@ -467,44 +399,6 @@ public class LogWineDao {
             }
         } catch (SQLException e) {
             LOG.error("Error: Could not get reviewed wines, {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Returns a specific wine object using the specified wine id.
-     * @param wid the wine id
-     * @return a {@link Wine} object
-     */
-    public Wine getWine(int wid) {
-        String sql = "SELECT id, wine.name as wine_name, description, price, tag.type as tag_type, tag.name as tag_name FROM wine "
-                + "JOIN owned_by ON id = owned_by.wid "
-                + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
-        WineBuilder wineBuilder = null;
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement loggingPS = conn.prepareStatement(sql)) {
-            loggingPS.setInt(1, wid);
-            try (ResultSet rs = loggingPS.executeQuery()) {
-                while (rs.next()) {
-                    if (wineBuilder == null) {
-                        wineBuilder = WineBuilder.genericSetup(rs.getInt("id"),
-                                rs.getString("wine_name"),
-                                rs.getString("description"),
-                                rs.getInt("price"));
-                    }
-
-                    TagType tagType = TagType.fromString(rs.getString("tag_type"));
-                    wineBuilder.setTag(tagType, rs.getString("tag_name"));
-                }
-
-                if (wineBuilder == null) {
-                    throw new NullPointerException("Fetched wine does not exist");
-                }
-
-                return wineBuilder.build();
-            }
-        } catch (SQLException e) {
-            LOG.error("Error: Could not get wine, {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

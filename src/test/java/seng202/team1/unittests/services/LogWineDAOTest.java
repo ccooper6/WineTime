@@ -1,11 +1,13 @@
 package seng202.team1.unittests.services;
 
+import io.cucumber.java.eo.Se;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 
 import java.util.ArrayList;
@@ -112,14 +114,14 @@ public class LogWineDAOTest {
     }
 
     /**
-     * Checks that {@link LogWineDao#getLikedTags(int, boolean)} properly returns all the user's liked tags.
+     * Checks that {@link LogWineDao#getLikedTags(int, int, boolean)} properly returns all the user's liked tags.
      */
     @Test
     public void testGetLikedNoLimit() {
         logWineDao.likes(1, "tag1", 10);
         logWineDao.likes(1, "tag2", 20);
         logWineDao.likes(1, "tag3", -100);
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         Assertions.assertTrue(result.size() == 3);
         Assertions.assertTrue(result.containsKey("tag1"));
         Assertions.assertEquals(10,result.get("tag1"));
@@ -131,13 +133,13 @@ public class LogWineDAOTest {
 
     /**
      * Checks that {@link LogWineDao#doReview(int, int, int, String, String, ArrayList, boolean)} properly adds a review to the database as
-     * well as tests that {@link LogWineDao#getUserReview(int, Boolean)} properly returns the user's reviews
+     * well as tests that {@link LogWineDao#getUserReview(int, int, Boolean)} properly returns the user's reviews
      */
     @Test
     public void testAddingReview() {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
         logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
-        ArrayList<Review> reviews = logWineDao.getUserReview(1, false);
+        ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
         Assertions.assertEquals(3,reviews.getFirst().getRating());
@@ -146,7 +148,7 @@ public class LogWineDAOTest {
     }
     /**
      * Checks that {@link LogWineDao#doReview(int, int, int, String, String, ArrayList, boolean)} properly adds a review to the database as
-     * well as tests that {@link LogWineDao#getUserReview(int, Boolean)} properly returns the user's reviews correctly
+     * well as tests that {@link LogWineDao#getUserReview(int, int, Boolean)} properly returns the user's reviews correctly
      * based on the user id.
      */
     @Test
@@ -154,8 +156,8 @@ public class LogWineDAOTest {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
         logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
         logWineDao.doReview(2,6,3,"I really like wine", "2025-09-15 14:59:51", likedTags, false);
-        ArrayList<Review> reviews = logWineDao.getUserReview(1, false);
-        ArrayList<Review> reviews2 = logWineDao.getUserReview(2, false);
+        ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, false);
+        ArrayList<Review> reviews2 = logWineDao.getUserReview(2, SearchDAO.UNLIMITED, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
         Assertions.assertEquals(3,reviews.getFirst().getRating());
@@ -198,7 +200,7 @@ public class LogWineDAOTest {
         ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
         logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
         logWineDao.doReview(1,2,-10,"I no longer like wine", "2024-10-15 14:59:51", likedTags, false);
-        ArrayList<Review> reviews = logWineDao.getUserReview(1, false);
+        ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, false);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
         Assertions.assertEquals(-10,reviews.getFirst().getRating());
@@ -216,7 +218,7 @@ public class LogWineDAOTest {
         logWineDao.doReview(1,4,10,"I can travel to future", "2026-10-15 14:59:51", likedTags, false);
         logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, false);
         logWineDao.doReview(1,3,-10,"I no longer like wine", "2025-10-15 14:59:51", likedTags, false);
-        ArrayList<Review> reviews = logWineDao.getUserReview(1, true);
+        ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, true);
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(4,reviews.getFirst().getWid());
         Assertions.assertEquals(10,reviews.getFirst().getRating());
@@ -239,7 +241,7 @@ public class LogWineDAOTest {
      */
     @Test
     public void testNoReviews() {
-        ArrayList<Review> reviews = logWineDao.getUserReview(1, true);
+        ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, true);
         Assertions.assertTrue(reviews.isEmpty());
     }
 

@@ -3,6 +3,7 @@ package seng202.team1.services;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class ReviewService {
      * @return An ArrayList of all the reviews for the current user.
      */
     public static ArrayList<Review> getUserReviews(int currentUserUid) {
-        return logWineDao.getUserReview(currentUserUid, true);
+        return logWineDao.getUserReview(currentUserUid, SearchDAO.UNLIMITED, true);
     }
 
     /**
@@ -55,7 +56,7 @@ public class ReviewService {
      * @return The wine associated with the current review.
      */
     public static Wine getCurrentWine() {
-        return logWineDao.getWine(currentReview.getWid());
+        return SearchDAO.getInstance().getWine(currentReview.getWid());
     }
 
     /**

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.WineLoggingPopupService;
@@ -108,14 +109,14 @@ public class WineLoggingServiceTest {
         for (String tag: initialTags) {
             wineLoggingPopupService.updateTagLikes(uid, tag, definedRating);
         }
-        HashMap<String, Integer> result = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertEquals(2, result.size());
         assertTrue(result.containsKey("fruity") && result.containsKey("smooth"));
         assertEquals(3, result.get("fruity"));
         assertEquals(3, result.get("smooth"));
 
         wineLoggingPopupService.updateTagLikes(uid, tagsToAdd, tagsToRemove, initialTags, newRating, initialRating);
-        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, true);
+        HashMap<String, Integer> newResult = logWineDao.getLikedTags(1, SearchDAO.UNLIMITED, true);
         assertTrue(newResult.containsKey("clean") && newResult.containsKey("calebiscool") && newResult.containsKey("sparkly"));
         assertEquals(-1, newResult.get("clean"));
         assertEquals(-1, newResult.get("calebiscool"));

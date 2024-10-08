@@ -15,9 +15,9 @@ public class Review {
     private int uid;
     private int wid;
     private int rating;
-    private String reviewDescription;
-    private String reviewDate;
-    private ArrayList<String> tagsSelected;
+    private final String reviewDescription;
+    private final String reviewDate;
+    private final ArrayList<String> tagsSelected;
 
     /**
      * Constructor for the review class.
@@ -94,14 +94,6 @@ public class Review {
     }
 
     /**
-     * Setter for reviewDescription.
-     * @param reviewDescription The description of the review.
-     */
-    public void setReviewDescription(String reviewDescription) {
-        this.reviewDescription = reviewDescription;
-    }
-
-    /**
      * Getter for reviewDate.
      * @return The date the review was made.
      */
@@ -110,26 +102,10 @@ public class Review {
     }
 
     /**
-     * Setter for reviewDate.
-     * @param reviewDate The date the review was made.
-     */
-    public void setReviewDate(String reviewDate) {
-        this.reviewDate = reviewDate;
-    }
-
-    /**
      * Getter for tagsSelected.
      * @return The tags selected by the user.
      */
     public ArrayList<String> getTagsSelected() {
         return tagsSelected;
-    }
-
-    /**
-     * Setter for tagsSelected.
-     * @param tagsSelected The tags selected by the user.
-     */
-    public void setTagsSelected(ArrayList<String> tagsSelected) {
-        this.tagsSelected = tagsSelected;
     }
 }
