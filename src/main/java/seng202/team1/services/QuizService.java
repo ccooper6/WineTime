@@ -136,6 +136,7 @@ public class QuizService {
         nav.executeWithLoadingScreen(() -> {
             wineAlgorithm();
             Platform.runLater(() -> {
+                System.out.println("Setting a wine?");
                 NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
                 navigationController.initPopUp(wine);
             });
@@ -244,10 +245,12 @@ public class QuizService {
         for (Wine w : possibleWines) {
             System.out.println(w.getName() + "\n");
         }
-
-        if (!possibleWines.isEmpty()) {
-            Random random = new Random();
-            wine = possibleWines.get(random.nextInt(possibleWines.size()));
+        if (possibleWines.isEmpty()) {
+            possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(),
+                    0, 100, 2000, 2014, null, "wine_name");
         }
+
+        Random random = new Random();
+        wine = possibleWines.get(random.nextInt(possibleWines.size()));
     }
 }
