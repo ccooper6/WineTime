@@ -190,7 +190,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="resetVariety" layoutX="595.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetVarietyClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: 15px;">
+      <Button fx:id="resetVariety" layoutX="595.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetVarietyClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
          <graphic>
             <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
          </graphic>
