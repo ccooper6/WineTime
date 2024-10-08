@@ -97,6 +97,19 @@ public class SearchWineController {
     @FXML
     private TextField maxYearTextField;
 
+    @FXML
+    private Button resetCountry;
+    @FXML
+    private Button resetWinery;
+    @FXML
+    private Button resetVariety;
+    @FXML
+    private Text resetVintage;
+    @FXML
+    private Text resetPoints;
+    @FXML
+    private Text resetPrice;
+
 
     /**
      * Initialises the controller using wines from SearchWineService instance.
@@ -180,10 +193,11 @@ public class SearchWineController {
 
         varietyComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentVarietyFilter(newValue);
+            resetVariety.setDisable(!(newValue != null && !newValue.isEmpty()));
         });
 
         varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
-
+        resetVariety.setDisable(!(varietyComboBox.getValue() != null && !varietyComboBox.getValue().isEmpty()));
     }
 
     /**
@@ -196,10 +210,11 @@ public class SearchWineController {
 
         countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentCountryFilter(newValue);
+            resetCountry.setDisable(!(newValue != null && !newValue.isEmpty()));
         });
 
         countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
-
+        resetCountry.setDisable(!(countryComboBox.getValue() != null && !countryComboBox.getValue().isEmpty()));
     }
 
     /**
@@ -211,18 +226,18 @@ public class SearchWineController {
 
         wineryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             SearchWineService.getInstance().setCurrentWineryFilter(newValue);
+            resetWinery.setDisable(!(newValue != null && !newValue.isEmpty()));
         });
 
         wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
-
+        resetWinery.setDisable(!(wineryComboBox.getValue() != null && !wineryComboBox.getValue().isEmpty()));
     }
 
     /**
      * Initialises the year/vintage range slider and also its related text fields, sets up the listners to make
      * this work.
      */
-    private void initializeVintageRangeSlider()
-    {
+    private void initializeVintageRangeSlider() {
         vintageSlider.setMin(TagDAO.getInstance().getMinVintage());
         vintageSlider.setMax(TagDAO.getInstance().getMaxVintage());
         vintageSlider.setLowValue(vintageSlider.getMin());
@@ -250,11 +265,13 @@ public class SearchWineController {
         vintageSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
             minYearTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinYear(newValue.intValue());
+            resetVintage.setVisible(newValue.intValue() != vintageSlider.getMin() || vintageSlider.getHighValue() != vintageSlider.getMax());
         });
 
         vintageSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
             maxYearTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxYear(newValue.intValue());
+            resetVintage.setVisible(vintageSlider.getLowValue() != vintageSlider.getMin() || newValue.intValue() != vintageSlider.getMax());
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
@@ -284,8 +301,7 @@ public class SearchWineController {
 
         vintageSlider.setLowValue(SearchWineService.getInstance().getCurrentMinYear());
         vintageSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxYear());
-
-
+        resetVintage.setVisible(vintageSlider.getLowValue() != vintageSlider.getMin() || vintageSlider.getHighValue() != vintageSlider.getMax());
     }
 
     /**
@@ -322,11 +338,13 @@ public class SearchWineController {
         pointsSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
             minPointsTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinPoints(newValue.intValue());
+            resetPoints.setVisible(newValue.intValue() != pointsSlider.getMin() || pointsSlider.getHighValue() != pointsSlider.getMax());
         });
 
         pointsSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
             maxPointsTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxPoints(newValue.intValue());
+            resetPoints.setVisible(pointsSlider.getLowValue() != pointsSlider.getMin() || newValue.intValue() != pointsSlider.getMax());
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
@@ -356,7 +374,7 @@ public class SearchWineController {
 
         pointsSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPoints());
         pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
-
+        resetPoints.setVisible(pointsSlider.getLowValue() != pointsSlider.getMin() || pointsSlider.getHighValue() != pointsSlider.getMax());
     }
 
     /**
@@ -394,11 +412,13 @@ public class SearchWineController {
         priceSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
             minPriceTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMinPrice(newValue.intValue());
+            resetPrice.setVisible(newValue.intValue() != priceSlider.getMin() || priceSlider.getHighValue() != priceSlider.getMax());
         });
 
         priceSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
             maxPriceTextField.setText(String.valueOf(newValue.intValue()));
             SearchWineService.getInstance().setCurrentMaxPrice(newValue.intValue());
+            resetPrice.setVisible(priceSlider.getLowValue() != priceSlider.getMin() || newValue.intValue() != priceSlider.getMax());
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
@@ -428,7 +448,7 @@ public class SearchWineController {
 
         priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
         priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
-
+        resetPrice.setVisible(priceSlider.getLowValue() != priceSlider.getMin() || priceSlider.getHighValue() != priceSlider.getMax());
     }
 
     /**
@@ -763,22 +783,9 @@ public class SearchWineController {
      * Resets the filters to default values
      */
     public void resetFilters() {
-
-        try {
-            countryComboBox.setValue(null);
-            countryComboBox.setSkin(new SearchableComboBoxSkin<>(countryComboBox));
-        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
-
-        try {
-            varietyComboBox.setValue(null);
-            varietyComboBox.setSkin(new SearchableComboBoxSkin<>(varietyComboBox));
-        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
-
-        try {
-            wineryComboBox.setValue(null);
-            wineryComboBox.setSkin(new SearchableComboBoxSkin<>(wineryComboBox));
-        } catch (Exception ignore){} //This try block can throw a null pointer exception when the skin is null. However this can be safely ignored.
-
+        countryComboBox.setValue(null);
+        varietyComboBox.setValue(null);
+        wineryComboBox.setValue(null);
 
         priceSlider.setLowValue(priceSlider.getMin());
         vintageSlider.setLowValue(vintageSlider.getMin());
@@ -786,18 +793,28 @@ public class SearchWineController {
         pointsSlider.setHighValue(pointsSlider.getMax());
         vintageSlider.setHighValue(vintageSlider.getMax());
         priceSlider.setHighValue(priceSlider.getMax());
+
+        SearchWineService.getInstance().setCurrentCountryFilter(null);
+        SearchWineService.getInstance().setCurrentWineryFilter(null);
+        SearchWineService.getInstance().setCurrentVarietyFilter(null);
+        SearchWineService.getInstance().setCurrentMinYear((int) vintageSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxYear((int) vintageSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinPoints((int) pointsSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxPoints((int) pointsSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinPrice((int) priceSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxPrice((int) priceSlider.getMax());
     }
+
     /**
-     * Sort by options trigger this function when they're clicked
+     * Sort by options trigger this function when they're clicked.
      * Re-queries the database with different ORDER BY parameter, then reloads
      */
-    public void dropDownClicked(){
+    public void dropDownClicked() {
         String column_name = null;
         if (sortDropDown.getValue() != null) {
-            if(sortDropDown.getValue().equals("Recommended")) {
+            if (sortDropDown.getValue().equals("Recommended")) {
                 SearchWineService.getInstance().searchWinesByRecommend(120);
-            }
-            else{
+            } else {
                 switch (sortDropDown.getValue()) {
                     case "Name" -> {
                         column_name = "wine_name";
@@ -817,5 +834,75 @@ public class SearchWineController {
             SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
             FXWrapper.getInstance().launchSubPage("searchWine");
         }
+    }
+
+    /**
+     * Resets the country filter both in the gui and in the SearchWineService.
+     */
+    @FXML
+    public void onResetCountryClicked() {
+
+        countryComboBox.setValue(null);
+        SearchWineService.getInstance().setCurrentCountryFilter(null);
+        resetCountry.setDisable(true);
+
+    }
+
+    /**
+     * Resets the winery filter both in the gui and in the SearchWineService.
+     */
+    @FXML
+    public void onResetWineryClicked() {
+        wineryComboBox.setValue(null);
+        SearchWineService.getInstance().setCurrentWineryFilter(null);
+        resetWinery.setDisable(true);
+    }
+
+    /**
+     * Resets the variety filter both in the gui and in the SearchWineService.
+     */
+    @FXML
+    public void onResetVarietyClicked() {
+
+        varietyComboBox.setValue(null);
+        SearchWineService.getInstance().setCurrentVarietyFilter(null);
+        resetVariety.setDisable(true);
+
+    }
+
+    /**
+     * Resets the vintage slider both in the gui and in the SearchWineService.
+     */
+    @FXML
+    public void onResetVintageClicked() {
+        vintageSlider.setLowValue(vintageSlider.getMin());
+        vintageSlider.setHighValue(vintageSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinYear((int) vintageSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxYear((int) vintageSlider.getMax());
+        resetVintage.setVisible(false);
+    }
+
+    /**
+     * Resets the points slider both in the gui and in the SearchWineService.
+     */
+    @FXML
+    public void onResetPointsClicked() {
+        pointsSlider.setLowValue(pointsSlider.getMin());
+        pointsSlider.setHighValue(pointsSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinPoints((int) pointsSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxPoints((int) pointsSlider.getMax());
+        resetPoints.setVisible(false);
+    }
+
+    /**
+     * Resets the price slider both in the gui and in the SearchWineService.
+     */
+    @FXML
+    public void onResetPriceClicked() {
+        priceSlider.setLowValue(priceSlider.getMin());
+        priceSlider.setHighValue(priceSlider.getMax());
+        SearchWineService.getInstance().setCurrentMinPrice((int) priceSlider.getMin());
+        SearchWineService.getInstance().setCurrentMaxPrice((int) priceSlider.getMax());
+        resetPrice.setVisible(false);
     }
 }
