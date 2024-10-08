@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The set of tests that covers {@link RecommendWineService} and
- * {@link seng202.team1.repository.DAOs.SearchDAO#reccWineByTags(ArrayList, ArrayList, ArrayList, int)}
+ * {@link seng202.team1.repository.DAOs.SearchDAO#getRecommendedWines(ArrayList, ArrayList, ArrayList, int)}
  *
  * @author Wen Sheng Thong
  */
@@ -181,7 +181,7 @@ public class RecommendWineServiceTest {
             logWineDao.likes(1, tag, 5);
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        logWineDao.reviews(1, 5,5,"i love wine", "2024-10-05 22:27:01", tags, tags, false);
+        logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01", tags, tags, false);
         ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
         Assertions.assertFalse(reccWine.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags

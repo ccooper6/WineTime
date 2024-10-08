@@ -80,19 +80,18 @@ public class MainController {
      */
     private void displayCategoriesWithRec() {
         List<Parent> allCategories = CategoryService.getAllCategories();
-        Parent reccParent;
-        reccParent = WineCategoryDisplayController.createCategory("recommend");
+        Parent reccParent = WineCategoryDisplayController.createCategory("recommend");
 
         Platform.runLater(() -> {
             contentsGrid.add(reccParent, 0, 0);
-            for (int i = 0; i < allCategories.size(); i++) {
+            for (int i = 0; i < 8 && i < allCategories.size(); i++) {
                 Parent parent = allCategories.get(i);
                 if (i >= contentsGrid.getRowCount()) {
                     categoryAnchorPane.setPrefHeight(categoryAnchorPane.getPrefHeight() + 200);
                     contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
                     contentsGrid.addRow(contentsGrid.getRowCount());
                 }
-                contentsGrid.add(parent, 0, i + 1);
+                contentsGrid.add(parent, 0, i+1);
             }
         });
     }
@@ -103,9 +102,14 @@ public class MainController {
     private void displayCategoriesNoRec() {
         Platform.runLater(() -> {
             List<Parent> allCategories = CategoryService.getAllCategories();
-            for (int i = 1; i < allCategories.size(); i++) {
+            for (int i = 0; i < allCategories.size(); i++) {
                 Parent parent = allCategories.get(i);
-                contentsGrid.add(parent, 0, i - 1);
+                if (i >= contentsGrid.getRowCount()) {
+                    categoryAnchorPane.setPrefHeight(categoryAnchorPane.getPrefHeight() + 200);
+                    contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
+                    contentsGrid.addRow(contentsGrid.getRowCount());
+                }
+                contentsGrid.add(parent, 0, i);
             }
         });
 
