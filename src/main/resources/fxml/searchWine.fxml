@@ -216,5 +216,6 @@
       <Label layoutX="20.0" layoutY="47.0" text="Country" />
       <Label layoutX="236.0" layoutY="47.0" text="Winery" />
       <Label layoutX="446.0" layoutY="47.0" text="Variety" />
+      <Label fx:id="pricePlusLabel" layoutX="1245.0" layoutY="53.0" text="+" />
    </children>
 </Pane>
