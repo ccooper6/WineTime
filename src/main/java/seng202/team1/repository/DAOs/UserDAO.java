@@ -1,16 +1,11 @@
 package seng202.team1.repository.DAOs;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.exceptions.DuplicateEntryException;
-import seng202.team1.gui.controllers.WineLoggingPopupController;
 import seng202.team1.models.User;
 import seng202.team1.repository.DatabaseManager;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -38,12 +33,10 @@ public class UserDAO {
      */
     public User tryLogin(String username, int password) {
         String sql = "SELECT * FROM user WHERE username = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement userPS = conn.prepareStatement(sql)) {
+            userPS.setString(1, username);
+            ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
                 return null;
@@ -59,29 +52,32 @@ public class UserDAO {
                 return null;
             }
         } catch (SQLException e) {
-            LOG.error("Error in UserDAO.tryLogin(): SQLException {}", e.getMessage());
-            return null; //TODO is this right?
+            LOG.error("Error: Could not login the user, {}", e.getMessage());
+            return null;
         }
-
-
     }
 
-    public int add(User toAdd) throws DuplicateEntryException {
+    /**
+     * Adds a new user to the database
+     *
+     * @param toAdd The user to add. Must contain username, hashed password and name
+     * @return The result of the sql query. 0 if user already exists, 1 if successful, 2 if an error occurred
+     */
+    public int add(User toAdd) {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, toAdd.getEncryptedUserName());
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
             ps.executeUpdate();
-            LOG.info("Added user: " + toAdd.getEncryptedUserName());
+            LOG.info("Successfully registered new user");
             return 1; // Username created successfully
-        } catch (SQLException sqlException) {
-            if (sqlException.getErrorCode() == 19) {
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
                 return 0; // Duplicate username
             }
-            LOG.error("Error in UserDAO.add(): SQLException {}", sqlException.getMessage());
+            LOG.error("Error: Could not register new user, {}", e.getMessage());
             return 2; // Other error occurred
         }
     }
@@ -93,34 +89,36 @@ public class UserDAO {
      */
     public String getName(String username) {
         String sql = "SELECT name FROM user WHERE username = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement userPS = conn.prepareStatement(sql)) {
+            userPS.setString(1, username);
+            ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
                 return null;
             }
             return rs.getString("name");
         } catch (SQLException e) {
-            LOG.error("Error in UserDAO.getName(): SQLException {}", e.getMessage());
-            return null; //TODO is this right?
+            LOG.error("Error: Could not get user's name {}", e.getMessage());
+            return null;
         }
     }
 
-    public void delete(int id) {
-        String sql = "DELETE FROM user WHERE id = ?";
-        try (
-                Connection conn = databaseManager.connect();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-
+    /**
+     * Checks whether the given user exists in the database
+     */
+    public boolean userExists(int id)
+    {
+        String sql = "SELECT id FROM user WHERE id = ?";
+        try (Connection conn = DatabaseManager.getInstance().connect();
+             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+            wishlistPS.setInt(1, id);
+            try (ResultSet rs = wishlistPS.executeQuery()) {
+                return rs.next();
+            }
         } catch (SQLException e) {
-            LOG.error("Error in UserDAO.delete(): SQLException {}", e.getMessage());
+            LOG.error("Error: Could not check if wine exists, {}", e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

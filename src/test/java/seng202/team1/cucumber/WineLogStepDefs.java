@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.LogWineDao;
 import seng202.team1.services.ReviewService;
@@ -106,7 +107,7 @@ public class WineLogStepDefs {
         } else {
             tagsToCheck = wineTags;
         }
-        HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, SearchDAO.UNLIMITED,true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
             Assertions.assertEquals(reviewService.getRatingWeight(rating) , result.get(checkTag));
@@ -121,7 +122,7 @@ public class WineLogStepDefs {
     @Then("The log is properly updated")
     public void checkUpdatedLog() {
         ArrayList<String> tagsToCheck = wineTags;
-        HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, true);
+        HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, SearchDAO.UNLIMITED, true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
             Assertions.assertEquals(reviewService.getRatingWeight(oldrating) + reviewService.getRatingWeight(rating), result.get(checkTag));
