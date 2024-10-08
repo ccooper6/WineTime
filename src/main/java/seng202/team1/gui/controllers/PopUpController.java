@@ -119,10 +119,18 @@ public class PopUpController {
         Text dollarSign = new Text("$");
         dollarSign.setStyle("-fx-font-size: 18;");
         Text value = new Text(String.valueOf(wine.getPrice()));
-        value.setStyle("-fx-font-size: 18;");
-        Text currency = new Text(" NZD");
-        currency.setStyle("-fx-font-size: 10;");
-        valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        if (!"0".equals(value.getText())) {
+            value.setStyle("-fx-font-size: 18;");
+            Text currency = new Text(" NZD");
+            currency.setStyle("-fx-font-size: 10;");
+            valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        } else {
+            Text buffer = new Text(" ");
+            buffer.setStyle("-fx-font-size: 18;");
+            Text unknown = new Text("Price Unknown");
+            unknown.setStyle("-fx-font-size: 14;");
+            valueDisplay.getChildren().addAll(buffer, unknown);
+        }
         Text points = new Text(String.valueOf(wine.getPoints()));
         points.setStyle("-fx-font-size: 18;");
         Text range = new Text(" / 100");
