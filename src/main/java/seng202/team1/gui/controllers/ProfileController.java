@@ -130,7 +130,7 @@ public class ProfileController {
         }
         if (tagRankingService.hasEnoughDislikedTags(uid)) {
             notEnoughDisliked.setVisible(false);
-            createPie(hateTagPie, tagRankingService.getLowestTagData(uid, 5), "Your top 5 liked tags");
+            createPie(hateTagPie, tagRankingService.getLowestTagData(uid, 5), "Your top 5 disliked tags");
         } else {
             notEnoughDisliked.setVisible(true);
             createEmptyPie(hateTagPie, "Your top 5 disliked tags");
@@ -176,17 +176,11 @@ public class ProfileController {
      */
     @FXML
     public void displayWishlist() {
-        WineCategoryService.getInstance().resetCurrentCategory();
         LOG.info("Fetching wishlist.");
-        int currentUserUid = User.getCurrentUser().getId();
 
-        try {
-            Parent parent = WineCategoryDisplayController.createCategory("wishlist");
-            wishlistPane.getChildren().add(parent);
+        Parent parent = WineCategoryDisplayController.createCategory("wishlist");
+        wishlistPane.getChildren().add(parent);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -205,8 +199,6 @@ public class ProfileController {
         navigationController.closePopUp();
         navigationController.loadSelectChallengePopUpContent();
     }
-
-
 
     /**
      * Displays the challenge wines using the wine mini displays.
@@ -270,6 +262,16 @@ public class ProfileController {
         completedChalPane.setVisible(true);
         completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
         challengeService.challengeCompleted(cname);
+    }
+
+    /**
+     * logs the user out.
+     */
+    @FXML
+    public void logOutButton() {
+        LOG.info("Logging out user " + User.getCurrentUser().getName());
+        User.setCurrenUser(null);
+        FXWrapper.getInstance().launchPage("login");
     }
 }
 

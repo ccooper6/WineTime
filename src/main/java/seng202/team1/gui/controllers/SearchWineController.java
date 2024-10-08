@@ -205,6 +205,7 @@ public class SearchWineController {
      */
     private void initializeCountryComboBox()
     {
+
         countryComboBox.getItems().addAll(TagDAO.getInstance().getCountries());
 
         countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {

@@ -246,7 +246,7 @@ public class ChallengeDAO {
                 currentWineBuilder = WineBuilder.genericSetup(resultSet.getInt("id"),
                         resultSet.getString("wine_name"),
                         resultSet.getString("description"),
-                        resultSet.getInt("price"));
+                        resultSet.getInt("price"), resultSet.getInt("points"));
                 currentID = resultSet.getInt("id");
             }
             if (currentWineBuilder == null) {

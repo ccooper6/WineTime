@@ -15,9 +15,9 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></FontAwesomeIconView>
-            <Label layoutX="42.0" layoutY="21.0" text="Select a challenge to start">
+            <Label layoutX="42.0" layoutY="21.0" text="Select a Challenge:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Noto Serif Regular" size="19.0" />
                </font>
             </Label>
             <ScrollPane layoutX="6.0" layoutY="63.0" prefHeight="330.0" prefWidth="485.0" style="-fx-background-color: WHITE;">
@@ -26,51 +26,69 @@
                      <children>
                         <Pane layoutX="7.0" layoutY="8.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
                            <children>
-                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startVarietyChallenge" text="Start Challenge!">
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startVarietyChallenge" stylesheets="@../style/greyButton.css" text="Start Challenge!">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="varieyblurb" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 5 &#10;carefully selected distinct wines." />
+                              <Label fx:id="varieyblurb" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 5 &#10;carefully selected distinct wines.">
+                                 <font>
+                                    <Font name="Noto Serif Regular" size="13.0" />
+                                 </font></Label>
                            </children></Pane>
                         <Pane layoutX="7.0" layoutY="130.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
                            <children>
-                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startYearsChallenge" text="Start Challenge!">
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startYearsChallenge" stylesheets="@../style/greyButton.css" text="Start Challenge!">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="decades" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Time Travallers Challenge&#10;Journey through the years, " />
+                              <Label fx:id="decades" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Time Travallers Challenge&#10;Journey through the years, ">
+                                 <font>
+                                    <Font name="Noto Serif Regular" size="13.0" />
+                                 </font></Label>
                            </children>
                         </Pane>
                         <Pane layoutX="7.0" layoutY="252.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
                            <children>
-                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startRedsChallenge" text="Start Challenge!">
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startRedsChallenge" stylesheets="@../style/greyButton.css" text="Start Challenge!">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="redDesciption" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="&quot;a good red soothes the head&quot;" />
+                              <Label fx:id="redDesciption" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The red challenge">
+                                 <font>
+                                    <Font name="Noto Serif Regular" size="13.0" />
+                                 </font></Label>
                            </children>
                         </Pane>
                         <Pane layoutX="7.0" layoutY="374.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
                            <children>
-                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startWhitesChallenge" text="Start Challenge!">
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startWhitesChallenge" stylesheets="@../style/greyButton.css" text="Start Challenge!">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="whiteDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The great white challenge." />
+                              <Label fx:id="whiteDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The great white challenge.">
+                                 <font>
+                                    <Font name="Noto Serif Regular" size="13.0" />
+                                 </font></Label>
                            </children>
                         </Pane>
                         <Pane layoutX="7.0" layoutY="496.0" prefHeight="104.0" prefWidth="452.0" style="-fx-border-color: grey;">
                            <children>
-                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startRoseChallenge" text="Start Challenge!">
+                              <Button layoutX="313.0" layoutY="28.0" mnemonicParsing="false" onAction="#startRoseChallenge" stylesheets="@../style/greyButton.css" text="Start Challenge!">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <font>
+                                    <Font name="Noto Serif Regular" size="13.0" />
+                                 </font>
                               </Button>
-                              <Label fx:id="roseDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Stop and smell the rose." />
+                              <Label fx:id="roseDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Stop and smell the rose.">
+                                 <font>
+                                    <Font name="Noto Serif Regular" size="13.0" />
+                                 </font></Label>
                            </children>
                         </Pane>
                      </children>
