@@ -21,15 +21,15 @@
       <AnchorPane fx:id="mainWine4" layoutX="697.0" layoutY="55.0" prefHeight="120.0" prefWidth="190.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine5" layoutX="907.0" layoutY="55.0" prefHeight="120.0" prefWidth="190.0"> </AnchorPane>
       <AnchorPane fx:id="mainWine6" disable="true" layoutX="1117.0" layoutY="55.0" opacity="0.0" prefHeight="120.0" prefWidth="190.0" />
-      <FontAwesomeIconView fx:id="rightArrowButton" glyphName="ANGLE_RIGHT" layoutX="1134.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098">
+      <FontAwesomeIconView fx:id="rightArrowButton" fill="#707070" glyphName="ANGLE_RIGHT" layoutX="1134.0" layoutY="140.0" size="60" text="" wrappingWidth="22.285714149475098">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontAwesomeIconView>
-      <FontAwesomeIconView fx:id="leftArrowButton" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60">
+      <FontAwesomeIconView fx:id="leftArrowButton" fill="#707070" glyphName="ANGLE_LEFT" layoutX="14.0" layoutY="140.0" size="60">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontAwesomeIconView>
-      <Button fx:id="seeMoreButton" layoutX="1078.0" layoutY="22.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." underline="true">
+      <Button fx:id="seeMoreButton" layoutX="1078.0" layoutY="22.0" mnemonicParsing="false" onAction="#seeMore" style="-fx-background-color: none;" text="See more..." textFill="#707070" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
