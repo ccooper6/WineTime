@@ -561,7 +561,7 @@ public class SearchDAO {
      * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
      */
     private static void initializeSqlReccString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid, int limit) {
-        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, tag.name as tag_name, tag.type as tag_type\n")
+        sqlBuilder.append("SELECT id, wine.name as wine_name, description, price, points, tag.name as tag_name, tag.type as tag_type\n")
                 .append("FROM (SELECT id as temp_id, count(id) as c\n")
                 .append("      FROM wine JOIN owned_by on wine.id = owned_by.wid\n")
                 .append("                JOIN tag on owned_by.tname = tag.name\n");
