@@ -169,7 +169,7 @@
       <TextField fx:id="minYearTextField" layoutX="705.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="761.0" layoutY="54.0" text="to" />
       <TextField fx:id="maxYearTextField" layoutX="775.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
-      <Button fx:id="applyFiltersButton" layoutX="1170.0" layoutY="18.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" stylesheets="@../style/quizStyle.css" text="Apply filters">
+      <Button fx:id="applyFiltersButton" layoutX="1170.0" layoutY="18.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" stylesheets="@../style/redButton.css" text="Apply filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

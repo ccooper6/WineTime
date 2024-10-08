@@ -77,7 +77,10 @@
                         </Pane>
                         <Pane fx:id="challengePane" layoutX="5.0" layoutY="50.0" prefHeight="149.0" prefWidth="1240.0">
                            <children>
-                              <Button fx:id="quitchallButton" layoutX="1120.0" mnemonicParsing="false" onAction="#quitChallenge" stylesheets="@../style/greyButton.css" text="Quit Challenge" />
+                              <Button fx:id="quitchallButton" layoutX="1120.0" mnemonicParsing="false" onAction="#quitChallenge" stylesheets="@../style/greyButton.css" text="Quit Challenge">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                               <GridPane hgap="20.0" layoutX="60.0" layoutY="10.0" maxHeight="120.0" maxWidth="1030.0" minHeight="120.0" minWidth="1030.0" prefHeight="120.0" prefWidth="1030.0">
                                  <columnConstraints>
                                     <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
