@@ -154,7 +154,7 @@
       <TextField fx:id="minPriceTextField" layoutX="1130.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
       <Label layoutX="1181.0" layoutY="54.0" text="to" />
       <TextField fx:id="maxPriceTextField" layoutX="1200.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
-      <Button fx:id="clearFiltersButton" layoutX="1080.0" layoutY="18.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
+      <Button fx:id="clearFiltersButton" layoutX="1070.0" layoutY="18.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
