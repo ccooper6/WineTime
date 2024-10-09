@@ -12,13 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TagDAOTest {
 
-    public static DatabaseManager databaseManager;
-    @BeforeEach
-    void setUp() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
-        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
-    }
-
     @Test
     public void testGetVarieties() {
         ArrayList<String> varieties = TagDAO.getInstance().getVarieties();
