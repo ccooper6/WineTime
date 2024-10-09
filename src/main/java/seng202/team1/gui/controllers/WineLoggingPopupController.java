@@ -124,7 +124,7 @@ public class WineLoggingPopupController {
      * @param wine The wine object obtained from {@link NavigationController#getWine()}
      */
     private void addTagCheckBoxes(Wine wine) {
-        if (wine.getVintage() != NULL) {
+        if (wine.getVintage() != NULL && wine.getVintage() != -1) {
             CheckBox vintageCheckBox = new CheckBox(wine.getVintage() + " - Vintage");
             vintageCheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(vintageCheckBox);
