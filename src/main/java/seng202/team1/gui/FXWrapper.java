@@ -52,7 +52,6 @@ public class FXWrapper {
      */
     public void launchPage(String name) {
         try {
-            System.out.println("here?");
             FXWrapper.getInstance().setCurrentPage(name);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", name)));
             Parent root = loader.load();
@@ -102,7 +101,6 @@ public class FXWrapper {
      * @param challengeNum the challenge number.
      */
     public void setChallenge(int challengeNum) {
-        System.out.println("updated challenge number");
         challenge = challengeNum;
     }
 

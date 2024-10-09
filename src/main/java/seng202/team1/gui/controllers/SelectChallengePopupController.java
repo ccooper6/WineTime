@@ -11,7 +11,7 @@ import seng202.team1.services.ChallengeService;
 public class SelectChallengePopupController {
 
     private final ChallengeService challengeService = new ChallengeService();
-    private NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
     /**
      * calls challenge service method to start the variety challenge and closes popup and reloads the profile screen on start challenge clicked.

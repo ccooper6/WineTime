@@ -328,37 +328,33 @@ public class PopUpController {
     /**
      * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
      */
+    // TODO do we keep this?
     public void onWineSearchLinkClicked() {
-        try {
-            java.awt.Desktop.getDesktop();
-            String query = wineName.getText();
-            query = Normalizer.normalize(query, Normalizer.Form.NFD);
-            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-            query = pattern.matcher(query).replaceAll("");
-            String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                    // open browser with a thread
-                    Runnable browseRunnable = () -> {
-                        try {
-                            desktop.browse(new URI(googleSearchURL));
-                        } catch (URISyntaxException e) {
-                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Syntax error in URL: {}", googleSearchURL);
-                        } catch (IOException e) {
-                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
-                        }
-                    };
+        java.awt.Desktop.getDesktop();
+        String query = wineName.getText();
+        query = Normalizer.normalize(query, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        query = pattern.matcher(query).replaceAll("");
+        String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                // open browser with a thread
+                Runnable browseRunnable = () -> {
+                    try {
+                        desktop.browse(new URI(googleSearchURL));
+                    } catch (URISyntaxException e) {
+                        LOG.error("Error in PopupController.onWineSearchLinkClicked(): Syntax error in URL: {}", googleSearchURL);
+                    } catch (IOException e) {
+                        LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
+                    }
+                };
 
-                    Thread thread = new Thread(browseRunnable);
-                    thread.start();
-                }
-            } else {
-                LOG.error("Error in PopupController.onWIneSearchLinkClicked(): Desktop does not support wine link function");
+                Thread thread = new Thread(browseRunnable);
+                thread.start();
             }
-        } catch (Exception e) {
-            // TODO wtf is this
-            LOG.error("Something went wrong trying to search for a wine.");
+        } else {
+            LOG.error("Error in PopupController.onWIneSearchLinkClicked(): Desktop does not support wine link function");
         }
     }
 
