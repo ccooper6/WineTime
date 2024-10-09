@@ -1,4 +1,7 @@
-# WineTime
+# WineTime 🍷
+
+![Alt text](src/main/resources/images/winetime.png "WineTime Logo")
+
 WineTime is an application by wine lovers, for wine lovers. 
 
 To use WineTime, you must create an account upon launch. We recommend doing the quiz upon launch, located in your profile, to kickstart your wine browsing journey.
