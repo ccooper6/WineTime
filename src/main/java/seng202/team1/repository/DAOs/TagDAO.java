@@ -126,6 +126,12 @@ public class TagDAO {
         return getIntTag(sql, TagType.POINTS);
     }
 
+    /**
+     * Returns a tag with an integer name
+     * @param sql the string sql query to fetch the tag
+     * @param type the type of tag it is
+     * @return an integer
+     */
     private int getIntTag(String sql, TagType type)
     {
         try (Connection conn = databaseManager.connect();
