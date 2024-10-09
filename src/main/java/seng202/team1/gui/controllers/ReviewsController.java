@@ -63,7 +63,8 @@ public class ReviewsController {
         if (allReviews == null || allReviews.isEmpty()) {
             title.setText("You have no saved wine reviews.\nClick the log symbol on any wine and fill out the form to save it for later!");
             pageCounterText.getParent().setVisible(false);
-            LOG.error("Review list is null");
+            if (allReviews == null)
+                LOG.error("Error: Review list is null");
             return;
         }
         int start = currentPage * MAXSIZE;

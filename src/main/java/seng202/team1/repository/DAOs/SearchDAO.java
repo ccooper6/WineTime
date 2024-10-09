@@ -68,7 +68,6 @@ public class SearchDAO {
 
         while (rs.next())
         {
-
             if (rs.getInt("id") != currentID) {
                 if (currentWineBuilder != null) {
                     wineList.add(currentWineBuilder.build());
@@ -174,7 +173,7 @@ public class SearchDAO {
      * @param numTags the number of tags to accommodate for
      * @return A string of the correct SQL statement
      */
-    private String buildSearchByFilterString(int numTags, String orderBy)
+    private String buildSearchByFilterString(int numTags, String orderBy, boolean checkVintage)
     {
         // Build the SQL query with dynamic placeholders
         StringBuilder sqlBuilder = new StringBuilder();
@@ -182,9 +181,16 @@ public class SearchDAO {
                     SELECT id, wine.name as wine_name, description, points, price, tag.name as tag_name, tag.type as tag_type
                     FROM (SELECT id as temp_id
                           FROM (SELECT id, count(wid) as c
-                              FROM wine JOIN owned_by on wine.id = owned_by.wid
-                              JOIN tag on owned_by.tname = tag.name
-                          WHERE tag.normalised_name IN (""");
+                                FROM wine JOIN owned_by on wine.id = owned_by.wid
+                                          JOIN tag on owned_by.tname = tag.name
+                                WHERE tag.normalised_name IN (""");
+
+        if (checkVintage) {
+            sqlBuilder.append("'null'");
+            if (numTags > 0) {
+                sqlBuilder.append(",");
+            }
+        }
 
         // Add placeholders
         for (int i = 0; i < numTags; i++) {
@@ -196,15 +202,15 @@ public class SearchDAO {
 
         sqlBuilder.append("""
                     )
-                                  OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?
+                                      OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?
                                   GROUP BY wid)
-                            WHERE (c = ?) or (c = ? AND NOT EXISTS (SELECT * FROM owned_by join tag on owned_by.tname = tag.name where owned_by.wid = temp_id and tag.type = 'Vintage')))
-                    JOIN wine on wine.id = temp_id
-                    JOIN owned_by on id = owned_by.wid
-                    JOIN tag on owned_by.tname = tag.name
+                            WHERE (c = ?))
+                    JOIN wine ON wine.id = temp_id
+                    JOIN owned_by ON id = owned_by.wid
+                    JOIN tag ON owned_by.tname = tag.name
                     WHERE points >= ? AND points <= ?
-                    AND ((price >= ? and price <= ?) OR price is null)
-                    AND wine_name like ?
+                    AND ((price >= ? AND price <= ?) OR price IS null)
+                    AND wine.normalised_name LIKE ?
                     """);
         sqlBuilder.append("ORDER BY ").append(orderBy).append(";");
 
@@ -232,8 +238,11 @@ public class SearchDAO {
             }
         }
 
+        boolean checkVintage = lowerVintage == TagDAO.getInstance().getMinVintage()
+                            && upperVintage == TagDAO.getInstance().getMaxVintage();
+
         ArrayList<Wine> wineList = new ArrayList<>();
-        String sql = buildSearchByFilterString(tagList.size(), orderBy);
+        String sql = buildSearchByFilterString(tagList.size(), orderBy, checkVintage);
 
         // get results
         try (Connection conn = databaseManager.connect();
@@ -244,12 +253,11 @@ public class SearchDAO {
             searchPS.setInt(tagList.size() + 1, lowerVintage);
             searchPS.setInt(tagList.size() + 2, upperVintage);
             searchPS.setInt(tagList.size() + 3, tagList.size() + 1);
-            searchPS.setInt(tagList.size() + 4, tagList.size());
-            searchPS.setInt(tagList.size() + 5, lowerPoints);
-            searchPS.setInt(tagList.size() + 6, upperPoints);
-            searchPS.setInt(tagList.size() + 7, lowerPrice);
-            searchPS.setInt(tagList.size() + 8, upperPrice);
-            searchPS.setString(tagList.size() + 9, '%' + filterString + '%');
+            searchPS.setInt(tagList.size() + 4, lowerPoints);
+            searchPS.setInt(tagList.size() + 5, upperPoints);
+            searchPS.setInt(tagList.size() + 6, lowerPrice);
+            searchPS.setInt(tagList.size() + 7, upperPrice);
+            searchPS.setString(tagList.size() + 8, '%' + filterString + '%');
 
             try (ResultSet rs = searchPS.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
