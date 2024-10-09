@@ -16,7 +16,11 @@
                   <Font name="Noto Serif Regular" size="13.0" />
                </font></Label>
             <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="100.0" layoutY="75.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="30.0" prefWidth="294.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" stylesheets="@../style/reviewSlider.css" value="3.0" />
-            <Label layoutX="27.0" layoutY="115.0" prefHeight="18.0" prefWidth="316.0" text="Which of the following parts of the wine did you ">
+            <Label fx:id="likingText" layoutX="27.0" layoutY="115.0" prefHeight="18.0" prefWidth="350.0" text="Which of the following parts of the wine did you like?">
+               <font>
+                  <Font name="Noto Serif Regular" size="13.0" />
+               </font></Label>
+            <Label layoutX="27.0" layoutY="115.0" prefHeight="18.0" prefWidth="350.0" text="Which of the following parts of the wine did you ">
                <font>
                   <Font name="Noto Serif Regular" size="13.0" />
                </font></Label>
@@ -25,7 +29,7 @@
                <font>
                   <Font name="Noto Serif Regular" size="13.0" />
                </font></Label>
-            <Button fx:id="submitLogButton" layoutX="212.0" layoutY="361.0" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Submit Log">
+            <Button fx:id="submitLogButton" layoutX="198.0" layoutY="361.0" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Submit Review">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -50,10 +54,6 @@
                <font>
                   <Font name="Noto Serif Regular" size="19.0" />
                </font></Text>
-            <Label fx:id="likingText" layoutX="330.0" layoutY="115.0" prefHeight="18.0" prefWidth="101.0" text=" like?">
-               <font>
-                  <Font name="Noto Serif Bold" size="13.0" />
-               </font></Label>
             <Label layoutX="403.0" layoutY="115.0" prefHeight="17.0" prefWidth="69.0" text="(Optional)">
                <font>
                   <Font name="Noto Serif Regular" size="13.0" />

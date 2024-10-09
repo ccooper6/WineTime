@@ -12,20 +12,24 @@ import java.util.*;
  */
 public class ChallengeService {
 
-    private final ArrayList<String> varieties = new ArrayList<>(Arrays.asList("merlot", "pinot gris", "chardonnay", "red blend", "rose"));
-    private final ArrayList<String> years = new ArrayList<>(Arrays.asList("1989", "1990", "2000", "2010", "2005"));
-    private final ArrayList<String> reds = new ArrayList<>(Arrays.asList("red", "red", "red", "red", "red"));
-    private final ArrayList<String> whites = new ArrayList<>(Arrays.asList("whites", "whites", "whites", "whites", "whites"));
-    private final ArrayList<String> rose = new ArrayList<>(Arrays.asList("rose", "rose", "rose", "rose", "rose"));
+    private ArrayList<String> varieties = new ArrayList<>(Arrays.asList("merlot", "pinot gris", "chardonnay", "red blend", "rose"));
+    private ArrayList<String> years = new ArrayList<>(Arrays.asList("1989", "1990", "2000", "2010", "2005"));
+    private ArrayList<String> reds = new ArrayList<>();
+    private ArrayList<String> whites = new ArrayList<>();
+    private ArrayList<String> rose = new ArrayList<>();
 
     private final ChallengeDAO challengeDAO = new ChallengeDAO();
+    private WineVarietyService wineVarietyService = new WineVarietyService();
+
+    private Random random = new Random();
+
 
     /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.
      */
     public void startChallengeVariety()
     {
-        ArrayList<Integer> wineIDs = getWinesForChallenge(varieties, "tags");
+        ArrayList<Integer> wineIDs = getWinesforChallenge(varieties);
         challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineIDs);
     }
 
@@ -34,7 +38,7 @@ public class ChallengeService {
      */
     public void startChallengeYears()
     {
-        ArrayList<Integer> wineIDs = getWinesForChallenge(years, "tags");
+        ArrayList<Integer> wineIDs = getWinesforChallenge(years);
         challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Time Travelling Challenge", wineIDs);
     }
 
@@ -43,8 +47,14 @@ public class ChallengeService {
      */
     public void startChallengeReds()
     {
-        ArrayList<Integer> wineids = getWinesForChallenge(reds, "name");
-        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Red Roulette Challenge", wineids);
+        ArrayList<String> redsList = new ArrayList<>(wineVarietyService.getReds());
+        for (int i = 0; i < 5; i++) {
+            reds.add(redsList.get(i));
+        }
+        ArrayList<Integer> wineIDs = getWinesforChallenge(reds);
+        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Red Roulette Challenge", wineIDs);
+
+
     }
 
     /**
@@ -53,8 +63,12 @@ public class ChallengeService {
 
     public void startChallengeWhites()
     {
-        ArrayList<Integer> wineids = getWinesForChallenge(whites, "name");
-        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Great White Challenge", wineids);
+        ArrayList<String> whitesList = new ArrayList<>(wineVarietyService.getWhites());
+        for (int i = 0; i < 5; i++) {
+            whites.add(whitesList.get(i));
+        }
+        ArrayList<Integer> wineIDs = getWinesforChallenge(whites);
+        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Great White Challenge", wineIDs);
     }
 
     /**
@@ -63,8 +77,12 @@ public class ChallengeService {
 
     public void startChallengeRose()
     {
-        ArrayList<Integer> wineIDs = getWinesForChallenge(rose, "name");
-        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rose challenge", wineIDs);
+        ArrayList<String> roseList = new ArrayList<>(wineVarietyService.getRose());
+        for (int i = 0; i < 5; i++) {
+            rose.add(roseList.get(i));
+        }
+        ArrayList<Integer> wineIDs = getWinesforChallenge(rose);
+        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rosè challenge", wineIDs);
     }
 
     /**
@@ -79,25 +97,17 @@ public class ChallengeService {
     /**
      * chose 5 random wines of the set type and returns there ids in an array list.
      * @param types is an array list of strings that are the type of wines for the challenge.
-     * @param searchType is a string of either tags or name, which determines weather to user search service search in name or search in tags method.
      * @return ArrayList<Integer> list of wine ids </Integer>
      */
-    public ArrayList<Integer> getWinesForChallenge(ArrayList<String> types, String searchType)
+    public ArrayList<Integer> getWinesforChallenge(ArrayList<String> types)
     {
         ArrayList<Integer> wines = new ArrayList<>();
-        if (searchType.equals("name")) {
-            System.out.println(types.getFirst());
-            SearchWineService.getInstance().searchWinesByName(types.getFirst(), 100);
-        }
-        for (String type : types) {
+        for (int i = 0; i < types.size(); i ++) {
             int wine = 0;
             boolean wineInvalid = true;
-            if (searchType.equals("tags")) {
-                SearchWineService.getInstance().searchWinesByTags(type, 100);
-            }
+            SearchWineService.getInstance().searchWinesByTags(types.get(i), 100);
             while (wineInvalid) {
                 Random random = new Random();
-                System.out.println(SearchWineService.getInstance().getWineList().size());
                 wine = SearchWineService.getInstance().getWineList().get(random.nextInt(SearchWineService.getInstance().getWineList().size())).getWineId();
                 boolean winefound = false;
                 for (Integer integer : wines) {
@@ -118,7 +128,7 @@ public class ChallengeService {
 
 
     /**
-     * Checks to see if user has the variety challenge as an active challenge.
+     * Checks to see if user has an active challenge.
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {

@@ -1,7 +1,5 @@
 package seng202.team1.models;
 
-import java.util.ArrayList;
-
 /**
  * The User class that contains the attributes of a user.
  * @author Caleb Cooper, Wen Sheng Thong, Isaac Macdonald
@@ -9,12 +7,8 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String name;
-    private String encryptedUserName;
+    private final String encryptedUserName;
     private int hashedPassword;
-    // TODO should these be stored or fetched?
-    private ArrayList<Wine> favouritedWines;
-    private ArrayList<Wine> dislikedWines;
-    private ArrayList<String> favouritedTags;
 
     private static User currenUser;
 
@@ -93,77 +87,11 @@ public class User {
         return encryptedUserName;
     }
 
-    // TODO lots of unused methods
-
-    /**
-     * Sets the encrypted username of the user.
-     * @param userName The encrypted username of the user
-     */
-    public void setEncryptedUserName(String userName) {
-        this.encryptedUserName = userName;
-    }
-
     /**
      * Returns the hashed password of the user.
      * @return The hashed password of the user
      */
     public int getHashedPassword() {
         return hashedPassword;
-    }
-
-    /**
-     * Sets the hashed password of the user.
-     * @param hashedPassword The hashed password of the user
-     */
-    public void setHashedPassword(int hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-    /**
-     * Gets the list of favourited wines.
-     * @return The list of favourited wines
-     */
-    public ArrayList<Wine> getFavouritedWines() {
-        return favouritedWines;
-    }
-
-    /**
-     * Sets the list of favourited wines.
-     * @param favouritedWines The list of favourited wines
-     */
-    public void setFavouritedWines(ArrayList<Wine> favouritedWines) {
-        this.favouritedWines = favouritedWines;
-    }
-
-    /**
-     * Gets the list of disliked wines.
-     * @return The list of disliked wines
-     */
-    public ArrayList<Wine> getDislikedWines() {
-        return dislikedWines;
-    }
-
-    /**
-     * Sets the list of disliked wines.
-     * @param dislikedWines The list of disliked wines
-     */
-    public void setDislikedWines(ArrayList<Wine> dislikedWines) {
-        this.dislikedWines = dislikedWines;
-    }
-
-    /**
-     * Gets the list of favourited tags.
-     * @return The list of favourited tags
-     */
-    public ArrayList<String> getFavouritedTags() {
-        return favouritedTags;
-    }
-
-    /**
-     * Sets the list of favourited tags.
-     * @param favouritedTags The list of favourited tags
-     */
-    public void setFavouritedTags(ArrayList<String> favouritedTags) {
-        this.favouritedTags = favouritedTags;
     }
 }

@@ -50,7 +50,6 @@
          </font></Text>
       <AnchorPane fx:id="gotoPane" prefHeight="620.0" prefWidth="1280.0">
          <children>
-            <AnchorPane opacity="0.19" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: grey;" />
             <AnchorPane layoutX="490.0" layoutY="200.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
                <children>
                   <TextField fx:id="gotoTextField" layoutX="64.0" layoutY="95.0" prefHeight="26.0" prefWidth="102.0" promptText="Page Number" />
@@ -151,32 +150,38 @@
       <RangeSlider fx:id="vintageSlider" blockIncrement="1.0" highValue="2017.0" layoutX="649.0" layoutY="80.0" lowValue="1900.0" majorTickUnit="1.0" max="2017.0" min="1900.0" minorTickCount="0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" styleClass="range" stylesheets="@../style/rangeSlider.css" />
       <RangeSlider fx:id="pointsSlider" blockIncrement="1.0" highValue="100.0" layoutX="862.0" layoutY="80.0" lowValue="80.0" majorTickUnit="1.0" max="100.0" min="80.0" minorTickCount="0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
       <RangeSlider fx:id="priceSlider" blockIncrement="1.0" layoutX="1075.0" layoutY="80.0" majorTickUnit="1.0" max="200.0" min="5.0" minorTickCount="0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
-      <TextField fx:id="minPriceTextField" layoutX="1130.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
+      <TextField fx:id="minPriceTextField" layoutX="1125.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="1181.0" layoutY="54.0" text="to" />
-      <TextField fx:id="maxPriceTextField" layoutX="1200.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
-      <Button fx:id="clearFiltersButton" layoutX="1080.0" layoutY="18.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
+      <TextField fx:id="maxPriceTextField" layoutX="1195.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
+      <Button fx:id="clearFiltersButton" layoutX="1070.0" layoutY="18.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-       <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25" />
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" onAction="#dropDownClicked" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5" />
+       <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></FontAwesomeIconView>
+       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" onAction="#dropDownClicked" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ComboBox>
       <Label layoutX="865.0" layoutY="55.0" text="Points" />
       <Label layoutX="1078.0" layoutY="55.0" text="Price" />
-      <TextField fx:id="minPointsTextField" layoutX="920.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
+      <TextField fx:id="minPointsTextField" layoutX="915.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="971.0" layoutY="54.0" text="to" />
-      <TextField fx:id="maxPointsTextField" layoutX="990.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
-      <TextField fx:id="minYearTextField" layoutX="710.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="45.0" />
+      <TextField fx:id="maxPointsTextField" layoutX="985.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
+      <TextField fx:id="minYearTextField" layoutX="705.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="761.0" layoutY="54.0" text="to" />
-      <TextField fx:id="maxYearTextField" layoutX="780.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="45.0" />
-      <Button fx:id="applyFiltersButton" layoutX="1170.0" layoutY="18.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" stylesheets="@../style/quizStyle.css" text="Apply filters">
+      <TextField fx:id="maxYearTextField" layoutX="775.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
+      <Button fx:id="applyFiltersButton" layoutX="1170.0" layoutY="18.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" stylesheets="@../style/redButton.css" text="Apply filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
       <Button fx:id="resetCountry" layoutX="169.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetCountryClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
          <graphic>
-            <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
+            <FontAwesomeIconView glyphName="CLOSE" size="25" />
          </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -184,7 +189,7 @@
       </Button>
       <Button fx:id="resetWinery" layoutX="382.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetWineryClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
          <graphic>
-            <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
+            <FontAwesomeIconView glyphName="CLOSE" size="25" />
          </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -192,7 +197,7 @@
       </Button>
       <Button fx:id="resetVariety" layoutX="595.0" layoutY="63.0" mnemonicParsing="false" onAction="#onResetVarietyClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
          <graphic>
-            <FontAwesomeIconView glyphName="CLOSE" onMouseClicked="#changeIcon" size="25" />
+            <FontAwesomeIconView glyphName="CLOSE" size="25" />
          </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -216,5 +221,6 @@
       <Label layoutX="20.0" layoutY="47.0" text="Country" />
       <Label layoutX="236.0" layoutY="47.0" text="Winery" />
       <Label layoutX="446.0" layoutY="47.0" text="Variety" />
+      <Label fx:id="pricePlusLabel" layoutX="1245.0" layoutY="53.0" text="+" />
    </children>
 </Pane>

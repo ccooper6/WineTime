@@ -34,14 +34,14 @@
          </cursor></Button>
       <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="552.0" prefWidth="1270.0" style="-fx-background-color: white;">
          <content>
-            <AnchorPane fx:id="profilescrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="9900.0" prefWidth="1255.0" style="-fx-background-color: white;">
+            <AnchorPane fx:id="profilescrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="875.0" prefWidth="1255.0" style="-fx-background-color: white;">
                <children>
                   <Label layoutX="22.0" text="Tags Stats:">
                      <font>
                         <Font name="Noto Serif Regular" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="noPieChartLabel" layoutX="30.0" layoutY="40.0" prefHeight="27.0" prefWidth="362.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="Review more wines to see your preference">
+                  <Label fx:id="noPieChartLabel" layoutX="30.0" layoutY="40.0" prefHeight="27.0" prefWidth="370.0" style="-fx-background-color: #FFFFFF; " text="Review more wines to view your stats">
                      <font>
                         <Font name="Noto Serif Regular" size="18.0" />
                      </font>
@@ -55,12 +55,12 @@
                         </Text>
                         <Pane fx:id="winesPane" layoutY="120.0" prefHeight="700.0" prefWidth="1250.0">
                            <children>
-                              <AnchorPane fx:id="wishlistPane" layoutX="-9.0" layoutY="30.0" prefHeight="148.0" prefWidth="1264.0" />
+                              <AnchorPane fx:id="wishlistAnchorPane" layoutX="-9.0" layoutY="30.0" prefHeight="148.0" prefWidth="1264.0" />
                            </children>
                         </Pane>
                         <Pane fx:id="completedChalPane" layoutX="20.0" layoutY="30.0" prefHeight="64.0" prefWidth="1255.0" visible="false">
                            <children>
-                              <Label fx:id="completedChallMessage" layoutX="5.0" layoutY="25.0" text="Congratualtions you completed the ">
+                              <Label fx:id="completeChallengeLabel" layoutX="5.0" layoutY="25.0" text="Congratualtions you completed the ">
                                  <font>
                                     <Font name="Noto Serif Regular" size="18.0" />
                                  </font>
@@ -77,6 +77,10 @@
                         </Pane>
                         <Pane fx:id="challengePane" layoutX="5.0" layoutY="50.0" prefHeight="149.0" prefWidth="1240.0">
                            <children>
+                              <Button fx:id="quitchallButton" layoutX="1120.0" mnemonicParsing="false" onAction="#quitChallenge" stylesheets="@../style/greyButton.css" text="Quit Challenge">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                               <GridPane hgap="20.0" layoutX="60.0" layoutY="10.0" maxHeight="120.0" maxWidth="1030.0" minHeight="120.0" minWidth="1030.0" prefHeight="120.0" prefWidth="1030.0">
                                  <columnConstraints>
                                     <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -89,15 +93,15 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <AnchorPane fx:id="chal1" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefHeight="120.0" prefWidth="190.0">
+                                    <AnchorPane fx:id="challengeWineAnchorPane1" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefHeight="120.0" prefWidth="190.0">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </AnchorPane>
-                                    <AnchorPane fx:id="chal2" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                                    <AnchorPane fx:id="chal3" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="2" />
-                                    <AnchorPane fx:id="chal4" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="3" />
-                                    <AnchorPane fx:id="chal5" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="4" />
+                                    <AnchorPane fx:id="challengeWineAnchorPane2" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                                    <AnchorPane fx:id="challengeWineAnchorPane3" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="2" />
+                                    <AnchorPane fx:id="challengeWineAnchorPane4" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="3" />
+                                    <AnchorPane fx:id="challengeWineAnchorPane5" maxHeight="120.0" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" GridPane.columnIndex="4" />
                                  </children>
                               </GridPane>
                            </children>
@@ -123,14 +127,14 @@
                   </Pane>
                   <AnchorPane fx:id="pieChartAnchorPane" layoutX="14.0" layoutY="18.0" prefHeight="292.0" prefWidth="1256.0">
                      <children>
-                        <PieChart fx:id="likedTagPie" layoutX="36.0" layoutY="30.0" prefHeight="276.0" prefWidth="451.0" style="-fx-border-color: #3f0202;" stylesheets="@../style/tagPieChart.css" />
-                        <PieChart fx:id="hateTagPie" layoutX="587.0" layoutY="28.0" prefHeight="276.0" prefWidth="451.0" style="-fx-border-color: #3f0202;" />
-                        <Label fx:id="notEnoughLiked" layoutX="83.0" layoutY="121.0" prefHeight="64.0" prefWidth="357.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="               Not enough tags liked">
+                        <PieChart fx:id="likedTagPieChart" layoutX="36.0" layoutY="30.0" prefHeight="276.0" prefWidth="451.0" style="-fx-border-color: #3f0202;" stylesheets="@../style/tagPieChart.css" />
+                        <PieChart fx:id="hateTagPieChart" layoutX="587.0" layoutY="28.0" prefHeight="276.0" prefWidth="451.0" style="-fx-border-color: #3f0202;" />
+                        <Label fx:id="notEnoughLikedLabel" layoutX="83.0" layoutY="121.0" prefHeight="64.0" prefWidth="357.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="               Not enough tags liked">
                            <font>
                               <Font name="Noto Serif Regular" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="notEnoughDisliked" layoutX="633.0" layoutY="121.0" prefHeight="64.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="             Not enough tags disliked">
+                        <Label fx:id="notEnoughDislikedLabel" layoutX="633.0" layoutY="121.0" prefHeight="64.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #4B0000;" text="             Not enough tags disliked">
                            <font>
                               <Font name="Noto Serif Regular" size="18.0" />
                            </font>
@@ -141,6 +145,9 @@
             </AnchorPane>
          </content>
       </ScrollPane>
-      <Button layoutX="1200.0" layoutY="28.0" mnemonicParsing="false" onAction="#logOutButton" stylesheets="@../style/redButton.css" text="Log Out" />
+      <Button layoutX="1200.0" layoutY="28.0" mnemonicParsing="false" onAction="#logOutButton" stylesheets="@../style/redButton.css" text="Log Out">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

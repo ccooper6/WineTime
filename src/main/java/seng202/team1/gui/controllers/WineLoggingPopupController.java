@@ -27,8 +27,6 @@ import static java.sql.Types.NULL;
  */
 public class WineLoggingPopupController {
     @FXML
-    private Button popUpCloseButton;
-    @FXML
     private Label characterRemainingLabel;
     @FXML
     private TextArea descriptionTextArea;
@@ -69,14 +67,14 @@ public class WineLoggingPopupController {
 
     /**
      * Calls all the function that adds functionality to the various fxml components upon initialization.
-     * Calls {@link WineLoggingPopupController#addTagCheckBoxes(Wine)}, {@link WineLoggingPopupController#addDescCharLimit()},
+     * Calls {@link WineLoggingPopupController#addTagCheckBoxes(Wine)}, {@link WineLoggingPopupController#addDescriptionCharacterLimitText()},
      * {@link WineLoggingPopupController#submitLog()} and {@link WineLoggingPopupController#monitorRating()}
      * <p></p>
      * Also checks if the user has already reviewed the wine and calls {@link WineLoggingPopupController#populateReviewData(Review)}
      */
     private void implementFxmlFunction() {
         addTagCheckBoxes(currentWine);
-        addDescCharLimit();
+        addDescriptionCharacterLimitText();
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
@@ -175,20 +173,20 @@ public class WineLoggingPopupController {
      * Adds the character limit to the {@link WineLoggingPopupController#descriptionTextArea} as well as make sure the
      * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining.
      */
-    private void addDescCharLimit() {
+    private void addDescriptionCharacterLimitText() {
         int maxLength = 160;
         descriptionTextArea.setWrapText(true);
         descriptionTextArea.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            String string = "";
+            String bufferString;
             int textLength = descriptionTextArea.getText().length();
             if (textLength <= 20) {
-                string = "";
+                bufferString = "";
             } else if (textLength <= 110) {
-                string = "  ";
+                bufferString = "  ";
             } else {
-                string = "    ";
+                bufferString = "    ";
             }
-            characterRemainingLabel.setText(string + (maxLength - textLength) + " characters remaining");
+            characterRemainingLabel.setText(bufferString + (maxLength - textLength) + " characters remaining");
             if (textLength > maxLength) {
                 descriptionTextArea.setText(descriptionTextArea.getText().substring(0, maxLength));
             }
@@ -202,10 +200,10 @@ public class WineLoggingPopupController {
     private void monitorRating() {
         ratingSlider.valueProperty().addListener((observableValue, number, t1) -> {
             if (ratingSlider.getValue() < 3) {
-                likingText.setText(" dislike?");
+                likingText.setText("Which of the following parts of the wine did you dislike?");
                 likingText.setTextFill(Color.RED);
             } else {
-                likingText.setText(" like?");
+                likingText.setText("Which of the following parts of the wine did you like?");
                 likingText.setTextFill(Color.GREEN);
             }
         });

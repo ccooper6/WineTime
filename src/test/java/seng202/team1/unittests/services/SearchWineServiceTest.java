@@ -60,20 +60,8 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 4921;
-
-        boolean hasCorrectTags = true;
-
-        for (Wine wine : fromDB) {
-            if (!wine.hasLocation("Oregon")) {
-                hasCorrectTags = false;
-                break;
-            }
-        }
-
-        boolean didPassTest = isCorrectLength && hasCorrectTags;
-
-        assertTrue(didPassTest);
+        assertEquals(4910, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
     }
 
     /**
@@ -98,20 +86,8 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 4921;
-
-        boolean hasCorrectTags = true;
-
-        for (Wine wine : fromDB) {
-            if (!wine.hasLocation("Oregon")) {
-                hasCorrectTags = false;
-                break;
-            }
-        }
-
-        boolean didPassTest = isCorrectLength && hasCorrectTags;
-
-        assertTrue(didPassTest);
+        assertEquals(4910, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
     }
 
     /**
@@ -136,44 +112,26 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(2557, fromDB.size());
+        assertEquals(2551, fromDB.size());
 
         assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
         assertTrue(fromDB.stream().allMatch(wine -> wine.getVariety().equals("Pinot Noir")));
     }
-    //TODO: PLEASE FIX THIS ELISE/YUHAO
+
     /**
      * Tests that accented characters and capitalisation does not break searching
      */
-////    @Test
-////    public void searchWinesByTag2TagsWeirdText()
-////    {
-////        String tags = "  oRÉGon  , pinót Noir  ";
-////        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
-////        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
-////
-////        boolean isCorrectLength = fromDB.size() == 2557;
-////        System.out.println(fromDB);
-////        System.out.println(fromDB.size());
-////        boolean hasCorrectTags = true;
-////
-////        for (Wine wine : fromDB) {
-////            if (!wine.hasLocation("Oregon")) {
-////                hasCorrectTags = false;
-////                break;
-////            }
-////
-////            String variety = Normalizer.normalize(wine.getVariety(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-////            if (!variety.equals("pinot noir")) {
-////                hasCorrectTags = false;
-////                break;
-////            }
-////        }
-//
-//        boolean didPassTest = isCorrectLength && hasCorrectTags;
-//
-//        assertTrue(didPassTest);
-//    }
+    @Test
+    public void searchWinesByTag2TagsWeirdText()
+    {
+        String tags = "  oRÉGon  , pinót Noir  ";
+        SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+
+        assertEquals(2551, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getVariety().equals("Pinot Noir")));
+    }
 
     /**
      * Tests searching wines by tags with a non-existent tag returns no wines
@@ -208,49 +166,22 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 8446;
-        boolean hasCorrectName = true;
-
-        for (Wine wine : fromDB) {
-            String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-
-            if (!wineName.contains("chardonnay")) {
-                hasCorrectName = false;
-                break;
-            }
-        }
-        boolean didPassTest = isCorrectLength && hasCorrectName;
-
-        assertTrue(didPassTest);
+        assertEquals(8886, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
-    //TODO: PLEASE FIX THIS ELISE/YUHAO
+
     /**
      * Tests that searching wines by name with accented characters and capitalisation does not break
      */
-    //Disabled so that can pass pipeline, should be fixed later in the week
-//    @Test
-//    public void searchWinesByNameWeirdName() {
-//        String name = "ChardóNnAy";
-//        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
-//        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
-//
-//        boolean isCorrectLength = fromDB.size() == 8446;
-//        System.out.println(fromDB.size());
-//        boolean hasCorrectName = true;
-//
-//        for (Wine wine : fromDB) {
-//            String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-//
-//            if (!wineName.contains("chardonnay")) {
-//                hasCorrectName = false;
-//                break;
-//            }
-//        }
-//
-//        boolean didPassTest = isCorrectLength && hasCorrectName;
-//
-//        assertTrue(didPassTest);
-//    }
+    @Test
+    public void searchWinesByNameWeirdName() {
+        String name = "ChardóNnAy";
+        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
+
+        assertEquals(8886, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("Chardonnay")));
+    }
 
     /**
      * Tests searching wines by name with 2 words seperated by a space returns the expected result
@@ -262,21 +193,8 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 6;
-        //Should display 9, only displays 6 from special characters using new method
-        boolean hasCorrectName = true;
-
-        for (Wine wine : fromDB) {
-            String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-
-            if (!wineName.contains("new zealand")) {
-                hasCorrectName = false;
-                break;
-            }
-        }
-
-        boolean didPassTest = isCorrectLength && hasCorrectName;
-        assertTrue(didPassTest);
+        assertEquals(9, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("New Zealand")));
     }
 
     /**
@@ -288,22 +206,8 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        boolean isCorrectLength = fromDB.size() == 8446;
-
-        boolean hasCorrectName = true;
-
-        for (Wine wine : fromDB) {
-            String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-
-            if (!wineName.contains("chardonnay")) {
-                hasCorrectName = false;
-                break;
-            }
-        }
-
-        boolean didPassTest = isCorrectLength && hasCorrectName;
-
-        assertTrue(didPassTest);
+        assertEquals(8886, fromDB.size());
+        assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
     /**
@@ -316,7 +220,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(106693, fromDB.size());
+        assertEquals(118837, fromDB.size());
     }
 
     /**
@@ -332,6 +236,7 @@ public class SearchWineServiceTest {
 
         assertEquals(0, fromDB.size());
     }
+
     /**
      * Gets all the tags belonging to the wine
      * @param wine wine object
@@ -386,7 +291,7 @@ public class SearchWineServiceTest {
      * @param wineIdToAvoid array of wine id to avoid
      * @return boolean
      */
-    public boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags, Integer[] wineIdToAvoid) {
+    public boolean verifyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags, Integer[] wineIdToAvoid) {
         for (Wine wine : wines) {
             if (!Arrays.asList(wineIdToAvoid).contains(wine.getWineId())) {
                 boolean isValid = verifyWine(likedTags, wine, dislikedTags);
@@ -399,6 +304,7 @@ public class SearchWineServiceTest {
         }
         return true;
     }
+
     @Test
     public void testRecommendationSearch() {
         ArrayList<String> tags = new ArrayList<>();
@@ -417,8 +323,10 @@ public class SearchWineServiceTest {
         ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
         assertFalse(reccWine.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        assertTrue(verfiyWines(reccWine, new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"}, new String[]{}, new Integer[]{5}));
+        assertTrue(verifyWines(reccWine, new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"}, new String[]{}, new Integer[]{5}));
     }
+
+    // TODO exceptional flows for recommendation search?
 
     @Test
     public void testSetCurrentSearch() {

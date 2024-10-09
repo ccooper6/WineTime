@@ -137,7 +137,6 @@ public class WineCsvDao {
                 tagPs.setString(3, Normalizer.normalize(tagName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase());
                 tagPs.executeUpdate();
                 executeOwnedByPs(ownedByPs, wineId, tagName);
-//                System.out.println("Successfully added " + tagType +tagName);
             }
         } catch (SQLException e) {
             if (e.getErrorCode() == 19) {
@@ -266,7 +265,6 @@ public class WineCsvDao {
         String buildPath = String.valueOf(jarDir.getParentFile());
         buildPath = buildPath.substring(0, buildPath.length() - 12);
         String wineFilePath = buildPath + "resources/main/csvFiles/Wine130kNoFancyCharUTF8.csv";
-        //noinspection TryWithIdenticalCatches
         try {
             wineCsvReader(wineFilePath);
         } catch (FileNotFoundException e) {
