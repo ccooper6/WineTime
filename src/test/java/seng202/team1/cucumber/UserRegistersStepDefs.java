@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class UserRegistersStepDefs {
-    UserLoginService userLoginService;
-    String name;
-    String username;
-    String password;
+    private UserLoginService userLoginService;
+    private String name;
+    private String username;
+    private String password;
 
     public void initialise() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();

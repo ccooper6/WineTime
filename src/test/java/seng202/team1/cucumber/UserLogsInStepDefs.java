@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class UserLogsInStepDefs {
-    UserLoginService userLoginService;
-    String name;
-    String username;
-    String password;
-    boolean loginSuccess;
+    private UserLoginService userLoginService;
+    private String name;
+    private String username;
+    private String password;
+    private boolean loginSuccess;
 
-    int errorCodeFromRegister;
+    private int errorCodeFromRegister;
 
     public void initialise() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
