@@ -18,7 +18,18 @@ import java.util.ArrayList;
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
     private static Review currentReview;
+    private static ReviewService instance;
 
+    /**
+     * Returns an instance of the ReviewService
+     * @return {@link ReviewService}
+     */
+    public static ReviewService getInstance() {
+        if (instance == null) {
+            instance = new ReviewService();
+        }
+        return instance;
+    }
     /**
      * Gets all the reviews for the current user.
      * @param currentUserUid The user id of the current user.
