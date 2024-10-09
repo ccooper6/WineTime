@@ -31,7 +31,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="varieyblurb" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 5 &#10;carefully selected distinct wines.">
+                              <Label fx:id="varieyblurb" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Variety challenge:&#10;Expand your wine-tasting repertoire&#10;with challenge which encourages you to &#10;branch out from  your go to wines with 5 &#10;diverse wines.">
                                  <font>
                                     <Font name="Noto Serif Regular" size="13.0" />
                                  </font></Label>
@@ -43,7 +43,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="decades" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Time Travallers Challenge&#10;Journey through the years, ">
+                              <Label fx:id="decades" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Time Travallers Challenge:&#10;Journey through the years, with 5 wines &#10;from different parts of history. ">
                                  <font>
                                     <Font name="Noto Serif Regular" size="13.0" />
                                  </font></Label>
@@ -56,7 +56,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="redDesciption" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The red challenge">
+                              <Label fx:id="redDesciption" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Red Wine Challenge:&#10;Do you know your red wines? &#10;Challenge yourself to try 5 different&#10;red wines.&#10;&#10;">
                                  <font>
                                     <Font name="Noto Serif Regular" size="13.0" />
                                  </font></Label>
@@ -69,7 +69,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Label fx:id="whiteDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The great white challenge.">
+                              <Label fx:id="whiteDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="The Great White Challenge:&#10;Experience 5 wonderful white wines&#10;with this challenge.">
                                  <font>
                                     <Font name="Noto Serif Regular" size="13.0" />
                                  </font></Label>
@@ -85,7 +85,7 @@
                                     <Font name="Noto Serif Regular" size="13.0" />
                                  </font>
                               </Button>
-                              <Label fx:id="roseDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Stop and smell the rose.">
+                              <Label fx:id="roseDescription" layoutX="14.0" layoutY="6.0" prefHeight="92.0" prefWidth="293.0" text="Stop and smell the Rosè:&#10;Discover 5 exquisite rosè &#10;wines with this challenge.">
                                  <font>
                                     <Font name="Noto Serif Regular" size="13.0" />
                                  </font></Label>
