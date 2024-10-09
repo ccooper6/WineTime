@@ -33,27 +33,30 @@ public class ChallengeStepDefs {
     }
 
     @Given("the user has no active challenges")
-    public void iHasNoActiveChallenge() { assertFalse(challengeService.activeChallenge()); }
+    public void iHasNoActiveChallenge() throws InstanceAlreadyExistsException {
+        initialise();
+        assertFalse(challengeService.activeChallenge()); }
 
     @Given("user has an active challenge")
-    public void iHasActiveChallenge() {
+    public void iHasActiveChallenge() throws InstanceAlreadyExistsException {
+        initialise();
         challengeService.startChallengeVariety();
         assertTrue(challengeService.activeChallenge());
     }
 
-    @When("the user clicks the 'start challenge' button next to the variety challenge")
+    @When("the user starts the variety challenge")
     public void iStartVarietyChallenge() { challengeService.startChallengeVariety(); }
 
-    @When("the user clicks the 'start challenge' button next to the time travellers challenge")
+    @When("the user starts time the travellers challenge")
     public void iStartYearsChallenge() { challengeService.startChallengeYears(); }
 
-    @When("the user clicks the 'start challenge' button next to the red challenge.")
+    @When("the user starts the red challenge")
     public void iStartRedChallenge() { challengeService.startChallengeReds(); }
 
-    @When("the user clicks the 'start challenge' button next to the white challenge")
+    @When("the user starts the white challenge")
     public void iStartWhiteChallenge() { challengeService.startChallengeWhites(); }
 
-    @When("the user clicks the 'start challenge' button next to the rose challenge.")
+    @When("the user starts the rose challenge")
     public void iStartRoseChallenge() { challengeService.startChallengeRose(); }
 
     @When("the user completes challenge")
