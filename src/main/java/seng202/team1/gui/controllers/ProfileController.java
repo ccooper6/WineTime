@@ -266,7 +266,11 @@ public class ProfileController {
 
     @FXML
     public void quitChallenge() {
-        challengeCompleted(challengeService.usersChallenge());
+        winesPane.setLayoutY(winesPane.getLayoutY() - 90);
+        challengePane.setVisible(false);
+        completedChalPane.setVisible(true);
+        completedChallMessage.setText("You quit the " + challengeService.usersChallenge() + ".");
+        challengeService.challengeCompleted(challengeService.usersChallenge());
     }
 
     /**

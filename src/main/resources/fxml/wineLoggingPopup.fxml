@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineLoggingPopupController">
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.WineLoggingPopupController">
    <children>
       <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
@@ -24,7 +18,7 @@
             <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="100.0" layoutY="75.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="30.0" prefWidth="294.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" stylesheets="@../style/reviewSlider.css" value="3.0" />
             <Label fx:id="likingText" layoutX="27.0" layoutY="115.0" prefHeight="18.0" prefWidth="350.0" text="Which of the following parts of the wine did you like?">
                <font>
-                  <Font name="Noto Serif Bold" size="13.0" />
+                  <Font name="Noto Serif Regular" size="13.0" />
                </font></Label>
             <Label layoutX="27.0" layoutY="115.0" prefHeight="18.0" prefWidth="350.0" text="Which of the following parts of the wine did you ">
                <font>
