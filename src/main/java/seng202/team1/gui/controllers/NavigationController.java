@@ -36,7 +36,6 @@ import java.io.IOException;
  * Controller class for the navigation.fxml page.
  * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
-@SuppressWarnings("checkstyle:RightCurly")
 public class NavigationController {
     public FontAwesomeIconView wishlistButton;
     public FontAwesomeIconView reviewsButton;
@@ -240,7 +239,13 @@ public class NavigationController {
      * Rotates the dropdown button to indicate that the dropdown menu is toggled.
      */
     private void rotateDropdownButton() {
-        dropdownButton.setRotate(dropdownButton.getRotate() + 270);
+        if (dropdownButton.getRotate() == 90) {
+            dropdownButton.setRotate(0);
+            dropdownButton.setTranslateX(0);
+        } else {
+            dropdownButton.setRotate(90);
+            dropdownButton.setTranslateX(-5);
+        }
     }
 
     /**
