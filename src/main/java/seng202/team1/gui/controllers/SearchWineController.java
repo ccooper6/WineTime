@@ -116,8 +116,6 @@ public class SearchWineController {
         initializeVintageRangeSlider();
         initializePriceRangeSlider();
         initSortByOptions();
-        System.out.println(getStringFilters());
-        System.out.println(getIntegerFilters());
         gotoPane.setVisible(false);
 
         if (FXWrapper.getInstance().getPreviousPage().equals("searchWine")) {
@@ -130,10 +128,8 @@ public class SearchWineController {
             pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
             priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
             priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
-            System.out.println("from search page");
         } else {
             resetFilters();
-            System.out.println("not from search page");
         }
 
         allWines = SearchWineService.getInstance().getWineList();

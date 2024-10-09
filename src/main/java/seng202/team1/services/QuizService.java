@@ -131,7 +131,6 @@ public class QuizService {
         nav.executeWithLoadingScreen(() -> {
             wineAlgorithm();
             Platform.runLater(() -> {
-                System.out.println("Setting a wine?");
                 NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
                 navigationController.initPopUp(wine);
             });

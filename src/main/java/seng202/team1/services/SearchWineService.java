@@ -101,8 +101,6 @@ public class SearchWineService {
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         String[] tagsArray = tags.split(",");
 
-        System.out.println(tagsArray.length);
-
         ArrayList<String> tagList = new ArrayList<>();
         for (String tag : tagsArray) {
             tagList.add(tag.trim());
@@ -122,13 +120,9 @@ public class SearchWineService {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
-        System.out.println(System.getProperty("test.env"));
         if (System.getProperty("test.env") == null) {
-            if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
-                System.out.println("from search page");
-            } else {
+            if (!FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
                 resetFilters();
-                System.out.println("RESET FILTERS");
             }
         }
         wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, filterString, searchOrder);
