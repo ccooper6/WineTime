@@ -1,8 +1,6 @@
 package seng202.team1.unittests.services;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import seng202.team1.models.Wine;
 import seng202.team1.services.WineCategoryService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +12,7 @@ public class WineCategoryServiceTest {
         assertNotNull(WineCategoryService.getInstance());
     }
 
+    // TODO this is a test? its a getter and setter right?
     @Test
     void testChangeCategoryTitle() {
         WineCategoryService wineCategoryService = WineCategoryService.getInstance();
