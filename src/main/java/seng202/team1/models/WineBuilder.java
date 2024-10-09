@@ -44,7 +44,7 @@ public class WineBuilder {
      * @param name        The name of the wine
      * @param description The description of the wine
      * @param price       The price of the wine
-     * @param points
+     * @param points      The points out of 100 that has been given to the wine
      * @return {@link WineBuilder} with id, name, description and price setup
      */
     public static WineBuilder genericSetup(int id, String name, String description, int price, int points)

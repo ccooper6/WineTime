@@ -2,17 +2,13 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import impl.org.controlsfx.skin.SearchableComboBoxSkin;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
@@ -119,8 +115,6 @@ public class SearchWineController {
         initializeVintageRangeSlider();
         initializePriceRangeSlider();
         initSortByOptions();
-        System.out.println(getStringFilters());
-        System.out.println(getIntegerFilters());
         gotoPane.setVisible(false);
 
         if (FXWrapper.getInstance().getPreviousPage().equals("searchWine")) {
@@ -133,10 +127,8 @@ public class SearchWineController {
             pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
             priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
             priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
-            System.out.println("from search page");
         } else {
             resetFilters();
-            System.out.println("not from search page");
         }
         
         displayCurrentPage();
@@ -173,7 +165,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the variety combo box and its listners
+     * Initialises the variety combo box and its listeners
      */
     private void initializeVarietyComboBox()
     {
@@ -189,7 +181,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the country combo box and its listners
+     * Initialises the country combo box and its listeners
      */
     private void initializeCountryComboBox()
     {
@@ -206,7 +198,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the winery combo box and its listners
+     * Initialises the winery combo box and its listeners
      */
     private void initializeWineryComboBox()
     {
@@ -222,7 +214,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the year/vintage range slider and also its related text fields, sets up the listners to make
+     * Initialises the year/vintage range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializeVintageRangeSlider() {
@@ -234,7 +226,7 @@ public class SearchWineController {
         minYearTextField.setText(String.valueOf((int) vintageSlider.getMin()));
         maxYearTextField.setText(String.valueOf((int) vintageSlider.getMax()));
 
-        vintageSlider.setLabelFormatter(new StringConverter<Number>() {
+        vintageSlider.setLabelFormatter(new StringConverter<>() {
             public String toString(Number value) {
                 // Show only specific labels for min, max, and every 5 years (or any desired interval)
                 if (value.intValue() == vintageSlider.getMin() || value.intValue() == vintageSlider.getMax() || (value.intValue() - 21) % 50 == 0) {
@@ -293,7 +285,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the points range slider and also its related text fields, sets up the listners to make
+     * Initialises the points range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializePointsRangeSlider()
@@ -303,7 +295,7 @@ public class SearchWineController {
         pointsSlider.setLowValue(pointsSlider.getMin());
         pointsSlider.setHighValue(pointsSlider.getMax());
 
-        pointsSlider.setLabelFormatter(new StringConverter<Number>() {
+        pointsSlider.setLabelFormatter(new StringConverter<>() {
             public String toString(Number value) {
                 // Show only specific labels for min, max, and every 5 years (or any desired interval)
                 if (value.intValue() == pointsSlider.getMin() || value.intValue() == pointsSlider.getMax() || value.intValue() % 5 == 0) {
@@ -366,7 +358,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the price range slider and also its related text fields, sets up the listners to make
+     * Initialises the price range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializePriceRangeSlider() {
@@ -376,7 +368,7 @@ public class SearchWineController {
         priceSlider.setLowValue(priceSlider.getMin());
         priceSlider.setHighValue(priceSlider.getMax());
 
-        priceSlider.setLabelFormatter(new StringConverter<Number>() {
+        priceSlider.setLabelFormatter(new StringConverter<>() {
             public String toString(Number value) {
                 // Show only specific labels for min, max, and every 5 years (or any desired interval)
                 if (value.intValue() == priceSlider.getMin() || value.intValue() == priceSlider.getMax() || value.intValue() % 25 == 0) {
@@ -563,7 +555,7 @@ public class SearchWineController {
             allWines = new ArrayList<>();
         }
 
-        if (allWines == null || allWines.size() == 0) {
+        if (allWines.isEmpty()) {
             title.setText("\n\n\nSorry, there were no results for your search.\n\nTry:\n    - Checking your spelling\n    - A different combination of filters");
 
             pageCounterText.getParent().setVisible(false);

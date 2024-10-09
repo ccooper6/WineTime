@@ -121,6 +121,15 @@ public class DatabaseManager {
             }
         }
 
+        File dbFile = copy.toFile();
+        if (dbFile.exists()) {
+            if (!dbFile.isFile()) {
+                LOG.error("Error: Source database is not a file");
+            }
+
+            return;
+        }
+
         // Differentiate what main.db to use based on whether we are running tests or main application jar
         try {
             if (System.getProperty("test.env") == null) {
@@ -138,7 +147,7 @@ public class DatabaseManager {
                 LOG.info("Database copied successfully to test environment.");
             }
         } catch (FileNotFoundException e) {
-            LOG.info("DB File already exists. Did not replace");
+            LOG.error("Error: Could not find source database");
         } catch (IOException e) {
             LOG.error("Error: Could not initialise database {}", e.getMessage());
         }

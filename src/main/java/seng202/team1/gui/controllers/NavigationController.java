@@ -2,13 +2,10 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -65,13 +62,10 @@ public class NavigationController {
 
     private Parent loadingScreen;
 
-    boolean isFiltering = false;
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
     private boolean dropdownLocked = false;
-
-    private final ObservableList<String> options = FXCollections.observableArrayList();
 
      /**
      * Initializes the controller.
@@ -96,9 +90,7 @@ public class NavigationController {
             searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         }
 
-        searchBar.setOnAction(e -> {
-            launchSearchWineLoadingScreen();
-        });
+        searchBar.setOnAction(e -> launchSearchWineLoadingScreen());
 
         wishlistButton.setOnMouseEntered(event -> {
             wishlistButton.setFill(Paint.valueOf("#A05252"));
@@ -253,14 +245,14 @@ public class NavigationController {
      */
     @FXML
     public void onLogOutClicked() {
-        LOG.info("Logging out user " + User.getCurrentUser().getName());
+        LOG.info("Logging out user {}", User.getCurrentUser().getName());
 
         User.setCurrenUser(null);
         CategoryService.resetCategories(true);
         FXWrapper.getInstance().launchPage("login");
     }
 
-    /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
+    /**Loads in content from desired fxml and initiates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */
     public void loadPageContent(String name) {
