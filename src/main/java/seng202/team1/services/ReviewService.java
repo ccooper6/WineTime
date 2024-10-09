@@ -84,6 +84,7 @@ public class ReviewService {
      * @param currentUserUid the user's int id
      * @param currentWine the wine's int id
      * @param selectedTags an ArrayList of strings, containing tag names
+     * @param tagsLiked an array list of tag strings, each tag has previously been rated by the user before
      * @param description the text description entered by the user
      * @param noneSelected a boolean value indicating if no tags have been selected
      */
