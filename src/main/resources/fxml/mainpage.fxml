@@ -43,7 +43,7 @@
                   </FontAwesomeIconView>
                   <Label alignment="CENTER_RIGHT" layoutX="779.0" layoutY="28.0" prefHeight="19.0" prefWidth="333.0" text="Not liking the selection? Try refreshing!">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="Noto Serif Regular" size="15.0" />
                      </font>
                   </Label>
                     </children>
