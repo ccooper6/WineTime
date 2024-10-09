@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +18,6 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
-import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -62,7 +60,7 @@ public class WineCategoryDisplayController {
     private int leftDisplay = 7;
     private int rightDisplay;
     private final double TRANSITIONDURATION = 0.2;
-    private int DISTANCEBETWEEN = 210;
+    private final int DISTANCEBETWEEN = 210;
 
     private boolean isWishlist = false;
     private boolean isRecommendations = false;
@@ -159,13 +157,9 @@ public class WineCategoryDisplayController {
      */
     @FXML
     public void onRefresh() {
-        rightArrowButton.setOnMouseClicked(event -> {
-            transitionRight();
-        });
+        rightArrowButton.setOnMouseClicked(event -> transitionRight());
 
-        leftArrowButton.setOnMouseClicked(event -> {
-            transitionLeft();
-        });
+        leftArrowButton.setOnMouseClicked(event -> transitionLeft());
     }
 
     /**
@@ -198,13 +192,13 @@ public class WineCategoryDisplayController {
             transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(6)));
         }
         List<TranslateTransition> wineTransitions = List.of(transition1, transition2, transition3, transition4, transition5, transition6);
-        for (int i = 0; i < wineTransitions.size(); i++) {
-            wineTransitions.get(i).setByX(posOrNeg * DISTANCEBETWEEN);
-            wineTransitions.get(i).setInterpolator(Interpolator.LINEAR);
-            wineTransitions.get(i).play();
+        for (TranslateTransition wineTransition : wineTransitions) {
+            wineTransition.setByX(posOrNeg * DISTANCEBETWEEN);
+            wineTransition.setInterpolator(Interpolator.LINEAR);
+            wineTransition.play();
         }
 
-        wineTransitions.get(wineTransitions.size() - 1).setOnFinished(event -> { // Un-disables the wine tiles
+        wineTransitions.getLast().setOnFinished(event -> { // Un-disables the wine tiles
             for (Parent wineDisplay : wineDisplays) {
                 wineDisplay.setDisable(false);
             }
@@ -276,7 +270,7 @@ public class WineCategoryDisplayController {
 
     /**
      * Changes the content within the teleporting frame.
-     * Updates the firstwine index
+     * Updates the first wine's index
      * @param frame is the teleporting frame (0 or 5)
      */
     public void resetFirstLeft(int frame) {
@@ -385,7 +379,6 @@ public class WineCategoryDisplayController {
      *
      * @param searchString A String that contains the tags to search by seperated by commas
      *                     If string is "wishlist" or "recommend", the corresponding search will be done instead
-     * @throws IOException if fxmlLoader cannot load the display
      * @return the parent of the new category
      */
     public static Parent createCategory(String searchString) {
@@ -407,7 +400,7 @@ public class WineCategoryDisplayController {
 
             return fxmlLoader.load();
         } catch (IOException e) {
-            LOG.error("Error in WineCategoryDisplayController.createCategory: Could not load fxml content for category {}", searchString);
+            LOG.error("Error: Could not load fxml content for wine category, {}", e.getMessage());
             return null;
         }
     }

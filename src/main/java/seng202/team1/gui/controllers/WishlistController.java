@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
@@ -67,11 +66,7 @@ public class WishlistController {
         }
         int start = currentPage * MAXSIZE;
 
-        if (start < 0 || start > allWines.size()) {
-            pageCounterText.getParent().setVisible(false);
-        } else {
-            pageCounterText.getParent().setVisible(true);
-        }
+        pageCounterText.getParent().setVisible(start >= 0 && start <= allWines.size());
 
         if (start < 0 || start >= allWines.size()) {
             LOG.error("Cannot display wines out of bounds.");

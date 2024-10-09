@@ -11,7 +11,6 @@ import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.models.User;
 import seng202.team1.services.UserLoginService;
 
 /**
@@ -61,13 +60,9 @@ public class LoginController {
         setCheckOnEnterListeners();
 
         // check on text update
-        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            setRegisterButton();
-        });
+        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> setRegisterButton());
 
-        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            setRegisterButton();
-        });
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> setRegisterButton());
 
         visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         visiblePasswordTextField.setVisible(false);
@@ -200,7 +195,7 @@ public class LoginController {
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.checkLogin(username, password)
                 && !username.isEmpty() && !password.isEmpty()) {
-            LOG.info("Logged in as " + username);
+            LOG.info("Logged in as {}", username);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
