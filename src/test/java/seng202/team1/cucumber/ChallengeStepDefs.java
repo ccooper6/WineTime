@@ -89,7 +89,7 @@ public class ChallengeStepDefs {
     @Then("5 different rose are displayed on the profile")
     public void roseWineDisplayed() {
         assertEquals(5, challengeService.challengeWines().size());
-        assertEquals("Rose challenge", challengeDAO.getChallengeForUser(user.getId()));
+        assertEquals("Rosè challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     @Then("challenge is removed from the users active challenges")
