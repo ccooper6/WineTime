@@ -1,6 +1,5 @@
 package seng202.team1.cucumber;
 
-import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,8 +14,6 @@ import seng202.team1.services.ReviewService;
 import seng202.team1.services.TagRankingService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class TagRankingStepDefs {
     static ReviewService reviewService;
@@ -46,12 +43,6 @@ public class TagRankingStepDefs {
         }
         return tagNames;
     }
-    @ParameterType("\\[([a-zA-Z0-9, ]*)\\]")
-    public ArrayList<String> listOfTags(String tags) {
-        return (ArrayList<String>) Arrays.stream(tags.split(", ?"))
-                .map(String::toString)
-                .collect(Collectors.toList());
-    }
     @Given("User {int} has no reviews")
     public void setUserNoReviews(int uid) throws InstanceAlreadyExistsException {
         currentUser = uid;
@@ -74,8 +65,8 @@ public class TagRankingStepDefs {
 
     @When("User {int} deletes the review for wine #{int}")
     public void deleteReview(int uid, int wid) {
-        Review review  = reviewService.getReview(uid, wid);
-        reviewService.deleteReview(review);
+        Review review  = ReviewService.getInstance().getReview(uid, wid);
+        ReviewService.getInstance().deleteReview(review);
     }
 
     @Then("The top 5 liked pie chart is shown with the tags {listOfTags}")
