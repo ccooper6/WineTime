@@ -91,7 +91,7 @@ public class TagDAO {
      * @return the min vintage
      */
     public int getMinVintage() {
-        String sql = "SELECT min(name) FROM tag WHERE type = ?";
+        String sql = "SELECT min(name) FROM tag WHERE type = ? AND name != 'null'";
 
         return getIntTag(sql, TagType.VINTAGE);
     }
@@ -101,7 +101,7 @@ public class TagDAO {
      * @return the max vintage
      */
     public int getMaxVintage() {
-        String sql = "SELECT max(name) FROM tag WHERE type = ?;";
+        String sql = "SELECT max(name) FROM tag WHERE type = ? AND name != 'null';";
 
         return getIntTag(sql, TagType.VINTAGE);
     }
