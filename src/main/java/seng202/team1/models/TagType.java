@@ -1,5 +1,7 @@
 package seng202.team1.models;
 
+import javax.swing.text.html.HTML;
+
 /**
  * Enum that defines the available tag types sored in the database.
  */
@@ -10,7 +12,8 @@ public enum TagType {
     VINTAGE,
     COUNTRY,
     WINERY,
-    POINTS;
+    POINTS,
+    PRICE;
 
     /**
      * Returns the corresponding TagType given a string
@@ -27,6 +30,7 @@ public enum TagType {
             case "country" -> TagType.COUNTRY;
             case "winery" -> TagType.WINERY;
             case "points" -> TagType.POINTS;
+            case "price" -> TagType.PRICE;
             default -> null;
         };
     }
@@ -46,6 +50,7 @@ public enum TagType {
             case COUNTRY -> "Country";
             case WINERY -> "Winery";
             case POINTS -> "Points";
+            case PRICE -> "Price";
         };
     }
 }

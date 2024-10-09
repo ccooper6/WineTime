@@ -1,5 +1,6 @@
 package seng202.team1.gui.controllers;
 
+import javafx.application.Platform;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.ChallengeService;
 
@@ -16,40 +17,50 @@ public class SelectChallengePopupController {
      * calls challenge service method to start the variety challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startVarietyChallenge() {
-        navigationController.executeWithLoadingScreen(challengeService::startChallengeVariety);
-        launchProfile();
+        navigationController.executeWithLoadingScreen(() -> {
+            challengeService.startChallengeVariety();
+            Platform.runLater(this::launchProfile);
+        });
     }
 
     /**
      * calls challenge service method to start the decades challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startYearsChallenge() {
-        navigationController.executeWithLoadingScreen(challengeService::startChallengeYears);
-        launchProfile();
+        navigationController.executeWithLoadingScreen(() -> {
+            challengeService.startChallengeYears();
+            Platform.runLater(this::launchProfile);
+        });
     }
 
     /**
      * calls challenge service method to start the reds challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startRedsChallenge() {
-        navigationController.executeWithLoadingScreen(challengeService::startChallengeReds);
-        launchProfile();
+        navigationController.executeWithLoadingScreen(() -> {
+            challengeService.startChallengeReds();
+            Platform.runLater(this::launchProfile);
+        });
     }
 
     /**
      * calls challenge service method to start the whites challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startWhitesChallenge() {
-        navigationController.executeWithLoadingScreen(challengeService::startChallengeWhites);
-        launchProfile();
+        navigationController.executeWithLoadingScreen(() -> {
+            challengeService.startChallengeWhites();
+            Platform.runLater(this::launchProfile);
+        });
     }
 
     /**
      * calls challenge service method to start the rose challenge and closes popup and reloads the profile screen on start challenge clicked.
      */
     public void startRoseChallenge() {
-        navigationController.executeWithLoadingScreen(challengeService::startChallengeRose);
-        launchProfile();
+        navigationController.executeWithLoadingScreen(() -> {
+            challengeService.startChallengeRose();
+            Platform.runLater(this::launchProfile);
+        });
     }
 
     /**

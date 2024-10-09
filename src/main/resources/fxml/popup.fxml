@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.PopUpController">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.PopUpController">
    <children>
       <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
@@ -39,6 +47,18 @@
                      <children>
                         <TextFlow fx:id="valueDisplay" prefHeight="28.0" prefWidth="104.0" />
                         <TextFlow fx:id="pointsDisplay" layoutX="113.0" prefHeight="28.0" prefWidth="62.0" textAlignment="RIGHT" />
+                        <Button fx:id="helpButton" layoutX="181.0" layoutY="-7.0" style="-fx-background-color: none;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <FontAwesomeIconView fill="#c0c0c0" glyphName="QUESTION_CIRCLE" selectionFill="#ffffff" size="18" wrappingWidth="16.000000000000114">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </FontAwesomeIconView>
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="190.0" prefWidth="225.0" style="-fx-background: white; -fx-border-color: white;">
@@ -108,12 +128,12 @@
                   <FontAwesomeIconView fill="#70171e" glyphName="HEART" layoutX="437.0" layoutY="376.0" size="32" text="" />
                </graphic>
             </Button>
-            <Button fx:id="wineSearchLink" alignment="TOP_LEFT" layoutX="13.0" layoutY="350.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: WHITE;" text="Purchase" textFill="#c0c0c0">
+            <Button fx:id="wineSearchLink" alignment="TOP_LEFT" layoutX="13.0" layoutY="350.0" mnemonicParsing="false" onAction="#onWineSearchLinkClicked" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: WHITE;" text="Purchase" textFill="#c0c0c0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <graphic>
-                  <FontAwesomeIconView fill="#c0c0c0" glyphName="LINK" onMouseClicked="#onWineSearchLinkClicked" selectionFill="#ffffff" size="30" text="" wrappingWidth="31.21630859375">
+                  <FontAwesomeIconView fill="#c0c0c0" glyphName="LINK" selectionFill="#ffffff" size="30" text="" wrappingWidth="31.21630859375">
                      <font>
                         <Font size="16.0" />
                      </font></FontAwesomeIconView>
@@ -122,6 +142,21 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+            <AnchorPane fx:id="linkAndIcon" layoutX="114.0" layoutY="356.0" onMouseClicked="#onWineSearchLinkClicked" prefHeight="28.0" prefWidth="192.0" visible="false">
+               <children>
+                  <FontAwesomeIconView fill="grey" glyphName="ARROW_RIGHT" layoutY="18.0" text="" />
+                  <Label layoutX="20.0" prefHeight="28.0" prefWidth="172.0" style="-fx-background-radius: 7;" text="www.wine-searcher.com" textFill="GREY" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </AnchorPane>
+            <TextFlow fx:id="helpText" layoutX="250.0" layoutY="70.0" prefHeight="150.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 7;" visible="false" />
+<!--        Based on the rating system from WineEnthusiast:  -->
          </children>
       </Pane>
    </children>

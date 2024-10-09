@@ -79,8 +79,8 @@ public class WishlistController {
         int columns = wineGrid.getColumnCount();
         int end = Math.min(start + MAXSIZE, allWines.size());
         int gridRows = Math.ceilDiv(end - start, columns);
-        wineGrid.setMinHeight(gridRows * (130 + 10) + 10);
-        scrollAnchorPane.setMinHeight(gridRows * (130 + 10) + 10);
+        wineGrid.setMinHeight(gridRows * (135 + 10) - 10);
+        scrollAnchorPane.setMinHeight(gridRows * (135 + 10) - 10);
 
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);

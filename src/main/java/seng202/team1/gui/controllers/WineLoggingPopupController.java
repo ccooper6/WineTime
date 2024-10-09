@@ -1,5 +1,6 @@
 package seng202.team1.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
@@ -199,10 +200,10 @@ public class WineLoggingPopupController {
     private void monitorRating() {
         ratingSlider.valueProperty().addListener((observableValue, number, t1) -> {
             if (ratingSlider.getValue() < 3) {
-                likingText.setText(" dislike?");
+                likingText.setText("Which of the following parts of the wine did you dislike?");
                 likingText.setTextFill(Color.RED);
             } else {
-                likingText.setText(" like?");
+                likingText.setText("Which of the following parts of the wine did you like?");
                 likingText.setTextFill(Color.GREEN);
             }
         });
@@ -218,7 +219,7 @@ public class WineLoggingPopupController {
      * Also updates the likes of the tags in the database depending on whether the user has changed their rating or
      * selected different tags.
      */
-    private void submitLog() { // TODO: Need to clean up method, do we really need both tags selected and liked if we track none selected anyways?
+    private void submitLog() {
         int rating = (int) ratingSlider.getValue();
         int currentUserUid = User.getCurrentUser().getId();
         int currentWineId = currentWine.getWineId();
@@ -249,7 +250,7 @@ public class WineLoggingPopupController {
             }
 
             reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);
-            returnToWinePopUp();
+            Platform.runLater(this::returnToWinePopUp);
         });
     }
 
@@ -277,7 +278,10 @@ public class WineLoggingPopupController {
             navigationController.loadPageContent("wineReviews");
         } else if (navigationController.getCurrentPage().equals("profile")) {
             navigationController.loadPageContent("profile");
+        } else if (navigationController.getCurrentPage().equals("wishlist")) {
+            navigationController.loadPageContent("wishlist");
         }
         navigationController.initPopUp(currentWine);
+
     }
 }

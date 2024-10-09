@@ -271,6 +271,15 @@ public class ProfileController {
         challengeService.challengeCompleted(cname);
     }
 
+    @FXML
+    public void quitChallenge() {
+        winesPane.setLayoutY(winesPane.getLayoutY() - 90);
+        challengePane.setVisible(false);
+        completedChalPane.setVisible(true);
+        completedChallMessage.setText("You quit the " + challengeService.usersChallenge() + ".");
+        challengeService.challengeCompleted(challengeService.usersChallenge());
+    }
+
     /**
      * logs the user out.
      */

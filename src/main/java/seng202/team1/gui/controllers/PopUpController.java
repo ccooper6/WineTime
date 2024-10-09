@@ -1,17 +1,21 @@
 package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
@@ -41,6 +45,10 @@ import java.util.regex.Pattern;
 public class PopUpController {
     public TextFlow valueDisplay;
     public TextFlow pointsDisplay;
+    public Button helpButton;
+    public TextFlow helpText;
+    @FXML
+    private AnchorPane linkAndIcon;
     @FXML
     private Button popUpCloseButton;
     @FXML
@@ -110,20 +118,36 @@ public class PopUpController {
             icon.setFill(Color.web("#c0c0c0"));
         }
 
-        initializeHovers();
+        PauseTransition pause = new PauseTransition(Duration.millis(100));
+        pause.setOnFinished(event -> initializeHovers());
+        pause.play();
 
         Text dollarSign = new Text("$");
         dollarSign.setStyle("-fx-font-size: 18;");
         Text value = new Text(String.valueOf(wine.getPrice()));
-        value.setStyle("-fx-font-size: 18;");
-        Text currency = new Text(" NZD");
-        currency.setStyle("-fx-font-size: 10;");
-        valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        if (!"0".equals(value.getText())) {
+            value.setStyle("-fx-font-size: 18;");
+            Text currency = new Text(" NZD");
+            currency.setStyle("-fx-font-size: 10;");
+            valueDisplay.getChildren().addAll(dollarSign, value, currency);
+        } else {
+            Text buffer = new Text(" ");
+            buffer.setStyle("-fx-font-size: 18;");
+            Text unknown = new Text("Price Unknown");
+            unknown.setStyle("-fx-font-size: 14;");
+            valueDisplay.getChildren().addAll(buffer, unknown);
+        }
         Text points = new Text(String.valueOf(wine.getPoints()));
         points.setStyle("-fx-font-size: 18;");
         Text range = new Text(" / 100");
         range.setStyle("-fx-font-size: 12;");
         pointsDisplay.getChildren().addAll(points, range);
+
+        Text firstLine = new Text("\nBased scores from WineEnthusiast:\n\n");
+        firstLine.setStyle("-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
+        Text secondLine = new Text("98-100 = Classic\n94-97 = Superb\n90-93 = Excellent\n87-89 = Very Good\n83-86 = Good\n80-82 = Acceptable\nMore info on help page\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        helpText.getChildren().addAll(firstLine, secondLine);
 
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
@@ -141,16 +165,18 @@ public class PopUpController {
                 icon.setFill(Color.web("#70171e"));
             }
             if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
+                navigationController.closePopUp();
                 navigationController.loadPageContent("wishlist");
                 navigationController.initPopUp(finalWine);
             } else if (navigationController.getCurrentPage().equals("profile")) { // refresh the profile page behind the popup
+                navigationController.closePopUp();
                 navigationController.loadPageContent("profile");
                 navigationController.initPopUp(finalWine);
             } else if (navigationController.getCurrentPage().equals("wineReviews")) { // refresh the wine reviews page behind the popup
+                navigationController.closePopUp();
                 navigationController.loadPageContent("wineReviews");
                 navigationController.initPopUp(finalWine);
             }
-
 
         });
         populatePopup(wine);
@@ -184,17 +210,15 @@ public class PopUpController {
             });
         }
     }
+
+    /**
+     * Initializes the hover effects for the buttons on the popup.
+     */
     private void initializeHovers() {
-        wineSearchLink.setOnMouseEntered(event -> {
-            wineSearchLink.setTextFill(Paint.valueOf("#808080"));
-            wineSearchLink.setUnderline(true);
-            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
-        });
-        wineSearchLink.setOnMouseExited(event -> {
-            wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
-            wineSearchLink.setUnderline(false);
-            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
-        });
+        wineSearchLink.setOnMouseEntered(event -> showWineSearchLink());
+        wineSearchLink.setOnMouseExited(event -> hideWineSearchLink());
+        linkAndIcon.setOnMouseEntered(event -> showWineSearchLink());
+        linkAndIcon.setOnMouseExited(event -> hideWineSearchLink());
 
         addToWishlist.setOnMouseEntered(event -> {
             ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(Paint.valueOf("#A05252"));
@@ -220,6 +244,28 @@ public class PopUpController {
                 logWineIcon.setFill(Color.web("#c0c0c0"));
             }
         });
+        helpButton.setOnMouseEntered(event -> helpText.setVisible(true));
+        helpButton.setOnMouseExited(event -> helpText.setVisible(false));
+    }
+
+    /**
+     * Shows the wine search link.
+     */
+    private void showWineSearchLink() {
+        wineSearchLink.setTextFill(Paint.valueOf("#808080"));
+        wineSearchLink.setUnderline(true);
+        ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
+        linkAndIcon.setVisible(true);
+    }
+
+    /**
+     * Hides the wine search link.
+     */
+    private void hideWineSearchLink() {
+        wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
+        wineSearchLink.setUnderline(false);
+        ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
+        linkAndIcon.setVisible(false);
     }
 
     /**

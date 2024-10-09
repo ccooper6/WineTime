@@ -237,13 +237,6 @@ public class LoginController {
             } else {
                 accountCreatedSuccessfully(outcome);
             }
-        } else if (name.isEmpty()) {
-            errorText.setText("Please enter a name and try again");
-            setErrorFieldBorder(nameTextField);
-        } else {
-            errorText.setText("Invalid username or password, please try again");
-            clearFields();
-            setErrorFieldBorder();
         }
     }
 
