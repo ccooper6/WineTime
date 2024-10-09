@@ -35,6 +35,12 @@ public enum TagType {
         };
     }
 
+    /**
+     * Returns the string of the tag the same way it is stored in the database
+     *
+     * @param tagType The TagType to convert to string
+     * @return The string value of the tag
+     */
     public static String toString(TagType tagType) {
         return switch (tagType) {
             case VARIETY -> "Variety";

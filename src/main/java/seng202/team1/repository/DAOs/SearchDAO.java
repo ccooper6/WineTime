@@ -11,8 +11,6 @@ import java.sql.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
-import static org.apache.commons.collections.CollectionUtils.size;
-
 /**
  * Data Access Object for the Search Wines functionality.
  * Allows for searching by wine names or tags
@@ -170,6 +168,12 @@ public class SearchDAO {
         return wineList;
     }
 
+    /**
+     * Builds the SQL query required to search by tags and filter
+     *
+     * @param numTags the number of tags to accommodate for
+     * @return A string of the correct SQL statement
+     */
     private String buildSearchByFilterString(int numTags, String orderBy)
     {
         // Build the SQL query with dynamic placeholders
@@ -189,6 +193,7 @@ public class SearchDAO {
             }
             sqlBuilder.append("?");
         }
+
         sqlBuilder.append("""
                     )
                                   OR CASE WHEN tag.type = 'Vintage' THEN CAST(tag.normalised_name AS UNSIGNED) END BETWEEN ? AND ?
@@ -216,7 +221,7 @@ public class SearchDAO {
      * @param lowerVintage the lowest vintage a wine can have.
      * @param upperVintage the highest vintage a wine can have.
      * @param filterString the string that must match to a wines title.
-     * @param orderBy TODO update this
+     * @param orderBy      the column to order the final wine objects by
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
      */
     public ArrayList<Wine> searchWineByTagsAndFilter(ArrayList<String> tagList, int lowerPoints, int upperPoints, int lowerVintage, int upperVintage, int lowerPrice, int upperPrice, String filterString, String orderBy)

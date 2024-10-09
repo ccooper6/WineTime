@@ -15,6 +15,7 @@ import java.util.ArrayList;
  *
  * @author Isaac Macdonald
  */
+// TODO quiz is kinda incomplete
 public class QuizController {
     @FXML
     private Label questionLabel;
@@ -108,8 +109,7 @@ public class QuizController {
      */
     @FXML
     public void onShowWineClicked() {
-        LOG.info("Showing quiz wine for user "+ User.getCurrentUser().getName());
-        System.out.println("showing quiz wine for user");
+        LOG.info("Showing quiz wine for user {}", User.getCurrentUser().getName());
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
         quizService.launchWinePopup();

@@ -12,11 +12,9 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.User;
 import seng202.team1.services.ReviewService;
-import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,15 +45,13 @@ public class ReviewsController {
     @FXML
     private Text title;
 
-    private final ReviewService reviewService = new ReviewService();
-
     /**
      * Selects all review objects from the database where the int userID matches the current user.
      */
     @FXML
     public void initialize() {
         int currentUserUid = User.getCurrentUser().getId();
-        allReviews = reviewService.getUserReviews(currentUserUid);
+        allReviews = ReviewService.getUserReviews(currentUserUid);
         displayCurrentPage();
     }
 
@@ -72,11 +68,7 @@ public class ReviewsController {
         }
         int start = currentPage * MAXSIZE;
 
-        if (start < 0 || start > allReviews.size()) {
-            pageCounterText.getParent().setVisible(false);
-        } else {
-            pageCounterText.getParent().setVisible(true);
-        }
+        pageCounterText.getParent().setVisible(start >= 0 && start <= allReviews.size());
 
         if (start < 0 || start >= allReviews.size()) {
             LOG.error("Cannot display reviews out of bounds.");
@@ -100,6 +92,7 @@ public class ReviewsController {
         reviewGrid.setAlignment(Pos.TOP_LEFT);
 
         for (int i = 0; i < end - start; i++) {
+            ReviewService reviewService = new ReviewService();
             reviewService.setCurrentReview(allReviews.get(start + i));
 
             try {
@@ -117,7 +110,7 @@ public class ReviewsController {
                 reviewGrid.add(parent, 0, i);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error: Could not load Reviews page.");
             }
         }
         scrollPane.setFitToWidth(true);

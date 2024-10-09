@@ -99,7 +99,6 @@ public class ReviewDisplayController {
      */
     @FXML
     public void onDeletePressed() {
-        LOG.info("Deleting review with ID {}", ReviewService.getCurrentReview().getUid());
         reviewService.deleteReview(review);
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }
