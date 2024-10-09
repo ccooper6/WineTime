@@ -109,7 +109,7 @@ public class ChallengeServiceTest {
     public void roseChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
         challengeService.startChallengeRose();
-        assertEquals("Rose challenge", challengeDAO.getChallengeForUser(user.getId()));
+        assertEquals("Rosè challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     /**
