@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -46,8 +47,8 @@ public class PopUpController {
     public TextFlow pointsDisplay;
     public Button helpButton;
     public TextFlow helpText;
-    public Label searchText;
-    public FontAwesomeIconView searchArrow;
+    @FXML
+    private AnchorPane linkAndIcon;
     @FXML
     private Button popUpCloseButton;
     @FXML
@@ -214,20 +215,10 @@ public class PopUpController {
      * Initializes the hover effects for the buttons on the popup.
      */
     private void initializeHovers() {
-        wineSearchLink.setOnMouseEntered(event -> {
-            wineSearchLink.setTextFill(Paint.valueOf("#808080"));
-            wineSearchLink.setUnderline(true);
-            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
-            searchText.setVisible(true);
-            searchArrow.setVisible(true);
-        });
-        wineSearchLink.setOnMouseExited(event -> {
-            wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
-            wineSearchLink.setUnderline(false);
-            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
-            searchText.setVisible(false);
-            searchArrow.setVisible(false);
-        });
+        wineSearchLink.setOnMouseEntered(event -> showWineSearchLink());
+        wineSearchLink.setOnMouseExited(event -> hideWineSearchLink());
+        linkAndIcon.setOnMouseEntered(event -> showWineSearchLink());
+        linkAndIcon.setOnMouseExited(event -> hideWineSearchLink());
 
         addToWishlist.setOnMouseEntered(event -> {
             ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(Paint.valueOf("#A05252"));
@@ -255,6 +246,26 @@ public class PopUpController {
         });
         helpButton.setOnMouseEntered(event -> helpText.setVisible(true));
         helpButton.setOnMouseExited(event -> helpText.setVisible(false));
+    }
+
+    /**
+     * Shows the wine search link.
+     */
+    private void showWineSearchLink() {
+        wineSearchLink.setTextFill(Paint.valueOf("#808080"));
+        wineSearchLink.setUnderline(true);
+        ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
+        linkAndIcon.setVisible(true);
+    }
+
+    /**
+     * Hides the wine search link.
+     */
+    private void hideWineSearchLink() {
+        wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
+        wineSearchLink.setUnderline(false);
+        ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
+        linkAndIcon.setVisible(false);
     }
 
     /**
