@@ -59,7 +59,7 @@ public class ReviewDisplayController {
         if (!review.getReviewDescription().isEmpty()) {
             reviewDescription.setText('"' + " " + review.getReviewDescription() + " " + '"');
         } else {
-            reviewDescription.setText("None");
+            reviewDescription.setText("No Description");
         }
 
         List<FontAwesomeIconView> stars = List.of(star1, star2, star3, star4, star5);

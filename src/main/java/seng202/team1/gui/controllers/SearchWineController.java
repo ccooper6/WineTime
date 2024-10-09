@@ -846,7 +846,6 @@ public class SearchWineController {
     public void onResetCountryClicked() {
 
         countryComboBox.setValue(null);
-        SearchWineService.getInstance().setCurrentCountryFilter(null);
         resetCountry.setDisable(true);
 
     }
@@ -857,7 +856,6 @@ public class SearchWineController {
     @FXML
     public void onResetWineryClicked() {
         wineryComboBox.setValue(null);
-        SearchWineService.getInstance().setCurrentWineryFilter(null);
         resetWinery.setDisable(true);
     }
 
@@ -866,11 +864,8 @@ public class SearchWineController {
      */
     @FXML
     public void onResetVarietyClicked() {
-
         varietyComboBox.setValue(null);
-        SearchWineService.getInstance().setCurrentVarietyFilter(null);
         resetVariety.setDisable(true);
-
     }
 
     /**
@@ -880,8 +875,6 @@ public class SearchWineController {
     public void onResetVintageClicked() {
         vintageSlider.setLowValue(vintageSlider.getMin());
         vintageSlider.setHighValue(vintageSlider.getMax());
-        SearchWineService.getInstance().setCurrentMinYear((int) vintageSlider.getMin());
-        SearchWineService.getInstance().setCurrentMaxYear((int) vintageSlider.getMax());
         resetVintage.setVisible(false);
     }
 
@@ -892,8 +885,6 @@ public class SearchWineController {
     public void onResetPointsClicked() {
         pointsSlider.setLowValue(pointsSlider.getMin());
         pointsSlider.setHighValue(pointsSlider.getMax());
-        SearchWineService.getInstance().setCurrentMinPoints((int) pointsSlider.getMin());
-        SearchWineService.getInstance().setCurrentMaxPoints((int) pointsSlider.getMax());
         resetPoints.setVisible(false);
     }
 
@@ -904,8 +895,6 @@ public class SearchWineController {
     public void onResetPriceClicked() {
         priceSlider.setLowValue(priceSlider.getMin());
         priceSlider.setHighValue(priceSlider.getMax());
-        SearchWineService.getInstance().setCurrentMinPrice((int) priceSlider.getMin());
-        SearchWineService.getInstance().setCurrentMaxPrice((int) priceSlider.getMax());
         resetPrice.setVisible(false);
     }
 }
