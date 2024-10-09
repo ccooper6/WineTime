@@ -22,8 +22,14 @@ import java.util.ArrayList;
 /**
  * Controller class for the reviews.fxml page.
  * Displays all the wine reviews that the user has saved.
+ * @author Caleb Cooper
  */
 public class ReviewsController {
+    private static final Logger LOG = LogManager.getLogger(ReviewsController.class);
+    private ArrayList<Review> allReviews;
+    private final int MAXSIZE = 5;
+    private int currentPage = 0;
+
     @FXML
     private GridPane reviewGrid;
     @FXML
@@ -39,12 +45,6 @@ public class ReviewsController {
     @FXML
     private Text title;
 
-    private ArrayList<Review> allReviews;
-    private final int MAXSIZE = 5;
-    private int currentPage = 0;
-
-    private static final Logger LOG = LogManager.getLogger(ReviewsController.class);
-
     /**
      * Selects all review objects from the database where the int userID matches the current user.
      */
@@ -56,48 +56,30 @@ public class ReviewsController {
     }
 
     /**
-     * Display the current page of reviews.
+     * Displays all the users reviews in an easy-to-read format.
      */
     @FXML
     public void displayCurrentPage() {
         if (allReviews == null || allReviews.isEmpty()) {
-            handleEmptyReviews();
+            title.setText("You have no saved wine reviews.\nClick the log symbol on any wine and fill out the form to save it for later!");
+            pageCounterText.getParent().setVisible(false);
+            if (allReviews == null)
+                LOG.error("Error: Review list is null");
             return;
         }
         int start = currentPage * MAXSIZE;
-        int end = Math.min(start + MAXSIZE, allReviews.size());
+
+        pageCounterText.getParent().setVisible(start >= 0 && start <= allReviews.size());
 
         if (start < 0 || start >= allReviews.size()) {
             LOG.error("Cannot display reviews out of bounds.");
             return;
         }
-
-        setupPageDisplay(start, end);
-        loadReviews(start, end);
-    }
-
-    /**
-     * Display a message if the user has no saved reviews.
-     */
-    private void handleEmptyReviews() {
-        title.setText("You have no saved wine reviews.\nClick the log symbol on any wine and fill out the form to save it for later!");
-        pageCounterText.getParent().setVisible(false);
-        if (allReviews == null) {
-            LOG.error("Error: Review list is null");
-        }
-    }
-
-    /**
-     * Set up the display for the current page of reviews.
-     * @param start Start index of the reviews to display
-     * @param end End index of the reviews to display
-     */
-    private void setupPageDisplay(int start, int end) {
-        pageCounterText.getParent().setVisible(start >= 0 && start <= allReviews.size());
         reviewGrid.getChildren().clear();
         reviewGrid.getRowConstraints().clear(); // Clear any existing row constraints
         scrollPane.setVvalue(0);
 
+        int end = Math.min(start + MAXSIZE, allReviews.size());
         reviewGrid.setMinHeight((end - start) * 200 + 50);
         scrollAnchorPane.setMinHeight((end - start) * 200 + 50);
         reviewGrid.setMaxWidth(925);
@@ -107,15 +89,9 @@ public class ReviewsController {
         nextArrowButton.getParent().setVisible(end < allReviews.size());
 
         pageCounterText.getParent().setVisible(true);
-        reviewGrid.setAlignment(Pos.TOP_LEFT);
-    }
 
-    /**
-     * Load the reviews to display on the current page.
-     * @param start Start index of the reviews to display
-     * @param end End index of the reviews to display
-     */
-    private void loadReviews(int start, int end) {
+        reviewGrid.setAlignment(Pos.TOP_LEFT);
+
         for (int i = 0; i < end - start; i++) {
             ReviewService reviewService = new ReviewService();
             reviewService.setCurrentReview(allReviews.get(start + i));
