@@ -1,6 +1,4 @@
 .button {
-    /*-fx-border-color: #70171e; !* Normal color *!*/
-    /*-fx-border-radius: 4px;*/
     -fx-background-color: #707070;
     -fx-background-radius: 4px;
     -fx-text-fill: #ffffff;
@@ -8,5 +6,17 @@
 }
 
 .button:hover {
+    -fx-background-color: #616161; /* Color when hovered */
+}
+
+.challengeButton {
+    -fx-background-color: #707070;
+    -fx-background-radius: 4px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Noto Serif';
+}
+
+.challengeButton:hover {
     -fx-background-color: #616161; /* Color when hovered */
 }

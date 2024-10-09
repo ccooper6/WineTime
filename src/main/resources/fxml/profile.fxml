@@ -77,7 +77,7 @@
                         </Pane>
                         <Pane fx:id="challengePane" layoutX="5.0" layoutY="50.0" prefHeight="149.0" prefWidth="1240.0">
                            <children>
-                              <Button fx:id="quitchallButton" layoutX="1120.0" mnemonicParsing="false" onAction="#quitChallenge" stylesheets="@../style/greyButton.css" text="Quit Challenge">
+                              <Button fx:id="quitchallButton" layoutX="1120.0" mnemonicParsing="false" onAction="#quitChallenge" styleClass="challengeButton" stylesheets="@../style/greyButton.css" text="Quit Challenge">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
@@ -113,10 +113,7 @@
                                     <Font name="Noto Serif Regular" size="18.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="StartChallengeButton" layoutX="566.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" stylesheets="@../style/greyButton.css" text="Start Challenge!">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
+                              <Button fx:id="StartChallengeButton" layoutX="566.0" layoutY="20.0" mnemonicParsing="false" onAction="#onChallengeClicked" styleClass="challengeButton" stylesheets="@../style/greyButton.css" text="Start Challenge!">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
