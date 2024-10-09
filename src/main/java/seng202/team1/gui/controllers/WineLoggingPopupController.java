@@ -214,7 +214,7 @@ public class WineLoggingPopupController {
      * {@link WineLoggingPopupController#returnToWinePopUp()} to return to the wine pop up screen
      * <p></p>
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
-     * value to the tag, whilst a 4-5 will add a positive value to the tag.
+     * value to the tag, whilst a 3-5 will add a positive value to the tag.
      * <p></p>
      * Also updates the likes of the tags in the database depending on whether the user has changed their rating or
      * selected different tags.
