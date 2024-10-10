@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Controller class for the profile.fxml page.1
+ * Controller class for the profile.fxml page.
  */
 public class ProfileController {
     @FXML

@@ -5,7 +5,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.ChallengeService;
 
 /**
- * Controller class for the selectChallengePopup.fxml page.1
+ * Controller class for the selectChallengePopup.fxml page.
  */
 public class SelectChallengePopupController {
 

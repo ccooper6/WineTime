@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * Controller for the help screen, which displays help images for the user to understand how to use the application.1
+ * Controller for the help screen, which displays help images for the user to understand how to use the application.
  */
 public class HelpController {
 

@@ -26,7 +26,7 @@ import seng202.team1.services.SearchWineService;
 import java.io.IOException;
 
 /**
- * Controller class for the navigation.fxml page.1
+ * Controller class for the navigation.fxml page.
  */
 public class NavigationController {
     @FXML

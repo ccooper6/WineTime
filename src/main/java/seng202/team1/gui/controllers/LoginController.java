@@ -14,7 +14,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.UserLoginService;
 
 /**
- * Controller class to look after the login.fxml page.1
+ * Controller class to look after the login.fxml page.
  */
 public class LoginController {
     @FXML
