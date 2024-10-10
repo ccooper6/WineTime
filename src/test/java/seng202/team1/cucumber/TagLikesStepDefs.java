@@ -11,6 +11,7 @@ import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
 import seng202.team1.services.UserLoginService;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ public class TagLikesStepDefs {
     private int wineId;
     private int currentUserId;
     private int currentRating;
+    private List<String> currentTagsLiked;
 
     public void initialise() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
@@ -64,14 +66,16 @@ public class TagLikesStepDefs {
     @And("The user likes the tags {listOfTags} with a review rating of {int}")
     public void iLikeMultipleTags(List<String> tags, int newRating) {
         this.currentRating = newRating;
+        this.currentTagsLiked = tags;
         reviewService.updateTagLikes(currentUserId, new ArrayList<>(tags), new ArrayList<>(), newRating, 0); // All tags selected are liked/disliked
     }
 
-    @And("The user edits the review to only like the tag {string} with a review rating of {int}")
-    public void iEditReviewToLikeSingleTag(String tag, int newRating) {
+    @And("The user edits the review to only like the tags {listOfTags} with a review rating of {int}")
+    public void iEditReviewToLikeSingleTag(ArrayList<String> tags, int newRating) {
         ArrayList<String> previouslyLikedTags = logWineDao.getWineLikedTags(this.currentUserId, this.wineId);
         int previousRating = this.currentRating;
-        reviewService.updateTagLikes(currentUserId, new ArrayList<>(List.of(tag)), previouslyLikedTags, newRating, previousRating); // Only that tag is now liked/disliked
+        reviewService.updateTagLikes(currentUserId, tags, previouslyLikedTags, newRating, previousRating); // Only that tag is now liked/disliked
+        this.currentTagsLiked = tags;
         this.currentRating = newRating;
     }
 
@@ -83,13 +87,17 @@ public class TagLikesStepDefs {
 
     @Then("All the tags are liked successfully within the database")
     public void allTagsAreLikedSuccessfully() {
+        HashMap<String, Integer> likedTags = logWineDao.getLikedTags(currentUserId, wineId, true);
+        for (String tag : wineTags) {
+            assertEquals(likedTags.get(tag), reviewService.getRatingWeight(currentRating));
+        }
     }
 
     @Then("Only the liked tags are liked successfully within the database")
     public void onlyLikedTagsAreLikedSuccessfully() {
-    }
-
-    @Then("Only the latest liked tag is liked successfully within the database")
-    public void onlyLatestLikedTagIsLikedSuccessfully() {
+        HashMap<String, Integer> likedTags = logWineDao.getLikedTags(currentUserId, wineId, true);
+        for (String tag : currentTagsLiked) {
+            assertEquals(likedTags.get(tag), reviewService.getRatingWeight(currentRating));
+        }
     }
 }
