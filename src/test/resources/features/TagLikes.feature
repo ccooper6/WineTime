@@ -27,7 +27,16 @@ Feature: Liking/Disliking a tag or multiple tags
 
   Scenario: First liking no tags, then editing the review to only select one tag
     Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
-    When The user is in the wine logging popup with the wine with id 4 which has the tags [CalebIsCool, Italy, 1969]
+    When The user is in the wine logging popup with the wine with id 4 which has the tags [CalebIsCool, Italy, 1969, Cooooool]
     And The user likes no tags with a review rating of 5
-    And The user edits the review to only like the tags [CalebIsCool, Cooooool] with a review rating of 5
+      # simulate editing the review
+    And The user edits to only like the tags [CalebIsCool, Cooooool] with a review rating of 5
     Then Only the liked tags are liked successfully within the database
+
+  Scenario: First liking tags, then editing the review to only select no tags
+    Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
+    When The user is in the wine logging popup with the wine with id 4 which has the tags [CalebIsCool, Italy, 1969, Cooooool]
+    And The user likes the tags [CalebIsCool, Cooooool] with a review rating of 5
+      # simulate editing the review
+    And The user likes no tags with a review rating of 5
+    Then All the tags are liked successfully within the database

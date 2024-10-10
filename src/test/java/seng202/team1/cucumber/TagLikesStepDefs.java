@@ -70,11 +70,10 @@ public class TagLikesStepDefs {
         reviewService.updateTagLikes(currentUserId, new ArrayList<>(tags), new ArrayList<>(), newRating, 0); // All tags selected are liked/disliked
     }
 
-    @And("The user edits the review to only like the tags {listOfTags} with a review rating of {int}")
-    public void iEditReviewToLikeSingleTag(ArrayList<String> tags, int newRating) {
-        ArrayList<String> previouslyLikedTags = logWineDao.getWineLikedTags(this.currentUserId, this.wineId);
+    @And("The user edits to only like the tags {listOfTags} with a review rating of {int}")
+    public void iEditReviewToLikeMultipleTags(ArrayList<String> tags, int newRating) {
         int previousRating = this.currentRating;
-        reviewService.updateTagLikes(currentUserId, tags, previouslyLikedTags, newRating, previousRating); // Only that tag is now liked/disliked
+        reviewService.updateTagLikes(currentUserId, tags, new ArrayList<>(), newRating, previousRating); // Only that tag is now liked/disliked
         this.currentTagsLiked = tags;
         this.currentRating = newRating;
     }
