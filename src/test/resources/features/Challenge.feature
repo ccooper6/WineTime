@@ -39,6 +39,13 @@ Feature: Participate in Challenge
 
 
 
+  Scenario: Other users challenge not affecting each others challenges
+    Given User 1 and User 2 have accounts
+    When User 1 starts variety challenge
+    And User 2 starts reds challenge
+    Then User 1 active challenge variety challenge
+
+
 
 
 
