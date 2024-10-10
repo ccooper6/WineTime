@@ -8,13 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
@@ -25,23 +22,29 @@ import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
-import seng202.team1.services.WishlistService;
 
 import java.io.IOException;
 
 /**
  * Controller class for the navigation.fxml page.
- * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
 public class NavigationController {
-    public FontAwesomeIconView wishlistButton;
-    public FontAwesomeIconView reviewsButton;
-    public ImageView homeExampleButton;
-    public FontAwesomeIconView userButton;
-    public ImageView logo;
-    public Pane logoPane;
-    public Circle circle;
-    public FontAwesomeIconView closeButton;
+    @FXML
+    private FontAwesomeIconView wishlistButton;
+    @FXML
+    private FontAwesomeIconView reviewsButton;
+    @FXML
+    private ImageView homeExampleButton;
+    @FXML
+    private FontAwesomeIconView userButton;
+    @FXML
+    private ImageView logo;
+    @FXML
+    private Pane logoPane;
+    @FXML
+    private Circle circle;
+    @FXML
+    private FontAwesomeIconView closeButton;
     @FXML
     private FontAwesomeIconView dropdownButton;
     @FXML
@@ -56,16 +59,14 @@ public class NavigationController {
     private StackPane contentHere;
     @FXML
     private TextField searchBar;
-
-
-    private int openPopups = 0; // Counter for open popups
-
+    @FXML
     private Parent loadingScreen;
-
-    private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
     private boolean dropdownLocked = false;
+    private int openPopups = 0; // Counter for open popups
+
+    private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
      /**
      * Initializes the controller.
@@ -116,26 +117,29 @@ public class NavigationController {
         closeButton.setOnMouseExited(event -> {
             closeButton.setFill(Paint.valueOf("#b0b0b0"));
         });
-        logoPane.setOnMouseEntered(event -> { //random values
-            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() + 5);
-            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() + 5);
-            homeExampleButton.setTranslateX(-1.25);
-            homeExampleButton.setTranslateY(-1.25);
-            logo.setFitWidth(logo.getFitWidth() + 5);
-            logo.setFitHeight(logo.getFitHeight() + 5);
-            logo.setTranslateY(-1.25);
-            logo.setTranslateX(-1.25);
-            circle.setRadius(circle.getRadius() + 2.5);
+
+        double translate = 1.25;
+        double scaleFactor = 5.0;
+        logoPane.setOnMouseEntered(event -> {
+            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() + scaleFactor);
+            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() + scaleFactor);
+            homeExampleButton.setTranslateX(-translate);
+            homeExampleButton.setTranslateY(-translate);
+            logo.setFitWidth(logo.getFitWidth() + scaleFactor);
+            logo.setFitHeight(logo.getFitHeight() + scaleFactor);
+            logo.setTranslateY(-translate);
+            logo.setTranslateX(-translate);
+            circle.setRadius(circle.getRadius() + scaleFactor / 2);
         });
         logoPane.setOnMouseExited(event -> {
-            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() - 5);
-            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() - 5);
-            homeExampleButton.setTranslateX(1.25);
-            homeExampleButton.setTranslateY(1.25);
-            logo.setFitHeight(logo.getFitHeight() - 5);
-            logo.setTranslateY(1.25);
-            logo.setTranslateX(1.25);
-            circle.setRadius(circle.getRadius() - 2.5);
+            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() - scaleFactor);
+            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() - scaleFactor);
+            homeExampleButton.setTranslateX(translate);
+            homeExampleButton.setTranslateY(translate);
+            logo.setFitHeight(logo.getFitHeight() - scaleFactor);
+            logo.setTranslateY(translate);
+            logo.setTranslateX(translate);
+            circle.setRadius(circle.getRadius() - scaleFactor / 2);
         });
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
@@ -176,9 +180,9 @@ public class NavigationController {
     public void launchSearchWineLoadingScreen() {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         nav.executeWithLoadingScreen(() -> {
-        SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-        SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-        Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
+            SearchWineService.getInstance().searchWinesByName(searchBar.getText());
+            SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
+            Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
         });
         searchBar.getParent().requestFocus();
     }
@@ -206,6 +210,9 @@ public class NavigationController {
         userDropDownMenu.setVisible(false);
     }
 
+    /**
+     * Closes the application gracefully.
+     */
     @FXML
     public void closeApp() {
         FXWrapper.getInstance().closeApplication();

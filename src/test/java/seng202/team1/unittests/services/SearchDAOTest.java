@@ -10,7 +10,6 @@ import seng202.team1.services.UserLoginService;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
-
 public class SearchDAOTest {
     public static SearchDAO searchDAO;
     public static DatabaseManager databaseManager;
@@ -20,4 +19,6 @@ public class SearchDAOTest {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         searchDAO = new SearchDAO();
     }
+
+    //TODO we probably need these huh
 }

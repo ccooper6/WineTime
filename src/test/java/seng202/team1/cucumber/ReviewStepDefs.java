@@ -70,14 +70,9 @@ public class ReviewStepDefs {
         if (noneSelected) {
             tagsToLiked = wineTags;
         }
-        if (isEditing) {
-            Review existingReview = reviewService.getReview(currentUser, wid);
-            ArrayList<String> oldTags = existingReview.getTagsLiked();
-            int oldRating = existingReview.getRating();
-            reviewService.updateTagLikes(currentUser, tagsToLiked, oldTags, rating, oldRating);
-        } else {
-            reviewService.updateTagLikes(currentUser, tagsToLiked, new ArrayList<>(), rating, 0);
-        }
+
+        reviewService.updateTagLikes(currentUser, wid, tagsToLiked, rating);
+
         reviewService.submitLog(rating, currentUser, wid, selectedTags, tagsToLiked, noneSelected, description );
         resetReviewValues();
     }
