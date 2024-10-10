@@ -18,3 +18,8 @@ Feature: Adding and removing wines from the wishlist
     Given The users 1 and 2 are logged in with empty wishlists
     When The user 1 adds wine 1 to their wishlist and user 2 adds wine 2 to their wishlist
     Then User 1 wishlist will only contain wine 1 and user 2 wishlist will only contain wine 2
+
+  Scenario: There are two users in the database both wish the same wine in their wishlist
+    Given Both users 1 and 2 have the same wine 1 in their wishlist
+    When User 1 removes wine 1 from their wishlist
+    Then User 2 will still have wine 1 in their wishlist and User 1 won't

@@ -65,12 +65,25 @@ public class WishlistStepDefs {
     }
 
     @Given("The users 1 and 2 are logged in with empty wishlists")
-    public void twoUsersInSameDatabase() {
+    public void twoUsersInSameDatabase() throws InstanceAlreadyExistsException {
 
+        initialize();
         UserLoginService userLoginService = new UserLoginService();
         userLoginService.storeLogin("test1", "test1", "test1");
         userLoginService.storeLogin("test2", "test2", "test2");
 
+
+    }
+
+    @Given("Both users {int} and {int} have the same wine {int} in their wishlist")
+    public void twoUsersInSameDatabaseBothWithSameWineInWishlist(int uid1, int uid2, int wid) throws InstanceAlreadyExistsException {
+
+        initialize();
+        UserLoginService userLoginService = new UserLoginService();
+        userLoginService.storeLogin("test1", "test1", "test1");
+        userLoginService.storeLogin("test2", "test2", "test2");
+        WishlistService.addToWishlist(wid, uid1);
+        WishlistService.addToWishlist(wid, uid2);
 
     }
 
@@ -100,6 +113,13 @@ public class WishlistStepDefs {
 
         WishlistService.addToWishlist(wid1, uid1);
         WishlistService.addToWishlist(wid2, uid2);
+
+    }
+
+    @When("User {int} removes wine {int} from their wishlist")
+    public void user1DeletesWine1(int uid, int wid) throws SQLException {
+
+        WishlistService.removeFromWishlist(wid, uid);
 
     }
 
@@ -137,6 +157,16 @@ public class WishlistStepDefs {
         Assertions.assertFalse(WishlistService.checkInWishlist(wid1, uid2));
         Assertions.assertFalse(WishlistService.checkInWishlist(wid2, uid1));
         Assertions.assertEquals(1, WishlistService.getWishlistWines(uid1).size());
+        Assertions.assertEquals(1, WishlistService.getWishlistWines(uid2).size());
+
+    }
+
+    @Then("User {int} will still have wine {int} in their wishlist and User {int} won't")
+    public void users1WishlistLostWineOnly(int uid2, int wid, int uid1) {
+
+        Assertions.assertTrue(WishlistService.checkInWishlist(wid, uid2));
+        Assertions.assertFalse(WishlistService.checkInWishlist(wid, uid1));
+        Assertions.assertEquals(0, WishlistService.getWishlistWines(uid1).size());
         Assertions.assertEquals(1, WishlistService.getWishlistWines(uid2).size());
 
     }
