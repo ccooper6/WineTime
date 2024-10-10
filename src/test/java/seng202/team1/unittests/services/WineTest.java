@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.models.TagType;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
-import seng202.team1.services.WineVarietyService;
-
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -113,5 +110,25 @@ public class WineTest {
     void hasWineryTag() {
         wine.setWinery("Test");
         assertTrue(wine.hasTag("Test"));
+    }
+
+    @Test
+    void hasAllTags() {
+        boolean hasAllTags = true;
+        wine.setCountry("NewIsaacland");
+        wine.setProvince("Historia");
+        wine.setVintage(2004);
+        wine.setRegion1("Hello_SENG201_TeachingTeam");
+        wine.setRegion2("Please_Give_Us_An_A+");
+        wine.setVariety("please_:)_Have_a_Great_Day!");
+        hasAllTags &= wine.hasTag("Test");
+        hasAllTags &= wine.hasTag("NewIsaacland");
+        hasAllTags &= wine.hasTag("Historia");
+        hasAllTags &= wine.hasTag("2004");
+        hasAllTags &= wine.hasTag("Hello_SENG201_TeachingTeam");
+        hasAllTags &= wine.hasTag("Please_Give_Us_An_A+");
+        hasAllTags &= wine.hasTag("please_:)_Have_a_Great_Day!");
+        hasAllTags &= !(wine.hasTag("Doesn't have this tag"));
+        assertTrue(hasAllTags);
     }
 }

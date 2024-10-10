@@ -293,7 +293,7 @@ public class LogWineDao {
      * @param description  the string description of the review
      * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
-     *                     TODO update this
+     * @param tagsLiked    the ArrayList of tags liked/disliked by this review
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
     public void doReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
@@ -312,7 +312,7 @@ public class LogWineDao {
      * @param description  the string description of the review
      * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
-     *                     TODO update this
+     * @param tagsLiked the ArrayList of tags liked by this review
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
     private void createReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected)

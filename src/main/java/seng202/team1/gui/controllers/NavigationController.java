@@ -407,6 +407,9 @@ public class NavigationController {
      */
     public void closePopUp() {
         if (overlayContent != null) {
+            // set focus to main page so we dont scroll to top
+            overlayContent.getParent().requestFocus();
+
             overlayContent.setVisible(false);
             contentHere.getChildren().remove(overlayContent);
             openPopups--;
