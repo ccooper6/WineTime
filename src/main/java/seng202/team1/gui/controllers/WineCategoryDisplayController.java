@@ -361,7 +361,7 @@ public class WineCategoryDisplayController {
             if (isWishlist) {
                 subpage = "wishlist";
             } else if (isRecommendations) {
-                SearchWineService.getInstance().searchWinesByRecommend(120);
+                SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 120);
                 subpage = "searchWine";
             } else {
                 SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
@@ -415,7 +415,7 @@ public class WineCategoryDisplayController {
             if (searchString.equalsIgnoreCase("wishlist")) {
                 SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
             } else if (searchString.equalsIgnoreCase("recommend")) {
-                SearchWineService.getInstance().searchWinesByRecommend(10);
+                SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 10);
             } else {
                 SearchWineService.getInstance().searchWinesByTags(searchString, 10);
             }

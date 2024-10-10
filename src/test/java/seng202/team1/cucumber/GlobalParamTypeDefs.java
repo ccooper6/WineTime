@@ -13,4 +13,11 @@ public class GlobalParamTypeDefs {
                 .map(String::toString)
                 .collect(Collectors.toList());
     }
+
+    @ParameterType("\\[([0-9, ]*)\\]")
+    public ArrayList<Integer> listOfInts(String ints) {
+        return (ArrayList<Integer>) Arrays.stream(ints.split(", ?"))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+    }
 }

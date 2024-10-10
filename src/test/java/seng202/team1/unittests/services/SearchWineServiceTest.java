@@ -164,10 +164,10 @@ public class SearchWineServiceTest {
     @Test
     public void searchWinesByName1Word() {
         String name = "Chardonnay";
-        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8642, fromDB.size());
+        assertEquals(8886, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
@@ -177,10 +177,10 @@ public class SearchWineServiceTest {
     @Test
     public void searchWinesByNameWeirdName() {
         String name = "ChardóNnAy";
-        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8642, fromDB.size());
+        assertEquals(8886, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("Chardonnay")));
     }
 
@@ -191,10 +191,10 @@ public class SearchWineServiceTest {
     public void searchWinesByName2Words()
     {
         String name = "New Zealand";
-        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(6, fromDB.size());
+        assertEquals(9, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("New Zealand")));
     }
 
@@ -204,10 +204,10 @@ public class SearchWineServiceTest {
     @Test
     public void searchWinesByNameTrailingSpaces() {
         String name = "     chardonnay    ";
-        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8642, fromDB.size());
+        assertEquals(8886, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
@@ -218,10 +218,10 @@ public class SearchWineServiceTest {
     public void searchWinesByNameEmptyString()
     {
         String name = "";
-        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(114961, fromDB.size());
+        assertEquals(118837, fromDB.size());
     }
 
     /**
@@ -232,7 +232,7 @@ public class SearchWineServiceTest {
     {
         String name = "this wine should not exist";
 
-        SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
+        SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
         assertEquals(0, fromDB.size());
@@ -320,7 +320,7 @@ public class SearchWineServiceTest {
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
         logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
         User.setCurrenUser(new User(1, "user1", "User1"));
-        SearchWineService.getInstance().searchWinesByRecommend(10);
+        SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 10);
         ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
         assertFalse(reccWine.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
