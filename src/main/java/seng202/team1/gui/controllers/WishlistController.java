@@ -139,7 +139,7 @@ public class WishlistController {
      */
     @FXML
     public void pageEnd() {
-        currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
+        currentPage = Math.ceilDiv(allWines.size(), MAXSIZE) - 1;
         displayCurrentPage();
     }
 }
