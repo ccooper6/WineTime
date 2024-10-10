@@ -15,7 +15,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 /**
- * Controller class for the mainpage.fxml page.
+ * Controller class for the mainpage.fxml page.1
  */
 public class MainController {
     @FXML

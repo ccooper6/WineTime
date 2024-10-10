@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Controller class for the reviews.fxml page.
+ * Controller class for the reviews.fxml page.1
  * Displays all the wine reviews that the user has saved.
  */
 public class ReviewsController {

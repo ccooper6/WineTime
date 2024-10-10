@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller class for the reviewDisplay.fxml page.
+ * Controller class for the reviewDisplay.fxml page.1
  * Displays the details of a single review.
  */
 public class ReviewDisplayController {

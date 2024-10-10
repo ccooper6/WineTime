@@ -98,7 +98,7 @@ public class SearchWineController {
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
 
     /**
-     * Initialises the controller using wines from SearchWineService instance.
+     * Initialises the controller using wines from SearchWineService instance.1
      */
     @FXML
     public void initialize()

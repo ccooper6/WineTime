@@ -38,7 +38,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
- * Controller class for the popup.fxml popup.
+ * Controller class for the popup.fxml popup.1
  */
 public class PopUpController {
     public TextFlow valueDisplay;

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller class for the wineCategoryDisplay.fxml category displays.
+ * Controller class for the wineCategoryDisplay.fxml category displays.1
  * @author Elise Newman, Caleb Cooper, Yuhao Zhang
  */
 public class WineCategoryDisplayController {

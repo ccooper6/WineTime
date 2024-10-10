@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Controller class for the quiz.fxml page.
+ * Controller class for the quiz.fxml page.1
  */
 // TODO quiz is kinda incomplete
 public class QuizController {
