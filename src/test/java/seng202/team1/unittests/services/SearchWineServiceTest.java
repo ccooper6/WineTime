@@ -9,6 +9,7 @@ import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DAOs.LogWineDao;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
@@ -166,7 +167,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8886, fromDB.size());
+        assertEquals(8642, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
@@ -179,7 +180,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8886, fromDB.size());
+        assertEquals(8642, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("Chardonnay")));
     }
 
@@ -193,7 +194,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(9, fromDB.size());
+        assertEquals(6, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("New Zealand")));
     }
 
@@ -206,7 +207,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8886, fromDB.size());
+        assertEquals(8642, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
@@ -220,7 +221,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name, SearchDAO.UNLIMITED);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(118837, fromDB.size());
+        assertEquals(114961, fromDB.size());
     }
 
     /**
@@ -358,5 +359,50 @@ public class SearchWineServiceTest {
         Wine wine = wineBuilder.build();
         SearchWineService.getInstance().setCurrentWine(wine);
         assertEquals(wine, SearchWineService.getInstance().getCurrentWine());
+    }
+
+    @Test
+    public void testResetFilters() {
+
+        boolean resetWorked = true;
+
+        SearchWineService.getInstance().setCurrentMinPoints(90);
+        SearchWineService.getInstance().setCurrentMaxPoints(91);
+        SearchWineService.getInstance().setCurrentMinYear(1900);
+        SearchWineService.getInstance().setCurrentMaxYear(1921);
+        SearchWineService.getInstance().setCurrentMinPrice(6);
+        SearchWineService.getInstance().setCurrentMaxPrice(7);
+        SearchWineService.getInstance().setCurrentWineryFilter("Isaac is cool");
+        SearchWineService.getInstance().setCurrentVarietyFilter("Isaac is really cool");
+        SearchWineService.getInstance().setCurrentCountryFilter("Isaac is super cool");
+
+        SearchWineService.getInstance().resetFilters();
+
+        resetWorked &= SearchWineService.getInstance().getCurrentMinPoints() == TagDAO.getInstance().getMinPoints();
+        resetWorked &= SearchWineService.getInstance().getCurrentMaxPoints() == TagDAO.getInstance().getMaxPoints();
+        resetWorked &= SearchWineService.getInstance().getCurrentMinYear() == TagDAO.getInstance().getMinVintage();
+        resetWorked &= SearchWineService.getInstance().getCurrentMaxYear() == TagDAO.getInstance().getMaxVintage();
+        resetWorked &= SearchWineService.getInstance().getCurrentMinPrice() == TagDAO.getInstance().getMinPrice();
+        resetWorked &= SearchWineService.getInstance().getCurrentMaxPrice() == TagDAO.getInstance().getMaxPrice();
+        resetWorked &= SearchWineService.getInstance().getCurrentWineryFilter() == null;
+        resetWorked &= SearchWineService.getInstance().getCurrentVarietyFilter() == null;
+        resetWorked &= SearchWineService.getInstance().getCurrentCountryFilter() == null;
+
+        assertTrue(resetWorked);
+
+    }
+
+    @Test
+    public void testSetMaxPrice() {
+
+        boolean setMaxPriceWorked = true;
+        SearchWineService.getInstance().resetFilters();
+        SearchWineService.getInstance().setCurrentMaxPrice(199);
+        setMaxPriceWorked &= SearchWineService.getInstance().getCurrentMaxPrice() == 199;
+        SearchWineService.getInstance().setCurrentMaxPrice(200);
+        setMaxPriceWorked &= SearchWineService.getInstance().getCurrentMaxPrice() == TagDAO.getInstance().getMaxPrice();
+        assertTrue(setMaxPriceWorked);
+
+
     }
 }
