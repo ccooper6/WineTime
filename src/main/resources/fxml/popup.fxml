@@ -173,8 +173,11 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </AnchorPane>
-            <TextFlow fx:id="helpText" layoutX="250.0" layoutY="70.0" prefHeight="150.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-border-color: black; -fx-border-radius: 7;" visible="false" />
-            <TextFlow fx:id="tagsHelpText" layoutX="338.0" layoutY="215.0" prefHeight="150.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-border-color: black; -fx-border-radius: 7;" visible="false">
+            <TextFlow fx:id="helpText" layoutX="226.0" layoutY="96.0" prefHeight="150.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-border-color: black; -fx-border-radius: 7;" visible="false">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></TextFlow>
+            <TextFlow fx:id="tagsHelpText" layoutX="335.0" layoutY="214.0" prefHeight="150.0" prefWidth="130.0" style="-fx-background-color: white; -fx-background-radius: 7; -fx-border-color: black; -fx-border-radius: 7;" visible="false">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
