@@ -167,7 +167,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8642, fromDB.size());
+        assertEquals(8886, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
@@ -180,7 +180,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8642, fromDB.size());
+        assertEquals(8886, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("Chardonnay")));
     }
 
@@ -194,7 +194,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(6, fromDB.size());
+        assertEquals(9, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("New Zealand")));
     }
 
@@ -207,7 +207,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(8642, fromDB.size());
+        assertEquals(8886, fromDB.size());
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
@@ -221,7 +221,7 @@ public class SearchWineServiceTest {
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();
 
-        assertEquals(114961, fromDB.size());
+        assertEquals(118837, fromDB.size());
     }
 
     /**
