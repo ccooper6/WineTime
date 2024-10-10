@@ -11,6 +11,8 @@ import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ChallengeService;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChallengeStepDefs {
@@ -30,8 +32,8 @@ public class ChallengeStepDefs {
         DatabaseManager.getInstance().forceReset();
         challengeService = new ChallengeService();
         challengeDAO = new ChallengeDAO();
-        user = new User(0, "test", "test");
-        User.setCurrenUser(user);
+        user = new User(0, "test", Objects.hash("test"));
+        User.setCurrentUser(user);
         userDAO = new UserDAO();
         userDAO.add(user);
     }
@@ -50,8 +52,8 @@ public class ChallengeStepDefs {
     @Given("User 1 and User 2 have accounts")
     public void i1Andi2HaveAccounts() throws InstanceAlreadyExistsException {
         initialise();
-        user1 = new User(1, "test1", "test1");
-        user2 = new User(2, "test2", "test2");
+        user1 = new User(1, "test1", Objects.hash("test1"));
+        user2 = new User(2, "test2", Objects.hash("test2"));
         userDAO.add(user1);
         userDAO.add(user2);
     }
@@ -76,12 +78,12 @@ public class ChallengeStepDefs {
 
     @When("User 1 starts variety challenge")
     public void i1StartsVarietyChallenge() {
-        User.setCurrenUser(user1);
+        User.setCurrentUser(user1);
         challengeService.startChallengeVariety();
     }
     @And("User 2 starts reds challenge")
     public void i2StartsRedsChallenge() {
-        User.setCurrenUser(user2);
+        User.setCurrentUser(user2);
         challengeService.startChallengeReds();
     }
 
@@ -120,7 +122,7 @@ public class ChallengeStepDefs {
 
     @Then("User 1 active challenge variety challenge")
     public void checkActiveChallenge() {
-        User.setCurrenUser(user1);
+        User.setCurrentUser(user1);
         assertEquals("Variety Challenge", challengeDAO.getChallengeForUser(user1.getId()));
     }
 

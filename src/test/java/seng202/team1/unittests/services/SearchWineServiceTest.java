@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -276,7 +277,7 @@ public class SearchWineServiceTest {
         }
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
         logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
-        User.setCurrenUser(new User(1, "user1", "User1"));
+        User.setCurrentUser(new User(1, "user1", Objects.hash("User1")));
         SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 10);
         ArrayList<Wine> recommendedWines = SearchWineService.getInstance().getWineList();
         assertFalse(recommendedWines.isEmpty());
