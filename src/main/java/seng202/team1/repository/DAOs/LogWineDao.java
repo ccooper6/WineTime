@@ -131,6 +131,12 @@ public class LogWineDao {
         return null;
     }
 
+    /**
+     * Returns a list of tags that the user has liked for a specific wine.
+     * @param uid the user id
+     * @param wid the wine id
+     * @return an ArrayList of liked tags
+     */
     public ArrayList<String> getWineLikedTags(int uid, int wid) {
         String tags;
         String getSelectedTags = "SELECT tagsliked FROM reviews WHERE uid = ? AND wid = ?";
@@ -148,7 +154,7 @@ public class LogWineDao {
                 }
             }
         } catch (SQLException e) {
-            LOG.error("Error in LogWineDAO.getLikedTags(): Could not access database.");
+            LOG.error("Error in LogWineDAO.getWineLikedTags(): Could not access database.");
         }
         return null;
     }
@@ -172,9 +178,9 @@ public class LogWineDao {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
                 for (int i = 0; i < maximumTag; i++) {
-                    if (!rs.next())
+                    if (!rs.next()) {
                         break;
-
+                    }
                     likedTags.put(rs.getString(1), rs.getInt(2));
                 }
 

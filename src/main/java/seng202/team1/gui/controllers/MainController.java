@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * Controller class for the mainpage.fxml page.
- * @author Caleb Cooper, Yuhao Zhang, Isaac Macdonald
  */
 public class MainController {
     @FXML

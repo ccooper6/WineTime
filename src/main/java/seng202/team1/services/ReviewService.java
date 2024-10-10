@@ -21,7 +21,7 @@ public class ReviewService {
     private static ReviewService instance;
 
     /**
-     * Returns an instance of the ReviewService
+     * Returns an instance of the ReviewService.
      * @return {@link ReviewService}
      */
     public static ReviewService getInstance() {
@@ -30,6 +30,7 @@ public class ReviewService {
         }
         return instance;
     }
+
     /**
      * Gets all the reviews for the current user.
      * @param currentUserUid The user id of the current user.
@@ -148,7 +149,7 @@ public class ReviewService {
     }
 
     /**
-     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively
+     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively.
      * @param rating the int rating
      * @return the rating's weight
      */
