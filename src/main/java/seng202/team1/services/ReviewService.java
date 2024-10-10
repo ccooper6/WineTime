@@ -81,8 +81,6 @@ public class ReviewService {
     public void deleteReview(Review review) {
         int uid = review.getUid();
         int wid = review.getWid();
-        ArrayList<String> tagsToRemove = review.getTagsLiked();
-        int oldRating = review.getRating();
 
         updateTagLikes(uid, 1, new ArrayList<>(), 0);
         logWineDao.deleteReview(uid, wid);
