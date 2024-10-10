@@ -345,6 +345,8 @@ public class NavigationController {
             overlayContent = paneLoader.load();
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
+            openPopups++;
+
         } catch (IOException e) {
             LOG.error("Error in NavigationController.loadSelectChallengePopupContent: Could not load fxml content.");
         }
@@ -414,9 +416,12 @@ public class NavigationController {
      */
     public void closePopUp() {
         if (overlayContent != null) {
-            // set focus to main page so we dont scroll to top
-            overlayContent.getParent().requestFocus();
-
+            if (overlayContent.getParent() != null) {
+                // set focus to the parent so we don't scroll to the top
+                overlayContent.getParent().requestFocus();
+            } else {
+                LOG.warn("Warning in NavigationController.closePopUp: overlayContent has no parent to set focus on.");
+            }
             overlayContent.setVisible(false);
             contentHere.getChildren().remove(overlayContent);
             openPopups--;

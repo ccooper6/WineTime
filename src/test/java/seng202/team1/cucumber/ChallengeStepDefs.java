@@ -1,5 +1,6 @@
 package seng202.team1.cucumber;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,6 +19,9 @@ public class ChallengeStepDefs {
     private ChallengeDAO challengeDAO;
     private UserDAO userDAO;
     private User user;
+
+    private User user1;
+    private User user2;
 
 
     public void initialise() throws InstanceAlreadyExistsException {
@@ -43,6 +47,14 @@ public class ChallengeStepDefs {
         challengeService.startChallengeVariety();
         assertTrue(challengeService.activeChallenge());
     }
+    @Given("User 1 and User 2 have accounts")
+    public void i1Andi2HaveAccounts() throws InstanceAlreadyExistsException {
+        initialise();
+        user1 = new User(1, "test1", "test1");
+        user2 = new User(2, "test2", "test2");
+        userDAO.add(user1);
+        userDAO.add(user2);
+    }
 
     @When("the user starts the variety challenge")
     public void iStartVarietyChallenge() { challengeService.startChallengeVariety(); }
@@ -61,6 +73,17 @@ public class ChallengeStepDefs {
 
     @When("the user completes challenge")
     public void iCompletesChallenge() { challengeService.challengeCompleted("Variety Challenge"); }
+
+    @When("User 1 starts variety challenge")
+    public void i1StartsVarietyChallenge() {
+        User.setCurrenUser(user1);
+        challengeService.startChallengeVariety();
+    }
+    @And("User 2 starts reds challenge")
+    public void i2StartsRedsChallenge() {
+        User.setCurrenUser(user2);
+        challengeService.startChallengeReds();
+    }
 
     @Then("5 wines of different variety are displayed on the profile")
     public void varietyWineDisplayed() {
@@ -94,6 +117,12 @@ public class ChallengeStepDefs {
 
     @Then("challenge is removed from the users active challenges")
     public void challengeRemoved() { assertEquals(null, challengeDAO.getChallengeForUser(user.getId())); }
+
+    @Then("User 1 active challenge variety challenge")
+    public void checkActiveChallenge() {
+        User.setCurrenUser(user1);
+        assertEquals("Variety Challenge", challengeDAO.getChallengeForUser(user1.getId()));
+    }
 
 
 }
