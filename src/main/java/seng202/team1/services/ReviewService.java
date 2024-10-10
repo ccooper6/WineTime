@@ -84,7 +84,7 @@ public class ReviewService {
         ArrayList<String> tagsToRemove = review.getTagsLiked();
         int oldRating = review.getRating();
 
-        updateTagLikes(uid, new ArrayList<>(), tagsToRemove, 0, oldRating);
+        updateTagLikes(uid, 1, new ArrayList<>(), 0);
         logWineDao.deleteReview(uid, wid);
     }
 
@@ -130,16 +130,25 @@ public class ReviewService {
     /**
      * Uses {@link LogWineDao} to update the tags liked by the user.
      * @param uid the user id
+     * @param wid the wine id
      * @param tagsToAdd an ArrayList of strings, containing tag names to add
-     * @param tagsToRemove an ArrayList of strings, containing tag names to remove
      * @param newRating the new rating of the log
-     * @param oldRating the old rating of the log
      */
-    public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, int newRating, int oldRating) {
+    public void updateTagLikes(int uid, int wid, ArrayList<String> tagsToAdd, int newRating) {
+        Review existingReview = getReview(uid, wid);
+
+        ArrayList<String> oldTags = new ArrayList<>();
+
+        int oldRating = 0;
+        if (existingReview != null) {
+            oldTags = existingReview.getTagsLiked();
+            oldRating = existingReview.getRating();
+        }
+
         int scaledNewRating = getRatingWeight(newRating);
         int scaledOldRating = getRatingWeight(oldRating);
 
-        for (String tag : tagsToRemove) {
+        for (String tag : oldTags) {
             logWineDao.likes(uid, tag, -scaledOldRating);
         }
 
