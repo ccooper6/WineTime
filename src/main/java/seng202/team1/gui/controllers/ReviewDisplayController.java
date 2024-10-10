@@ -40,6 +40,8 @@ public class ReviewDisplayController {
     private FontAwesomeIconView star5;
     @FXML
     private Text tagsLiked;
+    @FXML
+    private FontAwesomeIconView deleteReviewIcon;
 
     private Review review;
     private final ReviewService reviewService = new ReviewService();
@@ -61,6 +63,7 @@ public class ReviewDisplayController {
 
         Wine currentWine = ReviewService.getCurrentWine();
         displayWine(currentWine);
+        setupDeleteButtonHover();
     }
 
     /**
@@ -124,6 +127,14 @@ public class ReviewDisplayController {
                 LOG.error("Error in ReviewDisplay.initialize(): Could not load fxml content for review with ID {}", review.getUid());
             }
         }
+    }
+
+    /**
+     * Sets up the hover effect for the delete button.
+     */
+    private void setupDeleteButtonHover() {
+        deleteReviewIcon.setOnMouseEntered(event -> deleteReviewIcon.setFill(javafx.scene.paint.Color.RED));
+        deleteReviewIcon.setOnMouseExited(event -> deleteReviewIcon.setFill(javafx.scene.paint.Color.web("#d0d0d0")));
     }
 
     /**
