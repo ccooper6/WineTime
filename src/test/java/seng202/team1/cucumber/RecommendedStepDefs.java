@@ -26,8 +26,7 @@ public class RecommendedStepDefs {
         try {
             DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         } catch (InstanceAlreadyExistsException e) {
-            System.out.println("Could not initialise the database");
-            fail();
+            fail("Could not initialise database");
         }
         DatabaseManager.getInstance().forceReset();
 

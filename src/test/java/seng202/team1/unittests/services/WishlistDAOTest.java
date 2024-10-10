@@ -3,14 +3,12 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.services.UserLoginService;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WishlistDAOTest {
     public static WishlistDAO wishlistDAO;

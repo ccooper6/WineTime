@@ -245,9 +245,10 @@ public class SearchWineServiceTest {
      */
     private ArrayList<String> getWineTags(Wine wine) {
         ArrayList<String> wineTags = new ArrayList<>();
-        String psString = "SELECT tag.name\n" +
-                "FROM wine JOIN owned_by on wine.id = owned_by.wid JOIN tag on owned_by.tname = tag.name\n" +
-                "WHERE wine.id = ?";
+        String psString = """
+                SELECT tag.name
+                FROM wine JOIN owned_by on wine.id = owned_by.wid JOIN tag on owned_by.tname = tag.name
+                WHERE wine.id = ?;""";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(psString)) {
                 ps.setInt(1, wine.getWineId());
@@ -260,50 +261,6 @@ public class SearchWineServiceTest {
             throw new RuntimeException(e);
         }
         return wineTags;
-    }
-    /**
-     * Verifies that the wine have at least one liked tag and no disliked tags
-     * @param wine wine
-     * @param likedTags array of liked tags
-     * @param dislikedTags array of disliked tags
-     * @return boolean
-     */
-    private boolean verifyWine(String[] likedTags, Wine wine, String[] dislikedTags) {
-        ArrayList<String> wineTags = getWineTags(wine);
-        boolean hasLikedTags = false;
-        for (String tag : likedTags) {
-            if (wineTags.contains(tag)) {
-                hasLikedTags = true;
-                break;
-            }
-        }
-        for (String tag : dislikedTags) {
-            if (wineTags.contains(tag)) {
-                return false;
-            }
-        }
-        return hasLikedTags;
-    }
-    /**
-     * Verifies that all the wines have at least one liked tag, no disliked tags and are not wines that should be avoided
-     * @param wines array of wine
-     * @param likedTags array of liked tags
-     * @param dislikedTags array of disliked tags
-     * @param wineIdToAvoid array of wine id to avoid
-     * @return boolean
-     */
-    public boolean verifyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags, Integer[] wineIdToAvoid) {
-        for (Wine wine : wines) {
-            if (!Arrays.asList(wineIdToAvoid).contains(wine.getWineId())) {
-                boolean isValid = verifyWine(likedTags, wine, dislikedTags);
-                if (!isValid) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Test
@@ -321,10 +278,21 @@ public class SearchWineServiceTest {
         logWineDao.doReview(1, 5,5,"i love wine", "2024-10-05 22:27:01",tags, tags,false);
         User.setCurrenUser(new User(1, "user1", "User1"));
         SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 10);
-        ArrayList<Wine> reccWine = SearchWineService.getInstance().getWineList();
-        assertFalse(reccWine.isEmpty());
+        ArrayList<Wine> recommendedWines = SearchWineService.getInstance().getWineList();
+        assertFalse(recommendedWines.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        assertTrue(verifyWines(reccWine, new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"}, new String[]{}, new Integer[]{5}));
+        String[] likedTags = new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"};
+        String[] dislikedTags = new String[]{};
+        Integer[] wineIdsToAvoid = new Integer[]{5};
+
+        assertTrue(recommendedWines.stream().noneMatch(wine -> Arrays.asList(wineIdsToAvoid).contains(wine.getWineId())));
+
+        for (Wine wine : recommendedWines) {
+            ArrayList<String> wineTags = getWineTags(wine);
+
+            assertFalse(Arrays.stream(likedTags).noneMatch(wineTags::contains));
+            assertTrue(Arrays.stream(dislikedTags).noneMatch(wineTags::contains));
+        }
     }
 
     // TODO exceptional flows for recommendation search?
@@ -363,9 +331,6 @@ public class SearchWineServiceTest {
 
     @Test
     public void testResetFilters() {
-
-        boolean resetWorked = true;
-
         SearchWineService.getInstance().setCurrentMinPoints(90);
         SearchWineService.getInstance().setCurrentMaxPoints(91);
         SearchWineService.getInstance().setCurrentMinYear(1900);
@@ -378,31 +343,24 @@ public class SearchWineServiceTest {
 
         SearchWineService.getInstance().resetFilters();
 
-        resetWorked &= SearchWineService.getInstance().getCurrentMinPoints() == TagDAO.getInstance().getMinPoints();
-        resetWorked &= SearchWineService.getInstance().getCurrentMaxPoints() == TagDAO.getInstance().getMaxPoints();
-        resetWorked &= SearchWineService.getInstance().getCurrentMinYear() == TagDAO.getInstance().getMinVintage();
-        resetWorked &= SearchWineService.getInstance().getCurrentMaxYear() == TagDAO.getInstance().getMaxVintage();
-        resetWorked &= SearchWineService.getInstance().getCurrentMinPrice() == TagDAO.getInstance().getMinPrice();
-        resetWorked &= SearchWineService.getInstance().getCurrentMaxPrice() == TagDAO.getInstance().getMaxPrice();
-        resetWorked &= SearchWineService.getInstance().getCurrentWineryFilter() == null;
-        resetWorked &= SearchWineService.getInstance().getCurrentVarietyFilter() == null;
-        resetWorked &= SearchWineService.getInstance().getCurrentCountryFilter() == null;
-
-        assertTrue(resetWorked);
-
+        assertEquals(80, SearchWineService.getInstance().getCurrentMinPoints());
+        assertEquals(100, SearchWineService.getInstance().getCurrentMaxPoints());
+        assertEquals(1821, SearchWineService.getInstance().getCurrentMinYear());
+        assertEquals(2017, SearchWineService.getInstance().getCurrentMaxYear());
+        assertEquals(4, SearchWineService.getInstance().getCurrentMinPrice());
+        assertEquals(3300, SearchWineService.getInstance().getCurrentMaxPrice());
+        assertNull(SearchWineService.getInstance().getCurrentWineryFilter());
+        assertNull(SearchWineService.getInstance().getCurrentVarietyFilter());
+        assertNull(SearchWineService.getInstance().getCurrentCountryFilter());
     }
 
     @Test
     public void testSetMaxPrice() {
-
-        boolean setMaxPriceWorked = true;
         SearchWineService.getInstance().resetFilters();
         SearchWineService.getInstance().setCurrentMaxPrice(199);
-        setMaxPriceWorked &= SearchWineService.getInstance().getCurrentMaxPrice() == 199;
+        assertEquals(199, SearchWineService.getInstance().getCurrentMaxPrice());
         SearchWineService.getInstance().setCurrentMaxPrice(200);
-        setMaxPriceWorked &= SearchWineService.getInstance().getCurrentMaxPrice() == TagDAO.getInstance().getMaxPrice();
-        assertTrue(setMaxPriceWorked);
-
-
+        // 200 is max for most wines so if set to 200 check all
+        assertEquals(3300, SearchWineService.getInstance().getCurrentMaxPrice());
     }
 }
