@@ -12,7 +12,7 @@ import seng202.team1.services.WishlistService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WishlistServiceTest {
     public static WishlistDAO wishlistDAO;
@@ -87,6 +87,13 @@ public class WishlistServiceTest {
         assertEquals(myWines.get(0).getWineId(), 4);
         assertEquals(myWines.get(1).getWineId(), 5);
         assertEquals(myWines.get(2).getWineId(), 6);
+    }
+
+    @Test
+    public void testCheckInWishlist()
+    {
+        WishlistService.addToWishlist(45, 1);
+        assertTrue(WishlistService.checkInWishlist(45, 1));
     }
 }
 
