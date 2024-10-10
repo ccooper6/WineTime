@@ -115,6 +115,7 @@ public class WineTest {
     @Test
     void hasAllTags() {
         boolean hasAllTags = true;
+        wine.setWinery("Test");
         wine.setCountry("NewIsaacland");
         wine.setProvince("Historia");
         wine.setVintage(2004);
