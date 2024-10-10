@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +18,6 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
-import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -54,15 +52,15 @@ public class WineCategoryDisplayController {
     private AnchorPane mainWine6;
     @FXML
     private Button seeMoreButton;
-
-
+    @FXML
     private List<AnchorPane> wineViews;
+
     private int firstWine = 0;
     private int MAXWINES = 11;
     private int leftDisplay = 7;
     private int rightDisplay;
     private final double TRANSITIONDURATION = 0.2;
-    private int DISTANCEBETWEEN = 210;
+    private final int DISTANCEBETWEEN = 210;
 
     private boolean isWishlist = false;
     private boolean isRecommendations = false;
@@ -94,6 +92,15 @@ public class WineCategoryDisplayController {
         isWishlist = tags.equalsIgnoreCase("wishlist");
         isRecommendations = tags.equalsIgnoreCase("recommend");
 
+        setTitleText();
+        handleEmptyDisplayWines();
+        handleDisplayWines();
+    }
+
+    /**
+     * Sets the title text of the category display depending on the search parameters and special conditions.
+     */
+    private void setTitleText() {
         if (isWishlist) {
             titleText.setText("Your Wishlist: ");
         } else if (isRecommendations) {
@@ -105,52 +112,71 @@ public class WineCategoryDisplayController {
         } else {
             titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle());
         }
+    }
+
+    /**
+     * Handles the case where there are no wines to display and displays the correct message depending on the category type.
+     */
+    private void handleEmptyDisplayWines() {
         if (displayWines.isEmpty()) {
             if (isWishlist) {
                 titleText.setText("Your Wishlist: \n\nYou have no saved wines...\nGo to home or search pages to discover new wines!");
             } else if (isRecommendations) {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
-                titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle() +
-                        "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
+                titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle()
+                        + "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
             }
             leftArrowButton.setDisable(true);
             leftArrowButton.setVisible(false);
             rightArrowButton.setDisable(true);
             rightArrowButton.setVisible(false);
-        } else if (displayWines.size() <= 5) {
-            fiveOrLess();
-        } else {
-            if (displayWines.size() == 6) {
-                for (int i = 0; i < 6; i++) {
-                    displayWines.addLast(displayWines.get(i));
-                }
-            }
-            if (displayWines.size() == 7) {
-                leftDisplay = 0;
-            }
-            if (displayWines.size() < MAXWINES) {
-                MAXWINES = displayWines.size();
-                rightDisplay = MAXWINES - 1;
+        }
+    }
+
+    /**
+     * Handles the display of wines in the category depending on the number of wines.
+     */
+    private void handleDisplayWines() {
+        if (!displayWines.isEmpty()) {
+            if (displayWines.size() <= 5) {
+                fiveOrLess();
             } else {
-                rightDisplay = 6;
-            }
-            for (int i = 0; i < MAXWINES; i++) {
-                SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
-                    wineDisplays.add(loader.load());
-                } catch (IOException e) {
-                    LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getWineId());
+                if (displayWines.size() == 6) {
+                    for (int i = 0; i < 6; i++) {
+                        displayWines.addLast(displayWines.get(i));
+                    }
                 }
+                if (displayWines.size() == 7) {
+                    leftDisplay = 0;
+                }
+                if (displayWines.size() < MAXWINES) {
+                    MAXWINES = displayWines.size();
+                    rightDisplay = MAXWINES - 1;
+                } else {
+                    rightDisplay = 6;
+                }
+                loadWineDisplays();
             }
-            mainWine0.getChildren().add(wineDisplays.get(0));
-            mainWine1.getChildren().add(wineDisplays.get(1));
-            mainWine2.getChildren().add(wineDisplays.get(2));
-            mainWine3.getChildren().add(wineDisplays.get(3));
-            mainWine4.getChildren().add(wineDisplays.get(4));
-            mainWine5.getChildren().add(wineDisplays.get(5));
-            mainWine6.getChildren().add(wineDisplays.get(6));
+        }
+    }
+
+    /**
+     * Loads in the wine mini displays (wine tiles) for the category display.
+     */
+    private void loadWineDisplays() {
+        for (int i = 0; i < MAXWINES; i++) {
+            SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
+                wineDisplays.add(loader.load());
+            } catch (IOException e) {
+                LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getWineId());
+            }
+        }
+        ArrayList<AnchorPane> mainWines = new ArrayList<>(List.of(mainWine0, mainWine1, mainWine2, mainWine3, mainWine4, mainWine5, mainWine6));
+        for (int i = 0; i < mainWines.size(); i++) {
+            mainWines.get(i).getChildren().add(wineDisplays.get(i));
         }
     }
 
@@ -159,13 +185,8 @@ public class WineCategoryDisplayController {
      */
     @FXML
     public void onRefresh() {
-        rightArrowButton.setOnMouseClicked(event -> {
-            transitionRight();
-        });
-
-        leftArrowButton.setOnMouseClicked(event -> {
-            transitionLeft();
-        });
+        rightArrowButton.setOnMouseClicked(event -> transitionRight());
+        leftArrowButton.setOnMouseClicked(event -> transitionLeft());
     }
 
     /**
@@ -186,25 +207,27 @@ public class WineCategoryDisplayController {
             wineDisplay.setDisable(true);
         }
 
-        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(2)));
         TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(1)));
+        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(2)));
         TranslateTransition transition3 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(3)));
         TranslateTransition transition4 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(4)));
         TranslateTransition transition5 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(5)));
         TranslateTransition transition6;
+
         if (posOrNeg == 1) {
             transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(0)));
         } else {
             transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(6)));
         }
+
         List<TranslateTransition> wineTransitions = List.of(transition1, transition2, transition3, transition4, transition5, transition6);
-        for (int i = 0; i < wineTransitions.size(); i++) {
-            wineTransitions.get(i).setByX(posOrNeg * DISTANCEBETWEEN);
-            wineTransitions.get(i).setInterpolator(Interpolator.LINEAR);
-            wineTransitions.get(i).play();
+        for (TranslateTransition wineTransition : wineTransitions) {
+            wineTransition.setByX(posOrNeg * DISTANCEBETWEEN);
+            wineTransition.setInterpolator(Interpolator.LINEAR);
+            wineTransition.play();
         }
 
-        wineTransitions.get(wineTransitions.size() - 1).setOnFinished(event -> { // Un-disables the wine tiles
+        wineTransitions.getLast().setOnFinished(event -> { // Un-disables the wine tiles
             for (Parent wineDisplay : wineDisplays) {
                 wineDisplay.setDisable(false);
             }
@@ -276,7 +299,7 @@ public class WineCategoryDisplayController {
 
     /**
      * Changes the content within the teleporting frame.
-     * Updates the firstwine index
+     * Updates the first wine's index
      * @param frame is the teleporting frame (0 or 5)
      */
     public void resetFirstLeft(int frame) {
@@ -385,7 +408,6 @@ public class WineCategoryDisplayController {
      *
      * @param searchString A String that contains the tags to search by seperated by commas
      *                     If string is "wishlist" or "recommend", the corresponding search will be done instead
-     * @throws IOException if fxmlLoader cannot load the display
      * @return the parent of the new category
      */
     public static Parent createCategory(String searchString) {
@@ -407,7 +429,7 @@ public class WineCategoryDisplayController {
 
             return fxmlLoader.load();
         } catch (IOException e) {
-            LOG.error("Error in WineCategoryDisplayController.createCategory: Could not load fxml content for category {}", searchString);
+            LOG.error("Error: Could not load fxml content for wine category, {}", e.getMessage());
             return null;
         }
     }

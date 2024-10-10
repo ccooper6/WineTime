@@ -49,8 +49,6 @@ public class WineSearchStepDefs {
 
         filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
 
-        System.out.println(wineList.size());
-
         if (type.equals("name")) {
             for (Wine wine : wineList) {
                 String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
@@ -112,7 +110,6 @@ public class WineSearchStepDefs {
         FXWrapper.getInstance().setCurrentPage("searchWine");
         searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
         wineList = searchWineService.getWineList();
-        System.out.println(wineList);
     }
 
     @Then("The wine list should have {int} wines and all wines should have {string} in their name")
@@ -134,7 +131,6 @@ public class WineSearchStepDefs {
     @Then("The wine list should have {int} wines and all wines should have {string} in their name and tags between {string} {int} and {int}")
     public void winesMatchTheSearchNameAndRange(int size, String filter, String type, int lowerBound, int upperBound) {
         boolean didPass = size == wineList.size();
-        System.out.println(didPass);
         filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
 
         for (Wine wine : wineList) {

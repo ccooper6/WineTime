@@ -131,6 +131,12 @@ public class LogWineDao {
         return null;
     }
 
+    /**
+     * Returns a list of tags that the user has liked for a specific wine.
+     * @param uid the user id
+     * @param wid the wine id
+     * @return an ArrayList of liked tags
+     */
     public ArrayList<String> getWineLikedTags(int uid, int wid) {
         String tags;
         String getSelectedTags = "SELECT tagsliked FROM reviews WHERE uid = ? AND wid = ?";
@@ -148,7 +154,7 @@ public class LogWineDao {
                 }
             }
         } catch (SQLException e) {
-            LOG.error("Error in LogWineDAO.getLikedTags(): Could not access database.");
+            LOG.error("Error in LogWineDAO.getWineLikedTags(): Could not access database.");
         }
         return null;
     }
@@ -172,9 +178,9 @@ public class LogWineDao {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
                 for (int i = 0; i < maximumTag; i++) {
-                    if (!rs.next())
+                    if (!rs.next()) {
                         break;
-
+                    }
                     likedTags.put(rs.getString(1), rs.getInt(2));
                 }
 
@@ -293,7 +299,7 @@ public class LogWineDao {
      * @param description  the string description of the review
      * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
-     *                     TODO update this
+     * @param tagsLiked    the ArrayList of tags liked/disliked by this review
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
     public void doReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
@@ -312,7 +318,7 @@ public class LogWineDao {
      * @param description  the string description of the review
      * @param date         the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags the ArrayList of tags selected by the user
-     *                     TODO update this
+     * @param tagsLiked the ArrayList of tags liked by this review
      * @param noneSelected a boolean value to indicate if no tags were selected
      */
     private void createReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected)

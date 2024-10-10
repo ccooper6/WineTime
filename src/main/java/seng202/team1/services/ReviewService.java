@@ -18,6 +18,18 @@ import java.util.ArrayList;
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
     private static Review currentReview;
+    private static ReviewService instance;
+
+    /**
+     * Returns an instance of the ReviewService.
+     * @return {@link ReviewService}
+     */
+    public static ReviewService getInstance() {
+        if (instance == null) {
+            instance = new ReviewService();
+        }
+        return instance;
+    }
 
     /**
      * Gets all the reviews for the current user.
@@ -84,6 +96,7 @@ public class ReviewService {
      * @param currentUserUid the user's int id
      * @param currentWine the wine's int id
      * @param selectedTags an ArrayList of strings, containing tag names
+     * @param tagsLiked an array list of tag strings, each tag has previously been rated by the user before
      * @param description the text description entered by the user
      * @param noneSelected a boolean value indicating if no tags have been selected
      */
@@ -136,7 +149,7 @@ public class ReviewService {
     }
 
     /**
-     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively
+     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively.
      * @param rating the int rating
      * @return the rating's weight
      */

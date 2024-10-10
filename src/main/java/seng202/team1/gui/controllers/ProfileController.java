@@ -19,10 +19,10 @@ import seng202.team1.services.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Controller class for the profile.fxml page.
- * @author Lydia Jackson, Caleb Cooper, Elise Newman
  */
 public class ProfileController {
     @FXML
@@ -32,43 +32,42 @@ public class ProfileController {
     @FXML
     private Pane challengePane;
     @FXML
-    private AnchorPane wishlistPane;
+    private AnchorPane wishlistAnchorPane;
     @FXML
-    private AnchorPane chal1;
+    private AnchorPane challengeWineAnchorPane1;
     @FXML
-    private AnchorPane chal2;
+    private AnchorPane challengeWineAnchorPane2;
     @FXML
-    private AnchorPane chal3;
+    private AnchorPane challengeWineAnchorPane3;
     @FXML
-    private AnchorPane chal4;
+    private AnchorPane challengeWineAnchorPane4;
     @FXML
-    private AnchorPane chal5;
+    private AnchorPane challengeWineAnchorPane5;
     @FXML
     private Pane completedChalPane;
     @FXML
-    private Label completedChallMessage;
+    private Label completeChallengeLabel;
     @FXML
-    private PieChart likedTagPie;
+    private PieChart likedTagPieChart;
     @FXML
-    private PieChart hateTagPie;
+    private PieChart hateTagPieChart;
     @FXML
-    private Label notEnoughDisliked;
+    private Label notEnoughDislikedLabel;
     @FXML
-    private Label notEnoughLiked;
+    private Label notEnoughLikedLabel;
     @FXML
     private Pane mainPane;
     @FXML
     private AnchorPane pieChartAnchorPane;
     @FXML
     private Label noPieChartLabel;
-    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
-    private final ChallengeService challengeService = new ChallengeService();
-
-    private final ReviewService reviewService = new ReviewService();
-
-    private final TagRankingService tagRankingService = new TagRankingService();
 
     int completedWineCount = 0;
+    private final ChallengeService challengeService = new ChallengeService();
+    private final ReviewService reviewService = new ReviewService();
+    private final TagRankingService tagRankingService = new TagRankingService();
+
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
 
     /**
      * Initialises the controller checks if user has is participating in a challenge, calls
@@ -83,24 +82,23 @@ public class ProfileController {
         }
         displayTagRankings();
         displayWishlist();
-
     }
 
     /**
-     * Responsible for shifting the profile page elements depending if a pie chart should be displayed or not
+     * Responsible for shifting the profile page elements depending on if a pie chart should be displayed or not.
      */
     private void displayTagRankings() {
         int uid = User.getCurrentUser().getId();
         if (tagRankingService.hasEnoughLikedTags(uid) || tagRankingService.hasEnoughDislikedTags(uid)) {
             noPieChartLabel.setVisible(false);
-            likedTagPie.setStyle("-fx-border-color: #3f0202");
-            hateTagPie.setStyle("-fx-border-color: #3f0202");
+            likedTagPieChart.setStyle("-fx-border-color: #3f0202");
+            hateTagPieChart.setStyle("-fx-border-color: #3f0202");
             pieChartAnchorPane.setDisable(false);
             moveMainPane(100);
             displayPieCharts(uid);
         } else {
             makePieChartInvisible();
-            moveMainPane(- 210); //210 is the perfect distance to shift the main page up
+            moveMainPane(-210); //210 is the perfect distance to shift the main page up
         }
     }
 
@@ -109,10 +107,10 @@ public class ProfileController {
      */
     private void makePieChartInvisible() {
         noPieChartLabel.setVisible(true);
-        notEnoughLiked.setVisible(false);
-        likedTagPie.setStyle(null);
-        hateTagPie.setStyle(null);
-        notEnoughDisliked.setVisible(false);
+        notEnoughLikedLabel.setVisible(false);
+        likedTagPieChart.setStyle(null);
+        hateTagPieChart.setStyle(null);
+        notEnoughDislikedLabel.setVisible(false);
         pieChartAnchorPane.setDisable(true);
     }
 
@@ -122,23 +120,23 @@ public class ProfileController {
      */
     private void displayPieCharts(int uid) {
         if (tagRankingService.hasEnoughLikedTags(uid)) {
-            notEnoughLiked.setVisible(false);
-            createPie(likedTagPie, tagRankingService.getTopTagData(uid, 5), "Your top 5 liked tags");
+            notEnoughLikedLabel.setVisible(false);
+            createPie(likedTagPieChart, tagRankingService.getTopTagData(uid, 5), "Your top 5 liked tags");
         } else {
-            notEnoughLiked.setVisible(true);
-            createEmptyPie(likedTagPie,"Your top 5 liked tags");
+            notEnoughLikedLabel.setVisible(true);
+            createEmptyPie(likedTagPieChart,"Your top 5 liked tags");
         }
         if (tagRankingService.hasEnoughDislikedTags(uid)) {
-            notEnoughDisliked.setVisible(false);
-            createPie(hateTagPie, tagRankingService.getLowestTagData(uid, 5), "Your top 5 disliked tags");
+            notEnoughDislikedLabel.setVisible(false);
+            createPie(hateTagPieChart, tagRankingService.getLowestTagData(uid, 5), "Your top 5 disliked tags");
         } else {
-            notEnoughDisliked.setVisible(true);
-            createEmptyPie(hateTagPie, "Your top 5 disliked tags");
+            notEnoughDislikedLabel.setVisible(true);
+            createEmptyPie(hateTagPieChart, "Your top 5 disliked tags");
         }
     }
 
     /**
-     * Creates and sets the styling of the pie chart
+     * Creates and sets the styling of the pie chart.
      * @param pie {@link PieChart}
      * @param pieChartData an ObservableList of {@link PieChart.Data}
      * @param title the string title of the pie chart
@@ -150,11 +148,15 @@ public class ProfileController {
         pie.setLabelsVisible(true);
         pie.setLegendVisible(false);
         pie.getStylesheets().clear();
-        pie.getStylesheets().add(getClass().getResource("/style/tagPieChart.css").toExternalForm());
+        try {
+            pie.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style/tagPieChart.css")).toExternalForm());
+        } catch (NullPointerException e) {
+            LOG.error("Error: Could not load pie chart stylesheet.");
+        } // do nothing if the pie chart could not be created
     }
 
     /**
-     * Creates and sets the styling of an empty pie chart
+     * Creates and sets the styling of an empty pie chart.
      * @param pie {@link PieChart}
      * @param title the string title of the pie chart
      */
@@ -167,7 +169,11 @@ public class ProfileController {
         pie.setLabelsVisible(false);
         pie.setLegendVisible(false);
         pie.getStylesheets().clear();
-        pie.getStylesheets().add(getClass().getResource("/style/greyTagPieChart.css").toExternalForm());
+        try {
+            pie.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style/greyTagPieChart.css")).toExternalForm());
+        } catch (NullPointerException e) {
+            LOG.error("Error: Could not load empty pie chart stylesheet.");
+        } // do nothing if pie chart could not be created
     }
 
     /**
@@ -176,10 +182,8 @@ public class ProfileController {
      */
     @FXML
     public void displayWishlist() {
-        LOG.info("Fetching wishlist.");
-
         Parent parent = WineCategoryDisplayController.createCategory("wishlist");
-        wishlistPane.getChildren().add(parent);
+        wishlistAnchorPane.getChildren().add(parent);
 
     }
 
@@ -204,7 +208,7 @@ public class ProfileController {
      * Displays the challenge wines using the wine mini displays.
      */
     public void displayChallenge() {
-        List<AnchorPane> wineViews = List.of(chal1, chal2, chal3, chal4, chal5);
+        List<AnchorPane> wineViews = List.of(challengeWineAnchorPane1, challengeWineAnchorPane2, challengeWineAnchorPane3, challengeWineAnchorPane4, challengeWineAnchorPane5);
         ArrayList<Wine> challengeWines = challengeService.challengeWines();
         completedWineCount = 0;
         int currentUserUid = User.getCurrentUser().getId();
@@ -232,7 +236,7 @@ public class ProfileController {
      * Makes the challenge pane visible and disables previous one.
      */
     public void activateChallenge() {
-        LOG.info("Activating challenge for user " + User.getCurrentUser().getName());
+        LOG.info("Activating challenge for user {}", User.getCurrentUser().getName());
         noChallengePane.setVisible(false);
         challengePane.setVisible(true);
     }
@@ -241,8 +245,9 @@ public class ProfileController {
      * Shifts the wine pane to make room for challenge wines.
      */
     public void moveWinesPane() {
-        winesPane.setLayoutY(winesPane.getLayoutY()+ 90);
+        winesPane.setLayoutY(winesPane.getLayoutY() + 90);
     }
+
     /**
      * Shifts the main pane to make room for pie charts.
      * @param moveDistance how much to move the Y distance by
@@ -253,28 +258,34 @@ public class ProfileController {
 
 
     /**
-     * moves the wishlist back up as well as displaying a congratulatory text for completing the challenge
+     * Moves the wishlist back up as well as displaying a congratulatory text for completing the challenge.
      * @param cname the challenge name
      */
     public void challengeCompleted(String cname) {
         winesPane.setLayoutY(winesPane.getLayoutY() - 90);
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
-        completedChallMessage.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
+        completeChallengeLabel.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
         challengeService.challengeCompleted(cname);
     }
 
+    /**
+     * Quits the challenge and displays a message.
+     */
     @FXML
     public void quitChallenge() {
-        challengeCompleted(challengeService.usersChallenge());
+        winesPane.setLayoutY(winesPane.getLayoutY() - 90);
+        challengePane.setVisible(false);
+        completedChalPane.setVisible(true);
+        completeChallengeLabel.setText("You quit the " + challengeService.usersChallenge() + ".");
+        challengeService.challengeCompleted(challengeService.usersChallenge());
     }
 
     /**
-     * logs the user out.
+     * Logs the user out.
      */
     @FXML
     public void logOutButton() {
-        LOG.info("Logging out user " + User.getCurrentUser().getName());
         User.setCurrenUser(null);
         FXWrapper.getInstance().launchPage("login");
     }

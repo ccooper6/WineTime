@@ -131,7 +131,6 @@ public class QuizService {
         nav.executeWithLoadingScreen(() -> {
             wineAlgorithm();
             Platform.runLater(() -> {
-                System.out.println("Setting a wine?");
                 NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
                 navigationController.initPopUp(wine);
             });
@@ -153,9 +152,9 @@ public class QuizService {
 
         String type = switch (getRecordOfAnswers().get(1)) {
             case 1 -> "pinot noir";
-            case 2 -> "sauvignon blanc";
+            case 2 -> "chardonnay";
             case 3 -> "rose";
-            case 4 -> "prosecco";
+            case 4 -> "sparkling blend";
             default -> "pinot noir";
         };
 
