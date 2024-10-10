@@ -57,12 +57,8 @@ public class WishlistServiceTest {
     @Test
     public void testRemoveWineDoesntExist() {
         assertFalse(wishlistDAO.checkWine(4, 1));
-        try {
-            WishlistService.removeFromWishlist(4,1);
-            assertFalse(true);
-        } catch (SQLException e) {
-            assertTrue(true);
-        }
+
+        assertThrows(SQLException.class, () -> WishlistService.removeFromWishlist(4, 1));
     }
     @Test
     public void testRemoveWineExists() throws SQLException {

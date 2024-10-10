@@ -114,7 +114,6 @@ public class WineTest {
 
     @Test
     void hasAllTags() {
-        boolean hasAllTags = true;
         wine.setWinery("Test");
         wine.setCountry("NewIsaacland");
         wine.setProvince("Historia");
@@ -122,14 +121,14 @@ public class WineTest {
         wine.setRegion1("Hello_SENG201_TeachingTeam");
         wine.setRegion2("Please_Give_Us_An_A+");
         wine.setVariety("please_:)_Have_a_Great_Day!");
-        hasAllTags &= wine.hasTag("Test");
-        hasAllTags &= wine.hasTag("NewIsaacland");
-        hasAllTags &= wine.hasTag("Historia");
-        hasAllTags &= wine.hasTag("2004");
-        hasAllTags &= wine.hasTag("Hello_SENG201_TeachingTeam");
-        hasAllTags &= wine.hasTag("Please_Give_Us_An_A+");
-        hasAllTags &= wine.hasTag("please_:)_Have_a_Great_Day!");
-        hasAllTags &= !(wine.hasTag("Doesn't have this tag"));
-        assertTrue(hasAllTags);
+
+        assertTrue(wine.hasTag("Test"));
+        assertTrue(wine.hasTag("NewIsaacland"));
+        assertTrue(wine.hasTag("Historia"));
+        assertTrue(wine.hasTag("2004"));
+        assertTrue(wine.hasTag("Hello_SENG201_TeachingTeam"));
+        assertTrue(wine.hasTag("Please_Give_Us_An_A+"));
+        assertTrue(wine.hasTag("please_:)_Have_a_Great_Day!"));
+        assertFalse(wine.hasTag("Gave us a B"));
     }
 }
