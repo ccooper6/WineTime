@@ -5,10 +5,6 @@ import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.services.UserLoginService;
 import seng202.team1.repository.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserLoginServiceTest {
@@ -24,20 +20,6 @@ public class UserLoginServiceTest {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         userLoginService = new UserLoginService();
-    }
-
-    @AfterEach
-    void clearUser()
-    {
-        String sql = "DELETE FROM user WHERE id = ?";
-        try (Connection conn = DatabaseManager.getInstance().connect();
-             PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setInt(1, 1);
-            userPS.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Error: Could not delete user, " + e.getMessage());
-        }
     }
 
     /**

@@ -26,7 +26,6 @@ public class ChallengeServiceTest {
 
 
     private ChallengeService challengeService;
-
     private ChallengeDAO challengeDAO;
     private UserDAO userDAO;
 
@@ -109,7 +108,7 @@ public class ChallengeServiceTest {
     public void roseChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
         challengeService.startChallengeRose();
-        assertEquals("Rose challenge", challengeDAO.getChallengeForUser(user.getId()));
+        assertEquals("Rosè challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     /**
@@ -157,6 +156,10 @@ public class ChallengeServiceTest {
     }
 
 
+    /**
+     * tests  the method to add wines to a challenge and activate the challenge for the user
+     * @throws DuplicateEntryException
+     */
     @Test
     public void challengeWinesTest() throws DuplicateEntryException {
         userDAO.add(user);

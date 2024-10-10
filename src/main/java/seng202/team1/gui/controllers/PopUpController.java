@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -38,11 +39,22 @@ import java.util.regex.Pattern;
 
 /**
  * Controller class for the popup.fxml popup.
- * @author Caleb Cooper, Elise Newman, Yuhao Zhang, Wen Sheng Thong
  */
 public class PopUpController {
-    public TextFlow valueDisplay;
-    public TextFlow pointsDisplay;
+    @FXML
+    private TextFlow valueDisplay;
+    @FXML
+    private TextFlow pointsDisplay;
+    @FXML
+    private Button helpButton;
+    @FXML
+    private TextFlow helpText;
+    @FXML
+    private Button tagsHelpButton;
+    @FXML
+    private TextFlow tagsHelpText;
+    @FXML
+    private AnchorPane linkAndIcon;
     @FXML
     private Button popUpCloseButton;
     @FXML
@@ -137,6 +149,16 @@ public class PopUpController {
         range.setStyle("-fx-font-size: 12;");
         pointsDisplay.getChildren().addAll(points, range);
 
+        Text firstLine = new Text("\nBased scores from WineEnthusiast:\n\n");
+        firstLine.setStyle("-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
+        Text secondLine = new Text("98-100 = Classic\n94-97 = Superb\n90-93 = Excellent\n87-89 = Very Good\n83-86 = Good\n80-82 = Acceptable\nMore info on help page\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        helpText.getChildren().addAll(firstLine, secondLine);
+
+        firstLine = new Text("\nTags categorize the wine and allow users to find similar wines.\n\nTry clicking the tags to discover more wines with these attributes!\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        tagsHelpText.getChildren().add(firstLine);
+
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
@@ -203,16 +225,10 @@ public class PopUpController {
      * Initializes the hover effects for the buttons on the popup.
      */
     private void initializeHovers() {
-        wineSearchLink.setOnMouseEntered(event -> {
-            wineSearchLink.setTextFill(Paint.valueOf("#808080"));
-            wineSearchLink.setUnderline(true);
-            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
-        });
-        wineSearchLink.setOnMouseExited(event -> {
-            wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
-            wineSearchLink.setUnderline(false);
-            ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
-        });
+        wineSearchLink.setOnMouseEntered(event -> showWineSearchLink());
+        wineSearchLink.setOnMouseExited(event -> hideWineSearchLink());
+        linkAndIcon.setOnMouseEntered(event -> showWineSearchLink());
+        linkAndIcon.setOnMouseExited(event -> hideWineSearchLink());
 
         addToWishlist.setOnMouseEntered(event -> {
             ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(Paint.valueOf("#A05252"));
@@ -238,6 +254,31 @@ public class PopUpController {
                 logWineIcon.setFill(Color.web("#c0c0c0"));
             }
         });
+        helpButton.setOnMouseEntered(event -> helpText.setVisible(true));
+        helpButton.setOnMouseExited(event -> helpText.setVisible(false));
+
+        tagsHelpButton.setOnMouseEntered(event -> tagsHelpText.setVisible(true));
+        tagsHelpButton.setOnMouseExited(event -> tagsHelpText.setVisible(false));
+    }
+
+    /**
+     * Shows the wine search link.
+     */
+    private void showWineSearchLink() {
+        wineSearchLink.setTextFill(Paint.valueOf("#808080"));
+        wineSearchLink.setUnderline(true);
+        ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#808080"));
+        linkAndIcon.setVisible(true);
+    }
+
+    /**
+     * Hides the wine search link.
+     */
+    private void hideWineSearchLink() {
+        wineSearchLink.setTextFill(Paint.valueOf("#c0c0c0"));
+        wineSearchLink.setUnderline(false);
+        ((FontAwesomeIconView) wineSearchLink.getGraphic()).setFill(Paint.valueOf("#c0c0c0"));
+        linkAndIcon.setVisible(false);
     }
 
     /**
@@ -300,37 +341,33 @@ public class PopUpController {
     /**
      * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
      */
+    // TODO do we keep this?
     public void onWineSearchLinkClicked() {
-        try {
-            java.awt.Desktop.getDesktop();
-            String query = wineName.getText();
-            query = Normalizer.normalize(query, Normalizer.Form.NFD);
-            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-            query = pattern.matcher(query).replaceAll("");
-            String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                    // open browser with a thread
-                    Runnable browseRunnable = () -> {
-                        try {
-                            desktop.browse(new URI(googleSearchURL));
-                        } catch (URISyntaxException e) {
-                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Syntax error in URL: {}", googleSearchURL);
-                        } catch (IOException e) {
-                            LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
-                        }
-                    };
+        java.awt.Desktop.getDesktop();
+        String query = wineName.getText();
+        query = Normalizer.normalize(query, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        query = pattern.matcher(query).replaceAll("");
+        String googleSearchURL = "https://www.wine-searcher.com/find/" + query.replace(" ", "+");
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                // open browser with a thread
+                Runnable browseRunnable = () -> {
+                    try {
+                        desktop.browse(new URI(googleSearchURL));
+                    } catch (URISyntaxException e) {
+                        LOG.error("Error in PopupController.onWineSearchLinkClicked(): Syntax error in URL: {}", googleSearchURL);
+                    } catch (IOException e) {
+                        LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
+                    }
+                };
 
-                    Thread thread = new Thread(browseRunnable);
-                    thread.start();
-                }
-            } else {
-                LOG.error("Error in PopupController.onWIneSearchLinkClicked(): Desktop does not support wine link function");
+                Thread thread = new Thread(browseRunnable);
+                thread.start();
             }
-        } catch (Exception e) {
-            // TODO wtf is this
-            LOG.error("Something went wrong trying to search for a wine.");
+        } else {
+            LOG.error("Error in PopupController.onWIneSearchLinkClicked(): Desktop does not support wine link function");
         }
     }
 

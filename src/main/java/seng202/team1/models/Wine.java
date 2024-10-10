@@ -1,14 +1,7 @@
 package seng202.team1.models;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.WineVarietyService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.Objects;
 
@@ -33,8 +26,6 @@ public class Wine {
     private String region2;
     private String variety;
     private String winery;
-
-    private static final Logger LOG = LogManager.getLogger(Wine.class);
 
     /**
      *The constructor for the Wine object.

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The set of tests that covers {@link RecommendWineService} and
@@ -44,6 +45,7 @@ public class RecommendWineServiceTest {
         logWineDao = new LogWineDao();
         DatabaseManager.getInstance().forceReset();
     }
+
     /**
      * Check databaseManager exists
      */
@@ -59,9 +61,10 @@ public class RecommendWineServiceTest {
      */
     private ArrayList<String> getWineTags(Wine wine) {
         ArrayList<String> wineTags = new ArrayList<>();
-        String psString = "SELECT tag.name\n" +
-                "FROM wine JOIN owned_by on wine.id = owned_by.wid JOIN tag on owned_by.tname = tag.name\n" +
-                "WHERE wine.id = ?";
+        String psString = """
+                SELECT tag.name
+                FROM wine JOIN owned_by on wine.id = owned_by.wid JOIN tag on owned_by.tname = tag.name
+                WHERE wine.id = ?""";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(psString)) {
                 ps.setInt(1, wine.getWineId());
@@ -84,18 +87,14 @@ public class RecommendWineServiceTest {
      */
     private boolean verifyWine(String[] likedTags, Wine wine, String[] dislikedTags) {
         ArrayList<String> wineTags = getWineTags(wine);
+
+        assertTrue(Arrays.stream(dislikedTags).noneMatch(wineTags::contains));
+
         boolean hasLikedTags = false;
         for (String tag : likedTags) {
-            if (wineTags.contains(tag)) {
-                hasLikedTags = true;
-                break;
-            }
+            hasLikedTags = hasLikedTags || wineTags.contains(tag);
         }
-        for (String tag : dislikedTags) {
-            if (wineTags.contains(tag)) {
-                return false;
-            }
-        }
+
         return hasLikedTags;
     }
 
@@ -106,7 +105,7 @@ public class RecommendWineServiceTest {
      * @param dislikedTags array of disliked tags
      * @return boolean
      */
-    private boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags) {
+    private boolean verifyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags) {
         for (Wine wine : wines) {
             boolean isValid = verifyWine(likedTags, wine, dislikedTags);
             if (!isValid) {
@@ -123,7 +122,7 @@ public class RecommendWineServiceTest {
      * @param wineIdToAvoid array of wine id to avoid
      * @return boolean
      */
-    public boolean verfiyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags, Integer[] wineIdToAvoid) {
+    public boolean verifyWines(ArrayList<Wine> wines, String[] likedTags, String[] dislikedTags, Integer[] wineIdToAvoid) {
         for (Wine wine : wines) {
             if (!Arrays.asList(wineIdToAvoid).contains(wine.getWineId())) {
                 boolean isValid = verifyWine(likedTags, wine, dislikedTags);
@@ -166,7 +165,7 @@ public class RecommendWineServiceTest {
         logWineDao.likes(1, "2008", -1000);
         ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
         Assertions.assertFalse(reccWine.isEmpty());
-        Assertions.assertTrue(verfiyWines(reccWine, new String[]{"2012", "2004", "2005"}, new String[]{"2006", "2008"}));
+        Assertions.assertTrue(verifyWines(reccWine, new String[]{"2012", "2004", "2005"}, new String[]{"2006", "2008"}));
     }
 
     @Test
@@ -185,7 +184,7 @@ public class RecommendWineServiceTest {
         ArrayList<Wine> reccWine = recommendWineService.getRecommendedWines(1, SearchDAO.UNLIMITED);
         Assertions.assertFalse(reccWine.isEmpty());
         //5 is the wine id belonging to the wine which contains all the tags in the arraylist tags
-        Assertions.assertTrue(verfiyWines(reccWine, new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"}, new String[]{}, new Integer[]{5}));
+        Assertions.assertTrue(verifyWines(reccWine, new String[]{"2012", "US", "Willamette Valley", "Pinot Noir", "Sweet Cheeks"}, new String[]{}, new Integer[]{5}));
     }
 
     @Test

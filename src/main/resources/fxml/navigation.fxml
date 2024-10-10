@@ -55,7 +55,7 @@
                      <Rectangle arcHeight="32.0" arcWidth="32.0" fill="WHITE" height="39.0" layoutX="379.0" layoutY="33.0" stroke="#707070" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="1.5" width="519.0" />
                      <TextField fx:id="searchBar" focusTraversable="false" layoutX="388.0" layoutY="35.0" prefHeight="36.0" prefWidth="460.0" promptText="Search.." style="-fx-background-color: none;">
                         <font>
-                           <Font size="16.0" />
+                           <Font name="Noto Serif Regular" size="16.0" />
                         </font>
                         <opaqueInsets>
                            <Insets />
@@ -64,7 +64,10 @@
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor></FontAwesomeIconView>
-                     <FontAwesomeIconView fx:id="closeButton" fill="#d0d0d0" glyphName="CLOSE" layoutX="1249.0" layoutY="27.0" onMouseClicked="#closeApp" size="30" />
+                     <FontAwesomeIconView fx:id="closeButton" fill="#d0d0d0" glyphName="CLOSE" layoutX="1249.0" layoutY="27.0" onMouseClicked="#closeApp" size="30">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor></FontAwesomeIconView>
                      <Line endX="100.0" layoutX="749.0" layoutY="64.0" startX="100.0" startY="-23.799999237060547" stroke="#707070" strokeLineCap="ROUND" strokeWidth="1.5" />
                   </children>
                </Pane>

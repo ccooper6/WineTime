@@ -9,12 +9,12 @@ import seng202.team1.models.User;
 import seng202.team1.services.QuizService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Controller class for the quiz.fxml page.
- *
- * @author Isaac Macdonald
  */
+// TODO quiz is kinda incomplete
 public class QuizController {
     @FXML
     private Label questionLabel;
@@ -32,13 +32,11 @@ public class QuizController {
     private Button backButton;
 
     private final QuizService quizService = new QuizService();
-
     private ArrayList<String> questions;
     private ArrayList<String> answer1answers;
     private ArrayList<String> answer2answers;
     private ArrayList<String> answer3answers;
     private ArrayList<String> answer4answers;
-
     private int questionNumber = 0;
 
     private static final Logger LOG = LogManager.getLogger(QuizController.class);
@@ -65,16 +63,12 @@ public class QuizController {
             backButton.setOpacity(0);
             questionLabel.setText("Your wine has been carefully selected.");
             showWineButton.setDisable(false);
-            answer1Button.setDisable(true);
-            answer2Button.setDisable(true);
-            answer3Button.setDisable(true);
-            answer4Button.setDisable(true);
+            ArrayList<Button> answerButtons = new ArrayList<>(Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button));
+            for (Button button : answerButtons) {
+                button.setDisable(true);
+                button.setOpacity(0);
+            }
             showWineButton.setOpacity(1);
-            answer1Button.setOpacity(0);
-            answer2Button.setOpacity(0);
-            answer3Button.setOpacity(0);
-            answer4Button.setOpacity(0);
-
         }
     }
 
@@ -84,15 +78,13 @@ public class QuizController {
     public void initialize() {
         questionLabel.setOpacity(1);
         showWineButton.setDisable(true);
-        answer1Button.setDisable(false);
-        answer2Button.setDisable(false);
-        answer3Button.setDisable(false);
-        answer4Button.setDisable(false);
         showWineButton.setOpacity(0);
-        answer1Button.setOpacity(1);
-        answer2Button.setOpacity(1);
-        answer3Button.setOpacity(1);
-        answer4Button.setOpacity(1);
+
+        ArrayList<Button> answerButtons = new ArrayList<>(Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button));
+        for (Button button : answerButtons) {
+            button.setDisable(false);
+            button.setOpacity(1);
+        }
 
         this.questions = quizService.getQuestions();
         this.answer1answers = quizService.getAnswer1answers();
@@ -108,8 +100,7 @@ public class QuizController {
      */
     @FXML
     public void onShowWineClicked() {
-        LOG.info("Showing quiz wine for user "+ User.getCurrentUser().getName());
-        System.out.println("showing quiz wine for user");
+        LOG.info("Showing quiz wine for user {}", User.getCurrentUser().getName());
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
         quizService.launchWinePopup();
@@ -152,7 +143,7 @@ public class QuizController {
     }
 
     /**
-     * Handles what to do when the back button is clicked
+     * Handles what to do when the back button is clicked.
      */
     @FXML
     public void onBackButtonClicked() {
@@ -161,7 +152,4 @@ public class QuizController {
             setLabels();
         }
     }
-
-
-
 }

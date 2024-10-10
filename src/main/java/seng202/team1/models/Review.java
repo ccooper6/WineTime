@@ -111,14 +111,7 @@ public class Review {
         return tagsSelected;
     }
 
-    /**
-     * Setter for tagsSelected.
-     * @param tagsSelected The tags selected by the user.
-     */
-    public void setTagsSelected(ArrayList<String> tagsSelected) {
-        this.tagsSelected = tagsSelected;
-    }
-
+    //TODO docstring
     public ArrayList<String> getTagsLiked() {
         return tagsLiked;
     }

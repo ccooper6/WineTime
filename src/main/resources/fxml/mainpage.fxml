@@ -11,14 +11,14 @@
     <children>
         <ScrollPane depthTest="ENABLE" focusTraversable="false" hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-background: #FFFFFF;">
             <content>
-                <AnchorPane fx:id="categoryAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1850.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-background: white;">
+                <AnchorPane fx:id="categoryAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1850.0" prefWidth="1260.0" style="-fx-background-color: transparent; -fx-background: white;">
                     <children>
                         <Text fx:id="helloText" layoutX="29.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello [Name]!">
                             <font>
-                                <Font name="Georgia" size="36.0" />
+                                <Font name="Noto Serif Regular" size="36.0" />
                             </font>
                         </Text>
-                        <GridPane fx:id="contentsGrid" layoutX="42.0" layoutY="63.0" prefHeight="1600.0" prefWidth="1280.0">
+                        <GridPane fx:id="contentsGrid" layoutX="33.0" layoutY="63.0" prefHeight="1600.0" prefWidth="1280.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             </columnConstraints>
@@ -43,7 +43,7 @@
                   </FontAwesomeIconView>
                   <Label alignment="CENTER_RIGHT" layoutX="779.0" layoutY="28.0" prefHeight="19.0" prefWidth="333.0" text="Not liking the selection? Try refreshing!">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="Noto Serif Regular" size="15.0" />
                      </font>
                   </Label>
                     </children>

@@ -77,8 +77,12 @@ public class ChallengeService {
 
     public void startChallengeRose()
     {
+        ArrayList<String> roseList = new ArrayList<>(wineVarietyService.getRose());
+        for (int i = 0; i < 5; i++) {
+            rose.add(roseList.get(i));
+        }
         ArrayList<Integer> wineIDs = getWinesforChallenge(rose);
-        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rose challenge", wineIDs);
+        challengeDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rosè challenge", wineIDs);
     }
 
     /**
@@ -124,7 +128,7 @@ public class ChallengeService {
 
 
     /**
-     * Checks to see if user has the variety challenge as an active challenge.
+     * Checks to see if user has an active challenge.
      * @return true if the user has the variety challenge.
      */
     public boolean activeChallenge() {

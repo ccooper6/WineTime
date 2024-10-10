@@ -2,46 +2,35 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import impl.org.controlsfx.skin.SearchableComboBoxSkin;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.RangeSlider;
+import org.controlsfx.control.SearchableComboBox;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.services.SearchWineService;
-import org.controlsfx.control.SearchableComboBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Controller for the Search Wines Page.
- * @author Yuhao Zhang
  */
 public class SearchWineController {
-    private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
-    private final int MAXSIZE = 60;
-    public FontAwesomeIconView sortDirection;
     @FXML
-    public ComboBox<String> sortDropDown;
-
-    private ArrayList<Wine> allWines;
-    private int currentPage = 0;
-
+    private FontAwesomeIconView sortDirection;
+    @FXML
+    private ComboBox<String> sortDropDown;
     @FXML
     private GridPane wineGrid;
     @FXML
@@ -64,7 +53,6 @@ public class SearchWineController {
     private TextField gotoTextField;
     @FXML
     private Button gotoButton;
-
     @FXML
     private SearchableComboBox<String> varietyComboBox;
     @FXML
@@ -91,7 +79,6 @@ public class SearchWineController {
     private TextField minYearTextField;
     @FXML
     private TextField maxYearTextField;
-
     @FXML
     private Button resetCountry;
     @FXML
@@ -105,6 +92,10 @@ public class SearchWineController {
     @FXML
     private Text resetPrice;
 
+    private final int MAXSIZE = 60;
+    private ArrayList<Wine> allWines;
+    private int currentPage = 0;
+    private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
 
     /**
      * Initialises the controller using wines from SearchWineService instance.
@@ -119,8 +110,6 @@ public class SearchWineController {
         initializeVintageRangeSlider();
         initializePriceRangeSlider();
         initSortByOptions();
-        System.out.println(getStringFilters());
-        System.out.println(getIntegerFilters());
         gotoPane.setVisible(false);
 
         if (FXWrapper.getInstance().getPreviousPage().equals("searchWine")) {
@@ -133,15 +122,18 @@ public class SearchWineController {
             pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
             priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
             priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
-            System.out.println("from search page");
         } else {
             resetFilters();
-            System.out.println("not from search page");
         }
-        
-        displayCurrentPage();
 
-        // setup goto popup
+        displayCurrentPage();
+        setupGotoPopup();
+    }
+
+    /**
+     * Sets up the goto popup.
+     */
+    private void setupGotoPopup() {
         gotoTextField.setStyle("-fx-border-color: RED");
         gotoButton.setDisable(true);
 
@@ -173,7 +165,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the variety combo box and its listners
+     * Initialises the variety combo box and its listeners.
      */
     private void initializeVarietyComboBox()
     {
@@ -189,7 +181,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the country combo box and its listners
+     * Initialises the country combo box and its listeners.
      */
     private void initializeCountryComboBox()
     {
@@ -206,7 +198,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the winery combo box and its listners
+     * Initialises the winery combo box and its listeners
      */
     private void initializeWineryComboBox()
     {
@@ -222,7 +214,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the year/vintage range slider and also its related text fields, sets up the listners to make
+     * Initialises the year/vintage range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializeVintageRangeSlider() {
@@ -234,7 +226,7 @@ public class SearchWineController {
         minYearTextField.setText(String.valueOf((int) vintageSlider.getMin()));
         maxYearTextField.setText(String.valueOf((int) vintageSlider.getMax()));
 
-        vintageSlider.setLabelFormatter(new StringConverter<Number>() {
+        vintageSlider.setLabelFormatter(new StringConverter<>() {
             public String toString(Number value) {
                 // Show only specific labels for min, max, and every 5 years (or any desired interval)
                 if (value.intValue() == vintageSlider.getMin() || value.intValue() == vintageSlider.getMax() || (value.intValue() - 21) % 50 == 0) {
@@ -293,7 +285,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the points range slider and also its related text fields, sets up the listners to make
+     * Initialises the points range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializePointsRangeSlider()
@@ -303,7 +295,7 @@ public class SearchWineController {
         pointsSlider.setLowValue(pointsSlider.getMin());
         pointsSlider.setHighValue(pointsSlider.getMax());
 
-        pointsSlider.setLabelFormatter(new StringConverter<Number>() {
+        pointsSlider.setLabelFormatter(new StringConverter<>() {
             public String toString(Number value) {
                 // Show only specific labels for min, max, and every 5 years (or any desired interval)
                 if (value.intValue() == pointsSlider.getMin() || value.intValue() == pointsSlider.getMax() || value.intValue() % 5 == 0) {
@@ -366,7 +358,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the price range slider and also its related text fields, sets up the listners to make
+     * Initialises the price range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializePriceRangeSlider() {
@@ -376,7 +368,7 @@ public class SearchWineController {
         priceSlider.setLowValue(priceSlider.getMin());
         priceSlider.setHighValue(priceSlider.getMax());
 
-        priceSlider.setLabelFormatter(new StringConverter<Number>() {
+        priceSlider.setLabelFormatter(new StringConverter<>() {
             public String toString(Number value) {
                 // Show only specific labels for min, max, and every 5 years (or any desired interval)
                 if (value.intValue() == priceSlider.getMin() || value.intValue() == priceSlider.getMax() || value.intValue() % 25 == 0) {
@@ -441,7 +433,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the low value of the price slider
+     * Handles the verification of the low value of the price slider.
      */
     private void validateAndSetSliderLowValuePrice() {
         try {
@@ -458,7 +450,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the high value of the price slider
+     * Handles the verification of the high value of the price slider.
      */
     private void validateAndSetSliderHighValuePrice() {
         try {
@@ -475,7 +467,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the low value of the points slider
+     * Handles the verification of the low value of the points slider.
      */
     private void validateAndSetSliderLowValuePoints() {
         try {
@@ -492,7 +484,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the high value of the points slider
+     * Handles the verification of the high value of the points slider.
      */
     private void validateAndSetSliderHighValuePoints() {
         try {
@@ -509,7 +501,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the low value of the vintage/year slider
+     * Handles the verification of the low value of the vintage/year slider.
      */
     private void validateAndSetSliderLowValueVintage() {
         try {
@@ -526,12 +518,12 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the high value of the year/vintage slider
+     * Handles the verification of the high value of the year/vintage slider.
      */
     private void validateAndSetSliderHighValueVintage() {
         try {
             double maxValue = Double.parseDouble(maxYearTextField.getText());
-            if (maxValue <= vintageSlider.getMax() && maxValue >=vintageSlider.getLowValue()) {
+            if (maxValue <= vintageSlider.getMax() && maxValue >= vintageSlider.getLowValue()) {
                 vintageSlider.setHighValue(maxValue);
                 SearchWineService.getInstance().setCurrentMaxYear((int) maxValue);
             } else {
@@ -543,7 +535,7 @@ public class SearchWineController {
     }
 
     /**
-     * Apply the selected filters, just researches
+     * Apply the selected filters and refreshes the page to display updates.
      */
     public void onApplyFiltersButtonPushed() {
         FXWrapper.getInstance().getNavigationController().launchSearchWineLoadingScreen();
@@ -563,7 +555,7 @@ public class SearchWineController {
             allWines = new ArrayList<>();
         }
 
-        if (allWines == null || allWines.size() == 0) {
+        if (allWines.isEmpty()) {
             title.setText("\n\n\nSorry, there were no results for your search.\n\nTry:\n    - Checking your spelling\n    - A different combination of filters");
 
             pageCounterText.getParent().setVisible(false);
@@ -589,7 +581,7 @@ public class SearchWineController {
 
         int columns = wineGrid.getColumnCount();
 
-//        setup grid
+        // setup grid
         int end = Math.min(start + MAXSIZE, allWines.size());
 
         title.setText("Search Results showing " + (start + 1) + "-" + end + " of " + allWines.size());
@@ -598,7 +590,7 @@ public class SearchWineController {
         wineGrid.setMinHeight(gridRows * (135 + 10) + 10); // rows * (height of mini display + padding) + padding
         scrollAnchorPane.setMinHeight(gridRows * (135 + 10) + 10);
 
-//        page navigation management at bottom
+        // page navigation management at bottom
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);
         nextArrowButton.getParent().setVisible(end < allWines.size());
@@ -608,7 +600,7 @@ public class SearchWineController {
         gotoTotalText.setText("/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
 
 
-//        add wines
+        // add wines
         for (int i = 0; i < end - start; i++) {
             if (SearchWineService.getInstance().getSortDirection()) {
                 SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
@@ -621,11 +613,8 @@ public class SearchWineController {
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
-
                 Parent parent = fxmlLoader.load();
-
                 wineGrid.add(parent, currentCol, currentRow);
-
             } catch (IOException e) {
                 LOG.error("Error in SearchWineController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i).getWineId());
             }
@@ -633,7 +622,7 @@ public class SearchWineController {
     }
 
     /**
-     * Sets the dropdown options for the sorting
+     * Sets the dropdown options for the sorting.
      */
     public void initSortByOptions() {
         sortDropDown.getItems().add("Name");
@@ -725,7 +714,7 @@ public class SearchWineController {
     }
 
     /**
-     * When the sort arrow is clicked, the direction is toggled
+     * When the sort arrow is clicked, the direction is toggled.
      * The display then resets the order of the stored wine elements
      */
     public void changeIcon() {
@@ -741,41 +730,14 @@ public class SearchWineController {
     }
 
     /**
-     * Returns the selected string filters in format (Country, Winery, Variety)
-     * If a filter hasn't been selected it will be null
-     */
-    public ArrayList<String> getStringFilters() {
-
-        String country = countryComboBox.getValue();
-        String winery = wineryComboBox.getValue();
-        String variety = varietyComboBox.getValue();
-        return new ArrayList<>(Arrays.asList(country, winery, variety));
-
-    }
-
-    /**
-     * Returns the selected integer filters in format (min vintage, max vintage, min points, max points, min price, max price)
-     */
-    public ArrayList<Integer> getIntegerFilters() {
-        Integer minVintage = (int) vintageSlider.getLowValue();
-        Integer maxVintage = (int) vintageSlider.getHighValue();
-        Integer minPoints = (int) pointsSlider.getLowValue();
-        Integer maxPoints = (int) pointsSlider.getHighValue();
-        Integer minPrice = (int) priceSlider.getLowValue();
-        Integer maxPrice = (int) priceSlider.getHighValue();
-        return new ArrayList<>(Arrays.asList(minVintage, maxVintage, minPoints, maxPoints, minPrice, maxPrice));
-
-    }
-
-    /**
-     * Handles the clear filters presses
+     * Handles the clear filters presses.
      */
     public void onClearFiltersPushed() {
         resetFilters();
     }
 
     /**
-     * Resets the filters to default values
+     * Resets the filters to default values.
      */
     public void resetFilters() {
         countryComboBox.setValue(null);
@@ -805,34 +767,34 @@ public class SearchWineController {
      * Re-queries the database with different ORDER BY parameter, then reloads
      */
     public void dropDownClicked() {
-        String column_name = null;
+        String columnName = null;
         if (sortDropDown.getValue() != null) {
             if (sortDropDown.getValue().equals("Recommended")) {
                 SearchWineService.getInstance().searchWinesByRecommend(120);
             } else {
                 switch (sortDropDown.getValue()) {
                     case "Name" -> {
-                        column_name = "wine_name";
+                        columnName = "wine_name";
                         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
                         SearchWineService.getInstance().setSortDirection(true);
                     }
                     case "Price" -> {
-                        column_name = "price";
+                        columnName = "price";
                         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
                         SearchWineService.getInstance().setSortDirection(true);
                     }
                     case "Points" -> {
-                        column_name = "points";
+                        columnName = "points";
                         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
                         SearchWineService.getInstance().setSortDirection(false);
                     }
                     case "Vintage" -> {
-                        column_name = "vintage"; // TODO add vintage to database
+                        columnName = "vintage"; // TODO add vintage to database
                         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
                         SearchWineService.getInstance().setSortDirection(false);
                     }
                 }
-                SearchWineService.getInstance().setSearchOrder(column_name);
+                SearchWineService.getInstance().setSearchOrder(columnName);
             }
             SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
             displayCurrentPage();
@@ -846,7 +808,6 @@ public class SearchWineController {
     public void onResetCountryClicked() {
 
         countryComboBox.setValue(null);
-        SearchWineService.getInstance().setCurrentCountryFilter(null);
         resetCountry.setDisable(true);
 
     }
@@ -857,7 +818,6 @@ public class SearchWineController {
     @FXML
     public void onResetWineryClicked() {
         wineryComboBox.setValue(null);
-        SearchWineService.getInstance().setCurrentWineryFilter(null);
         resetWinery.setDisable(true);
     }
 
@@ -866,11 +826,8 @@ public class SearchWineController {
      */
     @FXML
     public void onResetVarietyClicked() {
-
         varietyComboBox.setValue(null);
-        SearchWineService.getInstance().setCurrentVarietyFilter(null);
         resetVariety.setDisable(true);
-
     }
 
     /**
@@ -880,8 +837,6 @@ public class SearchWineController {
     public void onResetVintageClicked() {
         vintageSlider.setLowValue(vintageSlider.getMin());
         vintageSlider.setHighValue(vintageSlider.getMax());
-        SearchWineService.getInstance().setCurrentMinYear((int) vintageSlider.getMin());
-        SearchWineService.getInstance().setCurrentMaxYear((int) vintageSlider.getMax());
         resetVintage.setVisible(false);
     }
 
@@ -892,8 +847,6 @@ public class SearchWineController {
     public void onResetPointsClicked() {
         pointsSlider.setLowValue(pointsSlider.getMin());
         pointsSlider.setHighValue(pointsSlider.getMax());
-        SearchWineService.getInstance().setCurrentMinPoints((int) pointsSlider.getMin());
-        SearchWineService.getInstance().setCurrentMaxPoints((int) pointsSlider.getMax());
         resetPoints.setVisible(false);
     }
 
@@ -904,8 +857,6 @@ public class SearchWineController {
     public void onResetPriceClicked() {
         priceSlider.setLowValue(priceSlider.getMin());
         priceSlider.setHighValue(priceSlider.getMax());
-        SearchWineService.getInstance().setCurrentMinPrice((int) priceSlider.getMin());
-        SearchWineService.getInstance().setCurrentMaxPrice((int) priceSlider.getMax());
         resetPrice.setVisible(false);
     }
 }
