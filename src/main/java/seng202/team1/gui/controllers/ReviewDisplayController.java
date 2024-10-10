@@ -18,9 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller class for the reviewDisplay.fxml page.1
+ * Controller class for the reviewDisplay.fxml page.
  * Displays the details of a single review.
- * @author Caleb Cooper
  */
 public class ReviewDisplayController {
     @FXML
@@ -43,8 +42,8 @@ public class ReviewDisplayController {
     private Text tagsLiked;
 
     private Review review;
-    private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
     private final ReviewService reviewService = new ReviewService();
+    private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
 
     /**
      * Initialises the controller.
@@ -56,41 +55,74 @@ public class ReviewDisplayController {
         Review review = ReviewService.getCurrentReview();
         reviewDate.setText(review.getReviewDate());
 
+        setReviewDescription(review);
+        setStarRatings(review);
+        setTags(review);
+
+        Wine currentWine = ReviewService.getCurrentWine();
+        displayWine(currentWine);
+    }
+
+    /**
+     * Sets the review description text to the review description if it is not empty, otherwise
+     * sets the text to "No Description".
+     * @param review The review object to get the description from.
+     */
+    private void setReviewDescription(Review review) {
         if (!review.getReviewDescription().isEmpty()) {
             reviewDescription.setText('"' + " " + review.getReviewDescription() + " " + '"');
         } else {
             reviewDescription.setText("No Description");
         }
+    }
 
+    /**
+     * Sets the star ratings of the review to the stars in the review display.
+     * @param review The review object to get the rating from.
+     */
+    private void setStarRatings(Review review) {
         List<FontAwesomeIconView> stars = List.of(star1, star2, star3, star4, star5);
         int rating = review.getRating();
 
         for (int i = 0; i < rating; i++) {
             stars.get(i).setGlyphName("STAR");
         }
+    }
 
-        Wine currentWine = ReviewService.getCurrentWine();
-        if (currentWine == null) {
+    /**
+     * Sets the tags liked/disliked text to the tags in the review object. If there are no tags
+     * liked or disliked, sets the text to "No tags liked".
+     * @param review The review object to get the tags from.
+     */
+    private void setTags(Review review) {
+        tagsLiked.setText("");
+
+        ArrayList<String> tags = review.getTagsSelected();
+        if (tags == null || tags.isEmpty()) {
+            tagsLiked.setText("No tags liked");
+        } else if (review.getRating() < 3) {
+            tagsLiked.setText("Tags disliked: " + String.join(", ", tags));
+        } else {
+            tagsLiked.setText("Tags liked: " + String.join(", ", tags));
+        }
+    }
+
+    /**
+     * Handles the wine object by setting the current wine in the search wine service if it is not null and
+     * tries to load the wineMiniDisplay.fxml content.
+     * @param wine The wine object to be handled.
+     */
+    private void displayWine(Wine wine) {
+        if (wine == null) {
             LOG.error("Error in ReviewDisplay.initialize(): Current wine is null for review with ID {}", review.getUid());
         } else {
-            SearchWineService.getInstance().setCurrentWine(currentWine);
+            SearchWineService.getInstance().setCurrentWine(wine);
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 reviewedWineTile.getChildren().add(loader.load());
             } catch (IOException e) {
                 LOG.error("Error in ReviewDisplay.initialize(): Could not load fxml content for review with ID {}", review.getUid());
             }
-        }
-
-        tagsLiked.setText("");
-
-        ArrayList<String> tags = review.getTagsSelected();
-        if (tags == null || tags.isEmpty()) {
-            tagsLiked.setText("No tags liked");
-        } else if (rating < 3) {
-            tagsLiked.setText("Tags disliked: " + String.join(", ", tags));
-        } else {
-            tagsLiked.setText("Tags liked: " + String.join(", ", tags));
         }
     }
 
@@ -103,6 +135,10 @@ public class ReviewDisplayController {
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 
+    /**
+     * Sets the review to be displayed and refreshes the page.
+     * @param review The review to be displayed.
+     */
     public void setReview(Review review) {
         this.review = review;
         initialize();
