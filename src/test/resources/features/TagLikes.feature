@@ -2,32 +2,32 @@
 Feature: Liking/Disliking a tag or multiple tags
 
   Scenario: Liking a tag
-    Given The user with name "name", username "username" and password "password" is currently logged in
-    And The user is in the wine logging popup with the wine with id 1 which has the tags "Red Wine", "France" and "Sweet"
-    And The user likes the tag "Red Wine" with a review rating of 5
-    Then The "Red Wine" tag is liked successfully within the database
+    Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
+    When The user is in the wine logging popup with the wine with id 1 which has the tags [Red Wine, France, Sweet]
+    And The user likes or dislikes the tag "Red Wine" with a review rating of 5
+    Then The "Red Wine" tag is liked or disliked successfully within the database
 
   Scenario: Disliking a tag
-    Given The user with name "name", username "username" and password "password" is currently logged in
-    When The user is in the wine logging popup with the wine with id 1 which has the tags "Red Wine", "France" and "Sweet"
-    And The user dislikes the tag "Red Wine" with a review rating of 1
-    Then The "Red Wine" tag is disliked successfully within the database
+    Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
+    When The user is in the wine logging popup with the wine with id 1 which has the tags [Red Wine, France, Sweet]
+    And The user likes or dislikes the tag "Red Wine" with a review rating of 1
+    Then The "Red Wine" tag is liked or disliked successfully within the database
 
   Scenario: Liking no tags
-    Given The user with name "name", username "username" and password "password" is currently logged in
-    And The user is in the wine logging popup with the wine with id 2 which has the tags "White Wine", "Germany" and "Bitter"
+    Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
+    When The user is in the wine logging popup with the wine with id 2 which has the tags [White Wine Germany, Bitter]
     And The user likes no tags with a review rating of 5
     Then All the tags are liked successfully within the database
 
   Scenario: Liking multiple tags
-    Given The user with name "name", username "username" and password "password" is currently logged in
-    And The user is in the wine logging popup with the wine with id 3 which has the tags "CalebIsCool", "Italy" and "2006"
+    Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
+    When The user is in the wine logging popup with the wine with id 3 which has the tags [CalebIsCool, Italy, 2006]
     And The user likes the tags [CalebIsCool, Italy] with a review rating of 5
     Then Only the liked tags are liked successfully within the database
 
   Scenario: First liking no tags, then editing the review to only select one tag
-    Given The user with name "name", username "username" and password "password" is currently logged in
-    And The user is in the wine logging popup with the wine with id 4 which has the tags "CalebIsCool", "Italy" and "1969"
+    Given The user with name "name", username "username" and password "password" is currently logged in. Their user id is 1
+    When The user is in the wine logging popup with the wine with id 4 which has the tags [CalebIsCool, Italy, 1969]
     And The user likes no tags with a review rating of 5
     And The user edits the review to only like the tag "CalebIsCool" with a review rating of 5
     Then Only the latest liked tag is liked successfully within the database
