@@ -8,45 +8,47 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.models.User;
 import seng202.team1.services.UserLoginService;
 
 /**
  * Controller class to look after the login.fxml page.
- * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
  */
 public class LoginController {
     @FXML
-    Text usernameText;
+    private Text usernameText;
     @FXML
-    TextField userNameTextField;
+    private TextField userNameTextField;
     @FXML
-    Text passwordText;
+    private Text passwordText;
     @FXML
-    PasswordField passwordField;
+    private PasswordField passwordField;
     @FXML
-    FontAwesomeIconView passwordVisibilityToggle;
+    private FontAwesomeIconView passwordVisibilityToggle;
     @FXML
-    TextField visiblePasswordTextField;
+    private TextField visiblePasswordTextField;
     @FXML
-    Button registerButton;
+    private Button registerButton;
     @FXML
-    Button logInButton;
+    private Button logInButton;
     @FXML
-    Text errorText;
+    private Text errorText;
     @FXML
-    Text nameText;
+    private Text nameText;
     @FXML
-    TextField nameTextField;
+    private TextField nameTextField;
     @FXML
-    Text confirmPasswordText;
+    private Text confirmPasswordText;
     @FXML
-    PasswordField confirmPasswordField;
+    private PasswordField confirmPasswordField;
     @FXML
-    Button goBackButton;
+    private Button goBackButton;
     @FXML
-    Button createUserButton;
+    private Button createUserButton;
+
+    private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     /**
      * Initialises the login page.
@@ -57,13 +59,9 @@ public class LoginController {
         setCheckOnEnterListeners();
 
         // check on text update
-        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            setRegisterButton();
-        });
+        userNameTextField.textProperty().addListener((observable, oldValue, newValue) -> setRegisterButton());
 
-        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            setRegisterButton();
-        });
+        nameTextField.textProperty().addListener((observable, oldValue, newValue) -> setRegisterButton());
 
         visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         visiblePasswordTextField.setVisible(false);
@@ -88,7 +86,7 @@ public class LoginController {
 
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (confirmPasswordField.isVisible()) {
-                if (newValue.equals(confirmPasswordField.getText())) {
+                if (newValue.equals(confirmPasswordField.getText()) && !newValue.isEmpty()) {
                     passwordField.setStyle("-fx-border-color: GREEN");
                     confirmPasswordField.setStyle("-fx-border-color: GREEN");
                 } else {
@@ -159,6 +157,12 @@ public class LoginController {
                 }
             }
         });
+
+        confirmPasswordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onCreateUserPressed();
+            }
+        });
     }
 
     /**
@@ -190,6 +194,7 @@ public class LoginController {
         UserLoginService userLoginService = new UserLoginService();
         if (userLoginService.checkLogin(username, password)
                 && !username.isEmpty() && !password.isEmpty()) {
+            LOG.info("Logged in as {}", username);
             FXWrapper.getInstance().launchSubPage("mainpage");
         } else {
             errorText.setText("Invalid username or password, please try again");
@@ -224,18 +229,13 @@ public class LoginController {
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.storeLogin(name, username, password);
             if (outcome == 1) {
+                LOG.info("Account created for user{}", username);
                 userLoginService.checkLogin(username, password);
+                LOG.info("Logged in as {}", username);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
                 accountCreatedSuccessfully(outcome);
             }
-        } else if (name.isEmpty()) {
-            errorText.setText("Please enter a name and try again");
-            setErrorFieldBorder(nameTextField);
-        } else {
-            errorText.setText("Invalid username or password, please try again");
-            clearFields();
-            setErrorFieldBorder();
         }
     }
 

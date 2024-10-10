@@ -1,9 +1,8 @@
 package seng202.team1.services;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import seng202.team1.repository.DAOs.TagDAO;
+
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashSet;
 
 /**
@@ -18,14 +17,40 @@ public class WineVarietyService {
     private static WineVarietyService instance;
 
     /**
+     * gets the set of red wines
+     */
+    public HashSet<String> getReds() {
+        return reds;
+    }
+
+    /**
+     * gets the set of white wines
+     */
+    public HashSet<String> getWhites() {
+        return whites;
+    }
+
+    /**
+     * gets the set of rose wines
+     */
+    public HashSet<String> getRose() {
+        return rose;
+    }
+
+    /**
+     * gets the set of sparkling wines
+     */
+    public HashSet<String> getSparkling() {
+        return sparkling;
+    }
+
+    /**
      Returns the instance and creates one if none exists.
      @return {@link WineVarietyService instance}
      */
     public static WineVarietyService getInstance() {
         if (instance == null) {
             instance = new WineVarietyService();
-
-
         }
         return instance;
     }
@@ -38,40 +63,19 @@ public class WineVarietyService {
     }
 
     /**
-     * This method takes all the wine varietys in the text files and puts them in sets in WineVarietyService.
+     * This method takes all the wine varieties given in the text files and puts them in sets in WineVarietyService.
      */
     public void setVarietySetsFromTextFiles() {
 
-        InputStream redsFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/reds.txt");
-        InputStream whitesFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/whites.txt");
-        InputStream roseFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/rose.txt");
-        InputStream sparklingFilePath = WineVarietyService.class.getResourceAsStream("/wine_catagories/sparkling.txt");
+        InputStream redsFilePath = WineVarietyService.class.getResourceAsStream("/wine_categories/reds.txt");
+        InputStream whitesFilePath = WineVarietyService.class.getResourceAsStream("/wine_categories/whites.txt");
+        InputStream roseFilePath = WineVarietyService.class.getResourceAsStream("/wine_categories/rose.txt");
+        InputStream sparklingFilePath = WineVarietyService.class.getResourceAsStream("/wine_categories/sparkling.txt");
 
-        addWineToSet(redsFilePath, reds);
-        addWineToSet(whitesFilePath, whites);
-        addWineToSet(roseFilePath, rose);
-        addWineToSet(sparklingFilePath, sparkling);
-
-    }
-
-    /**
-     * This method takes the url of a wine varietys text file and puts all of them in a set.
-     * @param url the filepath of the text file.
-     * @param variety the set to put the lines of the text file in.
-     */
-    public void addWineToSet(InputStream url, HashSet<String> variety) {
-        try {
-            //old code in case we get back to it
-//            Files.lines(Paths.get(url.toString().substring(12))).map(String::trim).forEach(variety::add);
-            BufferedReader br = new BufferedReader(new InputStreamReader(url));
-            String varietyName;
-            while ((varietyName = br.readLine()) != null) {
-                variety.add(varietyName);
-            }
-        } catch (IOException e ) {
-            e.printStackTrace();
-        }
-
+        TagDAO.getInstance().addWineToSet(redsFilePath, reds);
+        TagDAO.getInstance().addWineToSet(whitesFilePath, whites);
+        TagDAO.getInstance().addWineToSet(roseFilePath, rose);
+        TagDAO.getInstance().addWineToSet(sparklingFilePath, sparkling);
     }
 
     /**
@@ -80,7 +84,6 @@ public class WineVarietyService {
      * @return 0 if red, 1 if white, 2 if rose, 3 if sparkling, and -1 if it can't be found.
      */
     public int getVarietyFromGrape(String grape) {
-
         if (grape == null) {
             return -1;
         }

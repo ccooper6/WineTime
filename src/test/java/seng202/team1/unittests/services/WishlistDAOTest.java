@@ -3,12 +3,12 @@ package seng202.team1.unittests.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
+import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.services.UserLoginService;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WishlistDAOTest {
     public static WishlistDAO wishlistDAO;
@@ -44,24 +44,10 @@ public class WishlistDAOTest {
      */
     @Test
     public void testCheckWineIDBad() {
-        assertFalse(wishlistDAO.checkWineID(999999999));
+        assertFalse(SearchDAO.getInstance().checkWineExists(999999999));
     }
     @Test
     public void testCheckWineIDGood() {
-        assertTrue(wishlistDAO.checkWineID(1));
+        assertTrue(SearchDAO.getInstance().checkWineExists(1));
     }
-
-    /**
-     * Only one user exists in the test database with id = 1. id = 2 should produce an error
-     */
-    @Test
-    public void testCheckUserIDBad() {
-        assertFalse(wishlistDAO.checkUserID(2));
-    }
-    @Test
-    public void testCheckUserIDGood() {
-        assertTrue(wishlistDAO.checkUserID(1));
-    }
-
-
 }

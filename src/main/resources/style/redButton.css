@@ -1,0 +1,11 @@
+.button {
+    -fx-background-color: #70171e;
+    -fx-background-radius: 4px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Noto Serif';
+
+}
+
+.button:hover {
+    -fx-background-color: #60070e; /* Color when hovered */
+}

@@ -1,6 +1,7 @@
 package seng202.team1.services;
 
-import seng202.team1.exceptions.DuplicateEntryException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.models.User;
 import seng202.team1.repository.DAOs.UserDAO;
 
@@ -22,6 +23,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class UserLoginService {
     private static final byte[] KEY = "1234567891112131".getBytes();
     private static final String ALGORITHM = "AES";
+    private static final Logger LOG = LogManager.getLogger(UserLoginService.class);
     private final UserDAO userDAO = new UserDAO();
 
     /**
@@ -31,13 +33,11 @@ public class UserLoginService {
      * @param name name value to be stored
      * @return 1 if the account was successfully created, 0 if the username already exists, 2 if an error occurred
      */
+    // TODO whats actually happening here?
     public int storeLogin(String name, String username, String password) {
-        try {
+
             User newUser = new User(name, encrypt(username), Objects.hash(password));
-            return userDAO.add(newUser); // 1 = Account successfully created, 0 = User already exist, 2 = ERROR!
-        } catch (DuplicateEntryException e) {
-            throw new RuntimeException(e);
-        }
+            return userDAO.add(newUser);
     }
 
     /**
@@ -65,16 +65,6 @@ public class UserLoginService {
     }
 
     /**
-     * Returns the encrypted username.
-     * @param username the raw unencrypted username
-     * @return encrypted username
-     */
-    public String getEncryptedUsername(String username) {
-        return encrypt(username);
-    }
-
-
-    /**
      * Method that takes a string as input, for example a username, and returns a string that is no longer readable.
      * Uses a fixed key. Functionality
      * @param text The text that needs to be encrypted
@@ -89,7 +79,7 @@ public class UserLoginService {
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
                  | InvalidKeyException e) {
-            e.printStackTrace();
+            LOG.error("Error: could not encrypt text {}", e.getMessage());
         }
         return null;
     }

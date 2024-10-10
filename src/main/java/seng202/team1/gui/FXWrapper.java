@@ -4,11 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.controllers.NavigationController;
-import seng202.team1.models.User;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * A singleton class which launches the FXML pages.
@@ -20,6 +20,9 @@ public class FXWrapper {
     private NavigationController navigationController;
     private int challenge = 0;
     private String currentPage = "init";
+    private String previousPage = "init";
+
+    private static final Logger LOG = LogManager.getLogger(FXWrapper.class);
 
     /**
      * Gets the singleton.
@@ -28,9 +31,7 @@ public class FXWrapper {
     public static FXWrapper getInstance() {
         if (instance == null) {
             synchronized (FXWrapper.class) {
-                if (instance == null) {
-                    instance = new FXWrapper();
-                }
+                instance = new FXWrapper();
             }
         }
         return instance;
@@ -58,7 +59,7 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in FXWrapper.launchPage: Could not load fxml content for {}.", name);
         }
     }
 
@@ -83,7 +84,7 @@ public class FXWrapper {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in FXWrapper.launchSubPage: Could not load fxml content for {}.", name);
         }
     }
 
@@ -97,11 +98,10 @@ public class FXWrapper {
 
     /**
      * Sets the challenge number.
-     * @param chalNum the challenge number.
+     * @param challengeNum the challenge number.
      */
-    public void setChallenge(int chalNum) {
-        System.out.println("updated challenge number");
-        challenge = chalNum;
+    public void setChallenge(int challengeNum) {
+        challenge = challengeNum;
     }
 
     /**
@@ -121,10 +121,24 @@ public class FXWrapper {
     }
 
     /**
+     * Gets the previous page that was being shown.
+     * @return previous page name
+     */
+    public String getPreviousPage() {
+        return previousPage;
+    }
+
+    /**
      * Sets the current page that is being shown.
      * @param page the current page name
      */
     public void setCurrentPage(String page) {
+        previousPage = currentPage;
         currentPage = page;
     }
+
+    public void closeApplication() {
+        System.exit(0);
+    }
+
 }

@@ -1,8 +1,32 @@
-.button {
+.mainButton {
     -fx-background-color: #70171e; /* Normal color */
     -fx-text-fill: white;
+    -fx-font-family: 'Noto Serif';
+    -fx-font-size: 36;
 }
 
-.button:hover {
+.mainButton:hover {
     -fx-background-color: #60070e; /* Color when hovered */
+}
+
+.returnButton {
+    -fx-background-color: #707070;
+    -fx-text-fill: white;
+    -fx-font-family: 'Noto Serif';
+    -fx-font-size: 14;
+}
+
+.returnButton:hover {
+    -fx-background-color: #616161;
+}
+
+.showMeMyWine {
+    -fx-background-color: #70171e;
+    -fx-text-fill: white;
+    -fx-font-family: 'Noto Serif';
+    -fx-font-size: 25;
+}
+
+.showMeMyWine:hover {
+    -fx-background-color: #60070e;
 }

@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.services.SearchWineService;
@@ -67,11 +66,7 @@ public class WishlistController {
         }
         int start = currentPage * MAXSIZE;
 
-        if (start < 0 || start > allWines.size()) {
-            pageCounterText.getParent().setVisible(false);
-        } else {
-            pageCounterText.getParent().setVisible(true);
-        }
+        pageCounterText.getParent().setVisible(start >= 0 && start <= allWines.size());
 
         if (start < 0 || start >= allWines.size()) {
             LOG.error("Cannot display wines out of bounds.");
@@ -84,8 +79,8 @@ public class WishlistController {
         int columns = wineGrid.getColumnCount();
         int end = Math.min(start + MAXSIZE, allWines.size());
         int gridRows = Math.ceilDiv(end - start, columns);
-        wineGrid.setMinHeight(gridRows * (130 + 10) + 10);
-        scrollAnchorPane.setMinHeight(gridRows * (130 + 10) + 10);
+        wineGrid.setMinHeight(gridRows * (135 + 10) - 10);
+        scrollAnchorPane.setMinHeight(gridRows * (135 + 10) - 10);
 
         pageCounterText.setText(currentPage + 1 + "/" + (Math.ceilDiv(allWines.size(), MAXSIZE)));
         prevArrowButton.getParent().setVisible(start > 0);
@@ -107,7 +102,7 @@ public class WishlistController {
                 wineGrid.add(parent, currentCol, currentRow);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error in WishlistController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i));
             }
         }
     }
@@ -144,7 +139,7 @@ public class WishlistController {
      */
     @FXML
     public void pageEnd() {
-        currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
+        currentPage = Math.ceilDiv(allWines.size(), MAXSIZE) - 1;
         displayCurrentPage();
     }
 }

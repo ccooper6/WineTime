@@ -4,13 +4,10 @@ import org.junit.jupiter.api.*;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.services.UserLoginService;
 import seng202.team1.repository.DatabaseManager;
-import seng202.team1.repository.DAOs.UserDAO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserLoginServiceTest {
-
-    private static UserDAO userDAO;
     private static UserLoginService userLoginService;
 
     /**
@@ -22,13 +19,7 @@ public class UserLoginServiceTest {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
-        userDAO = new UserDAO();
         userLoginService = new UserLoginService();
-    }
-
-    @AfterEach
-    void clearUser() {
-        userDAO.delete(1);
     }
 
     /**

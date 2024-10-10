@@ -1,17 +1,12 @@
 package seng202.team1.services;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.gui.controllers.NavigationController;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -22,7 +17,6 @@ import java.util.Random;
  */
 public class QuizService {
     private Wine wine = null;
-    private Stage loadingStage;
 
     private final ArrayList<String> questions = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
@@ -62,9 +56,6 @@ public class QuizService {
     ));
 
     private ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
-    private String earliestYear;
-    private String type;
-    private String country;
 
     /**
      * The getter for the question labels.
@@ -147,148 +138,66 @@ public class QuizService {
     }
 
     /**
-     * Method to show the loading screen.
-     */
-    private void showLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.showLoadingScreen();
-    }
-
-    /**
-     * Method to hide the loading screen.
-     */
-    private void hideLoadingScreen() {
-        NavigationController nav = FXWrapper.getInstance().getNavigationController();
-        nav.hideLoadingScreen();
-    }
-
-    /**
      * Method to run the wine algorithm.
      */
     public void wineAlgorithm() {
 
-        switch (getRecordOfAnswers().get(0)) {
-            case 1:
-                earliestYear = "1990";
-                break;
-            case 2:
-                earliestYear = "2000";
-                break;
-            case 3:
-                earliestYear = "2005";
-                break;
-            case 4:
-                earliestYear = "2010";
-                break;
-            default:
-                earliestYear = "1990";
-                break;
-        }
+        String earliestYear = switch (getRecordOfAnswers().getFirst()) {
+            case 1 -> "1990";
+            case 2 -> "2000";
+            case 3 -> "2005";
+            case 4 -> "2010";
+            default -> "1990";
+        };
 
-        switch (getRecordOfAnswers().get(1)) {
-            case 1:
-                type = "Pinot Noir";
-                break;
-            case 2:
-                type = "Sauvignon Blanc";
-                break;
-            case 3:
-                type = "Rosé";
-                break;
-            case 4:
-                type = "Prosecco";
-                break;
-            default:
-                type = "Pinot Noir";
-        }
-        switch (getRecordOfAnswers().get(3)) {
-            case 1:
-                country = "US";
-                break;
-            case 2:
-                country = "New Zealand";
-                break;
-            case 3:
-                country = "Spain";
-                break;
-            case 4:
-                country = "France";
-                break;
-            default:
-                country = "US";
-        }
+        String type = switch (getRecordOfAnswers().get(1)) {
+            case 1 -> "pinot noir";
+            case 2 -> "chardonnay";
+            case 3 -> "rose";
+            case 4 -> "sparkling blend";
+            default -> "pinot noir";
+        };
+
+        String country = switch (getRecordOfAnswers().get(3)) {
+            case 1 -> "us";
+            case 2 -> "new zealand";
+            case 3 -> "spain";
+            case 4 -> "france";
+            default -> "us";
+        };
 
         ArrayList<Wine> possibleWines = new ArrayList<>();
         switch (earliestYear) {
             case "1990":
-                SearchWineService.getInstance().searchWinesByTags("1990, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1991, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1992, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1993, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1994, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1995, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1996, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1997, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1998, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("1999, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
+                        0, 100, 1990, 1999, 0, 3300, "", "wine_name");
                 break;
 
             case "2000":
-                SearchWineService.getInstance().searchWinesByTags("2000, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2001, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2002, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2003, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2004, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
+                        0, 100, 2000, 2004,0, 3300, "", "wine_name");
                 break;
 
             case "2005":
-                SearchWineService.getInstance().searchWinesByTags("2005, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2006, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2007, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2008, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2009, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
+                        0, 100, 2005, 2010, 0, 3300,"", "wine_name");
                 break;
 
             case "2010":
-                SearchWineService.getInstance().searchWinesByTags("2010, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2011, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2012, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2013, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
-                SearchWineService.getInstance().searchWinesByTags("2014, " + country, SearchDAO.UNLIMITED);
-                possibleWines.addAll(SearchWineService.getInstance().getWineList());
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
+                        0, 100, 2010, 2014,0, 3300, null, "wine_name");
                 break;
             default:
                 break;
 
         }
 
-        if (!possibleWines.isEmpty()) {
-            Random random = new Random();
-            wine = possibleWines.get(random.nextInt(possibleWines.size()));
+        if (possibleWines.isEmpty()) {
+            possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(),
+                    0, 100, 2000, 2014,0, 3300, null, "wine_name");
         }
+
+        Random random = new Random();
+        wine = possibleWines.get(random.nextInt(possibleWines.size()));
     }
 }

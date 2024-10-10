@@ -3,6 +3,7 @@ package seng202.team1.models;
 import seng202.team1.services.WineVarietyService;
 
 import java.text.Normalizer;
+import java.util.Objects;
 
 /**
  * The model for the Wine Object.
@@ -13,10 +14,11 @@ import java.text.Normalizer;
  */
 
 public class Wine {
-    private int wineId;
+    private final int wineId;
     private String name;
     private String description;
     private int price;
+    private int points;
     private int vintage;
     private String country;
     private String province;
@@ -24,8 +26,6 @@ public class Wine {
     private String region2;
     private String variety;
     private String winery;
-    private String tasterName;
-    private String tasterTwitter;
 
     /**
      *The constructor for the Wine object.
@@ -34,6 +34,7 @@ public class Wine {
      * @param name String {@link Wine#name}
      * @param description String {@link Wine#description}
      * @param price int {@link Wine#price}
+     * @param points int
      * @param vintage int {@link Wine#vintage}
      * @param country String
      * @param province String {@link Wine#province}
@@ -41,15 +42,14 @@ public class Wine {
      * @param region2 String {@link Wine#region2}
      * @param variety String {@link Wine#variety}
      * @param winery String {@link Wine#winery}
-     * @param tasterName String {@link Wine#tasterName}
-     * @param tasterTwitter String {@link Wine#tasterTwitter}
      * @param wineId int {@link Wine#wineId}
      */
-    public Wine(int wineId, String name, String description, int price, int vintage, String country, String province, String region1,
-                String region2, String variety, String winery, String tasterName, String tasterTwitter) {
+    public Wine(int wineId, String name, String description, int price, int points, int vintage, String country, String province, String region1,
+                String region2, String variety, String winery) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.points = points;
         this.vintage = vintage;
         this.country = country;
         this.province = province;
@@ -57,8 +57,6 @@ public class Wine {
         this.region2 = region2;
         this.variety = variety;
         this.winery = winery;
-        this.tasterName = tasterName;
-        this.tasterTwitter = tasterTwitter;
         this.wineId = wineId;
 
     }
@@ -111,7 +109,21 @@ public class Wine {
         this.price = price;
     }
 
+    /**
+     * Getter for the int points of the wine.
+     * @return {@link Wine#points}
+     */
+    public int getPoints() {
+        return points;
+    }
 
+    /**
+     * Sets the points value of the wine to the int parameter.
+     * @param points Integer points
+     */
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     /**
      * Getter for the int vintage of the wine.
@@ -229,62 +241,21 @@ public class Wine {
     }
 
     /**
-     * Getter for the wine taster's name.
-     * @return {@link Wine#tasterName}
-     */
-    public String getTasterName() {
-        return tasterName;
-    }
-
-    /**
-     * Sets the wine taster's name to the String parameter.
-     * @param tasterName name of wine taster
-     */
-    public void setTasterName(String tasterName) {
-        this.tasterName = tasterName;
-    }
-
-    /**
-     * Getter for the wine's taster's twitter handle.
-     * @return {@link Wine#tasterTwitter}
-     */
-    public String getTasterTwitter() {
-        return tasterTwitter;
-    }
-
-    /**
-     * Sets the wine taster's twitter handle to the String parameter.
-     * @param tasterTwitter Wine taster's twitter handle
-     */
-    public void setTasterTwitter(String tasterTwitter) {
-        this.tasterTwitter = tasterTwitter;
-    }
-
-    /**
      * Gets the correct image path for the wine based on its variety.
      * @return the image path
      */
     public String getImagePath() {
         String imagePath;
         int variety = WineVarietyService.getInstance().getVarietyFromGrape(getVariety());
-        switch (variety) {
-            case 0:
-                imagePath = "/images/Red Wine.jpg";
-                break;
-            case 1:
-                imagePath =  "/images/White Wine.jpg";
-                break;
-            case 2:
-                imagePath =  "/images/Rose Wine.jpg";
-                break;
-            case 3:
-                imagePath =  "/images/Sparkling Wine.jpg";
-                break;
-            default:
-                imagePath = "/images/wine-bottle_pic.png";
-        }
+        imagePath = switch (variety) {
+            case 0 -> "/images/Red Wine.jpg";
+            case 1 -> "/images/White Wine.jpg";
+            case 2 -> "/images/Rose Wine.jpg";
+            case 3 -> "/images/Sparkling Wine.jpg";
+            default -> "/images/wine-bottle_pic.png";
+        };
 
-        return getClass().getResource(imagePath).toExternalForm();
+        return Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm();
     }
 
     /**
@@ -311,7 +282,7 @@ public class Wine {
 
         if (country != null) {
             String normalisedCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
-            isTrue = isTrue || normalisedCountry.equals(location);
+            isTrue = normalisedCountry.equals(location);
         }
         if (province != null) {
             String normalisedProvince = Normalizer.normalize(province, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
@@ -324,11 +295,6 @@ public class Wine {
         if (region2 != null) {
             String normalisedRegion2 = Normalizer.normalize(region2, Normalizer.Form.NFD).replaceAll("[^\\p{M}]", "").toLowerCase();
             isTrue = isTrue || normalisedRegion2.equals(location);
-        }
-
-        if (!isTrue) {
-            System.out.println(name);
-            System.out.println(province);
         }
 
         return isTrue;
@@ -347,6 +313,7 @@ public class Wine {
             return true;
         }
 
+        // using ^\\p{M} for regex here because ^\\p{ASCII} removed the first character for unknown reasons
         if (country != null) {
             String checkCountry = Normalizer.normalize(country, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
             if (checkCountry.equals(tag)) {
@@ -372,7 +339,6 @@ public class Wine {
             }
         }
         if (variety != null) {
-            // using \\{M} for regex here because ^\\{ASCII} removed the first character for unknown reasons
             String checkVariety = Normalizer.normalize(variety, Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
             if (checkVariety.equals(tag)) {
                 return true;
@@ -380,9 +346,7 @@ public class Wine {
         }
         if (winery != null) {
             String checkWinery = Normalizer.normalize(winery, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (checkWinery.equals(tag)) {
-                return true;
-            }
+            return checkWinery.equals(tag);
         }
 
         return false;

@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Creates the window for the scene, loads the login page and initiates the FXWrapper.
@@ -28,9 +29,8 @@ public class FXWindow extends Application {
 
         Parent root = loader.load();
         Scene scene = new Scene(root, 1280, 720);
-        primaryStage.setResizable(false);
         primaryStage.setTitle("Wine Time");
-        primaryStage.getIcons().add(new Image(getClass().getResource("/images/logo.png").toExternalForm()));
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/images/logo.png")).toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

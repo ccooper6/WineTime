@@ -1,15 +1,19 @@
 package seng202.team1.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Review;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.services.WineLoggingPopupService;
+import seng202.team1.services.ReviewService;
 
 import java.util.ArrayList;
 
@@ -22,8 +26,6 @@ import static java.sql.Types.NULL;
  * @author Wen Sheng Thong, Caleb Cooper
  */
 public class WineLoggingPopupController {
-    @FXML
-    private Button popUpCloseButton;
     @FXML
     private Label characterRemainingLabel;
     @FXML
@@ -38,39 +40,48 @@ public class WineLoggingPopupController {
     private Label likingText;
     @FXML
     private Text promptText;
+    @FXML
+    private Button deleteReviewButton;
 
     private ArrayList<CheckBox> tagCheckBoxArray;
     private ArrayList<String> tagNameArray;
     private Wine currentWine;
-    private WineLoggingPopupService wineLoggingPopupService;
+    private ReviewService reviewService;
+    private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
+    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+    private Review existingReview;
 
     /**
      * Sets the functionality of the various GUI elements for the wine logging popup.
      */
     public void initialize() {
+        deleteReviewButton.setOpacity(0);
+        deleteReviewButton.setDisable(true);
         likingText.setTextFill(Color.GREEN);
         tagCheckBoxArray = new ArrayList<>();
         tagNameArray = new ArrayList<>();
         currentWine = FXWrapper.getInstance().getNavigationController().getWine();
-        wineLoggingPopupService = new WineLoggingPopupService();
+        reviewService = new ReviewService();
         implementFxmlFunction();
     }
 
     /**
      * Calls all the function that adds functionality to the various fxml components upon initialization.
-     * Calls {@link WineLoggingPopupController#addTagCheckBoxes(Wine)}, {@link WineLoggingPopupController#addDescCharLimit()},
+     * Calls {@link WineLoggingPopupController#addTagCheckBoxes(Wine)}, {@link WineLoggingPopupController#addDescriptionCharacterLimitText()},
      * {@link WineLoggingPopupController#submitLog()} and {@link WineLoggingPopupController#monitorRating()}
      * <p></p>
      * Also checks if the user has already reviewed the wine and calls {@link WineLoggingPopupController#populateReviewData(Review)}
      */
     private void implementFxmlFunction() {
         addTagCheckBoxes(currentWine);
-        addDescCharLimit();
+        addDescriptionCharacterLimitText();
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
-        Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
         if (existingReview != null) {
+            deleteReviewButton.setDisable(false);
+            deleteReviewButton.setOpacity(1);
             promptText.setText("Edit your review");
             populateReviewData(existingReview);
         } else {
@@ -79,9 +90,18 @@ public class WineLoggingPopupController {
     }
 
     /**
+     * Deletes the review that is being edited
+     */
+    public void onDeleteReviewPushed() {
+        LOG.info("Deleting review with ID {}", existingReview);
+        reviewService.deleteReview(existingReview);
+        returnToWinePopUp();
+    }
+
+    /**
      * Populates the review data of the current wine into the wine logging popup.
      * Called if the user has already previously reviewed the wine.
-     * @param review The review object obtained from {@link WineLoggingPopupService#getReview(int, int)}
+     * @param review The review object obtained from {@link ReviewService#getReview(int, int)}
      */
     private void populateReviewData(Review review) {
         ratingSlider.setValue(review.getRating());
@@ -102,32 +122,46 @@ public class WineLoggingPopupController {
      * @param wine The wine object obtained from {@link NavigationController#getWine()}
      */
     private void addTagCheckBoxes(Wine wine) {
-        if (wine.getVintage() != NULL) {
-            tagCheckBoxArray.add(new CheckBox(wine.getVintage() + " Vintage"));
+        if (wine.getVintage() != NULL && wine.getVintage() != -1) {
+            CheckBox vintageCheckBox = new CheckBox(wine.getVintage() + " - Vintage");
+            vintageCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(vintageCheckBox);
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
         if (wine.getCountry() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getCountry() + " Country"));
+            CheckBox countryCheckBox = new CheckBox(wine.getCountry() + " - Country");
+            countryCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(countryCheckBox);
             tagNameArray.add(wine.getCountry());
         }
         if (wine.getProvince() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getProvince() + " province"));
+            CheckBox provinceCheckBox = new CheckBox(wine.getProvince() + "- Province");
+            provinceCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(provinceCheckBox);
             tagNameArray.add(wine.getProvince());
         }
         if (wine.getRegion1() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getRegion1() + " region"));
+            CheckBox region1CheckBox = new CheckBox(wine.getRegion1() + " - Region");
+            region1CheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(region1CheckBox);
             tagNameArray.add(wine.getRegion1());
         }
         if (wine.getRegion2() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getRegion2() + " region"));
+            CheckBox region2CheckBox = new CheckBox(wine.getRegion2() + " - Region");
+            region2CheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(region2CheckBox);
             tagNameArray.add(wine.getRegion2());
         }
         if (wine.getVariety() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getVariety()));
+            CheckBox varietyCheckBox = new CheckBox(wine.getVariety() + " - Variety");
+            varietyCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(varietyCheckBox);
             tagNameArray.add(wine.getVariety());
         }
         if (wine.getWinery() != null) {
-            tagCheckBoxArray.add(new CheckBox(wine.getWinery() + " winery"));
+            CheckBox wineryCheckBox = new CheckBox(wine.getWinery() + " - Winery");
+            wineryCheckBox.setFont(Font.font("Noto Serif"));
+            tagCheckBoxArray.add(wineryCheckBox);
             tagNameArray.add(wine.getWinery());
         }
         for (CheckBox checkbox : tagCheckBoxArray) {
@@ -139,20 +173,20 @@ public class WineLoggingPopupController {
      * Adds the character limit to the {@link WineLoggingPopupController#descriptionTextArea} as well as make sure the
      * {@link WineLoggingPopupController#characterRemainingLabel} properly reflects the number of characters remaining.
      */
-    private void addDescCharLimit() {
+    private void addDescriptionCharacterLimitText() {
         int maxLength = 160;
         descriptionTextArea.setWrapText(true);
         descriptionTextArea.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            String string = "";
+            String bufferString;
             int textLength = descriptionTextArea.getText().length();
             if (textLength <= 20) {
-                string = "";
+                bufferString = "";
             } else if (textLength <= 110) {
-                string = "  ";
+                bufferString = "  ";
             } else {
-                string = "    ";
+                bufferString = "    ";
             }
-            characterRemainingLabel.setText(string + (maxLength - textLength) + " characters remaining");
+            characterRemainingLabel.setText(bufferString + (maxLength - textLength) + " characters remaining");
             if (textLength > maxLength) {
                 descriptionTextArea.setText(descriptionTextArea.getText().substring(0, maxLength));
             }
@@ -166,10 +200,10 @@ public class WineLoggingPopupController {
     private void monitorRating() {
         ratingSlider.valueProperty().addListener((observableValue, number, t1) -> {
             if (ratingSlider.getValue() < 3) {
-                likingText.setText(" dislike?");
+                likingText.setText("Which of the following parts of the wine did you dislike?");
                 likingText.setTextFill(Color.RED);
             } else {
-                likingText.setText(" like?");
+                likingText.setText("Which of the following parts of the wine did you like?");
                 likingText.setTextFill(Color.GREEN);
             }
         });
@@ -180,53 +214,37 @@ public class WineLoggingPopupController {
      * {@link WineLoggingPopupController#returnToWinePopUp()} to return to the wine pop up screen
      * <p></p>
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
-     * value to the tag, whilst a 4-5 will add a positive value to the tag.
+     * value to the tag, whilst a 3-5 will add a positive value to the tag.
      * <p></p>
      * Also updates the likes of the tags in the database depending on whether the user has changed their rating or
      * selected different tags.
      */
     private void submitLog() {
-        int newRating = (int) ratingSlider.getValue();
-        boolean noneSelected = false;
+        int rating = (int) ratingSlider.getValue();
+        int currentUserUid = User.getCurrentUser().getId();
+        int currentWineId = currentWine.getWineId();
+        String description = descriptionTextArea.getText();
         ArrayList<String> selectedTags = new ArrayList<>();
+        ArrayList<String> tagsToLike = new ArrayList<>();
         if (hasClickedTag()) {
             for (int i = 0; i < tagNameArray.size(); i++) {
                 if (tagCheckBoxArray.get(i).isSelected()) {
                     selectedTags.add(tagNameArray.get(i));
+                    tagsToLike.add(tagNameArray.get(i));
                 }
             }
         } else {
-            selectedTags = tagNameArray;
-            noneSelected = true;
+            tagsToLike = tagNameArray;
         }
+        boolean noneSelected = selectedTags.isEmpty();
 
-        Review existingReview = wineLoggingPopupService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        ArrayList<String> finalTagsToLike = tagsToLike;
+        navigationController.executeWithLoadingScreen(() -> {
+            reviewService.updateTagLikes(currentUserUid, currentWineId, finalTagsToLike, rating);
 
-        ArrayList<String> existingTags;
-        if (existingReview != null) {
-            existingTags = existingReview.getTagsSelected();
-        } else {
-            existingTags = new ArrayList<>();
-        }
-
-        int oldRating;
-        if (existingReview != null) {
-            oldRating = existingReview.getRating();
-        } else {
-            oldRating = 0;
-        }
-
-        ArrayList<String> tagsToAdd = new ArrayList<>(selectedTags);
-        tagsToAdd.removeAll(existingTags);
-
-        ArrayList<String> tagsToRemove = new ArrayList<>(existingTags);
-        tagsToRemove.removeAll(selectedTags);
-
-        wineLoggingPopupService.updateTagLikes(User.getCurrentUser().getId(), tagsToAdd, tagsToRemove, existingTags, newRating, oldRating);
-
-
-        wineLoggingPopupService.submitLog(newRating, User.getCurrentUser().getId(), currentWine.getWineId(), selectedTags, noneSelected, descriptionTextArea.getText());
-        returnToWinePopUp();
+            reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);
+            Platform.runLater(this::returnToWinePopUp);
+        });
     }
 
     /**
@@ -253,7 +271,10 @@ public class WineLoggingPopupController {
             navigationController.loadPageContent("wineReviews");
         } else if (navigationController.getCurrentPage().equals("profile")) {
             navigationController.loadPageContent("profile");
+        } else if (navigationController.getCurrentPage().equals("wishlist")) {
+            navigationController.loadPageContent("wishlist");
         }
         navigationController.initPopUp(currentWine);
+
     }
 }

@@ -12,7 +12,7 @@ import seng202.team1.services.WishlistService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WishlistServiceTest {
     public static WishlistDAO wishlistDAO;
@@ -57,12 +57,8 @@ public class WishlistServiceTest {
     @Test
     public void testRemoveWineDoesntExist() {
         assertFalse(wishlistDAO.checkWine(4, 1));
-        try {
-            WishlistService.removeFromWishlist(4,1);
-            assertFalse(true);
-        } catch (SQLException e) {
-            assertTrue(true);
-        }
+
+        assertThrows(SQLException.class, () -> WishlistService.removeFromWishlist(4, 1));
     }
     @Test
     public void testRemoveWineExists() throws SQLException {
@@ -74,19 +70,12 @@ public class WishlistServiceTest {
 
     @Test
     public void testGetWishlistWinesEmpty() throws SQLException {
-        if (wishlistDAO.checkWine(2, 1)) {
-            WishlistService.removeFromWishlist(2, 1);
-        }
         ArrayList<Wine> testNull = new ArrayList<>();
         ArrayList<Wine> myWines = WishlistService.getWishlistWines(1);
         assertEquals(testNull, myWines);
     }
     @Test
     public void testGetWishlistWinesFull() throws SQLException {
-        if (wishlistDAO.checkWine(2, 1)) {
-            WishlistService.removeFromWishlist(2, 1);
-        }
-        //make sure wishlist empty, then add 3 wines
         WishlistService.addToWishlist(4, 1);
         WishlistService.addToWishlist(5, 1);
         WishlistService.addToWishlist(6, 1);
@@ -94,6 +83,13 @@ public class WishlistServiceTest {
         assertEquals(myWines.get(0).getWineId(), 4);
         assertEquals(myWines.get(1).getWineId(), 5);
         assertEquals(myWines.get(2).getWineId(), 6);
+    }
+
+    @Test
+    public void testCheckInWishlist()
+    {
+        WishlistService.addToWishlist(45, 1);
+        assertTrue(WishlistService.checkInWishlist(45, 1));
     }
 }
 

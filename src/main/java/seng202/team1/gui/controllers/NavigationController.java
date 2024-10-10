@@ -6,29 +6,45 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
+import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 
 import java.io.IOException;
 
 /**
  * Controller class for the navigation.fxml page.
- * @author Elise Newman, Caleb Cooper, Lydia Jackson, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
 public class NavigationController {
+    @FXML
+    private FontAwesomeIconView wishlistButton;
+    @FXML
+    private FontAwesomeIconView reviewsButton;
+    @FXML
+    private ImageView homeExampleButton;
+    @FXML
+    private FontAwesomeIconView userButton;
+    @FXML
+    private ImageView logo;
+    @FXML
+    private Pane logoPane;
+    @FXML
+    private Circle circle;
+    @FXML
+    private FontAwesomeIconView closeButton;
     @FXML
     private FontAwesomeIconView dropdownButton;
     @FXML
@@ -44,21 +60,18 @@ public class NavigationController {
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox<String> sortByComboBox;
-
     private Parent loadingScreen;
-
-    private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     private Wine wine;
     private boolean dropdownLocked = false;
+    private int openPopups = 0; // Counter for open popups
+
+    private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
      /**
      * Initializes the controller.
      */
     public void initialize() {
-        initializeSortByComboBox();
-
         initialiseSearchBar();
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
@@ -68,19 +81,6 @@ public class NavigationController {
         });
     }
 
-    /**
-     * Inserts options into sort by combo box and selects first.
-     */
-    private void initializeSortByComboBox()
-    {
-        sortByComboBox.getItems().add("In Name");
-        sortByComboBox.getItems().add("In Tags");
-        if (SearchWineService.getInstance().getCurrentMethod() == null || !FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
-            sortByComboBox.getSelectionModel().selectFirst();
-        } else {
-            sortByComboBox.getSelectionModel().select(SearchWineService.getInstance().getCurrentMethod());
-        }
-    }
 
     /**
      * Sets action events to when to search. Searches by name / tag depending on combo box
@@ -91,16 +91,55 @@ public class NavigationController {
             searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         }
 
-        searchBar.setOnAction(e -> {
-            if (!searchBar.getText().isEmpty()) {
-                launchSearchWineLoadingScreen();
-            }
+        searchBar.setOnAction(e -> launchSearchWineLoadingScreen());
+
+        wishlistButton.setOnMouseEntered(event -> {
+            wishlistButton.setFill(Paint.valueOf("#A05252"));
+        });
+        wishlistButton.setOnMouseExited(event -> {
+            wishlistButton.setFill(Paint.valueOf("#70171e"));
+        });
+        reviewsButton.setOnMouseEntered(event -> {
+            reviewsButton.setFill(Paint.valueOf("#909090"));
+        });
+        reviewsButton.setOnMouseExited(event -> {
+            reviewsButton.setFill(Paint.valueOf("#707070"));
+        });
+        userButton.setOnMouseEntered(event -> {
+            userButton.setFill(Paint.valueOf("#909090"));
+        });
+        userButton.setOnMouseExited(event -> {
+            userButton.setFill(Paint.valueOf("#707070"));
+        });
+        closeButton.setOnMouseEntered(event -> {
+            closeButton.setFill(Paint.valueOf("#909090"));
+        });
+        closeButton.setOnMouseExited(event -> {
+            closeButton.setFill(Paint.valueOf("#b0b0b0"));
         });
 
-        sortByComboBox.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.ENTER && !searchBar.getText().isEmpty()) {
-                launchSearchWineLoadingScreen();
-            }
+        double translate = 1.25;
+        double scaleFactor = 5.0;
+        logoPane.setOnMouseEntered(event -> {
+            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() + scaleFactor);
+            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() + scaleFactor);
+            homeExampleButton.setTranslateX(-translate);
+            homeExampleButton.setTranslateY(-translate);
+            logo.setFitWidth(logo.getFitWidth() + scaleFactor);
+            logo.setFitHeight(logo.getFitHeight() + scaleFactor);
+            logo.setTranslateY(-translate);
+            logo.setTranslateX(-translate);
+            circle.setRadius(circle.getRadius() + scaleFactor / 2);
+        });
+        logoPane.setOnMouseExited(event -> {
+            homeExampleButton.setFitHeight(homeExampleButton.getFitHeight() - scaleFactor);
+            homeExampleButton.setFitWidth(homeExampleButton.getFitWidth() - scaleFactor);
+            homeExampleButton.setTranslateX(translate);
+            homeExampleButton.setTranslateY(translate);
+            logo.setFitHeight(logo.getFitHeight() - scaleFactor);
+            logo.setTranslateY(translate);
+            logo.setTranslateX(translate);
+            circle.setRadius(circle.getRadius() - scaleFactor / 2);
         });
 
         topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
@@ -138,20 +177,22 @@ public class NavigationController {
      * Launches the search wine loading screen by running it as a thread and launching the loading screen
      * to indicate to the user that there are searches being made behind the scenes.
      */
-    private void launchSearchWineLoadingScreen() {
+    public void launchSearchWineLoadingScreen() {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         nav.executeWithLoadingScreen(() -> {
-            if (sortByComboBox.getValue().equals("In Name")) {
-                SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
-            } else {
-                SearchWineService.getInstance().searchWinesByTags(searchBar.getText(), SearchDAO.UNLIMITED);
-            }
+            SearchWineService.getInstance().searchWinesByName(searchBar.getText());
             SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
-            SearchWineService.getInstance().setCurrentMethod(sortByComboBox.getValue());
-
             Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
         });
         searchBar.getParent().requestFocus();
+    }
+
+
+    /**
+     * Launches the search page when the search icon is clicked.
+     */
+    public void onSearchIconClicked() {
+        launchSearchWineLoadingScreen();
     }
 
     /**
@@ -167,6 +208,14 @@ public class NavigationController {
     private void closeDropDown() {
         dropdownLocked = false;
         userDropDownMenu.setVisible(false);
+    }
+
+    /**
+     * Closes the application gracefully.
+     */
+    @FXML
+    public void closeApp() {
+        FXWrapper.getInstance().closeApplication();
     }
 
     /**
@@ -189,7 +238,13 @@ public class NavigationController {
      * Rotates the dropdown button to indicate that the dropdown menu is toggled.
      */
     private void rotateDropdownButton() {
-        dropdownButton.setRotate(dropdownButton.getRotate() + 270);
+        if (dropdownButton.getRotate() == 90) {
+            dropdownButton.setRotate(0);
+            dropdownButton.setTranslateX(0);
+        } else {
+            dropdownButton.setRotate(90);
+            dropdownButton.setTranslateX(-5);
+        }
     }
 
     /**
@@ -197,11 +252,14 @@ public class NavigationController {
      */
     @FXML
     public void onLogOutClicked() {
+        LOG.info("Logging out user {}", User.getCurrentUser().getName());
+
         User.setCurrenUser(null);
+        CategoryService.resetCategories(true);
         FXWrapper.getInstance().launchPage("login");
     }
 
-    /**Loads in content from desired fxml and initates a blank, invisible overlay popup.
+    /**Loads in content from desired fxml and initiates a blank, invisible overlay popup.
      * @param name is the fxml main content which is loaded
      */
     public void loadPageContent(String name) {
@@ -211,7 +269,7 @@ public class NavigationController {
             contentHere.getChildren().clear();
             contentHere.getChildren().add(pageContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.loadPageContent: {}", e.getMessage());
         }
     }
 
@@ -233,7 +291,7 @@ public class NavigationController {
             Parent mainPage = loader.load();
             contentHere.getChildren().add(mainPage); // Add the main page to the stack
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.loadMainScreen: Could not load fxml content.");
         }
     }
 
@@ -249,13 +307,18 @@ public class NavigationController {
      * Loads the wine popup when a wine is clicked by the user.
      */
     private void loadPopUpContent() {
+        if (openPopups >= 1) {
+            LOG.error("Error in NavigationController.loadPopupContent: There is already a popup open, you cannot have more than 1 at a time. Close the popup and try again.");
+            return;
+        }
         try {
             FXMLLoader paneLoader = new FXMLLoader(getClass().getResource("/fxml/popup.fxml"));
             overlayContent = paneLoader.load();
             overlayContent.setVisible(true); // Initially invisible
             contentHere.getChildren().add(overlayContent);
+            openPopups++;
         } catch (IOException e) {
-            LOG.error("Failed to load wine pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadPopupContent: Could not load fxml content.");
         }
     }
 
@@ -269,7 +332,7 @@ public class NavigationController {
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
         } catch (IOException e) {
-            LOG.error("Failed to load wine logging pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadWineLoggingPopupContent: Could not load fxml content.");
         }
     }
 
@@ -282,8 +345,10 @@ public class NavigationController {
             overlayContent = paneLoader.load();
             overlayContent.setVisible(true);
             contentHere.getChildren().add(overlayContent);
+            openPopups++;
+
         } catch (IOException e) {
-            LOG.error("Failed to load select challenge pop up\n" + e.getMessage());
+            LOG.error("Error in NavigationController.loadSelectChallengePopupContent: Could not load fxml content.");
         }
     }
 
@@ -326,7 +391,7 @@ public class NavigationController {
             loadingScreen = loader.load();
             rootPane.getChildren().add(loadingScreen);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error in NavigationController.showLoadingScreen: Could not load fxml content.");
         }
     }
 
@@ -351,7 +416,15 @@ public class NavigationController {
      */
     public void closePopUp() {
         if (overlayContent != null) {
+            if (overlayContent.getParent() != null) {
+                // set focus to the parent so we don't scroll to the top
+                overlayContent.getParent().requestFocus();
+            } else {
+                LOG.warn("Warning in NavigationController.closePopUp: overlayContent has no parent to set focus on.");
+            }
             overlayContent.setVisible(false);
+            contentHere.getChildren().remove(overlayContent);
+            openPopups--;
         }
     }
 
@@ -366,27 +439,27 @@ public class NavigationController {
      * Sends the user to the wine log page when the log button is clicked.
      */
     public void onLogsClicked() {
-        FXWrapper.getInstance().launchSubPage("wineReviews");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wineReviews")));
     }
 
     /**
      * Sends the user to the wishlist page when the heart icon is clicked.
      */
     public void onLikesClicked() {
-        FXWrapper.getInstance().launchSubPage("wishlist");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wishlist")));
     }
 
     /**
      * Sends the user to the profile page when the user button is clicked.
      */
     public void onUserClicked() {
-        FXWrapper.getInstance().launchSubPage("profile");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("profile")));
     }
 
     /**
      * Sends the user to the help page when the help button is clicked.
      */
     public void onHelpClicked() {
-        FXWrapper.getInstance().launchSubPage("helpScreen");
+        executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("helpScreen")));
     }
 }

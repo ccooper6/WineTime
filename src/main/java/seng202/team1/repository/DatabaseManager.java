@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Objects;
 
 /**
  * Singleton class responsible for interaction with SQLite database.
@@ -18,11 +19,8 @@ import java.sql.*;
  */
 public class DatabaseManager {
     private static DatabaseManager instance = null;
-    private static final Logger log = LogManager.getLogger(DatabaseManager.class);
-    /**
-     * The url of the database
-     */
-    public String url;
+    private static final Logger LOG = LogManager.getLogger(DatabaseManager.class);
+    public String databasePath;
     private boolean reset = false;
 
     /**
@@ -31,11 +29,7 @@ public class DatabaseManager {
      * @param urlIn string url of database to load (if applicable)
      */
     private DatabaseManager(String urlIn) {
-        if (urlIn != null) {
-            this.url = urlIn;
-        } else {
-            this.url = getDatabasePath();
-        }
+        this.databasePath = Objects.requireNonNullElseGet(urlIn, this::getDatabasePath);
         initialiseDB();
     }
 
@@ -88,9 +82,9 @@ public class DatabaseManager {
     public Connection connect() {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(this.url);
+            conn = DriverManager.getConnection(this.databasePath);
         } catch (SQLException e) {
-            log.error(e);
+            LOG.error("Error in DatabaseManager.connect(): SQLException {}", e.getMessage());
         }
         return conn;
     }
@@ -113,37 +107,49 @@ public class DatabaseManager {
      */
     public void initialiseDB() {
         // removes "jdbc:sqlite:"
-        String copyPath = this.url.substring(12);
+        String copyPath = this.databasePath.substring(12);
         Path copy = Paths.get(copyPath);
 
         if (reset) {
             try {
                 Files.deleteIfExists(copy);
-                log.info("Existing database file deleted due to reset flag.");
+                LOG.info("Existing database file deleted due to reset flag.");
             } catch (IOException e) {
-                log.error("Error deleting existing database file", e);
+                LOG.error("Error: Could not delete existing database, {}", e.getMessage());
             } finally {
                 reset = false;
             }
+        }
+
+        File dbFile = copy.toFile();
+        if (dbFile.exists()) {
+            if (!dbFile.isFile()) {
+                LOG.error("Error: Source database is not a file");
+            }
+
+            return;
         }
 
         // Differentiate what main.db to use based on whether we are running tests or main application jar
         try {
             if (System.getProperty("test.env") == null) {
                 InputStream ogPath = DatabaseManager.class.getResourceAsStream("/sql/main.db");
-                log.info("Copying database from: " + ogPath + " to: " + copy);
+                LOG.info("Copying database from: {} to: {}", ogPath, copy);
+
+                assert ogPath != null;
                 Files.copy(ogPath, copy);
-                log.info("Database copied successfully.");
+                LOG.info("Database copied successfully to main environment.");
             } else {
                 Path ogPath = Paths.get("src/main/resources/sql/main.db");
-                log.info("Copying test database from: " + ogPath + " to: " + copy);
+
+                LOG.info("Copying test database from: {} to: {}", ogPath, copy);
                 Files.copy(ogPath, copy);
-                log.info("Database copied successfully.");
+                LOG.info("Database copied successfully to test environment.");
             }
         } catch (FileNotFoundException e) {
-            log.info("DB File already exists. - Did not replace");
+            LOG.error("Error: Could not find source database");
         } catch (IOException e) {
-            log.error(e.getMessage());
+            LOG.error("Error: Could not initialise database {}", e.getMessage());
         }
     }
 }

@@ -17,9 +17,9 @@
     <children>
         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="32.0" layoutY="50.0" prefHeight="510.0" prefWidth="1215.0" style="-fx-background: #FFFFFF; -fx-background-color: transparent;">
             <content>
-                <AnchorPane fx:id="scrollAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="1205.0">
+                <AnchorPane fx:id="scrollAnchorPane" layoutY="20.0" minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="1220.0">
                     <children>
-                        <GridPane fx:id="reviewGrid" alignment="CENTER" hgap="10.0" prefHeight="147.0" prefWidth="1205.0" vgap="10.0">
+                        <GridPane fx:id="reviewGrid" alignment="CENTER" hgap="10.0" layoutY="20.0" prefHeight="147.0" prefWidth="1205.0" vgap="10.0">
                             <columnConstraints>
                                 <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             </columnConstraints>
@@ -36,7 +36,7 @@
         </ScrollPane>
         <Text fx:id="title" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Reviewed Wines:" wrappingWidth="1200.0" y="20.0">
             <font>
-                <Font name="PT Serif" size="25.0" />
+                <Font name="Noto Serif Regular" size="24.0" />
             </font></Text>
         <AnchorPane layoutX="464.0" layoutY="560.0" prefHeight="58.0" prefWidth="353.0">
             <children>
@@ -44,7 +44,7 @@
                     <children>
                         <Button fx:id="nextTextButton" layoutX="-11.0" mnemonicParsing="false" onMouseClicked="#pageNext" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: none;" text="Next Page" underline="true">
                             <font>
-                                <Font size="13.0" />
+                                <Font name="Noto Serif Regular" size="13.0" />
                             </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -64,7 +64,7 @@
                     <children>
                         <Button fx:id="prevTextButton" layoutX="27.0" mnemonicParsing="false" onMouseClicked="#pagePrev" prefHeight="30.0" prefWidth="112.0" style="-fx-background-color: none;" text="Previous Page" underline="true">
                             <font>
-                                <Font size="13.0" />
+                                <Font name="Noto Serif Regular" size="13.0" />
                             </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -82,7 +82,7 @@
                 </AnchorPane>
                 <Text fx:id="pageCounterText" layoutX="154.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="??/????">
                     <font>
-                        <Font size="13.0" />
+                        <Font name="Noto Serif Regular" size="13.0" />
                     </font>
                 </Text>
             </children>

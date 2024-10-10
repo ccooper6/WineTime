@@ -3,6 +3,7 @@ package seng202.team1.models;
 import seng202.team1.repository.DAOs.LogWineDao;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The review class that contains the attributes of a user review.
@@ -17,6 +18,7 @@ public class Review {
     private String reviewDescription;
     private String reviewDate;
     private ArrayList<String> tagsSelected;
+    private ArrayList<String> tagsLiked;
 
     /**
      * Constructor for the review class.
@@ -27,13 +29,14 @@ public class Review {
      * @param reviewDate The date the review was made.
      * @param tagsSelected The tags selected by the user.
      */
-    public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate, ArrayList<String> tagsSelected) {
+    public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate, ArrayList<String> tagsSelected, ArrayList<String> tagsLiked) {
         this.uid = uid;
         this.wid = wid;
         this.rating = rating;
         this.reviewDescription = reviewDescription;
         this.reviewDate = reviewDate;
-        this.tagsSelected = tagsSelected;
+        this.tagsSelected = Objects.requireNonNullElseGet(tagsSelected, ArrayList::new);
+        this.tagsLiked = Objects.requireNonNullElseGet(tagsLiked, ArrayList::new);
     }
 
     /**
@@ -93,27 +96,11 @@ public class Review {
     }
 
     /**
-     * Setter for reviewDescription.
-     * @param reviewDescription The description of the review.
-     */
-    public void setReviewDescription(String reviewDescription) {
-        this.reviewDescription = reviewDescription;
-    }
-
-    /**
      * Getter for reviewDate.
      * @return The date the review was made.
      */
     public String getReviewDate() {
         return reviewDate;
-    }
-
-    /**
-     * Setter for reviewDate.
-     * @param reviewDate The date the review was made.
-     */
-    public void setReviewDate(String reviewDate) {
-        this.reviewDate = reviewDate;
     }
 
     /**
@@ -125,10 +112,11 @@ public class Review {
     }
 
     /**
-     * Setter for tagsSelected.
-     * @param tagsSelected The tags selected by the user.
+     * Returns the liked tags of the review
+     *
+     * @return An ArrayList<String> of tags
      */
-    public void setTagsSelected(ArrayList<String> tagsSelected) {
-        this.tagsSelected = tagsSelected;
+    public ArrayList<String> getTagsLiked() {
+        return tagsLiked;
     }
 }
