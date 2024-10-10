@@ -5,7 +5,6 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,7 +39,6 @@ import java.util.regex.Pattern;
 
 /**
  * Controller class for the popup.fxml popup.
- * @author Caleb Cooper, Elise Newman, Yuhao Zhang, Wen Sheng Thong
  */
 public class PopUpController {
     public TextFlow valueDisplay;
