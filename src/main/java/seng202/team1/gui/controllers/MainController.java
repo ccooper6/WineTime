@@ -1,11 +1,14 @@
 package seng202.team1.gui.controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.services.CategoryService;
@@ -24,6 +27,8 @@ public class MainController {
     private GridPane contentsGrid;
     @FXML
     private AnchorPane categoryAnchorPane;
+    @FXML
+    private FontAwesomeIconView refreshIcon;
 
     /**
      * Initializes the main page view.
@@ -57,6 +62,8 @@ public class MainController {
                 displayCategoriesNoRec();
             }
         });
+
+        setUpRefreshIconAnimation();
     }
 
 
@@ -113,6 +120,18 @@ public class MainController {
             }
         });
 
+    }
+
+    /**
+     * Sets up the refresh icon animation.
+     */
+    private void setUpRefreshIconAnimation() {
+        RotateTransition refreshAnimation = new RotateTransition(Duration.millis(500), refreshIcon);
+        refreshAnimation.setByAngle(360);
+        refreshIcon.setOnMouseClicked(event -> {
+            refreshAnimation.play();
+            refreshAnimation.setOnFinished(e -> refreshCategories());
+        });
     }
 
     /**
