@@ -22,7 +22,6 @@ public class TagRankingStepDefs {
     private int currentUser;
     private void initialize() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
-        DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
@@ -55,7 +54,7 @@ public class TagRankingStepDefs {
     }
     @When("User {int} reviewed wine #{int} with tags {listOfTags} with a rating of {int}")
     public void userReviewsWine(int uid, int wid, ArrayList<String> tags, int rating) throws InstanceAlreadyExistsException {
-        reviewService.updateTagLikes(uid, tags, new ArrayList<>(), rating, 0);
+        reviewService.updateTagLikes(uid, wid, tags, rating);
         reviewService.submitLog(rating, uid, wid, tags, tags, false, "Wine is good");
     }
     @When("The profile is viewed for User {int}")

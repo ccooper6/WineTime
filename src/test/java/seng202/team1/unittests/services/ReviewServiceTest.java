@@ -47,7 +47,7 @@ public class ReviewServiceTest {
         logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), new ArrayList<>(List.of("fruity", "smooth")), false);
         logWineDao.doReview(testUserId, 2, 4, "Good wine!", "12/12/12", new ArrayList<>(List.of("dry", "bold")), new ArrayList<>(List.of("dry", "bold")), false);
 
-        ArrayList<Review> userReviews = reviewService.getUserReviews(testUserId);
+        ArrayList<Review> userReviews = ReviewService.getUserReviews(testUserId);
 
         assertNotNull(userReviews);
         assertEquals(2, userReviews.size());
@@ -65,7 +65,7 @@ public class ReviewServiceTest {
         logWineDao.doReview(testUserId, 1, 5, "Great wine!", "12/12/12", new ArrayList<>(List.of("fruity", "smooth")), new ArrayList<>(List.of("fruity", "smooth")), false);
         logWineDao.doReview(testUserId, 2, 4, "Good wine!", "12/12/12", new ArrayList<>(List.of("dry", "bold")), new ArrayList<>(List.of("dry", "bold")), false);
 
-        ArrayList<Review> userReviews = reviewService.getUserReviews(testUserId);
+        ArrayList<Review> userReviews = ReviewService.getUserReviews(testUserId);
 
         assertNotNull(userReviews);
         assertNotEquals(5, userReviews.size());

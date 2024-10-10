@@ -238,16 +238,9 @@ public class WineLoggingPopupController {
         }
         boolean noneSelected = selectedTags.isEmpty();
 
-        Review existingReview = reviewService.getReview(currentUserUid, currentWineId);
         ArrayList<String> finalTagsToLike = tagsToLike;
         navigationController.executeWithLoadingScreen(() -> {
-            if (existingReview != null) {
-                ArrayList<String> oldTags = existingReview.getTagsLiked();
-                int oldRating = existingReview.getRating();
-                reviewService.updateTagLikes(currentUserUid, finalTagsToLike, oldTags, rating, oldRating);
-            } else {
-                reviewService.updateTagLikes(currentUserUid, finalTagsToLike, new ArrayList<>(), rating, 0);
-            }
+            reviewService.updateTagLikes(currentUserUid, currentWineId, finalTagsToLike, rating);
 
             reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);
             Platform.runLater(this::returnToWinePopUp);

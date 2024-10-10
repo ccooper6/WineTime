@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.SearchableComboBox;
 import seng202.team1.gui.FXWrapper;
+import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.services.SearchWineService;
@@ -670,7 +671,8 @@ public class SearchWineController {
     @FXML
     public void pageEnd()
     {
-        currentPage = Math.ceilDiv(allWines.size() - 1, MAXSIZE) - 1;
+        currentPage = Math.ceilDiv(allWines.size(), MAXSIZE) - 1;
+        System.out.println(currentPage);
         displayCurrentPage();
     }
 
@@ -770,7 +772,7 @@ public class SearchWineController {
         String columnName = null;
         if (sortDropDown.getValue() != null) {
             if (sortDropDown.getValue().equals("Recommended")) {
-                SearchWineService.getInstance().searchWinesByRecommend(120);
+                SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 120);
             } else {
                 switch (sortDropDown.getValue()) {
                     case "Name" -> {

@@ -34,8 +34,9 @@ public class WineSearchStepDefs {
 
     @When("The user searches for wines with {string} {string}")
     public void userSearches(String type, String filter) {
+        SearchWineService.getInstance().resetFilters();
         if (type.equals("name"))
-            searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
+            searchWineService.searchWinesByName(filter);
         else if (type.equals("tags"))
             searchWineService.searchWinesByTags(filter, SearchDAO.UNLIMITED);
         else
@@ -108,7 +109,7 @@ public class WineSearchStepDefs {
         searchWineService.setCurrentMinYear(minYear);
         searchWineService.setCurrentMaxYear(maxYear);
         FXWrapper.getInstance().setCurrentPage("searchWine");
-        searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
+        searchWineService.searchWinesByName(filter);
         wineList = searchWineService.getWineList();
     }
 
