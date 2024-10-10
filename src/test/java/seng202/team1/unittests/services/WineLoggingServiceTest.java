@@ -11,6 +11,7 @@ import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
 
 
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,12 +37,15 @@ public class WineLoggingServiceTest {
     /**
      * Makes sure the database is set up before each test. Overwrites the prev test database with a clean test_database
      * before each test.
-     * @throws InstanceAlreadyExistsException
      */
     @BeforeEach
-    public void setUp() throws InstanceAlreadyExistsException {
+    public void setUp() {
         DatabaseManager.REMOVE_INSTANCE();
-        DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        try {
+            DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
+        } catch (InstanceAlreadyExistsException e) {
+            fail("Could not reset database!");
+        }
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
         logWineDao = new LogWineDao();

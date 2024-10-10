@@ -1,10 +1,7 @@
 package seng202.team1.unittests.services;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.repository.DAOs.TagDAO;
-import seng202.team1.repository.DatabaseManager;
 
 import java.util.ArrayList;
 
