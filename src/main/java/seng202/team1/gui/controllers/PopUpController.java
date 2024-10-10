@@ -41,10 +41,18 @@ import java.util.regex.Pattern;
  * Controller class for the popup.fxml popup.
  */
 public class PopUpController {
-    public TextFlow valueDisplay;
-    public TextFlow pointsDisplay;
-    public Button helpButton;
-    public TextFlow helpText;
+    @FXML
+    private TextFlow valueDisplay;
+    @FXML
+    private TextFlow pointsDisplay;
+    @FXML
+    private Button helpButton;
+    @FXML
+    private TextFlow helpText;
+    @FXML
+    private Button tagsHelpButton;
+    @FXML
+    private TextFlow tagsHelpText;
     @FXML
     private AnchorPane linkAndIcon;
     @FXML
@@ -147,6 +155,10 @@ public class PopUpController {
         secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
         helpText.getChildren().addAll(firstLine, secondLine);
 
+        firstLine = new Text("\nTags categorize the wine and allow users to find similar wines.\n\nTry clicking the tags to discover more wines with these attributes!\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        tagsHelpText.getChildren().add(firstLine);
+
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
@@ -244,6 +256,9 @@ public class PopUpController {
         });
         helpButton.setOnMouseEntered(event -> helpText.setVisible(true));
         helpButton.setOnMouseExited(event -> helpText.setVisible(false));
+
+        tagsHelpButton.setOnMouseEntered(event -> tagsHelpText.setVisible(true));
+        tagsHelpButton.setOnMouseExited(event -> tagsHelpText.setVisible(false));
     }
 
     /**
