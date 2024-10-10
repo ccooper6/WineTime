@@ -180,7 +180,7 @@ public class NavigationController {
     public void launchSearchWineLoadingScreen() {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         nav.executeWithLoadingScreen(() -> {
-            SearchWineService.getInstance().searchWinesByName(searchBar.getText(), SearchDAO.UNLIMITED);
+            SearchWineService.getInstance().searchWinesByName(searchBar.getText());
             SearchWineService.getInstance().setCurrentSearch(searchBar.getText());
             Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
         });
