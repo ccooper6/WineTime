@@ -122,44 +122,44 @@ public class WineLoggingPopupController {
      * @param wine The wine object obtained from {@link NavigationController#getWine()}
      */
     private void addTagCheckBoxes(Wine wine) {
-        if (wine.getVintage() != NULL) {
-            CheckBox vintageCheckBox = new CheckBox(wine.getVintage() + " Vintage");
+        if (wine.getVintage() != NULL && wine.getVintage() != -1) {
+            CheckBox vintageCheckBox = new CheckBox(wine.getVintage() + " - Vintage");
             vintageCheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(vintageCheckBox);
             tagNameArray.add(Integer.toString(wine.getVintage()));
         }
         if (wine.getCountry() != null) {
-            CheckBox countryCheckBox = new CheckBox(wine.getCountry() + " Country");
+            CheckBox countryCheckBox = new CheckBox(wine.getCountry() + " - Country");
             countryCheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(countryCheckBox);
             tagNameArray.add(wine.getCountry());
         }
         if (wine.getProvince() != null) {
-            CheckBox provinceCheckBox = new CheckBox(wine.getProvince() + " province");
+            CheckBox provinceCheckBox = new CheckBox(wine.getProvince() + "- Province");
             provinceCheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(provinceCheckBox);
             tagNameArray.add(wine.getProvince());
         }
         if (wine.getRegion1() != null) {
-            CheckBox region1CheckBox = new CheckBox(wine.getRegion1() + " region");
+            CheckBox region1CheckBox = new CheckBox(wine.getRegion1() + " - Region");
             region1CheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(region1CheckBox);
             tagNameArray.add(wine.getRegion1());
         }
         if (wine.getRegion2() != null) {
-            CheckBox region2CheckBox = new CheckBox(wine.getRegion2() + " region");
+            CheckBox region2CheckBox = new CheckBox(wine.getRegion2() + " - Region");
             region2CheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(region2CheckBox);
             tagNameArray.add(wine.getRegion2());
         }
         if (wine.getVariety() != null) {
-            CheckBox varietyCheckBox = new CheckBox(wine.getVariety());
+            CheckBox varietyCheckBox = new CheckBox(wine.getVariety() + " - Variety");
             varietyCheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(varietyCheckBox);
             tagNameArray.add(wine.getVariety());
         }
         if (wine.getWinery() != null) {
-            CheckBox wineryCheckBox = new CheckBox(wine.getWinery() + " winery");
+            CheckBox wineryCheckBox = new CheckBox(wine.getWinery() + " - Winery");
             wineryCheckBox.setFont(Font.font("Noto Serif"));
             tagCheckBoxArray.add(wineryCheckBox);
             tagNameArray.add(wine.getWinery());
