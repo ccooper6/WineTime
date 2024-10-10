@@ -174,7 +174,7 @@ public class ReviewsController {
      */
     @FXML
     public void pageEnd() {
-        currentPage = Math.ceilDiv(allReviews.size() - 1, MAXSIZE) - 1;
+        currentPage = Math.ceilDiv(allReviews.size(), MAXSIZE) - 1;
         displayCurrentPage();
     }
 }
