@@ -88,6 +88,10 @@ public class PopUpController {
     private Button wineSearchLink;
     @FXML
     private FontAwesomeIconView logWineIcon;
+    @FXML
+    private Tooltip reviewTooltip;
+    @FXML
+    private Tooltip heartTooltip;
 
     private ArrayList<Button> tagButtons;
 
@@ -120,8 +124,10 @@ public class PopUpController {
         FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();
         if (inWishlist) {
             icon.setFill(Color.web("#70171e"));
+            heartTooltip.setText("Remove this wine from your likes");
         } else {
             icon.setFill(Color.web("#c0c0c0"));
+            heartTooltip.setText("Add this wine to your likes");
         }
 
         PauseTransition pause = new PauseTransition(Duration.millis(100));
@@ -170,9 +176,11 @@ public class PopUpController {
                     throw new RuntimeException(e);
                 }
                 icon.setFill(Color.web("#c0c0c0"));
+                heartTooltip.setText("Add this wine to your likes");
             } else {
                 WishlistService.addToWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#70171e"));
+                heartTooltip.setText("Remove this wine from your likes");
             }
             if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
                 navigationController.closePopUp();
@@ -306,8 +314,11 @@ public class PopUpController {
 
         if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
             logWineIcon.setFill(Color.web("#333333"));
+            reviewTooltip.setText("Edit your review");
+
         } else {
             logWineIcon.setFill(Color.web("#c0c0c0"));
+            reviewTooltip.setText("Write a review for this wine");
         }
     }
 
