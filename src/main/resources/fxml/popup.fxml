@@ -16,6 +16,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import javafx.scene.control.Tooltip?>
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.PopUpController">
    <children>
       <Pane opacity="0.19" prefHeight="485.0" prefWidth="1000.0" style="-fx-background-color: grey;" />
@@ -93,27 +94,51 @@
                         <Button fx:id="vintageTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Vintage" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Search for this vintage"/>
+                           </tooltip>
+                        </Button>
                         <Button fx:id="varietyTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Variety" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Search for this variety"/>
+                           </tooltip>
+                        </Button>
                         <Button fx:id="countryTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Country" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Search for this country"/>
+                           </tooltip>
+                        </Button>
                         <Button fx:id="provinceTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Province" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Search for this province"/>
+                           </tooltip>
+                        </Button>
                         <Button fx:id="wineryTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Winery" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Search for this winery"/>
+                           </tooltip>
+                        </Button>
                         <Button fx:id="regionTag" mnemonicParsing="false" stylesheets="@../style/greyButton.css" text="Region" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="Search for this region"/>
+                           </tooltip>
+                        </Button>
                      </children>
                   </FlowPane>
                </content>
@@ -125,6 +150,9 @@
                <graphic>
                   <FontAwesomeIconView fx:id="logWineIcon" fill="#c0c0c0" glyphName="COMMENT" layoutX="389.0" layoutY="375.0" size="32" text="" />
                </graphic>
+               <tooltip>
+                  <Tooltip text="Write a review for this wine"/>
+               </tooltip>
             </Button>
             <Button fx:id="addToWishlist" layoutX="413.0" layoutY="343.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="47.0" style="-fx-background-color: none;" textFill="WHITE">
                <cursor>
@@ -133,6 +161,9 @@
                <graphic>
                   <FontAwesomeIconView fill="#70171e" glyphName="HEART" layoutX="437.0" layoutY="376.0" size="32" text="" />
                </graphic>
+               <tooltip>
+                  <Tooltip text="Add this wine to your likes"/>
+               </tooltip>
             </Button>
             <Button fx:id="wineSearchLink" alignment="TOP_LEFT" layoutX="13.0" layoutY="350.0" mnemonicParsing="false" onAction="#onWineSearchLinkClicked" prefHeight="28.0" prefWidth="123.0" style="-fx-background-color: WHITE;" text="Purchase" textFill="#c0c0c0">
                <cursor>
@@ -147,6 +178,9 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <tooltip>
+                  <Tooltip text="Buy this wine on an external site"/>
+               </tooltip>
             </Button>
             <Button fx:id="tagsHelpButton" layoutX="460.0" layoutY="215.0" style="-fx-background-color: none;">
                <cursor>
