@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
@@ -21,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.CategoryService;
 import seng202.team1.services.SearchWineService;
 
@@ -451,6 +449,7 @@ public class NavigationController {
      * Sends the user to the wishlist page when the heart icon is clicked.
      */
     public void onLikesClicked() {
+        SearchWineService.getInstance().setCurrentMethod("notRecommended");
         executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("wishlist")));
     }
 
