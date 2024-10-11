@@ -359,10 +359,11 @@ public class WineCategoryDisplayController {
         navigationController.executeWithLoadingScreen(() -> {
             String subpage;
             if (isWishlist) {
+                SearchWineService.getInstance().setCurrentMethod("notRecommended");
                 subpage = "wishlist";
             } else if (isRecommendations) {
                 SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 120);
-                subpage = "searchWine";
+                subpage = "wishlist";
             } else {
                 SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
                 subpage = "searchWine";
