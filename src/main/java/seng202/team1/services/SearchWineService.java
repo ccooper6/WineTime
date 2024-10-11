@@ -114,9 +114,8 @@ public class SearchWineService {
      * the wineList variable.
      *
      * @param filterString A normalised {@link String} that contains what to search by
-     * @param limit        The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
-    public void searchWinesByName(String filterString, int limit) {
+    public void searchWinesByName(String filterString) {
 
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
@@ -156,8 +155,8 @@ public class SearchWineService {
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
      * @param limit an integer limit to the number of wines to recommend
      */
-    public void searchWinesByRecommend(int limit) {
-        wineList = RecommendWineService.getInstance().getRecommendedWines(User.getCurrentUser().getId(), limit);
+    public void searchWinesByRecommend(int userID, int limit) {
+        wineList = RecommendWineService.getInstance().getRecommendedWines(userID, limit);
     }
 
     /**
@@ -374,7 +373,7 @@ public class SearchWineService {
      */
     public void setSearchOrder(String searchOrder) {
         this.searchOrder = searchOrder;
-        searchWinesByName(prevSearch, SearchDAO.UNLIMITED);
+        searchWinesByName(prevSearch);
     }
     /**
      * Stores the dropdown sort by for later

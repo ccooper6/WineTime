@@ -64,7 +64,7 @@ public class WineBuilder {
      */
     private void setVintage(String vintage)
     {
-        if (vintage != null && !vintage.isEmpty()) {
+        if (vintage != null && !vintage.isEmpty() && !vintage.equals("null")) {
             this.vintage = Integer.parseInt(vintage);
         } else {
             this.vintage = -1;

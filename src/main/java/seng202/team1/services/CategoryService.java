@@ -41,7 +41,7 @@ public class CategoryService {
                 "Chianti Classico, Sangiovese",
                 "Champagne, Pinot Meunier",
                 "Provence, Rosé",
-                "Veneto, Prosecco",
+                "Prosecco",
                 "Hunter Valley, Semillon",
                 "Willamette Valley, Pinot Gris",
                 "Burgundy, Chardonnay",
@@ -51,7 +51,13 @@ public class CategoryService {
                 "Alsace, Gewurztraminer",
                 "Tuscany, Vermentino",
                 "Loire Valley, Sauvignon Blanc",
-                "Wairarapa, Pinot Noir"
+                "Wairarapa, Pinot Noir",
+                "Barossa Valley, Shiraz",
+                "Champagne, Chardonnay",
+                "Côtes de Provence, Rosé",
+                "Finger Lakes, Riesling",
+                "Portuguese Sparkling",
+                "New Zealand"
         };
 
         List<String> tagsList = Arrays.asList(tags);
