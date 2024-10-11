@@ -22,7 +22,6 @@ public class TagLikesStepDefs {
     private UserLoginService userLoginService;
     private ReviewService reviewService;
     private LogWineDao logWineDao;
-    private Wine wine;
     private ArrayList<String> wineTags;
     private int wineId;
     private int currentUserId;
@@ -54,26 +53,37 @@ public class TagLikesStepDefs {
     @And("The user likes or dislikes the tag {string} with a review rating of {int}")
     public void iLikeASingleTag(String tag, int newRating) {
         this.currentRating = newRating;
-        reviewService.updateTagLikes(currentUserId, new ArrayList<>(List.of(tag)), new ArrayList<>(), newRating, 0); // Only that tag is liked/disliked
+        ArrayList<String> tagsToLike = new ArrayList<>(List.of(tag));
+        ArrayList<String> tagsSelected = new ArrayList<>(List.of(tag));
+        reviewService.updateTagLikes(currentUserId, wineId, tagsToLike, newRating); // Only that tag is liked/disliked
+        reviewService.submitLog(currentRating, currentUserId, wineId, tagsSelected, tagsToLike, false, "Test");
     }
 
     @And("The user likes no tags with a review rating of {int}")
     public void iLikeNoTags(int newRating) {
         this.currentRating = newRating;
-        reviewService.updateTagLikes(currentUserId, this.wineTags, new ArrayList<>(), newRating, 0); // All tags are therefore liked/disliked
+        ArrayList<String> tagsToLike = wineTags;
+        ArrayList<String> tagsSelected = new ArrayList<>();
+        reviewService.updateTagLikes(currentUserId, wineId, tagsToLike, newRating); // All tags are therefore liked/disliked
+        reviewService.submitLog(currentRating, currentUserId, wineId, tagsSelected, tagsToLike, false, "Test");
     }
 
     @And("The user likes the tags {listOfTags} with a review rating of {int}")
     public void iLikeMultipleTags(List<String> tags, int newRating) {
         this.currentRating = newRating;
         this.currentTagsLiked = tags;
-        reviewService.updateTagLikes(currentUserId, new ArrayList<>(tags), new ArrayList<>(), newRating, 0); // All tags selected are liked/disliked
+        ArrayList<String> tagsToLike = new ArrayList<>(currentTagsLiked);
+        ArrayList<String> tagsSelected = new ArrayList<>(currentTagsLiked);;
+        reviewService.updateTagLikes(currentUserId, wineId, tagsToLike, newRating); // All tags selected are liked/disliked
+        reviewService.submitLog(currentRating, currentUserId, wineId, tagsSelected, tagsToLike, false, "Test");
     }
 
     @And("The user edits to only like the tags {listOfTags} with a review rating of {int}")
     public void iEditReviewToLikeMultipleTags(ArrayList<String> tags, int newRating) {
-        int previousRating = this.currentRating;
-        reviewService.updateTagLikes(currentUserId, tags, new ArrayList<>(), newRating, previousRating); // Only that tag is now liked/disliked
+        ArrayList<String> tagsToLike = tags;
+        ArrayList<String> tagsSelected = tags;
+        reviewService.updateTagLikes(currentUserId, wineId, tagsToLike, newRating); // Only that tag is now liked/disliked
+        reviewService.submitLog(newRating, currentUserId, wineId, tagsSelected, tagsToLike, false, "Test");
         this.currentTagsLiked = tags;
         this.currentRating = newRating;
     }
