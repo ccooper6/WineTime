@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  * Controller class for the wineCategoryDisplay.fxml category displays.
- * @author Elise Newman, Caleb Cooper, Yuhao Zhang
  */
 public class WineCategoryDisplayController {
     @FXML
@@ -77,7 +76,7 @@ public class WineCategoryDisplayController {
     private static final NavigationController navigationController = new NavigationController();
 
     /**
-     * Only initialises on login.
+     * Only initializes on login.
      * Creates an array of the anchor panes (len = 6)
      * Fetches the number of wine objects from the database and stores them in another array (len = MAXWINES)
      */
@@ -98,7 +97,8 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * Sets the title text of the category display depending on the search parameters and special conditions.
+     * Sets the title text of the category display depending on the search parameters
+     * and special conditions (recommendations or wishlist).
      */
     private void setTitleText() {
         if (isWishlist) {
@@ -115,7 +115,8 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * Handles the case where there are no wines to display and displays the correct message depending on the category type.
+     * Handles the case where there are no wines to display and displays the correct message
+     * depending on the category type.
      */
     private void handleEmptyDisplayWines() {
         if (displayWines.isEmpty()) {
@@ -125,7 +126,7 @@ public class WineCategoryDisplayController {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
                 titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle()
-                        + "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
+                        + "\n\nThere was an issue fetching wines. \nPlease try restarting the app!"); //TODO: DO WE WANT THEM TO RESTART OR JUST REFRESH SELECTION?
             }
             leftArrowButton.setDisable(true);
             leftArrowButton.setVisible(false);
@@ -353,6 +354,7 @@ public class WineCategoryDisplayController {
     /**
      * Takes the user to the search page with search parameters of {@link WineCategoryDisplayController#tags}.
      */
+    //TODO DO WE HAVE SEE MORE FOR RECOMMENDATIONS?
     @FXML
     public void seeMore()
     {
@@ -372,7 +374,7 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * Displays the wines in the category if there are 4 or fewer wines.
+     * Displays the wines in the category if there are 4 or fewer wines, removes arrows.
      */
     public void fiveOrLess() {
         for (Wine displaywine : displayWines) {
@@ -405,7 +407,6 @@ public class WineCategoryDisplayController {
 
     /**
      * Create new category display using searchString as the search parameter
-     *
      * @param searchString A String that contains the tags to search by seperated by commas
      *                     If string is "wishlist" or "recommend", the corresponding search will be done instead
      * @return the parent of the new category

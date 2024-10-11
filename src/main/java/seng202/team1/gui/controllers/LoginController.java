@@ -183,7 +183,7 @@ public class LoginController {
     }
 
     /**
-     * Very simple method to handle when the login button is pressed. Validates the user account using the inputs
+     * Simple method to handle when the login button is pressed. Validates the user account using the inputs
      * from the username and password text fields.
      */
     @FXML
@@ -204,7 +204,7 @@ public class LoginController {
     }
 
     /**
-     * Very simple method to handle when the register button is pressed. Creates a new user account using the inputs
+     * Simple method to handle when the register button is pressed. Creates a new user account using the inputs
      * from the username and password text fields.
      */
     @FXML

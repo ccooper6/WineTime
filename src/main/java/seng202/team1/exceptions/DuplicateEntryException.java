@@ -1,7 +1,7 @@
 package seng202.team1.exceptions;
 
 /**
- * A simple exception, used when there are duplicate entrys in a database.
+ * A simple exception, used when there are duplicate entries in a database.
  */
 public class DuplicateEntryException extends Exception {
 

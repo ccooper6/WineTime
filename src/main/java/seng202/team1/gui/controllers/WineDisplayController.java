@@ -14,8 +14,7 @@ import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
 
 /**
- * Controller for displaying wine cards.
- * @author Yuhao Zhang, Caleb Cooper
+ * Controller for wineMiniDisplay.fxml.
  */
 public class WineDisplayController {
     @FXML
@@ -35,7 +34,7 @@ public class WineDisplayController {
     private final ReviewService reviewService = new ReviewService();
 
     /**
-     * Displays the wine card using SearchWineService instances' current wine.
+     * Initializes the controller and displays the wine card using SearchWineService instances' current wine.
      */
     @FXML
     public void initialize()
@@ -82,10 +81,12 @@ public class WineDisplayController {
         winePane.setStyle("-fx-background-color: white; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
     }
 
+    /**
+     * makes overlay pane visible to highlight the tile green with a tick.
+     */
     @FXML
     public void completedChallengeWine()
     {
-//        winePane.setStyle("-fx-background-color:  #008000; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #d9d9d9");
         wineCompleted.setVisible(true);
         wineCompleted.setMouseTransparent(true);
     }
