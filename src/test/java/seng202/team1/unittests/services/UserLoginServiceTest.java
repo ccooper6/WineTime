@@ -10,10 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UserLoginServiceTest {
     private static UserLoginService userLoginService;
 
-    /**
-     * This creates a new database file for the test databases
-     * @throws InstanceAlreadyExistsException this is in case there already is an instance
-     */
     @BeforeAll
     static void setUp() throws InstanceAlreadyExistsException{
         DatabaseManager.REMOVE_INSTANCE();
@@ -22,9 +18,6 @@ public class UserLoginServiceTest {
         userLoginService = new UserLoginService();
     }
 
-    /**
-     * This test uses the login service to put a username in the database and confirms it didn't cause an error.
-     */
     @Test
     public void testStoreGood() {
         String name = "Isaac";

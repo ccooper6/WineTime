@@ -14,11 +14,6 @@ import seng202.team1.services.ReviewService;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Step operations for the scenario tests for when user logs a wine.
- *
- * @author Wen Sheng Thong
- */
 public class WineLogStepDefs {
     static ReviewService reviewService;
     static LogWineDao logWineDao;
@@ -29,7 +24,7 @@ public class WineLogStepDefs {
     private int wid;
     private int rating;
     private boolean selectedTag;
-    private int oldrating;
+    private int oldRating;
 
     private void initialise() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
@@ -59,12 +54,12 @@ public class WineLogStepDefs {
 
     @When("I have previously rated it a {int} with the description {string}")
     public void previouslyLoggedWine(Integer oldRating, String oldDescription) {
-        this.oldrating = oldRating;
+        this.oldRating = oldRating;
         this.description = oldDescription;
         for (String tag : wineTags) {
-            logWineDao.likes(this.uid, tag, reviewService.getRatingWeight(this.oldrating));
+            logWineDao.likes(this.uid, tag, reviewService.getRatingWeight(this.oldRating));
         }
-        reviewService.submitLog(this.oldrating,this.uid,this.wid,this.wineTags,this.wineTags,false,this.description);
+        reviewService.submitLog(this.oldRating,this.uid,this.wid,this.wineTags,this.wineTags,false,this.description);
     }
 
     @When("I rate it a {int}")
@@ -81,6 +76,7 @@ public class WineLogStepDefs {
     public void leaveReview(String review) {
         this.description = review.replaceAll("\\s+", " ");
     }
+
     @When("I click submit log")
     public void submitedLog() {
         if (this.selectedTag) {
@@ -125,7 +121,7 @@ public class WineLogStepDefs {
         HashMap<String, Integer> result = logWineDao.getLikedTags(this.uid, SearchDAO.UNLIMITED, true);
         for (String checkTag: tagsToCheck) {
             Assertions.assertTrue(result.containsKey(checkTag));
-            Assertions.assertEquals(reviewService.getRatingWeight(oldrating) + reviewService.getRatingWeight(rating), result.get(checkTag));
+            Assertions.assertEquals(reviewService.getRatingWeight(oldRating) + reviewService.getRatingWeight(rating), result.get(checkTag));
         }
         ArrayList<Review> reviews = logWineDao.getUserReview(this.uid,1, true);
         Assertions.assertEquals(rating,reviews.getFirst().getRating());

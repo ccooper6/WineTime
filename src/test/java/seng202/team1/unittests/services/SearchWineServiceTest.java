@@ -30,11 +30,6 @@ public class SearchWineServiceTest {
     private static DatabaseManager databaseManager;
     private static LogWineDao logWineDao;
 
-    /**
-     * Sets up {@link DatabaseManager} instance to use the test database
-     *
-     * @throws InstanceAlreadyExistsException If {@link DatabaseManager#REMOVE_INSTANCE()} does not remove the instance
-     */
     @BeforeAll
     static void setUp() throws InstanceAlreadyExistsException
     {
@@ -44,17 +39,11 @@ public class SearchWineServiceTest {
         DatabaseManager.getInstance().forceReset();
     }
 
-    /**
-     * Check databaseManager exists
-     */
     @Test
     void testDBConnection() {
         assertNotNull(databaseManager);
     }
 
-    /**
-     * Test searching wines by tags using a single tag 'Oregon' gives the expected output
-     */
     @Test
     public void searchWinesByTags1Tag()
     {
@@ -66,9 +55,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
     }
 
-    /**
-     * Tests search wines by tags without any tags gives no wines
-     */
     @Test
     public void searchWinesByTagsEmptyString()
     {
@@ -78,9 +64,6 @@ public class SearchWineServiceTest {
         assertEquals(0, fromDB.size());
     }
 
-    /**
-     * Tests trailing commas at the end of the search query does not disrupt the search
-     */
     @Test
     public void searchWinesByTagsTrailingComma()
     {
@@ -92,9 +75,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.hasLocation("Oregon")));
     }
 
-    /**
-     * Tests that searching wines with an empty tag returns no wines
-     */
     @Test
     public void searchWinesByTagsEmptyTag()
     {
@@ -104,9 +84,6 @@ public class SearchWineServiceTest {
         assertEquals(0, fromDB.size());
     }
 
-    /**
-     * Tests searching wines by tags with 2 tags seperated by a comma returns the expected result
-     */
     @Test
     public void searchWinesByTag2Tags()
     {
@@ -120,9 +97,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.getVariety().equals("Pinot Noir")));
     }
 
-    /**
-     * Tests that accented characters and capitalisation does not break searching
-     */
     @Test
     public void searchWinesByTag2TagsWeirdText()
     {
@@ -135,9 +109,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.getVariety().equals("Pinot Noir")));
     }
 
-    /**
-     * Tests searching wines by tags with a non-existent tag returns no wines
-     */
     @Test
     public void searchWinesByTagTagNotExist()
     {
@@ -147,9 +118,6 @@ public class SearchWineServiceTest {
         assertEquals(0, fromDB.size());
     }
 
-    /**
-     * Tests searching wines by tags with 2 tags that are never used together returns no wines
-     */
     @Test
     public void searchWinesByTagGeneralConflictingTags()
     {
@@ -159,9 +127,6 @@ public class SearchWineServiceTest {
         assertEquals(0, fromDB.size());
     }
 
-    /**
-     * Tests that searching wines by name with a word returns the expected result
-     */
     @Test
     public void searchWinesByName1Word() {
         String name = "Chardonnay";
@@ -172,9 +137,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
-    /**
-     * Tests that searching wines by name with accented characters and capitalisation does not break
-     */
     @Test
     public void searchWinesByNameWeirdName() {
         String name = "ChardóNnAy";
@@ -185,9 +147,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("Chardonnay")));
     }
 
-    /**
-     * Tests searching wines by name with 2 words seperated by a space returns the expected result
-     */
     @Test
     public void searchWinesByName2Words()
     {
@@ -199,9 +158,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().contains("New Zealand")));
     }
 
-    /**
-     * Tests searching wines by name with trailing spaces does not affect the search
-     */
     @Test
     public void searchWinesByNameTrailingSpaces() {
         String name = "     chardonnay    ";
@@ -212,9 +168,6 @@ public class SearchWineServiceTest {
         assertTrue(fromDB.stream().allMatch(wine -> wine.getName().toLowerCase().contains("chardonnay")));
     }
 
-    /**
-     * Tests that searching wines by name with an empty string returns a list of all wines
-     */
     @Test
     public void searchWinesByNameEmptyString()
     {
@@ -225,9 +178,6 @@ public class SearchWineServiceTest {
         assertEquals(118837, fromDB.size());
     }
 
-    /**
-     * Tests search wines by name with a string that is ot matched by any wine returns no wines
-     */
     @Test
     public void searchWinesByNameNoMatch()
     {

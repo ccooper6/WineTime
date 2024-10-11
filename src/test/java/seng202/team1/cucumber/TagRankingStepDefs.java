@@ -31,7 +31,7 @@ public class TagRankingStepDefs {
     }
 
     /**
-     * Simply gets the name of the tags from the pie chart data and returns it as an arraylist
+     * Gets the name of the tags from the pie chart data and returns it as an arraylist
      * @param tagData an observable list of {@link PieChart.Data}
      * @return an ArrayList of tag names
      */
@@ -42,21 +42,25 @@ public class TagRankingStepDefs {
         }
         return tagNames;
     }
+
     @Given("User {int} has no reviews")
     public void setUserNoReviews(int uid) throws InstanceAlreadyExistsException {
         currentUser = uid;
         initialize();
     }
+
     @Given("User {int} is on the app")
     public void userIsOnApp(int uid) throws InstanceAlreadyExistsException {
         currentUser  = uid;
         initialize();
     }
+
     @When("User {int} reviewed wine #{int} with tags {listOfTags} with a rating of {int}")
     public void userReviewsWine(int uid, int wid, ArrayList<String> tags, int rating) throws InstanceAlreadyExistsException {
         reviewService.updateTagLikes(uid, wid, tags, rating);
         reviewService.submitLog(rating, uid, wid, tags, tags, false, "Wine is good");
     }
+
     @When("The profile is viewed for User {int}")
     public void viewProfile(int uid) {
         currentUser = uid;
@@ -92,6 +96,7 @@ public class TagRankingStepDefs {
     public void dislikedPieGreyed() {
         Assertions.assertFalse(tagRankingService.hasEnoughDislikedTags(currentUser));
     }
+
     @Then("The top 5 liked pie chart is greyed out")
     public void likedPieGreyed() {
         Assertions.assertFalse(tagRankingService.hasEnoughLikedTags(currentUser));

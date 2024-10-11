@@ -19,10 +19,6 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-/**
- * test for challenge service class
- * @author Lydia Jackson.
- */
 public class ChallengeServiceTest {
 
 
@@ -31,13 +27,6 @@ public class ChallengeServiceTest {
     private UserDAO userDAO;
 
     private User user;
-
-    /**
-     * Sets up {@link DatabaseManager} instance to use the test database
-     * creates a test user with user id 0, sets the current user to be the test user.
-     *
-     * @throws InstanceAlreadyExistsException If {@link DatabaseManager#REMOVE_INSTANCE()} does not remove the instance
-     */
 
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException, DuplicateEntryException {
@@ -52,11 +41,6 @@ public class ChallengeServiceTest {
         userDAO = new UserDAO();
     }
 
-    /**
-     * tests the user id and variety challenge is stored in the active_challenges table in the database when
-     * startChallengeVariety() is called.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void varietyChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
@@ -64,11 +48,6 @@ public class ChallengeServiceTest {
         assertEquals("Variety Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
-    /**
-     * tests the user id and variety challenge is stored in the active_challenges table in the database when
-     * startChallengeVariety() is called.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void decadesChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
@@ -76,11 +55,6 @@ public class ChallengeServiceTest {
         assertEquals("Time Travelling Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
-    /**
-     * tests the user id and variety challenge is stored in the active_challenges table in the database when
-     * startChallengeVariety() is called.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void redsChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
@@ -88,11 +62,6 @@ public class ChallengeServiceTest {
         assertEquals("Red Roulette Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
-    /**
-     * tests the user id and variety challenge is stored in the active_challenges table in the database when
-     * startChallengeVariety() is called.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void whitesChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
@@ -100,11 +69,6 @@ public class ChallengeServiceTest {
         assertEquals("Great White Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
-    /**
-     * tests the user id and variety challenge is stored in the active_challenges table in the database when
-     * startChallengeVariety() is called.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void roseChallengeStarts() throws DuplicateEntryException {
         userDAO.add(user);
@@ -112,19 +76,12 @@ public class ChallengeServiceTest {
         assertEquals("Rosè challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
-    /**
-     * tests that activeChallenge returns false if user has no active challenges.
-     */
     @Test
     public void noActiveChallengeTest() throws DuplicateEntryException {
         userDAO.add(user);
         assertEquals(false, challengeService.activeChallenge());
     }
 
-    /**
-     * tests that active challenge returns true if user has variety challenge active.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void activeChallengeTest() throws DuplicateEntryException {
         userDAO.add(user);
@@ -132,21 +89,12 @@ public class ChallengeServiceTest {
         assertEquals(true, challengeService.activeChallenge());
     }
 
-
-    /**
-     * tests the usersChallenge returns null when the user has no challenges.
-     * @throws DuplicateEntryException
-     */
     @Test
     public void usersActiveChallengesNullTests() throws DuplicateEntryException {
         userDAO.add(user);
         assertEquals(null, challengeService.usersChallenge());
     }
 
-    /**
-     * test that challenge completed method clears the challenge from the users active challenge in the database
-     * @throws DuplicateEntryException
-     */
     @Test
     public void challengeCompleteTest() throws DuplicateEntryException {
         userDAO.add(user);
@@ -156,11 +104,6 @@ public class ChallengeServiceTest {
 
     }
 
-
-    /**
-     * tests  the method to add wines to a challenge and activate the challenge for the user
-     * @throws DuplicateEntryException
-     */
     @Test
     public void challengeWinesTest() throws DuplicateEntryException {
         userDAO.add(user);
@@ -175,9 +118,5 @@ public class ChallengeServiceTest {
         for (int i= 0; i < wines.size(); i++) {
             assertEquals(i + 1, wines.get(i).getWineId());
         }
-
-
     }
-
-
 }

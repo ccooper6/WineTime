@@ -20,22 +20,11 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * The set of tests that covers {@link RecommendWineService} and
- * {@link seng202.team1.repository.DAOs.SearchDAO#getRecommendedWines(ArrayList, ArrayList, ArrayList, int)}
- *
- * @author Wen Sheng Thong
- */
 public class RecommendWineServiceTest {
     static DatabaseManager databaseManager;
     static LogWineDao logWineDao;
     static RecommendWineService recommendWineService;
 
-    /**
-     * Sets up {@link DatabaseManager} instance to use the test database
-     *
-     * @throws InstanceAlreadyExistsException If {@link DatabaseManager#REMOVE_INSTANCE()} does not remove the instance
-     */
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException
     {
@@ -46,9 +35,6 @@ public class RecommendWineServiceTest {
         DatabaseManager.getInstance().forceReset();
     }
 
-    /**
-     * Check databaseManager exists
-     */
     @Test
     void testDBConnection() {
         assertNotNull(databaseManager);
@@ -78,6 +64,7 @@ public class RecommendWineServiceTest {
         }
         return wineTags;
     }
+
     /**
      * Verifies that the wine have at least one liked tag and no disliked tags
      * @param wine wine
@@ -98,11 +85,6 @@ public class RecommendWineServiceTest {
         return hasLikedTags;
     }
 
-
-    /**
-     * Checks to see if {@link seng202.team1.services.RecommendWineService#hasEnoughFavouritesTag(int)} returns true
-     * if the user has at least 3 liked tags and false if otherwise.
-     */
     @Test
     public void testHasEnoughFavTag() {
         String[] tags = {"2012", "2004", "2006", "2005", "2003"};
@@ -114,10 +96,6 @@ public class RecommendWineServiceTest {
         Assertions.assertFalse(recommendWineService.hasEnoughFavouritesTag(2));
     }
 
-    /**
-     * Tests that it will try to recommend wines to the user without including wines with disliked tags and making sure
-     * that the wines recommended have at least one tag that is liked
-     */
     @Test
     public void testRecommendedWithDislikedTags() {
         logWineDao.likes(1, "2012", 1000);
