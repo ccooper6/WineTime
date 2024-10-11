@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  * Controller for the Search Wines Page.
  */
 public class SearchWineController {
+    public Pane greyScreen;
     @FXML
     private FontAwesomeIconView sortDirection;
     @FXML
@@ -629,7 +631,7 @@ public class SearchWineController {
         sortDropDown.getItems().add("Name");
         sortDropDown.getItems().add("Price");
         sortDropDown.getItems().add("Points");
-        //sortDropDown.getItems().add("Vintage"); not working yet
+        sortDropDown.getItems().add("Vintage");
         sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
         SearchWineService.getInstance().setSortDirection(true);
@@ -792,8 +794,8 @@ public class SearchWineController {
                     }
                     case "Vintage" -> {
                         columnName = "vintage"; // TODO add vintage to database
-                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
-                        SearchWineService.getInstance().setSortDirection(false);
+                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                        SearchWineService.getInstance().setSortDirection(true);
                     }
                 }
                 SearchWineService.getInstance().setSearchOrder(columnName);
