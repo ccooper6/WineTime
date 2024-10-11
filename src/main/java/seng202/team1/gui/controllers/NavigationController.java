@@ -6,7 +6,9 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -92,6 +94,9 @@ public class NavigationController {
         }
 
         searchBar.setOnAction(e -> launchSearchWineLoadingScreen());
+
+        Tooltip tooltip = new Tooltip("Return to home page");
+        Tooltip.install(logoPane, tooltip);
 
         wishlistButton.setOnMouseEntered(event -> {
             wishlistButton.setFill(Paint.valueOf("#A05252"));

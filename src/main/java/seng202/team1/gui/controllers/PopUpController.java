@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -106,7 +107,6 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> closePopUp());
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
-
         wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Error in PopUpController.initialize(): Wine is null");
