@@ -10,7 +10,6 @@ import java.util.Objects;
 
 /**
  * Data Access Object for the User class.
- * @author Caleb Cooper, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
 public class UserDAO {
 
@@ -31,11 +30,11 @@ public class UserDAO {
      * @param password the hashed password
      * @return The user is the credentials are found in the database, else null
      */
-    public User tryLogin(String username, int password) {
+    public User tryLogin(int username, int password) {
         String sql = "SELECT * FROM user WHERE username = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setString(1, username);
+            userPS.setInt(1, username);
             ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
@@ -67,7 +66,7 @@ public class UserDAO {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, toAdd.getEncryptedUserName());
+            ps.setInt(1, toAdd.getHashedUsername());
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
             ps.executeUpdate();
@@ -87,11 +86,11 @@ public class UserDAO {
      * @param username the encrypted username
      * @return the name of the user
      */
-    public String getName(String username) {
+    public String getName(int username) {
         String sql = "SELECT name FROM user WHERE username = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setString(1, username);
+            userPS.setInt(1, username);
             ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
