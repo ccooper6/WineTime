@@ -14,7 +14,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.UserLoginService;
 
 /**
- * Controller class to look after the login.fxml page.
+ * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
 public class LoginController {
     @FXML
@@ -51,7 +51,7 @@ public class LoginController {
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     /**
-     * Initialises the login page.
+     * Initialises the login page by adding observers to text fields
      */
     @FXML
     public void initialize() {
