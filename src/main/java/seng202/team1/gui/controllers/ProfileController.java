@@ -286,7 +286,7 @@ public class ProfileController {
      */
     @FXML
     public void logOutButton() {
-        User.setCurrenUser(null);
+        User.setCurrentUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
 }
