@@ -28,6 +28,7 @@ public class Review {
      * @param reviewDescription The description of the review.
      * @param reviewDate The date the review was made.
      * @param tagsSelected The tags selected by the user.
+     * @param tagsLiked The tags liked by the user.
      */
     public Review(int uid, int wid, int rating, String reviewDescription, String reviewDate, ArrayList<String> tagsSelected, ArrayList<String> tagsLiked) {
         this.uid = uid;
