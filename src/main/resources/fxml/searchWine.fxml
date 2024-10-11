@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import org.controlsfx.control.RangeSlider?>
-<?import org.controlsfx.control.SearchableComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.SearchWineController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.SearchWineController">
    <children>
       <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="5.0" layoutY="122.0" prefHeight="440.0" prefWidth="1275.0" style="-fx-background: #FFFFFF; -fx-background-color: transparent;">
         <content>
@@ -137,11 +127,13 @@
       <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></SearchableComboBox>
+         </cursor>
+      </SearchableComboBox>
       <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="31.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></SearchableComboBox>
+         </cursor>
+      </SearchableComboBox>
       <SearchableComboBox fx:id="wineryComboBox" layoutX="223.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -153,16 +145,24 @@
       <TextField fx:id="minPriceTextField" layoutX="1125.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="1181.0" layoutY="54.0" text="to" />
       <TextField fx:id="maxPriceTextField" layoutX="1195.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
-      <Button fx:id="clearFiltersButton" layoutX="1070.0" layoutY="18.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
+      <Button fx:id="clearFiltersButton" layoutX="1075.0" layoutY="9.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-       <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></FontAwesomeIconView>
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" onAction="#dropDownClicked" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5">
+      <Button layoutX="873.0" layoutY="5.0" style="-fx-background-color: none">
+         <graphic>
+            <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" onMouseClicked="#changeIcon" size="25">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontAwesomeIconView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Click to change sort direction" />
+         </tooltip>
+      </Button>
+      <ComboBox fx:id="sortDropDown" layoutX="914.0" layoutY="7.0" onAction="#dropDownClicked" prefHeight="32.0" prefWidth="112.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
@@ -174,7 +174,7 @@
       <TextField fx:id="minYearTextField" layoutX="705.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="761.0" layoutY="54.0" text="to" />
       <TextField fx:id="maxYearTextField" layoutX="775.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
-      <Button fx:id="applyFiltersButton" layoutX="1170.0" layoutY="18.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" stylesheets="@../style/redButton.css" text="Apply filters">
+      <Button fx:id="applyFiltersButton" layoutX="1173.0" layoutY="9.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" prefHeight="26.0" stylesheets="@../style/redButton.css" text="Apply filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

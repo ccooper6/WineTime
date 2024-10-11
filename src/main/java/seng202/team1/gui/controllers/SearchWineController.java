@@ -629,7 +629,7 @@ public class SearchWineController {
         sortDropDown.getItems().add("Name");
         sortDropDown.getItems().add("Price");
         sortDropDown.getItems().add("Points");
-        //sortDropDown.getItems().add("Vintage"); not working yet
+        sortDropDown.getItems().add("Vintage");
         sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
         SearchWineService.getInstance().setSortDirection(true);
@@ -792,8 +792,8 @@ public class SearchWineController {
                     }
                     case "Vintage" -> {
                         columnName = "vintage"; // TODO add vintage to database
-                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
-                        SearchWineService.getInstance().setSortDirection(false);
+                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                        SearchWineService.getInstance().setSortDirection(true);
                     }
                 }
                 SearchWineService.getInstance().setSearchOrder(columnName);
