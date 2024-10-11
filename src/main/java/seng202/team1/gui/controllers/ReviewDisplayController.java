@@ -133,7 +133,7 @@ public class ReviewDisplayController {
      * Sets up the hover effect for the delete button.
      */
     private void setupDeleteButtonHover() {
-        deleteReviewIcon.setOnMouseEntered(event -> deleteReviewIcon.setFill(javafx.scene.paint.Color.RED));
+        deleteReviewIcon.setOnMouseEntered(event -> deleteReviewIcon.setFill(javafx.scene.paint.Color.web("#b22222")));
         deleteReviewIcon.setOnMouseExited(event -> deleteReviewIcon.setFill(javafx.scene.paint.Color.web("#d0d0d0")));
     }
 
