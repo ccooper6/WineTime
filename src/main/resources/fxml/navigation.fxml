@@ -17,7 +17,7 @@
                <Pane fx:id="topBar" prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                   <children>
 
-                     <Button layoutX="1025.0" layoutY="22.0" style="-fx-background-color: white;">
+                     <Button layoutX="1029.0" layoutY="21.0" style="-fx-background-color: white;">
                         <graphic>
                            <FontAwesomeIconView fx:id="reviewsButton" fill="#707070" glyphName="COMMENT" onMouseClicked="#onLogsClicked" selectionEnd="0" size="45" text="" wrappingWidth="50.0">
                               <cursor>
@@ -130,7 +130,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                   <tooltip>
-                     <Tooltip text = "View the help guide"/>
+                     <Tooltip text="View the help guide" />
                   </tooltip>
                </Button>
                <Button onAction="#onLogOutClicked" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #808080;" text="Log Out" textFill="WHITE">
@@ -141,7 +141,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                   <tooltip>
-                     <Tooltip text = "Return to login screen"/>
+                     <Tooltip text="Return to login screen" />
                   </tooltip>
                </Button>
             </children>
