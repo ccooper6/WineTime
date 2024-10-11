@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  * Controller for the Search Wines Page.
  */
 public class SearchWineController {
+    public Pane greyScreen;
     @FXML
     private FontAwesomeIconView sortDirection;
     @FXML
