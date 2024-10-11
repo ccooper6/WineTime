@@ -42,14 +42,21 @@ public class WishlistController {
     private FontAwesomeIconView nextArrowButton;
     @FXML
     private Text title;
+    private boolean isRecc;
 
     /**
      * Selects all wine objects from the database where the int userID matches the current user.
      */
     @FXML
     public void initialize() {
-        int currentUserUid = User.getCurrentUser().getId();
-        allWines = WishlistService.getWishlistWines(currentUserUid);
+        if (SearchWineService.getInstance().getCurrentMethod() != "recommended") {
+            int currentUserUid = User.getCurrentUser().getId();
+            allWines = WishlistService.getWishlistWines(currentUserUid);
+            isRecc = false;
+        } else {
+            allWines = SearchWineService.getInstance().getWineList();
+            isRecc = true;
+        }
         displayCurrentPage();
     }
 
@@ -58,11 +65,15 @@ public class WishlistController {
      */
     @FXML
     public void displayCurrentPage() {
-        if (allWines == null || allWines.isEmpty()) {
-            title.setText("You have no wines saved in your wishlist.\nClick the heart symbol on any wine to save it for later!");
-            pageCounterText.getParent().setVisible(false);
-            LOG.error("Wine list is null");
-            return;
+        if (isRecc) {
+            title.setText("Recommended wines");
+        } else {
+            if (allWines == null || allWines.isEmpty()) {
+                title.setText("You have no wines saved in your wishlist.\nClick the heart symbol on any wine to save it for later!");
+                pageCounterText.getParent().setVisible(false);
+                LOG.error("Wine list is null");
+                return;
+            }
         }
         int start = currentPage * MAXSIZE;
 
