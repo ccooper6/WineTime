@@ -47,6 +47,7 @@ public class ChallengeService {
      */
     public void startChallengeReds()
     {
+        reds.clear();
         ArrayList<String> redsList = new ArrayList<>(wineVarietyService.getReds());
         for (int i = 0; i < 5; i++) {
             reds.add(redsList.get(i));
@@ -63,6 +64,7 @@ public class ChallengeService {
 
     public void startChallengeWhites()
     {
+        whites.clear();
         ArrayList<String> whitesList = new ArrayList<>(wineVarietyService.getWhites());
         for (int i = 0; i < 5; i++) {
             whites.add(whitesList.get(i));
@@ -77,6 +79,7 @@ public class ChallengeService {
 
     public void startChallengeRose()
     {
+        rose.clear();
         ArrayList<String> roseList = new ArrayList<>(wineVarietyService.getRose());
         for (int i = 0; i < 5; i++) {
             rose.add(roseList.get(i));

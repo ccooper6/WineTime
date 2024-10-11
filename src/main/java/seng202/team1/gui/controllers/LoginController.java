@@ -15,39 +15,38 @@ import seng202.team1.services.UserLoginService;
 
 /**
  * Controller class to look after the login.fxml page.
- * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
  */
 public class LoginController {
     @FXML
-    Text usernameText;
+    private Text usernameText;
     @FXML
-    TextField userNameTextField;
+    private TextField userNameTextField;
     @FXML
-    Text passwordText;
+    private Text passwordText;
     @FXML
-    PasswordField passwordField;
+    private PasswordField passwordField;
     @FXML
-    FontAwesomeIconView passwordVisibilityToggle;
+    private FontAwesomeIconView passwordVisibilityToggle;
     @FXML
-    TextField visiblePasswordTextField;
+    private TextField visiblePasswordTextField;
     @FXML
-    Button registerButton;
+    private Button registerButton;
     @FXML
-    Button logInButton;
+    private Button logInButton;
     @FXML
-    Text errorText;
+    private Text errorText;
     @FXML
-    Text nameText;
+    private Text nameText;
     @FXML
-    TextField nameTextField;
+    private TextField nameTextField;
     @FXML
-    Text confirmPasswordText;
+    private Text confirmPasswordText;
     @FXML
-    PasswordField confirmPasswordField;
+    private PasswordField confirmPasswordField;
     @FXML
-    Button goBackButton;
+    private Button goBackButton;
     @FXML
-    Button createUserButton;
+    private Button createUserButton;
 
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
@@ -230,9 +229,9 @@ public class LoginController {
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.storeLogin(name, username, password);
             if (outcome == 1) {
-                LOG.info("Account created for user" + username);
+                LOG.info("Account created for user{}", username);
                 userLoginService.checkLogin(username, password);
-                LOG.info("Logged in as " + username);
+                LOG.info("Logged in as {}", username);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
                 accountCreatedSuccessfully(outcome);

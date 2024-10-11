@@ -14,6 +14,7 @@ import seng202.team1.services.ChallengeService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,9 +44,9 @@ public class ChallengeServiceTest {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
-        user = new User(0, "test", "test");
+        user = new User(0, "test", Objects.hash("test"));
 
-        User.setCurrenUser(user);
+        User.setCurrentUser(user);
         challengeDAO = new ChallengeDAO();
         challengeService = new ChallengeService();
         userDAO = new UserDAO();

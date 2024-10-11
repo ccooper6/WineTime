@@ -23,7 +23,6 @@ import java.util.Objects;
 
 /**
  * Controller class for the profile.fxml page.
- * @author Lydia Jackson, Caleb Cooper, Elise Newman
  */
 public class ProfileController {
     @FXML
@@ -62,14 +61,13 @@ public class ProfileController {
     private AnchorPane pieChartAnchorPane;
     @FXML
     private Label noPieChartLabel;
-    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
-    private final ChallengeService challengeService = new ChallengeService();
-
-    private final ReviewService reviewService = new ReviewService();
-
-    private final TagRankingService tagRankingService = new TagRankingService();
 
     int completedWineCount = 0;
+    private final ChallengeService challengeService = new ChallengeService();
+    private final ReviewService reviewService = new ReviewService();
+    private final TagRankingService tagRankingService = new TagRankingService();
+
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
 
     /**
      * Initialises the controller checks if user has is participating in a challenge, calls
@@ -84,11 +82,10 @@ public class ProfileController {
         }
         displayTagRankings();
         displayWishlist();
-
     }
 
     /**
-     * Responsible for shifting the profile page elements depending on if a pie chart should be displayed or not
+     * Responsible for shifting the profile page elements depending on if a pie chart should be displayed or not.
      */
     private void displayTagRankings() {
         int uid = User.getCurrentUser().getId();
@@ -101,7 +98,7 @@ public class ProfileController {
             displayPieCharts(uid);
         } else {
             makePieChartInvisible();
-            moveMainPane(- 210); //210 is the perfect distance to shift the main page up
+            moveMainPane(-210); //210 is the perfect distance to shift the main page up
         }
     }
 
@@ -139,7 +136,7 @@ public class ProfileController {
     }
 
     /**
-     * Creates and sets the styling of the pie chart
+     * Creates and sets the styling of the pie chart.
      * @param pie {@link PieChart}
      * @param pieChartData an ObservableList of {@link PieChart.Data}
      * @param title the string title of the pie chart
@@ -159,7 +156,7 @@ public class ProfileController {
     }
 
     /**
-     * Creates and sets the styling of an empty pie chart
+     * Creates and sets the styling of an empty pie chart.
      * @param pie {@link PieChart}
      * @param title the string title of the pie chart
      */
@@ -248,8 +245,9 @@ public class ProfileController {
      * Shifts the wine pane to make room for challenge wines.
      */
     public void moveWinesPane() {
-        winesPane.setLayoutY(winesPane.getLayoutY()+ 90);
+        winesPane.setLayoutY(winesPane.getLayoutY() + 90);
     }
+
     /**
      * Shifts the main pane to make room for pie charts.
      * @param moveDistance how much to move the Y distance by
@@ -260,7 +258,7 @@ public class ProfileController {
 
 
     /**
-     * moves the wishlist back up as well as displaying a congratulatory text for completing the challenge
+     * Moves the wishlist back up as well as displaying a congratulatory text for completing the challenge.
      * @param cname the challenge name
      */
     public void challengeCompleted(String cname) {
@@ -271,6 +269,9 @@ public class ProfileController {
         challengeService.challengeCompleted(cname);
     }
 
+    /**
+     * Quits the challenge and displays a message.
+     */
     @FXML
     public void quitChallenge() {
         winesPane.setLayoutY(winesPane.getLayoutY() - 90);
@@ -281,11 +282,11 @@ public class ProfileController {
     }
 
     /**
-     * logs the user out.
+     * Logs the user out.
      */
     @FXML
     public void logOutButton() {
-        User.setCurrenUser(null);
+        User.setCurrentUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
 }

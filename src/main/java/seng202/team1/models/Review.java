@@ -111,7 +111,11 @@ public class Review {
         return tagsSelected;
     }
 
-    //TODO docstring
+    /**
+     * Returns the liked tags of the review
+     *
+     * @return An ArrayList<String> of tags
+     */
     public ArrayList<String> getTagsLiked() {
         return tagsLiked;
     }

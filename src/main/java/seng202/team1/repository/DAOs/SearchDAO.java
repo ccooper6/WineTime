@@ -262,6 +262,7 @@ public class SearchDAO {
             try (ResultSet rs = searchPS.executeQuery()) {
                 wineList = processResultSetIntoWines(rs);
             }
+
         } catch (SQLException e) {
             LOG.error(e.getMessage());
         }
