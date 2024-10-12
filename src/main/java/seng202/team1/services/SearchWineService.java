@@ -93,12 +93,16 @@ public class SearchWineService {
      * Searches the database for wines that matches all tags provided and sets
      * it to the wineList variable.
      * @param tags  A {@link String} of tags seperated by commas
-     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
+     * @param limit The number of wines to select using -1 for no limit
      */
     public void searchWinesByTags(String tags, int limit) {
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
 
         ArrayList<String> tagsList = getTagsFromString(tags);
+
+        if (limit == -1) {
+            limit = SearchDAO.UNLIMITED;
+        }
 
         wineList = SearchDAO.getInstance().searchWineByTags(tagsList, limit);
     }
