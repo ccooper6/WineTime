@@ -19,7 +19,7 @@ public class UserLoginServiceTest {
     }
 
     @Test
-    public void testStoreGood() {
+    public void testTryRegisterUserCorrectScenario() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
@@ -28,18 +28,18 @@ public class UserLoginServiceTest {
     }
 
     @Test
-    public void testStoreDuplicate() {
+    public void testTryRegisterDuplicateUsername() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
         String password2 = "password2";
         userLoginService.storeLogin(name, username, password);
-        int result = userLoginService.storeLogin(name, username, password2);
+        int result = userLoginService.storeLogin(name, username, password2); // returns a 0 code if the username already exists in the db
         assertEquals(0, result);
     }
 
     @Test
-    public void testTryLoginGood() {
+    public void testTryLoginCorrectCredentials() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
@@ -50,7 +50,7 @@ public class UserLoginServiceTest {
     }
 
     @Test
-    public void testTryLoginBad1() {
+    public void testTryLoginWithIncorrectPassword() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
@@ -62,7 +62,7 @@ public class UserLoginServiceTest {
     }
 
     @Test
-    public void testTryLoginBad2() {
+    public void testTryLoginWithWrongUsername() {
         String name = "Isaac";
         String username = "IsaacTheBest";
         String password = "password";
@@ -81,5 +81,4 @@ public class UserLoginServiceTest {
         String nameFromDB = userLoginService.getName(username);
         assertEquals(name, nameFromDB);
     }
-
 }
