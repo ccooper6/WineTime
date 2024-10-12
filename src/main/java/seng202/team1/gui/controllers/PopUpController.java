@@ -157,18 +157,18 @@ public class PopUpController {
      */
     private void setUpPriceText() {
         Text dollarSign = new Text("$");
-        dollarSign.setStyle("-fx-font-size: 18;");
+        dollarSign.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 18;");
         Text value = new Text(String.valueOf(wine.getPrice()));
         if (!"0".equals(value.getText())) {
-            value.setStyle("-fx-font-size: 18;");
+            value.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 18;");
             Text currency = new Text(" USD");
-            currency.setStyle("-fx-font-size: 10;");
+            currency.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 10;");
             valueDisplay.getChildren().addAll(dollarSign, value, currency);
         } else {
             Text buffer = new Text(" ");
-            buffer.setStyle("-fx-font-size: 18;");
+            buffer.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 18;");
             Text unknown = new Text("Price Unknown");
-            unknown.setStyle("-fx-font-size: 14;");
+            unknown.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 14;");
             valueDisplay.getChildren().addAll(buffer, unknown);
         }
     }
@@ -178,9 +178,9 @@ public class PopUpController {
      */
     private void setUpPointsText() {
         Text points = new Text(String.valueOf(wine.getPoints()));
-        points.setStyle("-fx-font-size: 18;");
+        points.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 18;");
         Text range = new Text(" / 100");
-        range.setStyle("-fx-font-size: 12;");
+        range.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 12;");
         pointsDisplay.getChildren().addAll(points, range);
     }
 
@@ -189,13 +189,13 @@ public class PopUpController {
      */
     private void setUpHelpDisplays() {
         Text firstLine = new Text("\nBased scores from WineEnthusiast:\n\n");
-        firstLine.setStyle("-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
+        firstLine.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
         Text secondLine = new Text("98-100 = Classic\n94-97 = Superb\n90-93 = Excellent\n87-89 = Very Good\n83-86 = Good\n80-82 = Acceptable\nMore info on help page\n");
-        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        secondLine.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 12; -fx-text-fill: #f0f0f0");
         helpText.getChildren().addAll(firstLine, secondLine);
 
         firstLine = new Text("\nTags categorize the wine and allow users to find similar wines.\n\nTry clicking the tags to discover more wines with these attributes!\n");
-        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        secondLine.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 12; -fx-text-fill: #f0f0f0");
         tagsHelpText.getChildren().add(firstLine);
     }
 
