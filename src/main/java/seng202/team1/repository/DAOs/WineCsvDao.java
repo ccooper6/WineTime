@@ -17,10 +17,6 @@ import java.text.StringCharacterIterator;
 
 /**
  * The class that handles populating the main.db.
- * Written by Wen Sheng Thong wst44, despite IntelliJ saying it's written by
- * Yuhao Zhang.
- *
- * @author Wen Sheng Thong
  */
 public class WineCsvDao {
 
@@ -64,8 +60,8 @@ public class WineCsvDao {
      * @param wineID a wine ID integer
      * @param tagPs the tag's {@link PreparedStatement}
      * @param ownedByPs the ownedBy relationship {@link PreparedStatement}
+     * @param vintage the vintage of the wine.
      */
-
     private void handleTagAdding(String[] wineValues, int wineID, PreparedStatement tagPs, PreparedStatement ownedByPs, int vintage) {
         if (vintage != 0) {
             executeTagPs(tagPs, Integer.toString(vintage), ownedByPs, "Vintage", wineID);
@@ -97,9 +93,9 @@ public class WineCsvDao {
      * @param winePs The wine {@link PreparedStatement}
      * @param wineValues A string array of wine attributes obtained from the csv file
      * @param wineID the numeric int id for the wine
+     * @param vintage the vintage of the wine.
      * @throws SQLException handled by method caller
      */
-
     public void executeWinePs(PreparedStatement winePs, String[] wineValues, int wineID, int vintage) throws SQLException {
         winePs.setInt(1, wineID);
         //adds wine name

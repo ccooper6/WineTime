@@ -4,6 +4,7 @@ package seng202.team1.exceptions;
  * A simple exception, used when there is an invalid wine.
  */
 public class InvalidWineException extends Exception {
+
     /**
      * Simple constructor that passes to parent Exception class.
      * @param message error message

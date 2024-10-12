@@ -73,7 +73,7 @@ public class QuizController {
     }
 
     /**
-     * Initializes the controller.
+     * Initializes the quiz controller.
      */
     public void initialize() {
         questionLabel.setOpacity(1);
@@ -96,7 +96,7 @@ public class QuizController {
     }
 
     /**
-     * Sends the user to the profile screen using quizService and displays their optimal wine.
+     * Sends the user to the profile screen using quizService and displays the relevant wine.
      */
     @FXML
     public void onShowWineClicked() {
@@ -143,7 +143,7 @@ public class QuizController {
     }
 
     /**
-     * Handles what to do when the back button is clicked.
+     * Handles what to do when the back button is clicked, alters question number, resets labels.
      */
     @FXML
     public void onBackButtonClicked() {

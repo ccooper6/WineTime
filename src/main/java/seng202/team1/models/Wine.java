@@ -10,7 +10,6 @@ import java.util.Objects;
  *<br><br>
  *Created by the page service after data is filtered from database
  * and then displayed via the PageController
- * @author Wen Sheng Thong
  */
 
 public class Wine {
@@ -160,7 +159,7 @@ public class Wine {
 
     /**
      * Getter for the String name of the country of the wine.
-     * @return {@link Wine#country}
+     * @return country {@link Wine#country}
      */
     public String getCountry() {
         return country;
@@ -177,7 +176,7 @@ public class Wine {
 
     /**
      * Getter for the String name of the province of the wine.
-     * @return {@link Wine#province}
+     * @return province {@link Wine#province}
      */
     public String getProvince() {
         return province;
@@ -193,7 +192,7 @@ public class Wine {
 
     /**
      * Getter for the String name of the region of the wine.
-     * @return {@link Wine#region1}
+     * @return region1 {@link Wine#region1}
      */
     public String getRegion1() {
         return region1;
@@ -209,7 +208,7 @@ public class Wine {
 
     /**
      * Getter for the String name of the region of the wine.
-     * @return {@link Wine#region1}
+     * @return region2 {@link Wine#region1}
      */
     public String getRegion2() {
         return region2;
@@ -226,7 +225,7 @@ public class Wine {
 
     /**
      * Getter for the wine's winery.
-     * @return {@link Wine#winery}
+     * @return winery {@link Wine#winery}
      */
     public String getWinery() {
         return winery;
@@ -270,7 +269,7 @@ public class Wine {
      * Returns true if any regions / province / country is equal
      * to the supplied string.
      * @param location A {@link String} for the location
-     * @return true if the wine contains the string in a location parameter, false otherwise
+     * @return boolean true if the wine contains the string in a location parameter, false otherwise
      */
     public boolean hasLocation(String location)
     {
@@ -303,7 +302,7 @@ public class Wine {
     /**
      * Returns whether the wine has a tag.
      * @param tag the tag to check for
-     * @return true if any of the wines tags contains the tag given and false otherwise
+     * @return boolean, true if any of the wines tags contains the tag given and false otherwise
      */
     public boolean hasTag(String tag)
     {

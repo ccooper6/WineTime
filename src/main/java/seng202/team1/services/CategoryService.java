@@ -17,7 +17,7 @@ public class CategoryService {
     private static String[] generatedTags;
 
     /**
-     * Returns a list of generated wine categories.w
+     * Returns a list of generated wine categories.
      * @return List of Parent objects representing wine categories.
      */
     public static List<Parent> getAllCategories() {
@@ -25,8 +25,7 @@ public class CategoryService {
     }
 
     /**
-     *
-     * @return
+     *generates the tags for the categories.
      */
     public static void generateTags() {
         String[] tags = {
@@ -66,10 +65,18 @@ public class CategoryService {
         tagsGenerated = true;
     }
 
+    /**
+     * gets the generated tag
+     * @return the generated tags
+     */
     public static String[] getGeneratedTags() {
         return generatedTags;
     }
 
+    /**
+     * gets if the tags are generated
+     * @return boolean, true if the tags are generated.
+     */
     public static boolean areTagsGenerated() {
         return tagsGenerated;
     }

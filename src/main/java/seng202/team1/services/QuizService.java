@@ -13,7 +13,6 @@ import java.util.Random;
 
 /**
  * Service class for the quiz feature.
- * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
  */
 public class QuizService {
     private Wine wine = null;
@@ -115,7 +114,7 @@ public class QuizService {
 
     /**
      * The getter for the record of answers.
-     * @return The record of answers
+     * @return {@link ArrayList<Integer>} record of answers
      */
     public ArrayList<Integer> getRecordOfAnswers() {
         return recordOfAnswers;

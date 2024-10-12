@@ -15,22 +15,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for {@link ReviewService} which mainly concerns that submit log is calling the appropriate methods
- * from {@link LogWineDao}. Majority of the functionality is based off methods from {@link LogWineDao} and as such, edge
- * cases such as updating reviews and liked tags values are tested in {@link LogWineDAOTest} instead.
- * @author Caleb Cooper
- */
 public class ReviewServiceTest {
     static ReviewService reviewService;
     static LogWineDao logWineDao;
     static UserDAO userDAO;
 
-    /**
-     * Makes sure the database is set up before each test. Overwrites the prev test database with a clean test_database
-     * before each test.
-     * @throws InstanceAlreadyExistsException if the database instance already exists
-     */
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
