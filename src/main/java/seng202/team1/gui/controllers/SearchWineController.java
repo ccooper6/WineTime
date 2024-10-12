@@ -291,12 +291,12 @@ public class SearchWineController {
         // Initialize slider
         slider.setMin(min);
         slider.setMax(max);
-        slider.setLowValue(min);
-        slider.setHighValue(max);
+        slider.setLowValue((int) slider.getMin());
+        slider.setHighValue((int) slider.getMax());
 
         // Initialize text fields
-        minTextField.setText(String.valueOf(min));
-        maxTextField.setText(String.valueOf(max));
+        minTextField.setText(String.valueOf((int) slider.getMin()));
+        maxTextField.setText(String.valueOf((int) slider.getMax()));
 
         slider.setLabelFormatter(new StringConverter<>() {
             // Show only specific labels for min, max, and every 5 years (or any desired interval)
@@ -307,7 +307,7 @@ public class SearchWineController {
                 } else if (sliderType.equals("points")) {
                     interval = value.intValue() % 5;
                 }
-                if (value.intValue() == min || value.intValue() == max || interval == 0) {
+                if (value.intValue() == slider.getMin() || value.intValue() == slider.getMax() || interval == 0) {
                     return String.valueOf(value.intValue());
                 }
                 return ""; // Hide other labels
@@ -323,11 +323,14 @@ public class SearchWineController {
         // Slider -> TextFields
         slider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
             minTextField.setText(String.valueOf(newValue.intValue()));
+            updateSearchWineService(sliderType, "min", newValue.intValue());
             resetText.setVisible(newValue.intValue() != min || slider.getHighValue() != max);
         });
 
+
         slider.highValueProperty().addListener((observable, oldValue, newValue) -> {
             maxTextField.setText(String.valueOf(newValue.intValue()));
+            updateSearchWineService(sliderType, "max", newValue.intValue());
             resetText.setVisible(slider.getLowValue() != min || newValue.intValue() != max);
         });
 
@@ -356,8 +359,6 @@ public class SearchWineController {
             }
         });
 
-        slider.setLowValue(currentMin);
-        slider.setHighValue(currentMax);
         resetText.setVisible(slider.getLowValue() != min || slider.getHighValue() != max);
     }
 
