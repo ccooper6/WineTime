@@ -181,6 +181,7 @@ public class ProfileController {
      */
     @FXML
     public void displayWishlist() {
+        SearchWineService.getInstance().setCurrentMethod("notRecommended");
         Parent parent = WineCategoryDisplayController.createCategory("wishlist");
         wishlistAnchorPane.getChildren().add(parent);
 

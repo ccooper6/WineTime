@@ -50,7 +50,6 @@ public class CategoryService {
                 "Alsace, Gewurztraminer",
                 "Tuscany, Vermentino",
                 "Loire Valley, Sauvignon Blanc",
-                "Wairarapa, Pinot Noir",
                 "Barossa Valley, Shiraz",
                 "Champagne, Chardonnay",
                 "Côtes de Provence, Rosé",
@@ -59,7 +58,7 @@ public class CategoryService {
                 "New Zealand"
         };
 
-        List<String> tagsList = Arrays.asList(tags);
+        List<String> tagsList = new ArrayList<>(Arrays.asList(tags));
         Collections.shuffle(tagsList);
         tags = tagsList.toArray(new String[0]);
         generatedTags = tags;

@@ -2,6 +2,7 @@ package seng202.team1.gui.controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.SearchableComboBox;
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.services.SearchWineService;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  * Controller for the SearchWines.fxml Page.
  */
 public class SearchWineController {
+    public Pane greyScreen;
     @FXML
     private FontAwesomeIconView sortDirection;
     @FXML
@@ -97,6 +99,7 @@ public class SearchWineController {
     private ArrayList<Wine> allWines;
     private int currentPage = 0;
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
+    private static final NavigationController navigationController = new NavigationController();
 
     /**
      * Initializes the controller using wines from SearchWineService instance.
@@ -549,6 +552,7 @@ public class SearchWineController {
     @FXML
     public void displayCurrentPage()
     {
+        System.out.println("IM BEING CALLED");
         allWines = SearchWineService.getInstance().getWineList();
 
         if (allWines == null) {
@@ -613,6 +617,7 @@ public class SearchWineController {
             int currentCol = i % columns;
 
             try {
+                System.out.println();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 Parent parent = fxmlLoader.load();
                 wineGrid.add(parent, currentCol, currentRow);
@@ -629,7 +634,7 @@ public class SearchWineController {
         sortDropDown.getItems().add("Name");
         sortDropDown.getItems().add("Price");
         sortDropDown.getItems().add("Points");
-        //sortDropDown.getItems().add("Vintage"); not working yet
+        sortDropDown.getItems().add("Vintage");
         sortDropDown.setValue(SearchWineService.getInstance().getPrevDropDown());
         sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
         SearchWineService.getInstance().setSortDirection(true);
@@ -771,35 +776,34 @@ public class SearchWineController {
     public void dropDownClicked() {
         String columnName = null;
         if (sortDropDown.getValue() != null) {
-            if (sortDropDown.getValue().equals("Recommended")) {
-                SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 120);
-            } else {
-                switch (sortDropDown.getValue()) {
-                    case "Name" -> {
-                        columnName = "wine_name";
-                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
-                        SearchWineService.getInstance().setSortDirection(true);
-                    }
-                    case "Price" -> {
-                        columnName = "price";
-                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
-                        SearchWineService.getInstance().setSortDirection(true);
-                    }
-                    case "Points" -> {
-                        columnName = "points";
-                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
-                        SearchWineService.getInstance().setSortDirection(false);
-                    }
-                    case "Vintage" -> {
-                        columnName = "vintage";
-                        sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
-                        SearchWineService.getInstance().setSortDirection(false);
-                    }
+            switch (sortDropDown.getValue()) {
+                case "Name" -> {
+                    columnName = "wine_name";
+                    sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                    SearchWineService.getInstance().setSortDirection(true);
                 }
-                SearchWineService.getInstance().setSearchOrder(columnName);
+                case "Price" -> {
+                    columnName = "price";
+                    sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                    SearchWineService.getInstance().setSortDirection(true);
+                }
+                case "Points" -> {
+                    columnName = "points";
+                    sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_DOWN"));
+                    SearchWineService.getInstance().setSortDirection(false);
+                }
+                case "Vintage" -> {
+                    columnName = "vintage";
+                    sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
+                    SearchWineService.getInstance().setSortDirection(true);
+                }
             }
-            SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
-            displayCurrentPage();
+            String finalColumnName = columnName;
+            navigationController.executeWithLoadingScreen(() -> {
+                SearchWineService.getInstance().setSearchOrder(finalColumnName);
+                SearchWineService.getInstance().setDropDown(sortDropDown.getValue());
+                Platform.runLater(this::displayCurrentPage);
+            });
         }
     }
 

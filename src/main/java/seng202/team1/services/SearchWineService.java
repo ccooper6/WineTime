@@ -1,7 +1,6 @@
 package seng202.team1.services;
 
 import seng202.team1.gui.FXWrapper;
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.TagDAO;
@@ -149,6 +148,7 @@ public class SearchWineService {
      * @param userID the current users id
      */
     public void searchWinesByRecommend(int userID, int limit) {
+        currentMethod = "recommended";
         wineList = RecommendWineService.getInstance().getRecommendedWines(userID, limit);
     }
 

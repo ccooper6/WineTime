@@ -392,9 +392,14 @@ public class LogWineDao {
                     if (!rs.next())
                         break;
 
-                    userReviews.add(new Review(rs.getInt(1), rs.getInt(2),
-                            rs.getInt(3), rs.getString(4), rs.getString(5),
-                            getSelectedTags(uid, rs.getInt(2)), getWineLikedTags(uid, rs.getInt(2))));
+                    userReviews.add(new Review(
+                            rs.getInt(1),
+                            rs.getInt(2),
+                            rs.getInt(3),
+                            rs.getString(4),
+                            rs.getString(5),
+                            getSelectedTags(uid, rs.getInt(2)),
+                            getWineLikedTags(uid, rs.getInt(2))));
                 }
 
                 return userReviews;

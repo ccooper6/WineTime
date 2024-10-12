@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import org.controlsfx.control.RangeSlider?>
-<?import org.controlsfx.control.SearchableComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.SearchWineController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.SearchWineController">
    <children>
       <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="5.0" layoutY="122.0" prefHeight="440.0" prefWidth="1275.0" style="-fx-background: #FFFFFF; -fx-background-color: transparent;">
         <content>
@@ -48,37 +38,6 @@
          <font>
             <Font name="PT Serif" size="25.0" />
          </font></Text>
-      <AnchorPane fx:id="gotoPane" prefHeight="620.0" prefWidth="1280.0">
-         <children>
-            <AnchorPane layoutX="490.0" layoutY="200.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
-               <children>
-                  <TextField fx:id="gotoTextField" layoutX="64.0" layoutY="95.0" prefHeight="26.0" prefWidth="102.0" promptText="Page Number" />
-                  <Label layoutX="99.0" layoutY="14.0" prefHeight="58.0" prefWidth="102.0" text="Go to Page:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Text fx:id="gotoTotalText" layoutX="166.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/???" wrappingWidth="73.73486328125">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Text>
-                  <Button fx:id="gotoButton" layoutX="105.0" layoutY="160.0" mnemonicParsing="false" onAction="#gotoPage" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #808080;" text="GO!" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                  <Button layoutX="251.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeGotoPopup" style="-fx-background-color: WHITE;">
-                     <graphic>
-                        <FontAwesomeIconView fill="GREY" glyphName="CLOSE" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="gotoBackground" layoutX="464.0" layoutY="560.0" prefHeight="58.0" prefWidth="353.0">
          <children>
             <AnchorPane layoutX="251.0" layoutY="14.0" prefHeight="30.0" prefWidth="76.0">
@@ -137,11 +96,13 @@
       <SearchableComboBox fx:id="varietyComboBox" layoutX="436.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></SearchableComboBox>
+         </cursor>
+      </SearchableComboBox>
       <SearchableComboBox fx:id="countryComboBox" layoutX="10.0" layoutY="65.0" prefHeight="31.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></SearchableComboBox>
+         </cursor>
+      </SearchableComboBox>
       <SearchableComboBox fx:id="wineryComboBox" layoutX="223.0" layoutY="65.0" prefHeight="26.0" prefWidth="159.0" stylesheets="@../style/comboBox.css">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -153,16 +114,24 @@
       <TextField fx:id="minPriceTextField" layoutX="1125.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="1181.0" layoutY="54.0" text="to" />
       <TextField fx:id="maxPriceTextField" layoutX="1195.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
-      <Button fx:id="clearFiltersButton" layoutX="1070.0" layoutY="18.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
+      <Button fx:id="clearFiltersButton" layoutX="1075.0" layoutY="9.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-       <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" layoutX="771.0" layoutY="38.0" onMouseClicked="#changeIcon" size="25">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></FontAwesomeIconView>
-       <ComboBox fx:id="sortDropDown" layoutX="807.0" layoutY="18.0" onAction="#dropDownClicked" prefWidth="150.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5">
+      <Button layoutX="873.0" layoutY="5.0" style="-fx-background-color: none">
+         <graphic>
+            <FontAwesomeIconView fx:id="sortDirection" glyphName="ARROW_UP" onMouseClicked="#changeIcon" size="25">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontAwesomeIconView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Click to change sort direction" />
+         </tooltip>
+      </Button>
+      <ComboBox fx:id="sortDropDown" layoutX="914.0" layoutY="7.0" onAction="#dropDownClicked" prefHeight="32.0" prefWidth="112.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
@@ -174,7 +143,7 @@
       <TextField fx:id="minYearTextField" layoutX="705.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
       <Label layoutX="761.0" layoutY="54.0" text="to" />
       <TextField fx:id="maxYearTextField" layoutX="775.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
-      <Button fx:id="applyFiltersButton" layoutX="1170.0" layoutY="18.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" stylesheets="@../style/redButton.css" text="Apply filters">
+      <Button fx:id="applyFiltersButton" layoutX="1173.0" layoutY="9.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" prefHeight="26.0" stylesheets="@../style/redButton.css" text="Apply filters">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -222,5 +191,38 @@
       <Label layoutX="236.0" layoutY="47.0" text="Winery" />
       <Label layoutX="446.0" layoutY="47.0" text="Variety" />
       <Label fx:id="pricePlusLabel" layoutX="1245.0" layoutY="53.0" text="+" />
+      <AnchorPane fx:id="gotoPane" prefHeight="620.0" prefWidth="1280.0">
+         <children>
+            <Pane fx:id="greyScreen" opacity="0.19" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: grey;" />
+            <AnchorPane layoutX="490.0" layoutY="210.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
+               <children>
+                  <TextField fx:id="gotoTextField" layoutX="64.0" layoutY="95.0" prefHeight="26.0" prefWidth="102.0" promptText="Page Number" />
+                  <Label alignment="CENTER" layoutX="81.0" layoutY="28.0" prefHeight="58.0" prefWidth="139.0" text="Go to Page:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="gotoTotalText" layoutX="166.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/???" wrappingWidth="73.73486328125">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="gotoButton" layoutX="105.0" layoutY="160.0" mnemonicParsing="false" onAction="#gotoPage" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #808080;" text="GO!" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button layoutX="251.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeGotoPopup" style="-fx-background-color: WHITE;">
+                     <graphic>
+                        <FontAwesomeIconView fill="GREY" glyphName="CLOSE" selectionFill="#b9b9b9" size="30" text="" wrappingWidth="24.21630859375" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </Pane>

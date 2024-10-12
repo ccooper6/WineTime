@@ -50,7 +50,7 @@ public class TagRankingService {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         HashMap<String, Integer> topFiveTags = logWineDao.getLikedTags(uid, numTags, true);
         for (String tagName : topFiveTags.keySet()) {
-            data.add(new PieChart.Data(tagName, topFiveTags.get(tagName)));
+            data.add(new PieChart.Data(wrapText(tagName, 15), topFiveTags.get(tagName)));
         }
         return data;
     }
@@ -65,8 +65,23 @@ public class TagRankingService {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         HashMap<String, Integer> topFiveTags = logWineDao.getMostDislikedTags(uid, numTags);
         for (String tagName : topFiveTags.keySet()) {
-            data.add(new PieChart.Data(tagName, -1 * topFiveTags.get(tagName)));
+            data.add(new PieChart.Data(wrapText(tagName, 15), -1 * topFiveTags.get(tagName)));
         }
         return data;
+    }
+
+    /**
+     * Manually wraps the given text to a specified length. Silly JavaFX won't do this for us 😢
+     * @param text the text to wrap
+     * @param length the length to wrap at
+     * @return the wrapped text
+     */
+    private String wrapText(String text, int length) {
+        StringBuilder wrappedText = new StringBuilder(text);
+        int i = 0;
+        while (i + length < wrappedText.length() && (i = wrappedText.lastIndexOf(" ", i + length)) != -1) {
+            wrappedText.replace(i, i + 1, "\n");
+        }
+        return wrappedText.toString();
     }
 }

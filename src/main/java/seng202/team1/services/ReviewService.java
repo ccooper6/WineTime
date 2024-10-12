@@ -81,7 +81,7 @@ public class ReviewService {
         int uid = review.getUid();
         int wid = review.getWid();
 
-        updateTagLikes(uid, 1, new ArrayList<>(), 0);
+        updateTagLikes(uid, wid, new ArrayList<>(), 0);
         logWineDao.deleteReview(uid, wid);
     }
 

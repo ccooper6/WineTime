@@ -34,7 +34,7 @@ public class UserDAO {
         String sql = "SELECT * FROM user WHERE username = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setInt(1, username);
+            userPS.setString(1, String.valueOf(username));
             ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
