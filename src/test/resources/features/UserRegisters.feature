@@ -7,4 +7,4 @@ Feature: Registering as a user
   Scenario: User has an account and tries to reregister with same username
     Given The user with name "name" does already have an account associated to the username "username" and password "password"
     When The user tries to re register with the same username
-    Then There will be an error trying to log in
+    Then The user will not be re-registered
