@@ -139,7 +139,7 @@ public class PopUpController {
         Text value = new Text(String.valueOf(wine.getPrice()));
         if (!"0".equals(value.getText())) {
             value.setStyle("-fx-font-size: 18;");
-            Text currency = new Text(" NZD");
+            Text currency = new Text(" USD");
             currency.setStyle("-fx-font-size: 10;");
             valueDisplay.getChildren().addAll(dollarSign, value, currency);
         } else {
