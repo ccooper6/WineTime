@@ -301,7 +301,13 @@ public class SearchWineController {
         slider.setLabelFormatter(new StringConverter<>() {
             // Show only specific labels for min, max, and every 5 years (or any desired interval)
             public String toString(Number value) {
-                if (value.intValue() == min || value.intValue() == max || value.intValue() % 5 == 0) {
+                int interval = value.intValue() % 25; // Default case (price)
+                if (sliderType.equals("vintage")) {
+                    interval = (value.intValue() - 21) % 50;
+                } else if (sliderType.equals("points")) {
+                    interval = value.intValue() % 5;
+                }
+                if (value.intValue() == min || value.intValue() == max || interval == 0) {
                     return String.valueOf(value.intValue());
                 }
                 return ""; // Hide other labels
