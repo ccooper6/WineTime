@@ -6,6 +6,7 @@ import seng202.team1.models.User;
 import seng202.team1.repository.DAOs.UserDAO;
 
 import java.util.Objects;
+import java.util.regex.*;
 
 /**
  * Class to handle user login and register requests. Stores username and password as a hashed value as it
@@ -23,6 +24,17 @@ public class UserLoginService {
      * @return 1 if the account was successfully created, 0 if the username already exists, 2 if an error occurred
      */
     public int storeLogin(String name, String username, String password) {
+        // check password requirements (8 chars min, letters and digits required)
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        Pattern p = Pattern.compile(regex);
+
+        if (name == null || name.isEmpty() ||
+            username == null || username.isEmpty() ||
+            password == null || !p.matcher(password).matches()) {
+            System.out.println("oooh u made a mistake some where");
+            return 2;
+        }
+
         User newUser = new User(name, Objects.hash(username), Objects.hash(password));
         return userDAO.add(newUser);
     }
@@ -34,7 +46,7 @@ public class UserLoginService {
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
     public boolean checkLogin(String username, String password) {
-        User user =  userDAO.tryLogin(Objects.hash(username), Objects.hash(password));
+        User user = userDAO.tryLogin(Objects.hash(username), Objects.hash(password));
         if (user != null) {
             User.setCurrentUser(user);
         }

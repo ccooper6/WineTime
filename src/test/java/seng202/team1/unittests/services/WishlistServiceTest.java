@@ -24,7 +24,7 @@ public class WishlistServiceTest {
         databaseManager.forceReset();
         wishlistDAO = new WishlistDAO();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test", "test", "test");
+        userLoginService.storeLogin("test", "test", "test1234");
     }
 
     @Test
