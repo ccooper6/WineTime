@@ -93,24 +93,26 @@ public class PopUpController {
     @FXML
     private Tooltip heartTooltip;
 
+    private FontAwesomeIconView wishlistIcon;
+
     private ArrayList<Button> tagButtons;
 
     private final ReviewService reviewService = new ReviewService();
+    private NavigationController navigationController;
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
-    Wine wine;
-    int wineID;
-    int currentUserUid;
+    private Wine wine;
+    private int wineID;
+    private int currentUserUid;
 
     /**
      * Initializes the controller.
      */
     @FXML
     public void initialize() {
-        tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
-
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> closePopUp());
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
+
+        navigationController = FXWrapper.getInstance().getNavigationController();
         wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Error in PopUpController.initialize(): Wine is null");
@@ -120,20 +122,40 @@ public class PopUpController {
         currentUserUid = User.getCurrentUser().getId();
         wineID = wine.getWineId();
 
-        boolean inWishlist = WishlistService.checkInWishlist(wineID, currentUserUid);
-        FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();
-        if (inWishlist) {
-            icon.setFill(Color.web("#70171e"));
-            heartTooltip.setText("Remove this wine from your likes");
-        } else {
-            icon.setFill(Color.web("#c0c0c0"));
-            heartTooltip.setText("Add this wine to your likes");
-        }
+        setUpWishlistIcon();
 
-        PauseTransition pause = new PauseTransition(Duration.millis(100));
+        PauseTransition pause = new PauseTransition(Duration.millis(100)); // delay the hover effects to prevent wierd behaviour
         pause.setOnFinished(event -> initializeHovers());
         pause.play();
 
+        setUpPriceText();
+        setUpPointsText();
+        setUpHelpDisplays();
+        addToWishlistRefreshListener();
+        populatePopup(wine);
+        correctlyFormatTags();
+        initialiseOnTagClicked();
+    }
+
+    /**
+     * Sets up the wishlist icon.
+     */
+    private void setUpWishlistIcon() {
+        boolean inWishlist = WishlistService.checkInWishlist(wineID, currentUserUid);
+        wishlistIcon = (FontAwesomeIconView) addToWishlist.getGraphic();
+        if (inWishlist) {
+            wishlistIcon.setFill(Color.web("#70171e"));
+            heartTooltip.setText("Remove this wine from your likes");
+        } else {
+            wishlistIcon.setFill(Color.web("#c0c0c0"));
+            heartTooltip.setText("Add this wine to your likes");
+        }
+    }
+
+    /**
+     * Sets up the price text for the popup.
+     */
+    private void setUpPriceText() {
         Text dollarSign = new Text("$");
         dollarSign.setStyle("-fx-font-size: 18;");
         Text value = new Text(String.valueOf(wine.getPrice()));
@@ -149,12 +171,23 @@ public class PopUpController {
             unknown.setStyle("-fx-font-size: 14;");
             valueDisplay.getChildren().addAll(buffer, unknown);
         }
+    }
+
+    /**
+     * Sets up the points text for the popup.
+     */
+    private void setUpPointsText() {
         Text points = new Text(String.valueOf(wine.getPoints()));
         points.setStyle("-fx-font-size: 18;");
         Text range = new Text(" / 100");
         range.setStyle("-fx-font-size: 12;");
         pointsDisplay.getChildren().addAll(points, range);
+    }
 
+    /**
+     * Sets up the text for the help displays in the popup.
+     */
+    private void setUpHelpDisplays() {
         Text firstLine = new Text("\nBased scores from WineEnthusiast:\n\n");
         firstLine.setStyle("-fx-font-size: 12; -fx-font-weight: bold; -fx-text-fill: #f0f0f0");
         Text secondLine = new Text("98-100 = Classic\n94-97 = Superb\n90-93 = Excellent\n87-89 = Very Good\n83-86 = Good\n80-82 = Acceptable\nMore info on help page\n");
@@ -164,8 +197,13 @@ public class PopUpController {
         firstLine = new Text("\nTags categorize the wine and allow users to find similar wines.\n\nTry clicking the tags to discover more wines with these attributes!\n");
         secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
         tagsHelpText.getChildren().add(firstLine);
+    }
 
-        Wine finalWine = wine;
+    /**
+     * Adds a listener to the add to wishlist button that toggles the existence of the wine in the wishlist.
+     * Also refreshes the page behind the popup if needed.
+     */
+    private void addToWishlistRefreshListener() {
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
             boolean inWishlistLambda = WishlistService.checkInWishlist(wineID, currentUserUid);
@@ -175,30 +213,33 @@ public class PopUpController {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                icon.setFill(Color.web("#c0c0c0"));
+                wishlistIcon.setFill(Color.web("#c0c0c0"));
                 heartTooltip.setText("Add this wine to your likes");
             } else {
                 WishlistService.addToWishlist(wineID, currentUserUid);
-                icon.setFill(Color.web("#70171e"));
+                wishlistIcon.setFill(Color.web("#70171e"));
                 heartTooltip.setText("Remove this wine from your likes");
             }
             if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
                 navigationController.closePopUp();
                 navigationController.loadPageContent("wishlist");
-                navigationController.initPopUp(finalWine);
+                navigationController.initPopUp(wine);
             } else if (navigationController.getCurrentPage().equals("profile")) { // refresh the profile page behind the popup
                 navigationController.closePopUp();
                 navigationController.loadPageContent("profile");
-                navigationController.initPopUp(finalWine);
+                navigationController.initPopUp(wine);
             } else if (navigationController.getCurrentPage().equals("wineReviews")) { // refresh the wine reviews page behind the popup
                 navigationController.closePopUp();
                 navigationController.loadPageContent("wineReviews");
-                navigationController.initPopUp(finalWine);
+                navigationController.initPopUp(wine);
             }
-
         });
-        populatePopup(wine);
+    }
 
+    /**
+     * Correctly formats the tags in the popup using a scroll pane.
+     */
+    private void correctlyFormatTags() {
         tagFlowPane.heightProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.doubleValue() > 101) {
                 tagScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -207,12 +248,11 @@ public class PopUpController {
                 tagScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             }
         });
-
-        initialiseOnTagClicked();
     }
 
     private void initialiseOnTagClicked()
     {
+        tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
         for (Button button : tagButtons) {
             button.setOnAction(actionEvent -> {
                 String buttonName = button.getText();
@@ -224,7 +264,6 @@ public class PopUpController {
                     Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
 
                 });
-
             });
         }
     }
@@ -333,23 +372,6 @@ public class PopUpController {
     }
 
     /**
-     * Closes the popup screen when the user clicks the close button.
-     */
-    public void closePopUp() {
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.closePopUp();
-    }
-
-    /**
-     * Loads the wine logging popup page when the log wine button is clicked on the popup page.
-     */
-    public void loadWineLoggingPopUp() {
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.closePopUp();
-        navigationController.loadWineLoggingPopUpContent();
-    }
-
-    /**
      * This method takes the user to a web browsers with results in wine-searcher for the wine displayed on the popup
      * when the link is clicked.
      */
@@ -381,4 +403,20 @@ public class PopUpController {
         }
     }
 
+    /**
+     * Closes the popup screen when the user clicks the close button.
+     */
+    public void closePopUp() {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+    }
+
+    /**
+     * Loads the wine logging popup page when the log wine button is clicked on the popup page.
+     */
+    public void loadWineLoggingPopUp() {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadWineLoggingPopUpContent();
+    }
 }
