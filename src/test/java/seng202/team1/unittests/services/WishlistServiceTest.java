@@ -24,11 +24,9 @@ public class WishlistServiceTest {
         databaseManager.forceReset();
         wishlistDAO = new WishlistDAO();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test", "test", "test");
+        userLoginService.storeLogin("test", "test", "test1234");
     }
-    /**
-     * The following tests are assuming checkWine(), checkUserID and checkWineID work
-     */
+
     @Test
     public void testAddWineBadUserID() {
         assertFalse(wishlistDAO.checkWine(3,2));

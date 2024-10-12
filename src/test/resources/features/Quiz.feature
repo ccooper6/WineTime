@@ -1,4 +1,3 @@
-# Created by caleb at 15/09/2024
 Feature: Quiz result feature
   Scenario: User has completed the quiz answering only first option, leading to a wine between 1990 and 1999 from the US
     Given The user has completed the quiz with answers 1, 1, 1, 1, 1

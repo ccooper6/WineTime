@@ -7,7 +7,6 @@ import java.util.HashSet;
 
 /**
  * Service class for the wine variety feature.
- * @author Isaac Macdonald, Wen Sheng Thong
  */
 public class WineVarietyService {
     private static final HashSet<String> reds = new HashSet<>();
@@ -31,18 +30,12 @@ public class WineVarietyService {
     }
 
     /**
-     * gets the set of rose wines
+     * gets the set of rosé wines
      */
     public HashSet<String> getRose() {
         return rose;
     }
 
-    /**
-     * gets the set of sparkling wines
-     */
-    public HashSet<String> getSparkling() {
-        return sparkling;
-    }
 
     /**
      Returns the instance and creates one if none exists.
@@ -56,7 +49,7 @@ public class WineVarietyService {
     }
 
     /**
-     * The initialiser for WineVarietyService, calls setVarietySetsFromTextFiles.
+     * The initializer for WineVarietyService, calls setVarietySetsFromTextFiles.
      */
     public WineVarietyService() {
         setVarietySetsFromTextFiles();

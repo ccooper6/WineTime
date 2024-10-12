@@ -26,7 +26,7 @@ import seng202.team1.services.SearchWineService;
 import java.io.IOException;
 
 /**
- * Controller class for the navigation.fxml page.
+ * Controller class for the navigation.fxml page, handles launching pages and popups.
  */
 public class NavigationController {
     @FXML
@@ -83,7 +83,7 @@ public class NavigationController {
 
 
     /**
-     * Sets action events to when to search. Searches by name / tag depending on combo box
+     * initializes the search bar, sets listeners and events for search bar.
      */
     private void initialiseSearchBar()
     {
@@ -267,7 +267,7 @@ public class NavigationController {
     }
 
     /**Loads in content from desired fxml and initiates a blank, invisible overlay popup.
-     * @param name is the fxml main content which is loaded
+     * @param name is the name of fxml content which is loaded
      */
     public void loadPageContent(String name) {
         try {
@@ -367,14 +367,12 @@ public class NavigationController {
     public void executeWithLoadingScreen(Runnable searchLogic) {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         Platform.runLater(navigationController::showLoadingScreen);
-
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
                 searchLogic.run();
                 return null;
             }
-
             @Override
             protected void succeeded() {
                 Platform.runLater(navigationController::hideLoadingScreen);
@@ -424,7 +422,7 @@ public class NavigationController {
     public void closePopUp() {
         if (overlayContent != null) {
             if (overlayContent.getParent() != null) {
-                // set focus to the parent so we don't scroll to the top
+                // set focus to the parent so it doesn't scroll to the top
                 overlayContent.getParent().requestFocus();
             } else {
                 LOG.warn("Warning in NavigationController.closePopUp: overlayContent has no parent to set focus on.");

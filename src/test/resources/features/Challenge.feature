@@ -1,6 +1,3 @@
-# Created by Lydia at 09/10/2024
-
-
 Feature: Participate in Challenge
   Scenario: User starts the variety challenge
     Given the user has no active challenges
