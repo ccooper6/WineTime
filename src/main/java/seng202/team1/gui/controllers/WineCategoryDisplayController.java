@@ -367,7 +367,18 @@ public class WineCategoryDisplayController {
                 SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 120);
                 subpage = "wishlist";
             } else {
-                SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
+                SearchWineService.getInstance().resetFilters();
+
+                ArrayList<String> tagsList = SearchWineService.getInstance().getTagsFromString(tags);
+                int minPoints = SearchWineService.getInstance().getCurrentMinPoints();
+                int maxPoints = SearchWineService.getInstance().getCurrentMaxPoints();
+                int minVintage = SearchWineService.getInstance().getCurrentMinYear();
+                int maxVintage = SearchWineService.getInstance().getCurrentMaxYear();
+                int minPrice = SearchWineService.getInstance().getCurrentMinPrice();
+                int maxPrice = SearchWineService.getInstance().getCurrentMaxPrice();
+                String searchOrder = "points";
+
+                SearchWineService.getInstance().searchWineByNameAndFilter("", tagsList, minPoints, maxPoints, minVintage, maxVintage, minPrice, maxPrice, searchOrder);
                 subpage = "searchWine";
             }
             Platform.runLater(() -> FXWrapper.getInstance().launchSubPage(subpage));

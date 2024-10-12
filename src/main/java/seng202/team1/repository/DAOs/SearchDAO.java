@@ -208,8 +208,12 @@ public class SearchDAO {
                     AND ((price >= ? AND price <= ?) OR price IS null)
                     AND wine.normalised_name LIKE ?
                     """);
-        sqlBuilder.append("ORDER BY ").append(orderBy).append(";");
+        if (orderBy != null) {
+            sqlBuilder.append("ORDER BY ").append(orderBy).append(" IS NULL, ");
+            sqlBuilder.append(orderBy);
+        }
 
+        sqlBuilder.append(";");
 
         return sqlBuilder.toString();
     }

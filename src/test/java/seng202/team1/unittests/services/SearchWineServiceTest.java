@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -309,4 +310,50 @@ public class SearchWineServiceTest {
         // 200 is max for most wines so if set to 200 check all
         assertEquals(3300, SearchWineService.getInstance().getCurrentMaxPrice());
     }
+
+    @Test
+    public void testTagsFromStringGeneral() {
+        String tags = "New Zealand, 2017, Central Otago";
+        String[] expected = new String[] {"New Zealand", "2017", "Central Otago"};
+
+        ArrayList<String> received = SearchWineService.getInstance().getTagsFromString(tags);
+        String[] actual = received.toArray(new String[0]);
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testTagsFromStringTrailingSpaces() {
+        String tags = "   New Zealand, 2017  ,  Central Otago   ";
+        String[] expected = new String[] {"New Zealand", "2017", "Central Otago"};
+
+        ArrayList<String> received = SearchWineService.getInstance().getTagsFromString(tags);
+        String[] actual = received.toArray(new String[0]);
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testTagsFromStringNull() {
+        String tags = null;
+        String[] expected = new String[] {};
+
+        ArrayList<String> received = SearchWineService.getInstance().getTagsFromString(tags);
+        String[] actual = received.toArray(new String[0]);
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testTagsFromStringEmpty() {
+        String tags = "";
+        String[] expected = new String[] {};
+
+        ArrayList<String> received = SearchWineService.getInstance().getTagsFromString(tags);
+        String[] actual = received.toArray(new String[0]);
+
+        assertArrayEquals(expected, actual);
+    }
+
+
 }

@@ -258,7 +258,9 @@ public class PopUpController {
                 String buttonName = button.getText();
                 NavigationController nav = FXWrapper.getInstance().getNavigationController();
                 nav.executeWithLoadingScreen(() -> {
-                    SearchWineService.getInstance().searchWinesByTags(buttonName, SearchDAO.UNLIMITED);
+                    int unlimited = -1;
+
+                    SearchWineService.getInstance().searchWinesByTags(buttonName, unlimited);
                     SearchWineService.getInstance().setCurrentSearch(buttonName);
                     SearchWineService.getInstance().setCurrentMethod("Tags");
                     Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("searchWine"));
