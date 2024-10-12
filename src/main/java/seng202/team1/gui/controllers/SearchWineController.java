@@ -552,7 +552,6 @@ public class SearchWineController {
     @FXML
     public void displayCurrentPage()
     {
-        System.out.println("IM BEING CALLED");
         allWines = SearchWineService.getInstance().getWineList();
 
         if (allWines == null) {
@@ -617,7 +616,6 @@ public class SearchWineController {
             int currentCol = i % columns;
 
             try {
-                System.out.println();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 Parent parent = fxmlLoader.load();
                 wineGrid.add(parent, currentCol, currentRow);
@@ -677,7 +675,6 @@ public class SearchWineController {
     public void pageEnd()
     {
         currentPage = Math.ceilDiv(allWines.size(), MAXSIZE) - 1;
-        System.out.println(currentPage);
         displayCurrentPage();
     }
 
