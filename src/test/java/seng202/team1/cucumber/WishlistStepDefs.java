@@ -35,7 +35,7 @@ public class WishlistStepDefs {
 
         initialize();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test", "test", "test");
+        userLoginService.storeLogin("test", "test", "test1234");
         Assertions.assertEquals(wishlistSize, WishlistService.getWishlistWines(uid).size());
 
     }
@@ -45,7 +45,7 @@ public class WishlistStepDefs {
 
         initialize();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test", "test", "test");
+        userLoginService.storeLogin("test", "test", "test1234");
         WishlistService.addToWishlist(wid, uid);
         Assertions.assertEquals(wishlistSize, WishlistService.getWishlistWines(uid).size());
         Assertions.assertTrue(WishlistService.checkInWishlist(wid, uid));
@@ -57,7 +57,7 @@ public class WishlistStepDefs {
 
         initialize();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test", "test", "test");
+        userLoginService.storeLogin("test", "test", "test1234");
         WishlistService.addToWishlist(wid1, uid);
         WishlistService.addToWishlist(wid2, uid);
         WishlistService.addToWishlist(wid3, uid);
@@ -69,8 +69,8 @@ public class WishlistStepDefs {
 
         initialize();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test1", "test1", "test1");
-        userLoginService.storeLogin("test2", "test2", "test2");
+        userLoginService.storeLogin("test1", "test1", "test1234");
+        userLoginService.storeLogin("test2", "test2", "test2234");
 
 
     }
@@ -80,8 +80,8 @@ public class WishlistStepDefs {
 
         initialize();
         UserLoginService userLoginService = new UserLoginService();
-        userLoginService.storeLogin("test1", "test1", "test1");
-        userLoginService.storeLogin("test2", "test2", "test2");
+        userLoginService.storeLogin("test1", "test1", "test1234");
+        userLoginService.storeLogin("test2", "test2", "test2234");
         WishlistService.addToWishlist(wid, uid1);
         WishlistService.addToWishlist(wid, uid2);
 

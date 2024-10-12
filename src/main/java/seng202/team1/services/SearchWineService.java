@@ -1,5 +1,7 @@
 package seng202.team1.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
@@ -8,6 +10,7 @@ import seng202.team1.repository.DAOs.WishlistDAO;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class for searching wines in the database.
@@ -33,6 +36,8 @@ public class SearchWineService {
     private String searchOrder = "wine_name";
     private String prevSearch;
     private String prevDropDown = "Name";
+
+    private Logger LOG = LogManager.getLogger(SearchWineService.class);
 
     /**
      * Returns the instance and creates one if none exists.
@@ -88,26 +93,55 @@ public class SearchWineService {
      * Searches the database for wines that matches all tags provided and sets
      * it to the wineList variable.
      * @param tags  A {@link String} of tags seperated by commas
-     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
+     * @param limit The number of wines to select using -1 for no limit
      */
     public void searchWinesByTags(String tags, int limit) {
         tags = Normalizer.normalize(tags, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+
+        ArrayList<String> tagsList = getTagsFromString(tags);
+
+        if (limit == -1) {
+            limit = SearchDAO.UNLIMITED;
+        }
+
+        wineList = SearchDAO.getInstance().searchWineByTags(tagsList, limit);
+    }
+
+    /**
+     * Creates an ArrayList of the given tags
+     *
+     * @param tags The string of the tags to convert separated by commas
+     * @return An ArrayList of the tags given. If the given string tags is null, an empty ArrayList will be returned
+     */
+    public ArrayList<String> getTagsFromString(String tags) {
+        if (tags == null || tags.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         String[] tagsArray = tags.split(",");
 
         ArrayList<String> tagList = new ArrayList<>();
         for (String tag : tagsArray) {
             tagList.add(tag.trim());
         }
-        wineList = SearchDAO.getInstance().searchWineByTags(tagList, limit);
+
+        return tagList;
     }
 
     /**
      * Fetches a list of wines up to a limit that contains the filterString within
      * the normalised name from the wines table in database and sets it to
      * the wineList variable.
+     *
      * @param filterString A normalised {@link String} that contains what to search by
      */
     public void searchWinesByName(String filterString) {
+        if (filterString == null) {
+            // dont perform the search
+            LOG.error("Error: Could not get search query string.");
+            return;
+        }
+
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
         if (System.getProperty("test.env") == null) {
@@ -115,8 +149,39 @@ public class SearchWineService {
                 resetFilters();
             }
         }
-        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(getFilterStrings(), currentMinPoints, currentMaxPoints , currentMinYear, currentMaxYear, currentMinPrice, currentMaxPrice, filterString, searchOrder);
+
+        searchWineByNameAndFilter(filterString, getFilterStrings(), currentMinPoints, currentMaxPoints, currentMinYear, currentMaxYear, currentMinPrice, currentMaxPrice, searchOrder);
         prevSearch = filterString;
+    }
+
+    /**
+     * Calls SearchDAO to search for wines by name and applying current filters
+     *
+     * @param filterString The name string to match
+     * @param tags An ArrayList of Strings containing tags for
+     * @param minPoints The minimum points the searched wines must have
+     * @param maxPoints The maximum points the searched wines must have
+     * @param minYear The minimum vintage the searched wines must be
+     * @param maxYear The maximum vintage the searched wines must be
+     * @param minPrice The minimum price the searched wines must be
+     * @param maxPrice The maximum price the searched wines must be
+     * @param searchOrder The attribute of the wine to search by. Must be "points", "vintage", "price", "wine_name" or null to indicate no sorting
+     */
+    public void searchWineByNameAndFilter(String filterString, ArrayList<String> tags, int minPoints, int maxPoints, int minYear, int maxYear, int minPrice, int maxPrice, String searchOrder) {
+        if (filterString == null) {
+            LOG.error("Error: Could not get search query string.");
+            return;
+        } else if (tags == null) {
+            LOG.error("Error: Could not get search query tags.");
+            return;
+        } else if (searchOrder != null && !(new ArrayList<>(List.of("points", "vintage", "price", "wine_name"))).contains(searchOrder.toLowerCase())) {
+            LOG.error("Error: Invalid search order.");
+            return;
+        }
+
+        searchOrder = searchOrder.toLowerCase();
+
+        wineList = SearchDAO.getInstance().searchWineByTagsAndFilter(tags, minPoints, maxPoints, minYear, maxYear, minPrice, maxPrice, filterString, searchOrder);
     }
 
     /**
