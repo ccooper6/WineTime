@@ -26,9 +26,9 @@ public class UserDAO {
     /**
      * This method takes a username and checks that the user is in the database and that the password matches.
      * If they do, the corresponding User will be returned, otherwise null
-     * @param username the encrypted username
+     * @param username the hashed username
      * @param password the hashed password
-     * @return The user is the credentials are found in the database, else null
+     * @return The user is the credentials that are found in the database, else null
      */
     public User tryLogin(int username, int password) {
         String sql = "SELECT * FROM user WHERE username = ?";
@@ -58,7 +58,6 @@ public class UserDAO {
 
     /**
      * Adds a new user to the database
-     *
      * @param toAdd The user to add. Must contain username, hashed password and name
      * @return The result of the sql query. 0 if user already exists, 1 if successful, 2 if an error occurred
      */
@@ -83,7 +82,7 @@ public class UserDAO {
 
     /**
      * Returns the name of the user with the given username.
-     * @param username the encrypted username
+     * @param username the hashed username
      * @return the name of the user
      */
     public String getName(int username) {
@@ -105,6 +104,7 @@ public class UserDAO {
 
     /**
      * Checks whether the given user exists in the database
+     * @param id is the users id
      */
     public boolean userExists(int id)
     {

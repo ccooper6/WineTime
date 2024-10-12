@@ -9,7 +9,6 @@ import java.util.Objects;
  * The review class that contains the attributes of a user review.
  * Used by {@link LogWineDao} to return a user's
  * review.
- * @author Wen Sheng Thong, Caleb Cooper
  */
 public class Review {
     private int uid;
@@ -40,7 +39,7 @@ public class Review {
     }
 
     /**
-     * Getter for uid.
+     * Getter for user id.
      * @return The user id of the user that made the review.
      */
     public int getUid() {
@@ -48,7 +47,7 @@ public class Review {
     }
 
     /**
-     * Setter for uid.
+     * Setter for user id.
      * @param uid The user id of the user that made the review.
      */
     public void setUid(int uid) {
@@ -56,7 +55,7 @@ public class Review {
     }
 
     /**
-     * Getter for wid.
+     * Getter for wine id.
      * @return The wine id of the wine that was reviewed.
      */
     public int getWid() {
@@ -64,7 +63,7 @@ public class Review {
     }
 
     /**
-     * Setter for wid.
+     * Setter for wine id.
      * @param wid The wine id of the wine that was reviewed.
      */
     public void setWid(int wid) {
