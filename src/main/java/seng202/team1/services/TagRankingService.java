@@ -25,7 +25,7 @@ public class TagRankingService {
     /**
      * Checks if the user has 5 tags whose rating < 0
      * @param uid user id
-     * @return true if the user has 5 tags with negative ratings
+     * @return boolean, true if the user has 5 tags with negative ratings
      */
     public boolean hasEnoughDislikedTags(int uid) {
         return logWineDao.getMostDislikedTags(uid, 5).size() == 5;
@@ -34,7 +34,7 @@ public class TagRankingService {
     /**
      * Checks if the user has 5 tags whose rating > 0
      * @param uid user id
-     * @return true if the user has 5 tags with positive ratings
+     * @return boolean, true if the user has 5 tags with positive ratings
      */
     public boolean hasEnoughLikedTags(int uid) {
         return logWineDao.getFavouritedTags(uid, 5).size() == 5;
@@ -54,6 +54,7 @@ public class TagRankingService {
         }
         return data;
     }
+
     /**
      * Fetches the top numTags negatively rated tags of the user and returns it to be used as data for pie charts
      * @param uid user id
