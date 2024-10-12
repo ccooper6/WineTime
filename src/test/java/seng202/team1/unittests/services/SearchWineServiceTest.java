@@ -189,11 +189,6 @@ public class SearchWineServiceTest {
         assertEquals(0, fromDB.size());
     }
 
-    /**
-     * Gets all the tags belonging to the wine
-     * @param wine wine object
-     * @return array list of tag belong to the wine
-     */
     private ArrayList<String> getWineTags(Wine wine) {
         ArrayList<String> wineTags = new ArrayList<>();
         String psString = """

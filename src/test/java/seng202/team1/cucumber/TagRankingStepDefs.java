@@ -30,6 +30,7 @@ public class TagRankingStepDefs {
         currentUser = 0;
     }
 
+
     /**
      * Gets the name of the tags from the pie chart data and returns it as an arraylist
      * @param tagData an observable list of {@link PieChart.Data}

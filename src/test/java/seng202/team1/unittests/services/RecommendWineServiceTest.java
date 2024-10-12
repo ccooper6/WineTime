@@ -40,11 +40,7 @@ public class RecommendWineServiceTest {
         assertNotNull(databaseManager);
     }
 
-    /**
-     * Gets all the tags belonging to the wine
-     * @param wine wine object
-     * @return array list of tag belong to the wine
-     */
+
     private ArrayList<String> getWineTags(Wine wine) {
         ArrayList<String> wineTags = new ArrayList<>();
         String psString = """
@@ -65,13 +61,6 @@ public class RecommendWineServiceTest {
         return wineTags;
     }
 
-    /**
-     * Verifies that the wine have at least one liked tag and no disliked tags
-     * @param wine wine
-     * @param likedTags array of liked tags
-     * @param dislikedTags array of disliked tags
-     * @return boolean
-     */
     private boolean verifyWine(String[] likedTags, Wine wine, String[] dislikedTags) {
         ArrayList<String> wineTags = getWineTags(wine);
 

@@ -1,5 +1,3 @@
-# Created by caleb at 17/09/2024
-# Updated by isaac at 09/10/2024
 Feature: Logging in as a user
   Scenario: User does already have an account and wants to log in
     Given The user with name 'testUser' has an account with username 'testName' and password 'testPassword'

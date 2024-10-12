@@ -92,9 +92,6 @@ public class WineLogStepDefs {
         }
     }
 
-    /**
-     * Checks that the review and likes value are correctly submitted into the database
-     */
     @Then("The log is submitted successfully")
     public void checkSubmittedLog() {
         ArrayList<String> tagsToCheck;

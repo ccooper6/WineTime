@@ -1,4 +1,3 @@
-# Created by yzh428 at 15/09/2024
 Feature: Wine Search feature
   Scenario: User searches for all wines with "Sweet" in the name
     Given Wines are stored correctly
