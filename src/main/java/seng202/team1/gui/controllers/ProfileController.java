@@ -103,7 +103,7 @@ public class ProfileController {
     }
 
     /**
-     * Disables the pie chart anchor pane as well as making sure its elements are invisible
+     * Disables the pie chart anchor pane as well as making sure its elements are invisible.
      */
     private void makePieChartInvisible() {
         noPieChartLabel.setVisible(true);
@@ -188,22 +188,6 @@ public class ProfileController {
     }
 
     /**
-     * Sends user to quiz screen when quiz button clicked.
-     */
-    public void onQuizClicked() {
-        FXWrapper.getInstance().launchPage("quizscreen");
-    }
-
-    /**
-     * Opens the select challenge popup when select challenge clicked.
-     */
-    public void onChallengeClicked() {
-        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-        navigationController.closePopUp();
-        navigationController.loadSelectChallengePopUpContent();
-    }
-
-    /**
      * Displays the challenge wines using the wine mini displays.
      */
     public void displayChallenge() {
@@ -278,6 +262,22 @@ public class ProfileController {
         completedChalPane.setVisible(true);
         completeChallengeLabel.setText("You quit the " + challengeService.usersChallenge() + ".");
         challengeService.challengeCompleted(challengeService.usersChallenge());
+    }
+
+    /**
+     * Sends user to quiz screen when quiz button clicked.
+     */
+    public void onQuizClicked() {
+        FXWrapper.getInstance().launchPage("quizscreen");
+    }
+
+    /**
+     * Opens the select challenge popup when select challenge clicked.
+     */
+    public void onChallengeClicked() {
+        NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+        navigationController.closePopUp();
+        navigationController.loadSelectChallengePopUpContent();
     }
 
     /**

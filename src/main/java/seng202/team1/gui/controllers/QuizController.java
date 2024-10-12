@@ -14,7 +14,6 @@ import java.util.Arrays;
 /**
  * Controller class for the quiz.fxml page.
  */
-// TODO quiz is kinda incomplete
 public class QuizController {
     @FXML
     private Label questionLabel;
@@ -40,6 +39,30 @@ public class QuizController {
     private int questionNumber = 0;
 
     private static final Logger LOG = LogManager.getLogger(QuizController.class);
+
+    /**
+     * Initializes the quiz controller.
+     */
+    @FXML
+    public void initialize() {
+        questionLabel.setOpacity(1);
+        showWineButton.setDisable(true);
+        showWineButton.setOpacity(0);
+
+        ArrayList<Button> answerButtons = new ArrayList<>(Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button));
+        for (Button button : answerButtons) {
+            button.setDisable(false);
+            button.setOpacity(1);
+        }
+
+        this.questions = quizService.getQuestions();
+        this.answer1answers = quizService.getAnswer1answers();
+        this.answer2answers = quizService.getAnswer2answers();
+        this.answer3answers = quizService.getAnswer3answers();
+        this.answer4answers = quizService.getAnswer4answers();
+
+        setLabels();
+    }
 
     /**
      * Sets the labels for the quiz.
@@ -70,29 +93,6 @@ public class QuizController {
             }
             showWineButton.setOpacity(1);
         }
-    }
-
-    /**
-     * Initializes the quiz controller.
-     */
-    public void initialize() {
-        questionLabel.setOpacity(1);
-        showWineButton.setDisable(true);
-        showWineButton.setOpacity(0);
-
-        ArrayList<Button> answerButtons = new ArrayList<>(Arrays.asList(answer1Button, answer2Button, answer3Button, answer4Button));
-        for (Button button : answerButtons) {
-            button.setDisable(false);
-            button.setOpacity(1);
-        }
-
-        this.questions = quizService.getQuestions();
-        this.answer1answers = quizService.getAnswer1answers();
-        this.answer2answers = quizService.getAnswer2answers();
-        this.answer3answers = quizService.getAnswer3answers();
-        this.answer4answers = quizService.getAnswer4answers();
-
-        setLabels();
     }
 
     /**

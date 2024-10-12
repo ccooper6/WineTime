@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.HelpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.HelpController">
    <children>
       <ScrollPane hbarPolicy="NEVER" prefHeight="620.0" prefWidth="1280.0">
          <content>
@@ -74,7 +70,7 @@
                         <Insets left="25.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label prefHeight="130.0" prefWidth="570.0" text="The home page is the screen that you will be presented with when you login/register. Here there are a number of categories of famous wine growing regions and their wines. You can browse wines from here. On the home page there is also a “recommended wines for you” section which will show after you have liked at least 5 tags. Each category has a 'see more' button which when clicked, will bring you to the search result page for that category." wrapText="true">
+                  <Label prefHeight="130.0" prefWidth="570.0" text="The home page is the screen that you will be presented with when you login/register. Here there are a number of categories of famous wine growing regions and their wines. You can browse wines from here. On the home page there is also a “recommended wines for you” section which will show after you have liked at least 5 tags. Each category has a 'see more' button which when clicked, will bring you to the search result page for that category. A refresh button is present to refresh the categories shown to the user." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -95,7 +91,7 @@
                         <Insets left="25.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label prefHeight="135.0" prefWidth="572.0" text="Users can search for wines by their name or simply not enter any name into the search bar to fetch all the wines instead. Users can filter the search results by selecting specific filters. To apply the filters, click on the 'Apply filters' button and the page will be refreshed. Click 'Clear filters' button to remove all selected filters. The results can also be sorted by selecting the sort by category via the drop down. By default it is sorted by the wine id." wrapText="true">
+                  <Label prefHeight="135.0" prefWidth="572.0" text="Users can search for wines by their name or simply not enter any name into the search bar to fetch all the wines instead. Users can filter the search results by selecting specific filters. To apply the filters, click on the 'Apply filters' button and the page will be refreshed. Click 'Clear filters' button to remove all selected filters. The results can also be sorted by selecting the sort by category via the drop down. By default it is sorted by the wine id in ascending order." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
