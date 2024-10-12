@@ -38,8 +38,8 @@
                   </ScrollPane>
                   <Pane prefHeight="28.0" prefWidth="225.0">
                      <children>
-                        <TextFlow fx:id="valueDisplay" prefHeight="28.0" prefWidth="104.0" />
-                        <TextFlow fx:id="pointsDisplay" layoutX="113.0" prefHeight="28.0" prefWidth="62.0" textAlignment="RIGHT" />
+                        <TextFlow fx:id="valueDisplay" prefHeight="28.0" prefWidth="104.0" stylesheets="@../style/fonts.css" />
+                        <TextFlow fx:id="pointsDisplay" layoutX="113.0" prefHeight="28.0" prefWidth="62.0" stylesheets="@../style/fonts.css" textAlignment="RIGHT" />
                         <Button fx:id="helpButton" layoutX="181.0" layoutY="-7.0" style="-fx-background-color: none;">
                            <cursor>
                               <Cursor fx:constant="HAND" />
