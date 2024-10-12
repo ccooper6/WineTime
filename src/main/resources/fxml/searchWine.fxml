@@ -36,7 +36,7 @@
       </ScrollPane>
       <Text fx:id="title" layoutX="20.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="1200.0" y="20.0">
          <font>
-            <Font name="PT Serif" size="25.0" />
+            <Font name="Noto Serif Regular" size="25.0" />
          </font></Text>
       <AnchorPane fx:id="gotoBackground" layoutX="464.0" layoutY="560.0" prefHeight="58.0" prefWidth="353.0">
          <children>
@@ -107,13 +107,25 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></SearchableComboBox>
-      <Label layoutX="652.0" layoutY="55.0" text="Vintage" />
+      <Label layoutX="652.0" layoutY="55.0" text="Vintage">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
       <RangeSlider fx:id="vintageSlider" blockIncrement="1.0" highValue="2017.0" layoutX="649.0" layoutY="80.0" lowValue="1900.0" majorTickUnit="1.0" max="2017.0" min="1900.0" minorTickCount="0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" styleClass="range" stylesheets="@../style/rangeSlider.css" />
       <RangeSlider fx:id="pointsSlider" blockIncrement="1.0" highValue="100.0" layoutX="862.0" layoutY="80.0" lowValue="80.0" majorTickUnit="1.0" max="100.0" min="80.0" minorTickCount="0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
       <RangeSlider fx:id="priceSlider" blockIncrement="1.0" layoutX="1075.0" layoutY="80.0" majorTickUnit="1.0" max="200.0" min="5.0" minorTickCount="0" prefHeight="15.0" prefWidth="180.0" showTickLabels="true" snapToTicks="true" stylesheets="@../style/rangeSlider.css" />
-      <TextField fx:id="minPriceTextField" layoutX="1125.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
-      <Label layoutX="1181.0" layoutY="54.0" text="to" />
-      <TextField fx:id="maxPriceTextField" layoutX="1195.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
+      <TextField fx:id="minPriceTextField" layoutX="1125.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></TextField>
+      <Label layoutX="1181.0" layoutY="54.0" text="to">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
+      <TextField fx:id="maxPriceTextField" layoutX="1195.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></TextField>
       <Button fx:id="clearFiltersButton" layoutX="1075.0" layoutY="9.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onClearFiltersPushed" prefHeight="26.0" stylesheets="@../style/greyButton.css" text="Clear filters">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -130,19 +142,43 @@
          <tooltip>
             <Tooltip text="Click to change sort direction" />
          </tooltip>
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font>
       </Button>
       <ComboBox fx:id="sortDropDown" layoutX="914.0" layoutY="7.0" onAction="#dropDownClicked" prefHeight="32.0" prefWidth="112.0" promptText="Sort by" stylesheets="@../style/comboBox.css" visibleRowCount="5">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
-      <Label layoutX="865.0" layoutY="55.0" text="Points" />
-      <Label layoutX="1078.0" layoutY="55.0" text="Price" />
-      <TextField fx:id="minPointsTextField" layoutX="915.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
-      <Label layoutX="971.0" layoutY="54.0" text="to" />
+      <Label layoutX="865.0" layoutY="55.0" text="Points">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
+      <Label layoutX="1078.0" layoutY="55.0" text="Price">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
+      <TextField fx:id="minPointsTextField" layoutX="915.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></TextField>
+      <Label layoutX="971.0" layoutY="54.0" text="to">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
       <TextField fx:id="maxPointsTextField" layoutX="985.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
-      <TextField fx:id="minYearTextField" layoutX="705.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0" />
-      <Label layoutX="761.0" layoutY="54.0" text="to" />
-      <TextField fx:id="maxYearTextField" layoutX="775.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0" />
+      <TextField fx:id="minYearTextField" layoutX="705.0" layoutY="53.0" maxHeight="50.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="50.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></TextField>
+      <Label layoutX="761.0" layoutY="54.0" text="to">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
+      <TextField fx:id="maxYearTextField" layoutX="775.0" layoutY="53.0" maxHeight="20.0" minHeight="20.0" prefHeight="22.0" prefWidth="50.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></TextField>
       <Button fx:id="applyFiltersButton" layoutX="1173.0" layoutY="9.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onAction="#onApplyFiltersButtonPushed" prefHeight="26.0" stylesheets="@../style/redButton.css" text="Apply filters">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -176,38 +212,59 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font>
       </Text>
       <Text fx:id="resetPrice" fill="#434343" layoutX="1216.0" layoutY="115.0" onMouseClicked="#onResetPriceClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font>
       </Text>
       <Text fx:id="resetVintage" fill="#434343" layoutX="788.0" layoutY="115.0" onMouseClicked="#onResetVintageClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font>
       </Text>
-      <Label layoutX="20.0" layoutY="47.0" text="Country" />
-      <Label layoutX="236.0" layoutY="47.0" text="Winery" />
-      <Label layoutX="446.0" layoutY="47.0" text="Variety" />
+      <Label layoutX="20.0" layoutY="47.0" text="Country">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
+      <Label layoutX="236.0" layoutY="47.0" text="Winery">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
+      <Label layoutX="446.0" layoutY="47.0" text="Variety">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font></Label>
       <Label fx:id="pricePlusLabel" layoutX="1245.0" layoutY="53.0" text="+" />
       <AnchorPane fx:id="gotoPane" prefHeight="620.0" prefWidth="1280.0">
          <children>
             <Pane fx:id="greyScreen" opacity="0.19" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: grey;" />
             <AnchorPane layoutX="490.0" layoutY="210.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: WHITE; -fx-border-radius: 20; -fx-background-radius: 20;">
                <children>
-                  <TextField fx:id="gotoTextField" layoutX="64.0" layoutY="95.0" prefHeight="26.0" prefWidth="102.0" promptText="Page Number" />
+                  <TextField fx:id="gotoTextField" layoutX="64.0" layoutY="95.0" prefHeight="26.0" prefWidth="102.0" promptText="Page Number">
+                     <font>
+                        <Font name="Noto Serif Regular" size="13.0" />
+                     </font></TextField>
                   <Label alignment="CENTER" layoutX="81.0" layoutY="28.0" prefHeight="58.0" prefWidth="139.0" text="Go to Page:">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="Noto Serif Regular" size="20.0" />
                      </font>
                   </Label>
                   <Text fx:id="gotoTotalText" layoutX="166.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/???" wrappingWidth="73.73486328125">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="Noto Serif Regular" size="15.0" />
                      </font>
                   </Text>
-                  <Button fx:id="gotoButton" layoutX="105.0" layoutY="160.0" mnemonicParsing="false" onAction="#gotoPage" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #808080;" text="GO!" textFill="WHITE">
+                  <Button fx:id="gotoButton" layoutX="105.0" layoutY="160.0" mnemonicParsing="false" onAction="#gotoPage" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #808080;" stylesheets="@../style/greyButton.css" text="GO!" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
