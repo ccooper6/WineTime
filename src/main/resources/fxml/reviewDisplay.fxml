@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Tooltip?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-
-<?import javafx.scene.control.Button?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="1205.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="1205.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team1.gui.controllers.ReviewDisplayController">
 <children>
     <AnchorPane fx:id="reviewedWineTile" layoutX="12.0" layoutY="8.0" prefHeight="135.0" prefWidth="190.0"> </AnchorPane>
     <FontAwesomeIconView fx:id="star1" fill="#e1b12c" glyphName="STAR_ALT" layoutX="12.0" layoutY="172.0" size="30" />
@@ -18,19 +15,19 @@
     <FontAwesomeIconView fx:id="star3" fill="#e1b12c" glyphName="STAR_ALT" layoutX="72.0" layoutY="172.0" size="30" />
     <FontAwesomeIconView fx:id="star4" fill="#e1b12c" glyphName="STAR_ALT" layoutX="102.0" layoutY="172.0" size="30" text="" />
     <FontAwesomeIconView fx:id="star5" fill="#e1b12c" glyphName="STAR_ALT" layoutX="132.0" layoutY="172.0" size="30" />
-    <Text fx:id="reviewDate" fill="#707070" layoutX="1013.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review Date" textAlignment="RIGHT">
+    <Text fx:id="reviewDate" fill="#707070" layoutX="1005.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review Date" textAlignment="RIGHT">
         <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="Noto Serif Bold" size="16.0" />
         </font>
     </Text>
-    <Text fx:id="reviewDescription" layoutX="215.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Line1&#10;Line2&#10;Line3" wrappingWidth="778.0000610351562">
+    <Text fx:id="reviewDescription" layoutX="215.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Line1&#10;Line2&#10;Line3" wrappingWidth="760.0">
         <font>
-            <Font size="16.0" />
+            <Font name="Noto Serif Regular" size="16.0" />
         </font>
     </Text>
     <Text fx:id="tagsLiked" layoutX="215.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags liked: " wrappingWidth="890.0">
          <font>
-            <Font size="16.0" />
+            <Font name="Noto Serif Regular" size="16.0" />
          </font>
     </Text>
 
@@ -43,7 +40,7 @@
             </FontAwesomeIconView>
         </graphic>
         <tooltip>
-            <Tooltip text="Delete permanently"/>
+            <Tooltip text="Delete permanently" />
         </tooltip>
     </Button>
 
