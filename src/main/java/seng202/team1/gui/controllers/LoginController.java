@@ -17,6 +17,7 @@ import seng202.team1.services.UserLoginService;
  * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
 public class LoginController {
+    public FontAwesomeIconView closeButton;
     @FXML
     private Text usernameText;
     @FXML
@@ -65,6 +66,13 @@ public class LoginController {
 
         visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         visiblePasswordTextField.setVisible(false);
+        closeButton.setOnMouseEntered(event -> {
+            closeButton.setFill(Paint.valueOf("#909090"));
+        });
+        closeButton.setOnMouseExited(event -> {
+            closeButton.setFill(Paint.valueOf("#b0b0b0"));
+        });
+
     }
 
     /**
@@ -377,5 +385,9 @@ public class LoginController {
 
         // Call setRegisterFieldListeners to handle further changes
         setRegisterFieldListeners();
+    }
+    @FXML
+    public void closeApp() {
+        FXWrapper.getInstance().closeApplication();
     }
 }

@@ -30,7 +30,7 @@
                         </tooltip>
                      </Button>
 
-                     <Button layoutX="1091.0" layoutY="23.0" style="-fx-background-color: white;">
+                     <Button layoutX="1088.0" layoutY="23.0" style="-fx-background-color: white;">
                         <graphic>
                            <FontAwesomeIconView fx:id="wishlistButton" fill="#70171e" glyphName="HEART" layoutX="1091.0" layoutY="67.0" onMouseClicked="#onLikesClicked" size="45" text="" wrappingWidth="50.0">
                               <cursor>
@@ -43,7 +43,7 @@
                         </tooltip>
                      </Button>
 
-                     <Button layoutX="1150.0" layoutY="23.0" style="-fx-background-color: white;">
+                     <Button layoutX="1147.0" layoutY="23.0" style="-fx-background-color: white;">
                         <graphic>
                            <FontAwesomeIconView fx:id="userButton" fill="#707070" glyphName="USER_CIRCLE" onMouseClicked="#onUserClicked" size="45" text="" wrappingWidth="50.000000953674316">
                               <cursor>
@@ -56,7 +56,7 @@
                         </tooltip>
                      </Button>
 
-                     <FontAwesomeIconView fx:id="dropdownButton" fill="#707070" glyphName="BARS" layoutX="1213.0" layoutY="67.0" onMouseClicked="#toggleDropdownOpen" size="45" tabSize="30" wrappingWidth="50.0">
+                     <FontAwesomeIconView fx:id="dropdownButton" fill="#707070" glyphName="BARS" layoutX="1213.0" layoutY="64.0" onMouseClicked="#toggleDropdownOpen" size="45" tabSize="30" wrappingWidth="50.0">
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor>
