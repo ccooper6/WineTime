@@ -31,6 +31,7 @@ public class UserLoginService {
         if (name == null || name.isEmpty() ||
             username == null || username.isEmpty() ||
             password == null || !p.matcher(password).matches()) {
+            System.out.println("oooh u made a mistake some where");
             return 2;
         }
 
