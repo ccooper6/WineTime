@@ -48,7 +48,7 @@ public class ReviewDisplayController {
     private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
 
     /**
-     * Initialises the controller.
+     * Initializes the controller.
      * Sets the text of the review date, description, stars representing the users rating
      * of the wine and tags liked/disliked.
      */

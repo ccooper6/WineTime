@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * Data Access Object for the challenge tracker functionality,
  * updates the database with information on user and challenge, and gets information
  * from the database.
- * @author Lydia Jackson, Wen Sheng Thong
  */
 // TODO LOG after update
 public class ChallengeDAO {
@@ -60,8 +59,8 @@ public class ChallengeDAO {
     }
 
     /**
-     * Checks to see if there are wines for the challenge in database.
-     * @return boolean if wine in challenge_wine.
+     * Checks to see if there are wines for the challenge for the user in database.
+     * @return boolean, true if wine in challenge_wine.
      */
     private Boolean challengeHasWines(String cname, int uid) {
         String sql = "SELECT * FROM challenge_wine WHERE cname = ? AND uid = ?";
@@ -82,7 +81,7 @@ public class ChallengeDAO {
      * Checks if the user has a challenge assigned to them.
      * @param uid user id
      * @param cname challenge name
-     * @return boolean if the user has started a challenge.
+     * @return boolean, true if the user has started a challenge.
      */
     private Boolean userHasChallenge(int uid, String cname) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ? AND cname = ?";
@@ -104,7 +103,6 @@ public class ChallengeDAO {
      * @param uid user id
      * @return challenge name
      */
-    // TODO only one challenge?
     public String getChallengeForUser(int uid) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ?";
         try (Connection conn = databaseManager.connect()) {
@@ -137,6 +135,7 @@ public class ChallengeDAO {
      * Checks the user already has the challenge active, if not calls a method to update the database.
      * @param uid user id
      * @param cname challenge name
+     * @param wineIds arraylist of integer wine ids
      */
     public void userActivatesChallenge(int uid, String cname, ArrayList<Integer> wineIds) {
         // add challenge if user does not already have this challenge already

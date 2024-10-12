@@ -23,7 +23,6 @@ public class UserLoginService {
      * @param name name value to be stored
      * @return 1 if the account was successfully created, 0 if the username already exists, 2 if an error occurred
      */
-    // TODO whats actually happening here?
     public int storeLogin(String name, String username, String password) {
         // check password requirements (8 chars min, letters and digits required)
         String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";

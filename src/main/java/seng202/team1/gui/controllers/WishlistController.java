@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * controller for wishlist.fxml
  * Uses methods in SearchWineService to call WishlistDAO to query database.
- * @author Elise Newman, Yuhao Zhang
  */
 public class WishlistController {
     private static final Logger LOG = LogManager.getLogger(WishlistController.class);
@@ -45,6 +45,7 @@ public class WishlistController {
     private boolean isRecc;
 
     /**
+     * initializes the controller
      * Selects all wine objects from the database where the int userID matches the current user.
      */
     @FXML
@@ -119,7 +120,7 @@ public class WishlistController {
     }
 
     /**
-     * Set current page to 0 and display the page.
+     * Set current page to 0 and calls display page method.
      */
     @FXML
     public void pageStart() {
@@ -128,7 +129,7 @@ public class WishlistController {
     }
 
     /**
-     * Decrement the current page number and display the page.
+     * Decrement the current page number and calls display page method.
      */
     @FXML
     public void pagePrev() {
@@ -137,7 +138,7 @@ public class WishlistController {
     }
 
     /**
-     * Increment the current page number and display the page.
+     * Increment the current page number and calls display page method.
      */
     @FXML
     public void pageNext() {
@@ -146,7 +147,7 @@ public class WishlistController {
     }
 
     /**
-     * Set current page to last page and display the page.
+     * Set current page to last page and calls display page method.
      */
     @FXML
     public void pageEnd() {

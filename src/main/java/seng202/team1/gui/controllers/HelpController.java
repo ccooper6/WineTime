@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * Controller for the help screen, which displays help images for the user to understand how to use the application.
+ * Controller class for the Help screen which gives users information on how to use WineTime
+ * through descriptive tutorials and GIFs.
  */
 public class HelpController {
 

@@ -26,22 +26,22 @@ public class WishlistDAOTest {
     public void testCheckWineBadWineID() {
         assertFalse(wishlistDAO.checkWine(999999999, 1));
     }
+
     @Test
     public void testCheckWineBadUserID() {
         assertFalse(wishlistDAO.checkWine(1, 2));
     }
+
     @Test
     public void testCheckWineDoesntExist() {
         assertFalse(wishlistDAO.checkWine(1, 1));
     }
+
     @Test
     public void testCheckWineExists() {
         assertTrue(wishlistDAO.checkWine(2, 1));
     }
 
-    /**
-     * There are 500 wines in the wine table. 501 does not exist.
-     */
     @Test
     public void testCheckWineIDBad() {
         assertFalse(SearchDAO.getInstance().checkWineExists(999999999));

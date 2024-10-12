@@ -31,7 +31,7 @@ public class MainController {
     private FontAwesomeIconView refreshIcon;
 
     /**
-     * Initializes the main page view.
+     * Initializes the main page view, sets the greeting message.
      */
     public void initialize() {
         CategoryService.resetCategories();
@@ -98,7 +98,7 @@ public class MainController {
                     contentsGrid.setPrefHeight(contentsGrid.getPrefHeight() + 200);
                     contentsGrid.addRow(contentsGrid.getRowCount());
                 }
-                contentsGrid.add(parent, 0, i+1);
+                contentsGrid.add(parent, 0, i + 1);
             }
         });
     }

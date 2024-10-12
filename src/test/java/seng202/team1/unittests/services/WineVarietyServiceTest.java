@@ -56,6 +56,4 @@ public class WineVarietyServiceTest {
         int variety = wineVarietyService.getVarietyFromGrape(wine);
         assertEquals(-1, variety);
     }
-
-
 }

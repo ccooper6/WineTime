@@ -20,10 +20,8 @@ import java.util.ArrayList;
 import static java.sql.Types.NULL;
 
 /**
- * The controller class for the wine logging popup. Called by {@link PopUpController#loadWineLoggingPopUp()} when the
- * log wine button is pressed.
- *
- * @author Wen Sheng Thong, Caleb Cooper
+ * The controller class for the wineLoggingPopup.fxml,
+ * Called by {@link PopUpController#loadWineLoggingPopUp()} when the log wine button is pressed.
  */
 public class WineLoggingPopupController {
     @FXML
@@ -52,7 +50,7 @@ public class WineLoggingPopupController {
     private Review existingReview;
 
     /**
-     * Sets the functionality of the various GUI elements for the wine logging popup.
+     * initializes the various GUI elements for the wine logging popup.
      */
     public void initialize() {
         deleteReviewButton.setOpacity(0);

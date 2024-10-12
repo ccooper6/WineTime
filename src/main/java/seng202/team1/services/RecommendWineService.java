@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * The service class which handles getting wine recommendations from the database
  * as well as containing methods that handles the logic on whether to recommend wines
  * based on the amount of data we have on the user
- * @author Wen Sheng Thong
  */
 public class RecommendWineService {
     private static final Logger LOG = LogManager.getLogger(RecommendWineService.class);
@@ -20,12 +19,20 @@ public class RecommendWineService {
     private final SearchDAO searchDAO;
     private final LogWineDao logWineDao;
 
+    /**
+     * Returns an instance of the RecommendWineService.
+     * @return {@link RecommendWineService}
+     */
     public static RecommendWineService getInstance() {
         if (instance == null) {
             instance = new RecommendWineService();
         }
         return instance;
     }
+
+    /**
+     * constructor for RecommendWineService
+     */
     public RecommendWineService () {
         this.logWineDao = new LogWineDao();
         this.searchDAO = new SearchDAO();

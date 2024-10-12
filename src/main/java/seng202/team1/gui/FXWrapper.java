@@ -12,13 +12,11 @@ import java.io.IOException;
 
 /**
  * A singleton class which launches the FXML pages.
- * @author Elise Newman, Caleb Cooper
  */
 public class FXWrapper {
     private static FXWrapper instance = null;
     private Stage stage;
     private NavigationController navigationController;
-    private int challenge = 0;
     private String currentPage = "init";
     private String previousPage = "init";
 
@@ -39,7 +37,7 @@ public class FXWrapper {
 
     /**
      * Stores the stage from the FXWindow.
-     * @param stage is not changed.
+     * @param stage is the stage from the FXWindow and is not changed.
      */
     public void init(Stage stage) {
         this.stage = stage;
@@ -47,7 +45,7 @@ public class FXWrapper {
 
     /**
      * Loads the FXML and controller listed in the fx:controller.
-     * This page type cannot launch popUps yet.
+     * This page type cannot launch popUps.
      * @param name is the name of the fxml in lowercase with no type.
      */
     public void launchPage(String name) {
@@ -96,21 +94,6 @@ public class FXWrapper {
         return navigationController;
     }
 
-    /**
-     * Sets the challenge number.
-     * @param challengeNum the challenge number.
-     */
-    public void setChallenge(int challengeNum) {
-        challenge = challengeNum;
-    }
-
-    /**
-     * Gets the challenge number.
-     * @return the challenge number.
-     */
-    public int getChallenge() {
-        return challenge;
-    }
 
     /**
      * Gets the current page that is being shown.
@@ -137,6 +120,9 @@ public class FXWrapper {
         currentPage = page;
     }
 
+    /**
+     * closes the application by calling system exit
+     */
     public void closeApplication() {
         System.exit(0);
     }
