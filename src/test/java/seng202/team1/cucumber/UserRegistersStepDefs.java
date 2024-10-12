@@ -35,6 +35,9 @@ public class UserRegistersStepDefs {
     @Given("The user with name {string} does already have an account associated to the username {string} and password {string}")
     public void iDoHaveAccount(String name, String username, String password) throws InstanceAlreadyExistsException {
         initialise();
+        this.name = name;
+        this.username = username;
+        this.password = password;
         userLoginService.storeLogin(name, username, password);
         assertTrue(userLoginService.checkLogin(username, password));
     }
@@ -55,9 +58,13 @@ public class UserRegistersStepDefs {
         assertTrue(userLoginService.checkLogin(username, password));
     }
 
-    @Then("The user will not be re-registered")
-    public void iNotReRegistered() {
+    @Then("The user will not be registered due to duplicate user")
+    public void iNotRegisteredDuplicateUser() {
         assertEquals(0, userLoginService.storeLogin(name, username, password));
+    }
 
+    @Then("The user will not be registered due to error in credentials")
+    public void iNotRegisteredBadCredentials() {
+        assertEquals(2, userLoginService.storeLogin(name, username, password));
     }
 }
