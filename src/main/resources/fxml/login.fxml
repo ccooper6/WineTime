@@ -97,5 +97,10 @@
             <Tooltip text="Save and Exit" />
          </tooltip>
       </Button>
+      <Text fx:id="passwordInfoText" layoutX="788.0" layoutY="457.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Password must be at least 8 characters long with both letters and digits)" visible="false" wrappingWidth="173.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

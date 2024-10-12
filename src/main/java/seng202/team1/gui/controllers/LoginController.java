@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.UserLoginService;
 
+import java.util.regex.*;
+
 /**
  * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
@@ -41,6 +43,8 @@ public class LoginController {
     @FXML
     private TextField nameTextField;
     @FXML
+    private Text passwordInfoText;
+    @FXML
     private Text confirmPasswordText;
     @FXML
     private PasswordField confirmPasswordField;
@@ -48,6 +52,8 @@ public class LoginController {
     private Button goBackButton;
     @FXML
     private Button createUserButton;
+
+    private Pattern PASSWORDPATTERN;
 
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
@@ -57,6 +63,9 @@ public class LoginController {
     @FXML
     public void initialize() {
         // allow enter key to be used to login/register
+        PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$");
+
+        // check on enter
         setCheckOnEnterListeners();
 
         // check on text update if the register button should be enabled
@@ -100,26 +109,12 @@ public class LoginController {
     private void setRegisterFieldListeners() {
         // check passwords match
         confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals(passwordField.getText()) && !newValue.isEmpty()) {
-                passwordField.setStyle("-fx-border-color: GREEN");
-                confirmPasswordField.setStyle("-fx-border-color: GREEN");
-            } else {
-                passwordField.setStyle("-fx-border-color: RED");
-                confirmPasswordField.setStyle("-fx-border-color: RED");
-            }
-            setRegisterButton();
+            checkPassword(newValue, passwordField.getText());
         });
 
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (confirmPasswordField.isVisible()) {
-                if (newValue.equals(confirmPasswordField.getText()) && !newValue.isEmpty()) {
-                    passwordField.setStyle("-fx-border-color: GREEN");
-                    confirmPasswordField.setStyle("-fx-border-color: GREEN");
-                } else {
-                    passwordField.setStyle("-fx-border-color: RED");
-                    confirmPasswordField.setStyle("-fx-border-color: RED");
-                }
-                setRegisterButton();
+                checkPassword(newValue, confirmPasswordField.getText());
             }
         });
 
@@ -138,6 +133,25 @@ public class LoginController {
                 userNameTextField.setStyle("-fx-border-color: None");
             }
         });
+    }
+
+    /**
+     * Checks to ensure the password the user has entered is accepted and matches the other password field
+     * If password is acceptable, highlight both fields green. Otherwise, highlight them red.
+     * Then checks to set the register button enabled or disabled
+     *
+     * @param newValue The new updated value that has just been inputted by the user
+     * @param otherValue The value in the other password field
+     */
+    private void checkPassword(String newValue, String otherValue) {
+        if (newValue.equals(otherValue) && !newValue.isEmpty() && PASSWORDPATTERN.matcher(newValue).matches()) {
+            passwordField.setStyle("-fx-border-color: GREEN");
+            confirmPasswordField.setStyle("-fx-border-color: GREEN");
+        } else {
+            passwordField.setStyle("-fx-border-color: RED");
+            confirmPasswordField.setStyle("-fx-border-color: RED");
+        }
+        setRegisterButton();
     }
 
     /**
@@ -200,10 +214,10 @@ public class LoginController {
     {
         boolean isNameEmpty = nameTextField.getText().trim().isEmpty();
         boolean isUsernameEmpty = userNameTextField.getText().trim().isEmpty();
-        boolean isPasswordEmpty = passwordField.getText().isEmpty();
+        boolean isPasswordGood = !PASSWORDPATTERN.matcher(passwordField.getText()).matches();
         boolean doesPasswordMatch = passwordField.getText().equals(confirmPasswordField.getText());
 
-        boolean isRegisterEnabled = !isNameEmpty && !isUsernameEmpty && !isPasswordEmpty && doesPasswordMatch;
+        boolean isRegisterEnabled = !isNameEmpty && !isUsernameEmpty && !isPasswordGood && doesPasswordMatch;
 
         createUserButton.setDisable(!isRegisterEnabled);
     }
@@ -307,6 +321,8 @@ public class LoginController {
     private void toggleShowCreateAccount() {
         nameText.setVisible(true);
         nameTextField.setVisible(true);
+        passwordText.setText("Password:");
+        passwordInfoText.setVisible(true);
         confirmPasswordText.setVisible(true);
         confirmPasswordField.setVisible(true);
         goBackButton.setVisible(true);
