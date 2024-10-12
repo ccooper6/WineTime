@@ -37,6 +37,15 @@ public class UserLoginServiceTest {
     }
 
     @Test
+    public void testStorePassSpecialCharacters() {
+        String name = "Isaac";
+        String username = "IsaacTheBest";
+        String password = "abc123!*";
+
+        assertEquals(1, userLoginService.storeLogin(name, username, password));
+    }
+
+    @Test
     public void testStoreDuplicate() {
         String name = "Isaac";
         String username = "IsaacTheBest";

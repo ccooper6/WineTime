@@ -62,7 +62,7 @@ public class LoginController {
      */
     @FXML
     public void initialize() {
-        PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$");
 
         // check on enter
         setCheckOnEnterListeners();

@@ -25,7 +25,7 @@ public class UserLoginService {
      */
     public int storeLogin(String name, String username, String password) {
         // check password requirements (8 chars min, letters and digits required)
-        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$";
         Pattern p = Pattern.compile(regex);
 
         if (name == null || name.isEmpty() ||
