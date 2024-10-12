@@ -166,15 +166,12 @@ public class SearchWineController {
      */
     private void initializeVarietyComboBox()
     {
-        varietyComboBox.getItems().addAll(TagDAO.getInstance().getVarieties());
-
-        varietyComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            SearchWineService.getInstance().setCurrentVarietyFilter(newValue);
-            resetVariety.setDisable(!(newValue != null && !newValue.isEmpty()));
-        });
-
-        varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
-        resetVariety.setDisable(!(varietyComboBox.getValue() != null && !varietyComboBox.getValue().isEmpty()));
+        initializeComboBox(
+                varietyComboBox,
+                TagDAO.getInstance().getVarieties(),
+                "variety",
+                resetVariety
+        );
     }
 
     /**
@@ -182,32 +179,25 @@ public class SearchWineController {
      */
     private void initializeCountryComboBox()
     {
-
-        countryComboBox.getItems().addAll(TagDAO.getInstance().getCountries());
-
-        countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            SearchWineService.getInstance().setCurrentCountryFilter(newValue);
-            resetCountry.setDisable(!(newValue != null && !newValue.isEmpty()));
-        });
-
-        countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
-        resetCountry.setDisable(!(countryComboBox.getValue() != null && !countryComboBox.getValue().isEmpty()));
+        initializeComboBox(
+                countryComboBox,
+                TagDAO.getInstance().getCountries(),
+                "country",
+                resetCountry
+        );
     }
 
     /**
-     * Initializes the winery combo box and its listeners
+     * Initializes the winery combo box and its listeners.
      */
     private void initializeWineryComboBox()
     {
-        wineryComboBox.getItems().addAll(TagDAO.getInstance().getWineries());
-
-        wineryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            SearchWineService.getInstance().setCurrentWineryFilter(newValue);
-            resetWinery.setDisable(!(newValue != null && !newValue.isEmpty()));
-        });
-
-        wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
-        resetWinery.setDisable(!(wineryComboBox.getValue() != null && !wineryComboBox.getValue().isEmpty()));
+        initializeComboBox(
+                wineryComboBox,
+                TagDAO.getInstance().getWineries(),
+                "winery",
+                resetWinery
+        );
     }
 
     /**
@@ -215,70 +205,17 @@ public class SearchWineController {
      * this work.
      */
     private void initializeVintageRangeSlider() {
-        vintageSlider.setMin(TagDAO.getInstance().getMinVintage());
-        vintageSlider.setMax(TagDAO.getInstance().getMaxVintage());
-        vintageSlider.setLowValue(vintageSlider.getMin());
-        vintageSlider.setHighValue(vintageSlider.getMax());
-
-        minYearTextField.setText(String.valueOf((int) vintageSlider.getMin()));
-        maxYearTextField.setText(String.valueOf((int) vintageSlider.getMax()));
-
-        vintageSlider.setLabelFormatter(new StringConverter<>() {
-            public String toString(Number value) {
-                // Show only specific labels for min, max, and every 5 years (or any desired interval)
-                if (value.intValue() == vintageSlider.getMin() || value.intValue() == vintageSlider.getMax() || (value.intValue() - 21) % 50 == 0) {
-                    return String.valueOf(value.intValue());
-                }
-                return ""; // Hide other labels
-            }
-
-            @Override
-            public Number fromString(String string) {
-                // Not used, only here for the StringConverted to be fully implemented.
-                return Integer.parseInt(string);
-            }
-        });
-
-        vintageSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
-            minYearTextField.setText(String.valueOf(newValue.intValue()));
-            SearchWineService.getInstance().setCurrentMinYear(newValue.intValue());
-            resetVintage.setVisible(newValue.intValue() != vintageSlider.getMin() || vintageSlider.getHighValue() != vintageSlider.getMax());
-        });
-
-        vintageSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
-            maxYearTextField.setText(String.valueOf(newValue.intValue()));
-            SearchWineService.getInstance().setCurrentMaxYear(newValue.intValue());
-            resetVintage.setVisible(vintageSlider.getLowValue() != vintageSlider.getMin() || newValue.intValue() != vintageSlider.getMax());
-        });
-
-        // TextFields -> Slider (on Enter key or focus loss)
-        minYearTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                validateAndSetSliderLowValueVintage();
-            }
-        });
-
-        minYearTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // Focus lost
-                validateAndSetSliderLowValueVintage();
-            }
-        });
-
-        maxYearTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                validateAndSetSliderHighValueVintage();
-            }
-        });
-
-        maxYearTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // Focus lost
-                validateAndSetSliderHighValueVintage();
-            }
-        });
-
-        vintageSlider.setLowValue(SearchWineService.getInstance().getCurrentMinYear());
-        vintageSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxYear());
-        resetVintage.setVisible(vintageSlider.getLowValue() != vintageSlider.getMin() || vintageSlider.getHighValue() != vintageSlider.getMax());
+        initializeSlider(
+                vintageSlider,
+                minYearTextField,
+                maxYearTextField,
+                resetVintage,
+                TagDAO.getInstance().getMinVintage(),
+                TagDAO.getInstance().getMaxVintage(),
+                SearchWineService.getInstance().getCurrentMinYear(),
+                SearchWineService.getInstance().getCurrentMaxYear(),
+                "vintage"
+        );
     }
 
     /**
@@ -287,71 +224,17 @@ public class SearchWineController {
      */
     private void initializePointsRangeSlider()
     {
-        pointsSlider.setMin(TagDAO.getInstance().getMinPoints());
-        pointsSlider.setMax(TagDAO.getInstance().getMaxPoints());
-        pointsSlider.setLowValue(pointsSlider.getMin());
-        pointsSlider.setHighValue(pointsSlider.getMax());
-
-        pointsSlider.setLabelFormatter(new StringConverter<>() {
-            public String toString(Number value) {
-                // Show only specific labels for min, max, and every 5 years (or any desired interval)
-                if (value.intValue() == pointsSlider.getMin() || value.intValue() == pointsSlider.getMax() || value.intValue() % 5 == 0) {
-                    return String.valueOf(value.intValue());
-                }
-                return ""; // Hide other labels
-            }
-
-            @Override
-            public Number fromString(String string) {
-                // Not used, only here for the StringConverted to be fully implemented.
-                return Integer.parseInt(string);
-            }
-        });
-
-        // Initialize text fields
-        minPointsTextField.setText(String.valueOf((int) pointsSlider.getMin()));
-        maxPointsTextField.setText(String.valueOf((int) pointsSlider.getMax()));
-
-        pointsSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
-            minPointsTextField.setText(String.valueOf(newValue.intValue()));
-            SearchWineService.getInstance().setCurrentMinPoints(newValue.intValue());
-            resetPoints.setVisible(newValue.intValue() != pointsSlider.getMin() || pointsSlider.getHighValue() != pointsSlider.getMax());
-        });
-
-        pointsSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
-            maxPointsTextField.setText(String.valueOf(newValue.intValue()));
-            SearchWineService.getInstance().setCurrentMaxPoints(newValue.intValue());
-            resetPoints.setVisible(pointsSlider.getLowValue() != pointsSlider.getMin() || newValue.intValue() != pointsSlider.getMax());
-        });
-
-        // TextFields -> Slider (on Enter key or focus loss)
-        minPointsTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                validateAndSetSliderLowValuePoints();
-            }
-        });
-
-        minPointsTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // Focus lost
-                validateAndSetSliderLowValuePoints();
-            }
-        });
-
-        maxPointsTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                validateAndSetSliderHighValuePoints();
-            }
-        });
-
-        maxPointsTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // Focus lost
-                validateAndSetSliderHighValuePoints();
-            }
-        });
-
-        pointsSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPoints());
-        pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
-        resetPoints.setVisible(pointsSlider.getLowValue() != pointsSlider.getMin() || pointsSlider.getHighValue() != pointsSlider.getMax());
+        initializeSlider(
+                pointsSlider,
+                minPointsTextField,
+                maxPointsTextField,
+                resetPoints,
+                TagDAO.getInstance().getMinPoints(),
+                TagDAO.getInstance().getMaxPoints(),
+                SearchWineService.getInstance().getCurrentMinPoints(),
+                SearchWineService.getInstance().getCurrentMaxPoints(),
+                "points"
+        );
     }
 
     /**
@@ -359,16 +242,66 @@ public class SearchWineController {
      * this work.
      */
     private void initializePriceRangeSlider() {
-        // Initialize slider
-        priceSlider.setMin(4);
-        priceSlider.setMax(200);
-        priceSlider.setLowValue(priceSlider.getMin());
-        priceSlider.setHighValue(priceSlider.getMax());
+        initializeSlider(
+                priceSlider,
+                minPriceTextField,
+                maxPriceTextField,
+                resetPrice,
+                4, // We set minimum and max to specific values to avoid slider from being unnecessarily large, 200 represents 200+
+                200,
+                SearchWineService.getInstance().getCurrentMinPrice(),
+                SearchWineService.getInstance().getCurrentMaxPrice(),
+                "price"
+        );
+    }
 
-        priceSlider.setLabelFormatter(new StringConverter<>() {
+    /**
+     * Initializes the combo box with the given items and sets up the listeners to make this work.
+     * @param comboBox the combo box to initialize
+     * @param items the items to add to the combo box
+     * @param filterType the type of filter (country, variety or winery)
+     * @param resetButton the button that resets the filter
+     */
+    private void initializeComboBox(SearchableComboBox<String> comboBox, ArrayList<String> items, String filterType, Button resetButton) {
+        comboBox.getItems().addAll(items);
+
+        comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            updateSearchWineService(filterType, newValue);
+            resetButton.setDisable(!(newValue != null && !newValue.isEmpty()));
+        });
+
+        comboBox.setValue(getCurrentFilterValue(filterType));
+        resetButton.setDisable(!(comboBox.getValue() != null && !comboBox.getValue().isEmpty()));
+    }
+
+    /**
+     * Initializes the slider with the given parameters. This keeps the code from being unnecessarily repeated and
+     * hard to read.
+     * @param slider the slider to initialize
+     * @param minTextField the text field for the minimum value
+     * @param maxTextField the text field for the maximum value
+     * @param resetText the text to show when the slider is not at its default value
+     * @param min the minimum value of the slider
+     * @param max the maximum value of the slider
+     * @param currentMin the current minimum value of the slider
+     * @param currentMax the current maximum value of the slider
+     * @param sliderType what type of slider the slider is (price, points or vintage)
+     */
+    private void initializeSlider(RangeSlider slider, TextField minTextField, TextField maxTextField, Text resetText, int min, int max, int currentMin, int currentMax, String sliderType) {
+        // Initialize slider
+        slider.setMin(min);
+        slider.setMax(max);
+        slider.setLowValue(min);
+        slider.setHighValue(max);
+
+        // Initialize text fields
+        minTextField.setText(String.valueOf(min));
+        maxTextField.setText(String.valueOf(max));
+
+        slider.setLabelFormatter(new StringConverter<>() {
+            // Show only specific labels for min, max, and every 5 years (or any desired interval)
             public String toString(Number value) {
-                // Show only specific labels for min, max, and every 5 years (or any desired interval)
-                if (value.intValue() == priceSlider.getMin() || value.intValue() == priceSlider.getMax() || value.intValue() % 25 == 0) {
+                if (value.intValue() == min || value.intValue() == max || value.intValue() % 5 == 0) {
                     return String.valueOf(value.intValue());
                 }
                 return ""; // Hide other labels
@@ -381,153 +314,166 @@ public class SearchWineController {
             }
         });
 
-        // Initialize text fields
-        minPriceTextField.setText(String.valueOf((int) priceSlider.getMin()));
-        maxPriceTextField.setText(String.valueOf((int) priceSlider.getMax()));
-
         // Slider -> TextFields
-        priceSlider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
-            minPriceTextField.setText(String.valueOf(newValue.intValue()));
-            SearchWineService.getInstance().setCurrentMinPrice(newValue.intValue());
-            resetPrice.setVisible(newValue.intValue() != priceSlider.getMin() || priceSlider.getHighValue() != priceSlider.getMax());
+        slider.lowValueProperty().addListener((observable, oldValue, newValue) -> {
+            minTextField.setText(String.valueOf(newValue.intValue()));
+            resetText.setVisible(newValue.intValue() != min || slider.getHighValue() != max);
         });
 
-        priceSlider.highValueProperty().addListener((observable, oldValue, newValue) -> {
-            maxPriceTextField.setText(String.valueOf(newValue.intValue()));
-            SearchWineService.getInstance().setCurrentMaxPrice(newValue.intValue());
-            resetPrice.setVisible(priceSlider.getLowValue() != priceSlider.getMin() || newValue.intValue() != priceSlider.getMax());
-            pricePlusLabel.setVisible(newValue.intValue() == 200);
+        slider.highValueProperty().addListener((observable, oldValue, newValue) -> {
+            maxTextField.setText(String.valueOf(newValue.intValue()));
+            resetText.setVisible(slider.getLowValue() != min || newValue.intValue() != max);
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
-        minPriceTextField.setOnKeyPressed(event -> {
+        minTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                validateAndSetSliderLowValuePrice();
+                validateAndSetSliderLowValue(slider, minTextField, min, max, sliderType);
             }
         });
 
-        minPriceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        minTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // Focus lost
-                validateAndSetSliderLowValuePrice();
+                validateAndSetSliderLowValue(slider, minTextField, min, max, sliderType);
             }
         });
 
-        maxPriceTextField.setOnKeyPressed(event -> {
+        maxTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                validateAndSetSliderHighValuePrice();
+                validateAndSetSliderHighValue(slider, maxTextField, min, max);
             }
         });
 
-        maxPriceTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        maxTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // Focus lost
-                validateAndSetSliderHighValuePrice();
+                validateAndSetSliderHighValue(slider, maxTextField, min, max);
             }
         });
 
-        priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
-        priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
-        resetPrice.setVisible(priceSlider.getLowValue() != priceSlider.getMin() || priceSlider.getHighValue() != priceSlider.getMax());
+        slider.setLowValue(currentMin);
+        slider.setHighValue(currentMax);
+        resetText.setVisible(slider.getLowValue() != min || slider.getHighValue() != max);
     }
 
     /**
-     * Handles the verification of the low value of the price slider.
+     * Validates the low value of the slider and sets it to be the current value in the SearchWineService
+     * if it is valid.
+     * @param slider the slider to validate the value of
+     * @param textField the text field to validate the value of
+     * @param min the minimum value of the slider
+     * @param max the maximum value of the slider
      */
-    private void validateAndSetSliderLowValuePrice() {
+    private void validateAndSetSliderLowValue(RangeSlider slider, TextField textField, int min, int max, String sliderType) {
         try {
-            double minValue = Double.parseDouble(minPriceTextField.getText());
-            if (minValue >= priceSlider.getMin() && minValue <= priceSlider.getHighValue()) {
-                priceSlider.setLowValue(minValue);
-                SearchWineService.getInstance().setCurrentMinPrice((int) minValue);
+            int value = Integer.parseInt(textField.getText());
+            if (value >= min && value <= max) {
+                slider.setLowValue(value);
+                updateSearchWineService(sliderType, "min", value);
             } else {
-                minPriceTextField.setText(String.valueOf((int) priceSlider.getLowValue()));
+                textField.setText(String.valueOf((int) slider.getLowValue()));
             }
         } catch (NumberFormatException e) {
-            minPriceTextField.setText(String.valueOf((int) priceSlider.getLowValue()));
+            textField.setText(String.valueOf((int) slider.getLowValue()));
         }
     }
 
     /**
-     * Handles the verification of the high value of the price slider.
+     * Validates the high value of the slider and sets it to be the current value in the SearchWineService
+     * if it is valid.
+     * @param slider the slider to validate the value of
+     * @param textField the text field to validate the value of
+     * @param min the minimum value of the slider
+     * @param max the maximum value of the slider
      */
-    private void validateAndSetSliderHighValuePrice() {
+    private void validateAndSetSliderHighValue(RangeSlider slider, TextField textField, int min, int max) {
         try {
-            double maxValue = Double.parseDouble(maxPriceTextField.getText());
-            if (maxValue <= priceSlider.getMax() && maxValue >= priceSlider.getLowValue()) {
-                priceSlider.setHighValue(maxValue);
-                SearchWineService.getInstance().setCurrentMaxPrice((int) maxValue);
+            int value = Integer.parseInt(textField.getText());
+            if (value >= min && value <= max) {
+                slider.setHighValue(value);
+                updateSearchWineService("price", "max", value);
             } else {
-                maxPriceTextField.setText(String.valueOf((int) priceSlider.getHighValue()));
+                textField.setText(String.valueOf((int) slider.getHighValue()));
             }
         } catch (NumberFormatException e) {
-            maxPriceTextField.setText(String.valueOf((int) priceSlider.getHighValue()));
+            textField.setText(String.valueOf((int) slider.getHighValue()));
         }
     }
 
     /**
-     * Handles the verification of the low value of the points' slider.
+     * Updates the SearchWineService with the new values of the combobox according to what type
+     * of combobox dropdown it is.
+     * Note: This is used for searchable combo boxes
+     *
+     * @param filterType the type of filter (country, variety or winery)
+     * @param value the value to set the current SearchWineService value to
      */
-    private void validateAndSetSliderLowValuePoints() {
-        try {
-            double minValue = Double.parseDouble(minPointsTextField.getText());
-            if (minValue >= pointsSlider.getMin() && minValue <= pointsSlider.getHighValue()) {
-                pointsSlider.setLowValue(minValue);
-                SearchWineService.getInstance().setCurrentMinPoints((int) minValue);
-            } else {
-                minPointsTextField.setText(String.valueOf((int) pointsSlider.getLowValue()));
-            }
-        } catch (NumberFormatException e) {
-            minPointsTextField.setText(String.valueOf((int) pointsSlider.getLowValue()));
+    private void updateSearchWineService(String filterType, String value) {
+        SearchWineService searchWineService = SearchWineService.getInstance();
+        switch (filterType) {
+            case "country":
+                searchWineService.setCurrentCountryFilter(value);
+                break;
+            case "variety":
+                searchWineService.setCurrentVarietyFilter(value);
+                break;
+            case "winery":
+                searchWineService.setCurrentWineryFilter(value);
+                break;
         }
     }
 
     /**
-     * Handles the verification of the high value of the points' slider.
+     * Updates the SearchWineService with the new values of the sliders according to what type
+     * of slider it is.
+     * Note: This is used for sliders
+     *
+     * @param sliderType the type of slider (price, points or vintage)
+     * @param valueType the type of value (min or max)
+     * @param value the value to set the current SearchWineService value to
      */
-    private void validateAndSetSliderHighValuePoints() {
-        try {
-            double maxValue = Double.parseDouble(maxPointsTextField.getText());
-            if (maxValue <= pointsSlider.getMax() && maxValue >= pointsSlider.getLowValue()) {
-                pointsSlider.setHighValue(maxValue);
-                SearchWineService.getInstance().setCurrentMaxPoints((int) maxValue);
-            } else {
-                maxPointsTextField.setText(String.valueOf((int) pointsSlider.getHighValue()));
-            }
-        } catch (NumberFormatException e) {
-            maxPointsTextField.setText(String.valueOf((int) pointsSlider.getHighValue()));
+    private void updateSearchWineService(String sliderType, String valueType, int value) {
+        SearchWineService searchWineService = SearchWineService.getInstance();
+        switch (sliderType) {
+            case "price":
+                if (valueType.equals("min")) {
+                    searchWineService.setCurrentMinPrice(value);
+                } else {
+                    searchWineService.setCurrentMaxPrice(value);
+                }
+                break;
+            case "points":
+                if (valueType.equals("min")) {
+                    searchWineService.setCurrentMinPoints(value);
+                } else {
+                    searchWineService.setCurrentMaxPoints(value);
+                }
+                break;
+            case "vintage":
+                if (valueType.equals("min")) {
+                    searchWineService.setCurrentMinYear(value);
+                } else {
+                    searchWineService.setCurrentMaxYear(value);
+                }
+                break;
         }
     }
 
     /**
-     * Handles the verification of the low value of the vintage/year slider.
+     * Gets the current filter value depending on what filter type is passed through.
+     * @param filterType the type of filter to get the current value of
+     * @return the current value of the filter
      */
-    private void validateAndSetSliderLowValueVintage() {
-        try {
-            double minValue = Double.parseDouble(minYearTextField.getText());
-            if (minValue >= vintageSlider.getMin() && minValue <= vintageSlider.getHighValue()) {
-                vintageSlider.setLowValue(minValue);
-                SearchWineService.getInstance().setCurrentMinYear((int) minValue);
-            } else {
-                minYearTextField.setText(String.valueOf((int) vintageSlider.getLowValue()));
-            }
-        } catch (NumberFormatException e) {
-            minYearTextField.setText(String.valueOf((int) vintageSlider.getLowValue()));
-        }
-    }
-
-    /**
-     * Handles the verification of the high value of the year/vintage slider.
-     */
-    private void validateAndSetSliderHighValueVintage() {
-        try {
-            double maxValue = Double.parseDouble(maxYearTextField.getText());
-            if (maxValue <= vintageSlider.getMax() && maxValue >= vintageSlider.getLowValue()) {
-                vintageSlider.setHighValue(maxValue);
-                SearchWineService.getInstance().setCurrentMaxYear((int) maxValue);
-            } else {
-                maxYearTextField.setText(String.valueOf((int)vintageSlider.getHighValue()));
-            }
-        } catch (NumberFormatException e) {
-            maxYearTextField.setText(String.valueOf((int) vintageSlider.getHighValue()));
+    private String getCurrentFilterValue(String filterType) {
+        SearchWineService service = SearchWineService.getInstance();
+        switch (filterType) {
+            case "country":
+                return service.getCurrentCountryFilter();
+            case "variety":
+                return service.getCurrentVarietyFilter();
+            case "winery":
+                return service.getCurrentWineryFilter();
+            default:
+                return null;
         }
     }
 
