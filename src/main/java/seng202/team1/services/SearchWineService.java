@@ -114,7 +114,7 @@ public class SearchWineService {
      * @return An ArrayList of the tags given. If the given string tags is null, an empty ArrayList will be returned
      */
     public ArrayList<String> getTagsFromString(String tags) {
-        if (tags == null) {
+        if (tags == null || tags.isEmpty()) {
             return new ArrayList<>();
         }
 
