@@ -41,7 +41,15 @@ public class HelpController {
      * Initializes the help screen by loading the images for the help screen.
      */
     public void initialize() {
-        HashMap<ImageView, String> imagePaths = new HashMap<>() {{
+        addImages();
+    }
+
+    /**
+     * Adds the images to the help screen.
+     */
+    private void addImages() {
+        HashMap<ImageView, String> imagePaths = new HashMap<>() {
+            {
                 put(wineTimeLogo, "/images/logo.png");
                 put(wineTimeText, "/images/winetime-nobg.png");
                 put(loginHelp, "/images/helpScreen/loginHelp.gif");
