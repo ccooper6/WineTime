@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * controller for wishlist.fxml
+ * Controller class for wishlist.fxml
  * Uses methods in SearchWineService to call WishlistDAO to query database.
  */
 public class WishlistController {

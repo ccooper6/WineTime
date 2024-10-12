@@ -36,6 +36,17 @@ public class MainController {
     public void initialize() {
         CategoryService.resetCategories();
 
+        setUpWelcomeMessage();
+
+        displayWines();
+
+        setUpRefreshIconAnimation();
+    }
+
+    /**
+     * Sets the greeting message for the user.
+     */
+    private void setUpWelcomeMessage() {
         LocalTime currentTime = java.time.LocalTime.now();
         if (currentTime.isAfter(java.time.LocalTime.of(6, 0)) && currentTime.isBefore(java.time.LocalTime.of(12, 0))) {
             helloText.setText("Good morning, " + User.getCurrentUser().getName() + "!");
@@ -44,11 +55,14 @@ public class MainController {
         } else {
             helloText.setText("Good evening, " + User.getCurrentUser().getName() + "!");
         }
+    }
 
+    /**
+     * Displays the wines on the main page.
+     */
+    private void displayWines() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
-
         navigationController.executeWithLoadingScreen(() -> {
-
             if (!CategoryService.areTagsGenerated()) {
                 CategoryService.generateTags();
             }
@@ -62,8 +76,6 @@ public class MainController {
                 displayCategoriesNoRec();
             }
         });
-
-        setUpRefreshIconAnimation();
     }
 
 

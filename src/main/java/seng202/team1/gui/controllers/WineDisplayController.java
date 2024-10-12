@@ -14,7 +14,8 @@ import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
 
 /**
- * Controller for wineMiniDisplay.fxml.
+ * Controller class for wineMiniDisplay.fxml.
+ * Displays a wine card with the wine's information and image.
  */
 public class WineDisplayController {
     @FXML
