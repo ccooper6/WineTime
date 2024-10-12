@@ -1,6 +1,7 @@
 package seng202.team1.gui.controllers;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.ChallengeService;
 
@@ -16,6 +17,7 @@ public class SelectChallengePopupController {
      * Calls challenge service method to start the variety challenge, closes select challenge popup
      * and reloads the profile screen.
      */
+    @FXML
     public void startVarietyChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
             challengeService.startChallengeVariety();
@@ -27,6 +29,7 @@ public class SelectChallengePopupController {
      * Calls challenge service method to start the decades challenge, closes select challenge popup
      * and reloads the profile screen.
      */
+    @FXML
     public void startYearsChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
             challengeService.startChallengeYears();
@@ -38,6 +41,7 @@ public class SelectChallengePopupController {
      * Calls challenge service method to start the reds challenge, closes select challenge popup
      * and reloads the profile screen.
      */
+    @FXML
     public void startRedsChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
             challengeService.startChallengeReds();
@@ -49,6 +53,7 @@ public class SelectChallengePopupController {
      * Calls challenge service method to start the whites challenge, closes select challenge popup
      * and reloads the profile screen.
      */
+    @FXML
     public void startWhitesChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
             challengeService.startChallengeWhites();
@@ -60,6 +65,7 @@ public class SelectChallengePopupController {
      * Calls challenge service method to start the rose challenge closes select challenge popup
      * and reloads the profile screen.
      */
+    @FXML
     public void startRoseChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
             challengeService.startChallengeRose();
@@ -70,6 +76,7 @@ public class SelectChallengePopupController {
     /**
      * Closes the select challenge popup.
      */
+    @FXML
     public void closeChallengePopup() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
@@ -79,7 +86,7 @@ public class SelectChallengePopupController {
     /**
      * Launches the profile screen.
      */
-    public void launchProfile() {
+    private void launchProfile() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         navigationController.closePopUp();
         navigationController.loadPageContent("profile");

@@ -1,5 +1,7 @@
 package seng202.team1.gui.controllers;
 
+import static java.sql.Types.NULL;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,8 +18,6 @@ import seng202.team1.models.Wine;
 import seng202.team1.services.ReviewService;
 
 import java.util.ArrayList;
-
-import static java.sql.Types.NULL;
 
 /**
  * The controller class for the wineLoggingPopup.fxml,

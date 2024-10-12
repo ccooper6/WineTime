@@ -85,42 +85,52 @@ public class NavigationController {
     /**
      * initializes the search bar, sets listeners and events for search bar.
      */
-    private void initialiseSearchBar()
-    {
+    private void initialiseSearchBar() {
+        setUpSearchBar();
+        setUpLogoTooltip();
+        setUpButtonHoverEffects();
+        setUpLogoHoverEffects();
+        setAbilityToClickAwayFromDropdown();
+        setUpDropdownListeners();
+    }
+
+    /**
+     * Sets the searchbar text to be previous search and adds listener for enter key.
+     */
+    private void setUpSearchBar() {
         if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
             searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
         }
-
         searchBar.setOnAction(e -> launchSearchWineLoadingScreen());
+    }
 
+    /**
+     * Creates and applys a tooltip to the logo.
+     */
+    private void setUpLogoTooltip() {
         Tooltip tooltip = new Tooltip("Return to home page");
         Tooltip.install(logoPane, tooltip);
+    }
 
-        wishlistButton.setOnMouseEntered(event -> {
-            wishlistButton.setFill(Paint.valueOf("#A05252"));
-        });
-        wishlistButton.setOnMouseExited(event -> {
-            wishlistButton.setFill(Paint.valueOf("#70171e"));
-        });
-        reviewsButton.setOnMouseEntered(event -> {
-            reviewsButton.setFill(Paint.valueOf("#909090"));
-        });
-        reviewsButton.setOnMouseExited(event -> {
-            reviewsButton.setFill(Paint.valueOf("#707070"));
-        });
-        userButton.setOnMouseEntered(event -> {
-            userButton.setFill(Paint.valueOf("#909090"));
-        });
-        userButton.setOnMouseExited(event -> {
-            userButton.setFill(Paint.valueOf("#707070"));
-        });
-        closeButton.setOnMouseEntered(event -> {
-            closeButton.setFill(Paint.valueOf("#909090"));
-        });
-        closeButton.setOnMouseExited(event -> {
-            closeButton.setFill(Paint.valueOf("#b0b0b0"));
-        });
+    /**
+     * Sets up the listeners for buttons in the top bar where they darken on hover.
+     */
+    private void setUpButtonHoverEffects() {
+        wishlistButton.setOnMouseEntered(event -> wishlistButton.setFill(Paint.valueOf("#A05252")));
+        wishlistButton.setOnMouseExited(event -> wishlistButton.setFill(Paint.valueOf("#70171e")));
+        reviewsButton.setOnMouseEntered(event -> reviewsButton.setFill(Paint.valueOf("#909090")));
+        reviewsButton.setOnMouseExited(event -> reviewsButton.setFill(Paint.valueOf("#707070")));
+        userButton.setOnMouseEntered(event -> userButton.setFill(Paint.valueOf("#909090")));
+        userButton.setOnMouseExited(event -> userButton.setFill(Paint.valueOf("#707070")));
+        closeButton.setOnMouseEntered(event -> closeButton.setFill(Paint.valueOf("#909090")));
+        closeButton.setOnMouseExited(event -> closeButton.setFill(Paint.valueOf("#b0b0b0")));
+    }
 
+    /**
+     * Makes the logo give off a hover effect to the users cursor and resizes it on hover
+     * to indicate its functionality.
+     */
+    private void setUpLogoHoverEffects() {
         double translate = 1.25;
         double scaleFactor = 5.0;
         logoPane.setOnMouseEntered(event -> {
@@ -144,18 +154,28 @@ public class NavigationController {
             logo.setTranslateX(translate);
             circle.setRadius(circle.getRadius() - scaleFactor / 2);
         });
+    }
 
-        topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> { // Ensures that user can deselect the search bar
-            if (searchBar.isFocused()) {
-                searchBar.getParent().requestFocus();
-            } else if (userDropDownMenu.isVisible() && !dropdownButton.isHover()) {
+    /**
+     * Sets the top bar to be able to be clicked on to deselect the search bar.
+     */
+    private void setAbilityToClickAwayFromDropdown() {
+        contentHere.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (userDropDownMenu.isVisible() && !dropdownButton.isHover()) {
                 closeDropDown();
                 rotateDropdownButton();
             }
         });
+    }
 
-        contentHere.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            if (userDropDownMenu.isVisible() && !dropdownButton.isHover()) {
+    /**
+     * Adds listeners for the dropdown to cover all cases where the dropdown should be open or closed.
+     */
+    private void setUpDropdownListeners() {
+        topBar.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (searchBar.isFocused()) {
+                searchBar.getParent().requestFocus();
+            } else if (userDropDownMenu.isVisible() && !dropdownButton.isHover()) {
                 closeDropDown();
                 rotateDropdownButton();
             }
@@ -192,13 +212,6 @@ public class NavigationController {
 
 
     /**
-     * Launches the search page when the search icon is clicked.
-     */
-    public void onSearchIconClicked() {
-        launchSearchWineLoadingScreen();
-    }
-
-    /**
      * Opens the dropdown menu.
      */
     private void openDropDown() {
@@ -211,14 +224,6 @@ public class NavigationController {
     private void closeDropDown() {
         dropdownLocked = false;
         userDropDownMenu.setVisible(false);
-    }
-
-    /**
-     * Closes the application gracefully.
-     */
-    @FXML
-    public void closeApp() {
-        FXWrapper.getInstance().closeApplication();
     }
 
     /**
@@ -250,17 +255,7 @@ public class NavigationController {
         }
     }
 
-    /**
-     * Logs out the user and returns to the login page.
-     */
-    @FXML
-    public void onLogOutClicked() {
-        LOG.info("Logging out user {}", User.getCurrentUser().getName());
 
-        User.setCurrentUser(null);
-        CategoryService.resetCategories(true);
-        FXWrapper.getInstance().launchPage("login");
-    }
 
     /**Loads in content from desired fxml and initiates a blank, invisible overlay popup.
      * @param name is the name of fxml content which is loaded
@@ -463,5 +458,32 @@ public class NavigationController {
      */
     public void onHelpClicked() {
         executeWithLoadingScreen(() -> Platform.runLater(() -> FXWrapper.getInstance().launchSubPage("helpScreen")));
+    }
+
+    /**
+     * Logs out the user and returns to the login page.
+     */
+    @FXML
+    public void onLogOutClicked() {
+        LOG.info("Logging out user {}", User.getCurrentUser().getName());
+
+        User.setCurrentUser(null);
+        CategoryService.resetCategories(true);
+        FXWrapper.getInstance().launchPage("login");
+    }
+
+    /**
+     * Launches the search page when the search icon is clicked.
+     */
+    public void onSearchIconClicked() {
+        launchSearchWineLoadingScreen();
+    }
+
+    /**
+     * Closes the application gracefully.
+     */
+    @FXML
+    public void closeApp() {
+        FXWrapper.getInstance().closeApplication();
     }
 }

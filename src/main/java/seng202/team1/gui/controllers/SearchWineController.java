@@ -28,6 +28,7 @@ import java.util.ArrayList;
 /**
  * Controller for the SearchWines.fxml Page.
  */
+// TODO: If time, try make the validation into a single modular method
 public class SearchWineController {
     public Pane greyScreen;
     @FXML
@@ -117,15 +118,7 @@ public class SearchWineController {
         gotoPane.setVisible(false);
 
         if (FXWrapper.getInstance().getPreviousPage().equals("searchWine")) {
-            countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
-            varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
-            wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
-            vintageSlider.setLowValue(SearchWineService.getInstance().getCurrentMinYear());
-            vintageSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxYear());
-            pointsSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPoints());
-            pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
-            priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
-            priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
+            setUpFilterValues();
         } else {
             resetFilters();
         }
@@ -741,6 +734,21 @@ public class SearchWineController {
      */
     public void onClearFiltersPushed() {
         resetFilters();
+    }
+
+    /**
+     * Sets up the filter values according to previously saved ones
+     */
+    private void setUpFilterValues() {
+        countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
+        varietyComboBox.setValue(SearchWineService.getInstance().getCurrentVarietyFilter());
+        wineryComboBox.setValue(SearchWineService.getInstance().getCurrentWineryFilter());
+        vintageSlider.setLowValue(SearchWineService.getInstance().getCurrentMinYear());
+        vintageSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxYear());
+        pointsSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPoints());
+        pointsSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPoints());
+        priceSlider.setLowValue(SearchWineService.getInstance().getCurrentMinPrice());
+        priceSlider.setHighValue(SearchWineService.getInstance().getCurrentMaxPrice());
     }
 
     /**
