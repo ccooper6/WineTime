@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Controller for the Search Wines Page.
+ * Controller for the SearchWines.fxml Page.
  */
 public class SearchWineController {
     public Pane greyScreen;
@@ -102,7 +102,7 @@ public class SearchWineController {
     private static final NavigationController navigationController = new NavigationController();
 
     /**
-     * Initialises the controller using wines from SearchWineService instance.
+     * Initializes the controller using wines from SearchWineService instance.
      */
     @FXML
     public void initialize()
@@ -135,7 +135,7 @@ public class SearchWineController {
     }
 
     /**
-     * Sets up the goto popup.
+     * Sets up the goto page popup.
      */
     private void setupGotoPopup() {
         gotoTextField.setStyle("-fx-border-color: RED");
@@ -169,7 +169,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the variety combo box and its listeners.
+     * Initializes the variety combo box and its listeners.
      */
     private void initializeVarietyComboBox()
     {
@@ -185,7 +185,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the country combo box and its listeners.
+     * Initializes the country combo box and its listeners.
      */
     private void initializeCountryComboBox()
     {
@@ -202,7 +202,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the winery combo box and its listeners
+     * Initializes the winery combo box and its listeners
      */
     private void initializeWineryComboBox()
     {
@@ -218,7 +218,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the year/vintage range slider and also its related text fields, sets up the listeners to make
+     * Initializes the year/vintage range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializeVintageRangeSlider() {
@@ -289,7 +289,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the points range slider and also its related text fields, sets up the listeners to make
+     * Initializes the points range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializePointsRangeSlider()
@@ -362,7 +362,7 @@ public class SearchWineController {
     }
 
     /**
-     * Initialises the price range slider and also its related text fields, sets up the listeners to make
+     * Initializes the price range slider and also its related text fields, sets up the listeners to make
      * this work.
      */
     private void initializePriceRangeSlider() {
@@ -471,7 +471,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the low value of the points slider.
+     * Handles the verification of the low value of the points' slider.
      */
     private void validateAndSetSliderLowValuePoints() {
         try {
@@ -488,7 +488,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the verification of the high value of the points slider.
+     * Handles the verification of the high value of the points' slider.
      */
     private void validateAndSetSliderHighValuePoints() {
         try {
@@ -737,7 +737,7 @@ public class SearchWineController {
     }
 
     /**
-     * Handles the clear filters presses.
+     * clears the filters set when button pressed.
      */
     public void onClearFiltersPushed() {
         resetFilters();

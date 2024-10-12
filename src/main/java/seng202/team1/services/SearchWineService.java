@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 /**
  * Service class for searching wines in the database.
- * @author Yuhao Zhang, Caleb Cooper, Elise Newman, Isaac Macdonald
  */
 public class SearchWineService {
     private Wine currentWine;
@@ -37,7 +36,6 @@ public class SearchWineService {
 
     /**
      * Returns the instance and creates one if none exists.
-     *
      * @return {@link SearchWineService instance}
      */
     public static SearchWineService getInstance() {
@@ -64,7 +62,6 @@ public class SearchWineService {
 
     /**
      * Returns the current wine.
-     *
      * @return {@link Wine} currentWine
      */
     public Wine getCurrentWine() {
@@ -73,7 +70,6 @@ public class SearchWineService {
 
     /**
      * Sets the current wine.
-     *
      * @param currentWine {@link Wine} currentWine
      */
     public void setCurrentWine(Wine currentWine) {
@@ -82,8 +78,7 @@ public class SearchWineService {
 
     /**
      * Returns the stored wines list.
-     *
-     * @return an array list of stored wines
+     * @return {@link ArrayList<Wine>} of stored wines
      */
     public ArrayList<Wine> getWineList() {
         return wineList;
@@ -92,7 +87,6 @@ public class SearchWineService {
     /**
      * Searches the database for wines that matches all tags provided and sets
      * it to the wineList variable.
-     *
      * @param tags  A {@link String} of tags seperated by commas
      * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      */
@@ -111,11 +105,9 @@ public class SearchWineService {
      * Fetches a list of wines up to a limit that contains the filterString within
      * the normalised name from the wines table in database and sets it to
      * the wineList variable.
-     *
      * @param filterString A normalised {@link String} that contains what to search by
      */
     public void searchWinesByName(String filterString) {
-
         filterString = Normalizer.normalize(filterString, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         filterString = filterString.trim();
         if (System.getProperty("test.env") == null) {
@@ -153,6 +145,7 @@ public class SearchWineService {
     /**
      * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
      * @param limit an integer limit to the number of wines to recommend
+     * @param userID the current users id
      */
     public void searchWinesByRecommend(int userID, int limit) {
         currentMethod = "recommended";
@@ -161,7 +154,6 @@ public class SearchWineService {
 
     /**
      * Sets the current search.
-     *
      * @param currentSearch {@link String} currentSearch
      */
     public void setCurrentSearch(String currentSearch) {
@@ -170,7 +162,6 @@ public class SearchWineService {
 
     /**
      * Returns the current search.
-     *
      * @return {@link String} currentSearch
      */
     public String getCurrentSearch() {
@@ -179,7 +170,6 @@ public class SearchWineService {
 
     /**
      * Sets the current method.
-     *
      * @param currentMethod {@link String} currentMethod
      */
     public void setCurrentMethod(String currentMethod) {
@@ -188,7 +178,6 @@ public class SearchWineService {
 
     /**
      * Returns the current method.
-     *
      * @return {@link String} currentMethod
      */
     public String getCurrentMethod() {
@@ -197,7 +186,7 @@ public class SearchWineService {
 
     /**
      * Finds all wines in the wishlist and saves them to the wineList for the WineDisplayController to get.
-     * @param userId is the id of the active user
+     * @param userId is the id of the current user
      */
     public void searchWinesByWishlist(int userId) {
         wineList = WishlistDAO.getInstance().fetchWines(userId);
@@ -205,7 +194,7 @@ public class SearchWineService {
 
     /**
      * Direction of the sort arrow as a boolean value
-     * @return true = up, false = down
+     * @return boolean, true = up, false = down
      */
     public boolean getSortDirection() {
         return sortDirection;
@@ -237,7 +226,7 @@ public class SearchWineService {
 
     /**
      * Sets the current variety filter
-     * @param varietyFilter the country filter
+     * @param varietyFilter the variety filter
      */
     public void setCurrentVarietyFilter(String varietyFilter) {
         currentVarietyFilter = varietyFilter;
@@ -250,6 +239,7 @@ public class SearchWineService {
     public String getCurrentCountryFilter() {
         return currentCountryFilter;
     }
+
     /**
      * Gets the current winery filter
      * @return the winery filter
@@ -257,6 +247,7 @@ public class SearchWineService {
     public String getCurrentWineryFilter() {
         return currentWineryFilter;
     }
+
     /**
      * Gets the current variety filter
      * @return the variety filter
@@ -274,16 +265,16 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current minimum year
-     * @param maxYear the minimum year
+     * Sets the current maximum year
+     * @param maxYear the maximum year
      */
     public void setCurrentMaxYear(int maxYear) {
         currentMaxYear = maxYear;
     }
 
     /**
-     * Sets the current minimum year
-     * @param minPoints the minimum year
+     * Sets the current minimum points
+     * @param minPoints the minimum points
      */
     public void setCurrentMinPoints(int minPoints) {
         currentMinPoints = minPoints;
@@ -367,7 +358,7 @@ public class SearchWineService {
     }
 
     /**
-     *  Sets search order var and re-queries using previous query
+     * Sets search order var and re-queries using previous query
      * Triggered by sort-by dropdown in search page
      * @param searchOrder is the ORDER BY param which is the column name
      */
@@ -375,6 +366,7 @@ public class SearchWineService {
         this.searchOrder = searchOrder;
         searchWinesByName(prevSearch);
     }
+
     /**
      * Stores the dropdown sort by for later
      * @param prevDropDown is the name of the dropdown title: "Name" etc.
@@ -382,6 +374,11 @@ public class SearchWineService {
     public void setDropDown(String prevDropDown) {
         this.prevDropDown = prevDropDown;
     }
+
+    /**
+     * gets the previous dropdown
+     * @return previous dropdown
+     */
     public String getPrevDropDown() {
         return prevDropDown;
     }

@@ -15,7 +15,6 @@ import java.util.Objects;
 
 /**
  * Singleton class responsible for interaction with SQLite database.
- * @author Morgan English, Caleb Cooper, Yuhao Zhang, Isaac Macdonald
  */
 public class DatabaseManager {
     private static DatabaseManager instance = null;

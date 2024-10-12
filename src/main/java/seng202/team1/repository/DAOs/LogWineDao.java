@@ -13,10 +13,7 @@ import java.util.HashMap;
 /**
  * The class containing the functions to add and retrieve entries to the "Likes" and "Reviews" table,
  * mainly called by the WineLoggingPopupController when the user logs a wine.
- *
- * @author Wen Sheng Thong, Caleb Cooper
  */
-// TODO are overrides necessary?
 public class LogWineDao {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger LOG = LogManager.getLogger(LogWineDao.class);
@@ -107,7 +104,7 @@ public class LogWineDao {
      * Returns a list of tags that the user has selected for a specific wine.
      * @param uid the user id
      * @param wid the wine id
-     * @return ArrayList of selected tags
+     * @return ArrayList of selected tags (Strings)
      */
     public ArrayList<String> getSelectedTags(int uid, int wid) {
         String tags;
@@ -135,7 +132,7 @@ public class LogWineDao {
      * Returns a list of tags that the user has liked for a specific wine.
      * @param uid the user id
      * @param wid the wine id
-     * @return an ArrayList of liked tags
+     * @return an ArrayList of liked tags (Strings)
      */
     public ArrayList<String> getWineLikedTags(int uid, int wid) {
         String tags;
@@ -193,7 +190,7 @@ public class LogWineDao {
     }
 
     /**
-     * Returns the top tags that have a positive value by the user
+     * Returns the top tags that have a positive rating by the user
      * @param uid the user uid
      * @param maximumTag the maximum number of tags to return
      * @return An {@link ArrayList<String>} of tag names
@@ -221,7 +218,7 @@ public class LogWineDao {
     }
 
     /**
-     * Returns all the negatively valued tags
+     * Returns all the negatively rated tags
      * @param uid the current user uid
      * @return An {@link ArrayList<String>} of disliked tag names
      */
@@ -246,7 +243,7 @@ public class LogWineDao {
     /**
      * Returns a hashmap of &lt;tagName, tagValue&gt; of the most negatively rated tags belonging to the user.
      * @param uid user id
-     * @param limit number of tags to retunr
+     * @param limit number of tags to return
      * @return  a hashmap of &lt;tagName, tagValue&gt
      */
     public HashMap<String, Integer> getMostDislikedTags(int uid, int limit) {
@@ -269,7 +266,6 @@ public class LogWineDao {
 
     /**
      * Returns a boolean indicating if the user has already reviewed the specified wine.
-     *
      * @param uid the user id
      * @param wid the wine id
      * @return Boolean indicating if the user has already reviewed the wine
@@ -292,7 +288,6 @@ public class LogWineDao {
     /**
      * Checks to see if the user has already reviewed the wine by calling {@link LogWineDao#reviewAlreadyExists(int, int)}.
      * If it does, it updates the current review, otherwise inserts a new review into the database
-     *
      * @param uid          the int user id
      * @param wid          the int wine id
      * @param rating       the int rating given by the user
@@ -311,7 +306,6 @@ public class LogWineDao {
     }
 
     /**Creates a review for a given user and wine.
-     *
      * @param uid          the int user id
      * @param wid          the int wine id
      * @param rating       the int rating given by the user
@@ -346,14 +340,13 @@ public class LogWineDao {
 
     /**
      * Updates the rating, date and description of an already existing review made by the user.
-     *
      * @param uid            the int user id
      * @param wid            the int wine id
      * @param rating         the int rating given by the user
      * @param newDescription the string description of the review
      * @param date           the string date of the time the review was made in "YYYY-MM-DD HH:mm:ss"
      * @param selectedTags   the ArrayList of tags selected by the user
-     *                       TODO update this
+     * @param tagsLiked      the ArrayList of tags liked by this review
      * @param noneSelected   a boolean value to indicate if no tags were selected
      */
     private void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
@@ -380,7 +373,6 @@ public class LogWineDao {
 
     /**
      * Returns a certain number of user reviews specified by maxNumbers and returns the most recent reviews if specified.
-     *
      * @param uid         the int user id
      * @param maxNumbers  the maximum number of reviews to return
      * @param orderByDate a boolean value to return the most recent reviews

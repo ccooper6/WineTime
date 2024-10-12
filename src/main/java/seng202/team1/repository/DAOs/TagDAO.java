@@ -18,18 +18,28 @@ import java.util.Collections;
 import java.util.HashSet;
 
 
-// TODO DOCSTRINGS PLS
+/**
+ * Data Access Object for the search/sorting wine tags.
+ */
 public class TagDAO {
 
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
     private final DatabaseManager databaseManager;
     private static TagDAO instance;
 
+    /**
+     * Constructor class for TagDAO.
+     */
     public TagDAO()
     {
         databaseManager = DatabaseManager.getInstance();
     }
 
+    /**
+     * Returns the instance for TagDAO class.
+     * <p>If there is no instance, it will create one and fill the database manager variable
+     * @return {@link TagDAO} the TagDA0 instance
+     */
     public static TagDAO getInstance()
     {
         if (instance == null) {
@@ -38,18 +48,31 @@ public class TagDAO {
         return instance;
     }
 
+    /**
+     * gets the names of wine varieties.
+     * @return {@link ArrayList<String>} names of wine varieties
+     */
     public ArrayList<String> getVarieties() {
         String sql = "SELECT name FROM tag WHERE type = ?";
 
         return getStringTags(sql, TagType.VARIETY);
     }
 
+
+    /**
+     * gets arraylist of names of countries.
+     * @return {@link ArrayList<String>} names of countries
+     */
     public ArrayList<String> getCountries() {
         String sql = "SELECT name FROM tag WHERE type = ?";
 
         return getStringTags(sql, TagType.COUNTRY);
     }
 
+    /**
+     * gets arraylist of names of wineries
+     * @return {@link ArrayList<String>} of names of wineries.
+     */
     public ArrayList<String> getWineries() {
         String sql = "SELECT name FROM tag WHERE type = ?";
 
@@ -58,15 +81,13 @@ public class TagDAO {
 
     /**
      * Fetches a list of all tag names that matches a tag type stored in the database
-     *
      * @param sql The sql query to execute with parameters for tag type
      * @param type The type of tag to search for
-     * @return An Arraylist of all tags with the matching type
+     * @return An {@link ArrayList<String>} of all tags with the matching type
      */
     private ArrayList<String> getStringTags(String sql, TagType type)
     {
         ArrayList<String> results = new ArrayList<>();
-
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement tagPS = conn.prepareStatement(sql)) {
@@ -88,7 +109,7 @@ public class TagDAO {
 
     /**
      * Gets the min vintage in the wines
-     * @return the min vintage
+     * @return the lowest value for wine vintage in database.
      */
     public int getMinVintage() {
         String sql = "SELECT min(name) FROM tag WHERE type = ? AND name != 'null'";
@@ -98,7 +119,7 @@ public class TagDAO {
 
     /**
      * Gets the max vintage in the wines
-     * @return the max vintage
+     * @return the highest value for wine vintage in database
      */
     public int getMaxVintage() {
         String sql = "SELECT max(name) FROM tag WHERE type = ? AND name != 'null';";
@@ -108,7 +129,7 @@ public class TagDAO {
 
     /**
      * Gets the min point score in the wines
-     * @return the min point score
+     * @return the minimum point score for wine in database
      */
     public int getMinPoints() {
         String sql = "SELECT min(points) FROM wine;";
@@ -118,16 +139,17 @@ public class TagDAO {
 
     /**
      * Gets the max point score in the wines
-     * @return the max point score
+     * @return the maximum point score for wine in database
      */
     public int getMaxPoints() {
         String sql = "SELECT max(points) FROM wine";
 
         return getIntTag(sql, TagType.POINTS);
     }
+
     /**
      * Gets the min price in the wines
-     * @return the min price
+     * @return the lowest price of wine stored in the database
      */
     public int getMinPrice() {
         String sql = "SELECT min(price) FROM wine;";
@@ -137,7 +159,7 @@ public class TagDAO {
 
     /**
      * Gets the max price in the wines
-     * @return the max price
+     * @return the highest price of wine stored in the database
      */
     public int getMaxPrice() {
         String sql = "SELECT max(price) FROM wine";
@@ -149,7 +171,7 @@ public class TagDAO {
      * Returns a tag with an integer name
      * @param sql the string sql query to fetch the tag
      * @param type the type of tag it is
-     * @return an integer
+     * @return an integer tag name
      */
     private int getIntTag(String sql, TagType type)
     {

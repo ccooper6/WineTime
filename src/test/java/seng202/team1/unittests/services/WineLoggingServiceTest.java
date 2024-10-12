@@ -22,22 +22,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for {@link ReviewService} which mainly concerns that submit log is calling the appropriate methods
- * from {@link LogWineDao}. Majority of the functionality is based off methods from {@link LogWineDao} and as such, edge
- * cases such as updating reviews and liked tags values are tested in {@link LogWineDAOTest} instead.
- *
- * @author Wen Sheng Thong
- */
 public class WineLoggingServiceTest {
     static ReviewService reviewService;
     static LogWineDao logWineDao;
     static UserDAO userDAO;
 
-    /**
-     * Makes sure the database is set up before each test. Overwrites the prev test database with a clean test_database
-     * before each test.
-     */
     @BeforeEach
     public void setUp() {
         DatabaseManager.REMOVE_INSTANCE();
@@ -52,12 +41,6 @@ public class WineLoggingServiceTest {
         userDAO = new UserDAO();
     }
 
-    /**
-     * Tests that {@link ReviewService#submitLog(int, int, int, ArrayList, ArrayList, boolean, String)} submits the log properly
-     * by calling {@link LogWineDao#doReview(int, int, int, String, String, ArrayList, ArrayList, boolean)} and {@link LogWineDao#likes(int, String, int)}
-     * properly, as well as making sure all redundant whitespace is removed from the description text before being added
-     * to the database
-     */
     @Test
     public void testSubmitLog() {
         ArrayList<String> selectedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
@@ -72,10 +55,6 @@ public class WineLoggingServiceTest {
         assertEquals(1, reviews.size());
     }
 
-    /**
-     * Test that {@link ReviewService#getCurrentTimeStamp()} gets the current time properly.
-     * May fail randomly at times if the seconds just so happen to change
-     */
     @Test
     public void testGetCurrentTime() {
         String currentTime = ZonedDateTime.now( ZoneId.systemDefault() ).format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"));
@@ -110,7 +89,6 @@ public class WineLoggingServiceTest {
 
         ArrayList<String> initialTags = new ArrayList<>(List.of("2013", "White Blend"));
         ArrayList<String> tagsToAdd = new ArrayList<>(List.of("clean", "calebiscool", "sparkly"));
-//        ArrayList<String> tagsToRemove = new ArrayList<>(List.of("fruity", "smooth"));
 
         reviewService.updateTagLikes(uid, wid, initialTags, initialRating);
         reviewService.submitLog(5, uid, wid, initialTags, initialTags, false, "");

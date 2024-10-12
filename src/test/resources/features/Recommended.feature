@@ -1,4 +1,3 @@
-#Created by Yuhao on 10/10/2024
 Feature: Get Recommended Wines Feature
   Scenario: User likes 3 of the 5 tags of a wine
     Given The database is reset

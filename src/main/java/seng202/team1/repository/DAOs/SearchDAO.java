@@ -14,7 +14,6 @@ import java.util.ArrayList;
 /**
  * Data Access Object for the Search Wines functionality.
  * Allows for searching by wine names or tags
- * @author Yuhao Zhang, Isaac Macdonald, Lydia Jackson
  */
 public class SearchDAO {
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
@@ -27,7 +26,6 @@ public class SearchDAO {
 
     /**
      * Constructor class for SearchDAO.
-     *
      * <p>Please use the static {@link SearchDAO#getInstance()} function instead.
      */
     public SearchDAO()
@@ -37,7 +35,6 @@ public class SearchDAO {
 
     /**
      * Returns the instance for SearchDAO class.
-     *
      * <p>If there is no instance, it will create one and fill the database manager variable
      * @return {@link SearchDAO} the SearchDAO instance
      */
@@ -51,7 +48,6 @@ public class SearchDAO {
 
     /**
      * Takes a result set of wines with its tags and process them into an ArrayList of wines.
-     *
      * @param rs {@link ResultSet} the result set received after a SELECT statement in the
      *                                   database. Each row should contain the wine id, name, description
      *                                   and price and the tag name and type. Rows are seperated by tags.
@@ -134,7 +130,6 @@ public class SearchDAO {
 
     /**
      * Searches for wines given a String of tags.
-     *
      * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
      * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
@@ -169,8 +164,9 @@ public class SearchDAO {
 
     /**
      * Builds the SQL query required to search by tags and filter
-     *
      * @param numTags the number of tags to accommodate for
+     * @param orderBy string of column name to order by
+     * @param checkVintage boolean, if vintage is set
      * @return A string of the correct SQL statement
      */
     private String buildSearchByFilterString(int numTags, String orderBy, boolean checkVintage)
@@ -219,13 +215,14 @@ public class SearchDAO {
     }
 
     /**
-     * Searches for wines given a String of tags.
-     *
+     * Queries database for wines given a String of tags.
      * @param tagList      {@link String} of tag names seperated by commas. Must be normalised and lower case.
      * @param lowerPoints  the lowest amount of points that a wine can have.
      * @param upperPoints  the highest amounts of points that a wine can have.
      * @param lowerVintage the lowest vintage a wine can have.
      * @param upperVintage the highest vintage a wine can have.
+     * @param lowerPrice   the lowest price a wine can have.
+     * @param upperPrice   the highest price a wine can have.
      * @param filterString the string that must match to a wines title.
      * @param orderBy      the column to order the final wine objects by
      * @return {@link ArrayList} of Wine objects for all wines that matched the given string
@@ -382,7 +379,6 @@ public class SearchDAO {
 
     /**
      * Adds correct number of parameters to a sql query.
-     *
      * @param sqlBuilder The StringBuilder to build onto
      * @param numTags The number of parameters to add
      */
@@ -399,6 +395,9 @@ public class SearchDAO {
     /**
      * Creates the recommendation sql prepared statement string
      * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
+     * @param tagsLiked {@link ArrayList<String>} of tags liked by user.
+     * @param dislikedTags {@link ArrayList<String>} of tags disliked by user.
+     * @param winesToAvoid {@link ArrayList<Integer>} of the ids of wines to avoid.
      */
     private static void initializeSqlRecommendedString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid) {
         sqlBuilder.append("""

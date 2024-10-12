@@ -1,6 +1,5 @@
 package seng202.team1.unittests.services;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import seng202.team1.services.QuizService;
 

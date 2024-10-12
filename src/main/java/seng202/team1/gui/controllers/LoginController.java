@@ -14,7 +14,7 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.UserLoginService;
 
 /**
- * Controller class to look after the login.fxml page.
+ * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
 public class LoginController {
     public FontAwesomeIconView closeButton;
@@ -52,7 +52,7 @@ public class LoginController {
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     /**
-     * Initialises the login page.
+     * Initialises the login page by adding observers to text fields
      */
     @FXML
     public void initialize() {
@@ -191,7 +191,7 @@ public class LoginController {
     }
 
     /**
-     * Very simple method to handle when the login button is pressed. Validates the user account using the inputs
+     * Simple method to handle when the login button is pressed. Validates the user account using the inputs
      * from the username and password text fields.
      */
     @FXML
@@ -212,7 +212,7 @@ public class LoginController {
     }
 
     /**
-     * Very simple method to handle when the register button is pressed. Creates a new user account using the inputs
+     * Simple method to handle when the register button is pressed. Creates a new user account using the inputs
      * from the username and password text fields.
      */
     @FXML

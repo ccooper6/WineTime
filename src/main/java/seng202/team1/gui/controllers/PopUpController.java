@@ -350,9 +350,9 @@ public class PopUpController {
     }
 
     /**
-     * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
+     * This method takes the user to a web browsers with results in wine-searcher for the wine displayed on the popup
+     * when the link is clicked.
      */
-    // TODO do we keep this?
     public void onWineSearchLinkClicked() {
         java.awt.Desktop.getDesktop();
         String query = wineName.getText();
@@ -373,7 +373,6 @@ public class PopUpController {
                         LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
                     }
                 };
-
                 Thread thread = new Thread(browseRunnable);
                 thread.start();
             }
