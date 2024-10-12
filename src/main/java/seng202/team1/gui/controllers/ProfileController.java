@@ -23,7 +23,6 @@ import java.util.Objects;
 
 /**
  * Controller class for the profile.fxml page.
- * @author Lydia Jackson, Caleb Cooper, Elise Newman
  */
 public class ProfileController {
     @FXML
@@ -62,17 +61,16 @@ public class ProfileController {
     private AnchorPane pieChartAnchorPane;
     @FXML
     private Label noPieChartLabel;
-    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
-    private final ChallengeService challengeService = new ChallengeService();
-
-    private final ReviewService reviewService = new ReviewService();
-
-    private final TagRankingService tagRankingService = new TagRankingService();
 
     int completedWineCount = 0;
+    private final ChallengeService challengeService = new ChallengeService();
+    private final ReviewService reviewService = new ReviewService();
+    private final TagRankingService tagRankingService = new TagRankingService();
+
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
 
     /**
-     * Initialises the controller checks if user has is participating in a challenge, calls
+     * Initializes the controller checks if user has is participating in a challenge, calls
      * methods to appropriately alter screens.
      */
     public void initialize() {
@@ -84,11 +82,10 @@ public class ProfileController {
         }
         displayTagRankings();
         displayWishlist();
-
     }
 
     /**
-     * Responsible for shifting the profile page elements depending on if a pie chart should be displayed or not
+     * Shifts the profile page elements depending on if a pie chart should be displayed or not.
      */
     private void displayTagRankings() {
         int uid = User.getCurrentUser().getId();
@@ -101,7 +98,7 @@ public class ProfileController {
             displayPieCharts(uid);
         } else {
             makePieChartInvisible();
-            moveMainPane(- 210); //210 is the perfect distance to shift the main page up
+            moveMainPane(-210); //210 is the perfect distance to shift the main page up
         }
     }
 
@@ -119,7 +116,7 @@ public class ProfileController {
 
     /**
      * Initialises and creates the pie charts.
-     * @param uid user id
+     * @param uid is the current users id
      */
     private void displayPieCharts(int uid) {
         if (tagRankingService.hasEnoughLikedTags(uid)) {
@@ -139,8 +136,8 @@ public class ProfileController {
     }
 
     /**
-     * Creates and sets the styling of the pie chart
-     * @param pie {@link PieChart}
+     * Creates and sets the styling of the pie chart.
+     * @param pie {@link PieChart} PieChart object
      * @param pieChartData an ObservableList of {@link PieChart.Data}
      * @param title the string title of the pie chart
      */
@@ -159,8 +156,8 @@ public class ProfileController {
     }
 
     /**
-     * Creates and sets the styling of an empty pie chart
-     * @param pie {@link PieChart}
+     * Creates and sets the styling of an empty pie chart.
+     * @param pie {@link PieChart} PieChart object
      * @param title the string title of the pie chart
      */
     private void createEmptyPie(PieChart pie, String title) {
@@ -180,26 +177,25 @@ public class ProfileController {
     }
 
     /**
-     * Displays the wishlist on the profile in the scrollable grid format, currently displays a wine category using
-     * wine category display.
+     * Displays the wishlist on the profile using category display
      */
     @FXML
     public void displayWishlist() {
+        SearchWineService.getInstance().setCurrentMethod("notRecommended");
         Parent parent = WineCategoryDisplayController.createCategory("wishlist");
         wishlistAnchorPane.getChildren().add(parent);
 
     }
 
     /**
-     * Sends user to quiz screen.
+     * Sends user to quiz screen when quiz button clicked.
      */
     public void onQuizClicked() {
         FXWrapper.getInstance().launchPage("quizscreen");
     }
 
     /**
-     * Sends user to the select challenge popup.
-     * launches the select challenge popup.
+     * Opens the select challenge popup when select challenge clicked.
      */
     public void onChallengeClicked() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
@@ -236,7 +232,7 @@ public class ProfileController {
     }
 
     /**
-     * Makes the challenge pane visible and disables previous one.
+     * Makes the challenge pane visible and disables other panes.
      */
     public void activateChallenge() {
         LOG.info("Activating challenge for user {}", User.getCurrentUser().getName());
@@ -245,11 +241,12 @@ public class ProfileController {
     }
 
     /**
-     * Shifts the wine pane to make room for challenge wines.
+     * Shifts the wishlist wine pane by 90 to make room for challenge wines.
      */
     public void moveWinesPane() {
-        winesPane.setLayoutY(winesPane.getLayoutY()+ 90);
+        winesPane.setLayoutY(winesPane.getLayoutY() + 90);
     }
+
     /**
      * Shifts the main pane to make room for pie charts.
      * @param moveDistance how much to move the Y distance by
@@ -260,8 +257,8 @@ public class ProfileController {
 
 
     /**
-     * moves the wishlist back up as well as displaying a congratulatory text for completing the challenge
-     * @param cname the challenge name
+     * Moves the wishlist back up as well as displaying a congratulatory text for completing the challenge.
+     * @param cname the name of the users challenge
      */
     public void challengeCompleted(String cname) {
         winesPane.setLayoutY(winesPane.getLayoutY() - 90);
@@ -271,6 +268,9 @@ public class ProfileController {
         challengeService.challengeCompleted(cname);
     }
 
+    /**
+     * Quits the challenge and displays a message.
+     */
     @FXML
     public void quitChallenge() {
         winesPane.setLayoutY(winesPane.getLayoutY() - 90);
@@ -281,11 +281,11 @@ public class ProfileController {
     }
 
     /**
-     * logs the user out.
+     * Logs the current user out, launches login page.
      */
     @FXML
     public void logOutButton() {
-        User.setCurrenUser(null);
+        User.setCurrentUser(null);
         FXWrapper.getInstance().launchPage("login");
     }
 }

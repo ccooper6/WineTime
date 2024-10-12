@@ -10,7 +10,6 @@ import java.util.Objects;
 
 /**
  * Data Access Object for the User class.
- * @author Caleb Cooper, Isaac Macdonald, Yuhao Zhang, Wen Sheng Thong
  */
 public class UserDAO {
 
@@ -27,15 +26,15 @@ public class UserDAO {
     /**
      * This method takes a username and checks that the user is in the database and that the password matches.
      * If they do, the corresponding User will be returned, otherwise null
-     * @param username the encrypted username
+     * @param username the hashed username
      * @param password the hashed password
-     * @return The user is the credentials are found in the database, else null
+     * @return The user is the credentials that are found in the database, else null
      */
-    public User tryLogin(String username, int password) {
+    public User tryLogin(int username, int password) {
         String sql = "SELECT * FROM user WHERE username = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setString(1, username);
+            userPS.setString(1, String.valueOf(username));
             ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
@@ -59,7 +58,6 @@ public class UserDAO {
 
     /**
      * Adds a new user to the database
-     *
      * @param toAdd The user to add. Must contain username, hashed password and name
      * @return The result of the sql query. 0 if user already exists, 1 if successful, 2 if an error occurred
      */
@@ -67,7 +65,7 @@ public class UserDAO {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, toAdd.getEncryptedUserName());
+            ps.setInt(1, toAdd.getHashedUsername());
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
             ps.executeUpdate();
@@ -84,14 +82,14 @@ public class UserDAO {
 
     /**
      * Returns the name of the user with the given username.
-     * @param username the encrypted username
+     * @param username the hashed username
      * @return the name of the user
      */
-    public String getName(String username) {
+    public String getName(int username) {
         String sql = "SELECT name FROM user WHERE username = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
-            userPS.setString(1, username);
+            userPS.setInt(1, username);
             ResultSet rs = userPS.executeQuery();
 
             if (!rs.next()) {
@@ -106,6 +104,7 @@ public class UserDAO {
 
     /**
      * Checks whether the given user exists in the database
+     * @param id is the users id
      */
     public boolean userExists(int id)
     {

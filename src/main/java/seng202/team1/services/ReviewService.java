@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 /**
  * Contains methods for handling reviews. Used by the controllers to interact with the database.
- * @author Caleb Cooper
  */
 public class ReviewService {
     private static final LogWineDao logWineDao = new LogWineDao();
@@ -21,7 +20,7 @@ public class ReviewService {
     private static ReviewService instance;
 
     /**
-     * Returns an instance of the ReviewService
+     * Returns an instance of the ReviewService.
      * @return {@link ReviewService}
      */
     public static ReviewService getInstance() {
@@ -30,6 +29,7 @@ public class ReviewService {
         }
         return instance;
     }
+
     /**
      * Gets all the reviews for the current user.
      * @param currentUserUid The user id of the current user.
@@ -80,10 +80,8 @@ public class ReviewService {
     public void deleteReview(Review review) {
         int uid = review.getUid();
         int wid = review.getWid();
-        ArrayList<String> tagsToRemove = review.getTagsLiked();
-        int oldRating = review.getRating();
 
-        updateTagLikes(uid, new ArrayList<>(), tagsToRemove, 0, oldRating);
+        updateTagLikes(uid, wid, new ArrayList<>(), 0);
         logWineDao.deleteReview(uid, wid);
     }
 
@@ -129,16 +127,25 @@ public class ReviewService {
     /**
      * Uses {@link LogWineDao} to update the tags liked by the user.
      * @param uid the user id
+     * @param wid the wine id
      * @param tagsToAdd an ArrayList of strings, containing tag names to add
-     * @param tagsToRemove an ArrayList of strings, containing tag names to remove
      * @param newRating the new rating of the log
-     * @param oldRating the old rating of the log
      */
-    public void updateTagLikes(int uid, ArrayList<String> tagsToAdd, ArrayList<String> tagsToRemove, int newRating, int oldRating) {
+    public void updateTagLikes(int uid, int wid, ArrayList<String> tagsToAdd, int newRating) {
+        Review existingReview = getReview(uid, wid);
+
+        ArrayList<String> oldTags = new ArrayList<>();
+
+        int oldRating = 0;
+        if (existingReview != null) {
+            oldTags = existingReview.getTagsLiked();
+            oldRating = existingReview.getRating();
+        }
+
         int scaledNewRating = getRatingWeight(newRating);
         int scaledOldRating = getRatingWeight(oldRating);
 
-        for (String tag : tagsToRemove) {
+        for (String tag : oldTags) {
             logWineDao.likes(uid, tag, -scaledOldRating);
         }
 
@@ -148,7 +155,7 @@ public class ReviewService {
     }
 
     /**
-     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively
+     * Sets rating weight, returns a 1-3 for ratings 3-5 respectively, returns a -1, -2 for rating of 2 and 1 respectively.
      * @param rating the int rating
      * @return the rating's weight
      */

@@ -6,7 +6,6 @@ import seng202.team1.services.ChallengeService;
 
 /**
  * Controller class for the selectChallengePopup.fxml page.
- * @author Lydia Jackson
  */
 public class SelectChallengePopupController {
 
@@ -14,7 +13,8 @@ public class SelectChallengePopupController {
     private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
 
     /**
-     * calls challenge service method to start the variety challenge and closes popup and reloads the profile screen on start challenge clicked.
+     * Calls challenge service method to start the variety challenge, closes select challenge popup
+     * and reloads the profile screen.
      */
     public void startVarietyChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
@@ -24,7 +24,8 @@ public class SelectChallengePopupController {
     }
 
     /**
-     * calls challenge service method to start the decades challenge and closes popup and reloads the profile screen on start challenge clicked.
+     * Calls challenge service method to start the decades challenge, closes select challenge popup
+     * and reloads the profile screen.
      */
     public void startYearsChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
@@ -34,7 +35,8 @@ public class SelectChallengePopupController {
     }
 
     /**
-     * calls challenge service method to start the reds challenge and closes popup and reloads the profile screen on start challenge clicked.
+     * Calls challenge service method to start the reds challenge, closes select challenge popup
+     * and reloads the profile screen.
      */
     public void startRedsChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
@@ -44,7 +46,8 @@ public class SelectChallengePopupController {
     }
 
     /**
-     * calls challenge service method to start the whites challenge and closes popup and reloads the profile screen on start challenge clicked.
+     * Calls challenge service method to start the whites challenge, closes select challenge popup
+     * and reloads the profile screen.
      */
     public void startWhitesChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
@@ -54,7 +57,8 @@ public class SelectChallengePopupController {
     }
 
     /**
-     * calls challenge service method to start the rose challenge and closes popup and reloads the profile screen on start challenge clicked.
+     * Calls challenge service method to start the rose challenge closes select challenge popup
+     * and reloads the profile screen.
      */
     public void startRoseChallenge() {
         navigationController.executeWithLoadingScreen(() -> {
@@ -64,7 +68,7 @@ public class SelectChallengePopupController {
     }
 
     /**
-     * Closes the popup.
+     * Closes the select challenge popup.
      */
     public void closeChallengePopup() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
@@ -73,7 +77,7 @@ public class SelectChallengePopupController {
     }
 
     /**
-     * launches the profile screen and closes the popup
+     * Launches the profile screen.
      */
     public void launchProfile() {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();

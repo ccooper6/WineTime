@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 /**
  * Service class for the wishlist feature.
- * @author Elise Newman, Caleb Cooper
  */
 public class WishlistService {
+
     /**
      * Checks the existence of a wine in the wishlist.
      * @param wineID int of the wine object to check
      * @param userID user id for user to add wishlist to
-     * @return true if in wishlist, else false
+     * @return boolean, true if in wishlist, else false
      */
     public static boolean checkInWishlist(int wineID, int userID) {
         return WishlistDAO.getInstance().checkWine(wineID, userID);
@@ -55,7 +55,7 @@ public class WishlistService {
     /**
      * Gets the wines which match with the current user in the wishlist table as an array.
      * @param userID user id for user to add wishlist to
-     * @return wineList array of wines from the user's wishlist
+     * @return {@link ArrayList<Wine>} of wines from the user's wishlist
      */
     public static ArrayList<Wine> getWishlistWines(int userID) {
         return WishlistDAO.getInstance().fetchWines(userID);

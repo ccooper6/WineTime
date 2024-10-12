@@ -27,7 +27,6 @@ import java.util.List;
 
 /**
  * Controller class for the wineCategoryDisplay.fxml category displays.
- * @author Elise Newman, Caleb Cooper, Yuhao Zhang
  */
 public class WineCategoryDisplayController {
     @FXML
@@ -52,9 +51,9 @@ public class WineCategoryDisplayController {
     private AnchorPane mainWine6;
     @FXML
     private Button seeMoreButton;
-
-
+    @FXML
     private List<AnchorPane> wineViews;
+
     private int firstWine = 0;
     private int MAXWINES = 11;
     private int leftDisplay = 7;
@@ -77,7 +76,7 @@ public class WineCategoryDisplayController {
     private static final NavigationController navigationController = new NavigationController();
 
     /**
-     * Only initialises on login.
+     * Only initializes on login.
      * Creates an array of the anchor panes (len = 6)
      * Fetches the number of wine objects from the database and stores them in another array (len = MAXWINES)
      */
@@ -92,6 +91,16 @@ public class WineCategoryDisplayController {
         isWishlist = tags.equalsIgnoreCase("wishlist");
         isRecommendations = tags.equalsIgnoreCase("recommend");
 
+        setTitleText();
+        handleEmptyDisplayWines();
+        handleDisplayWines();
+    }
+
+    /**
+     * Sets the title text of the category display depending on the search parameters
+     * and special conditions (recommendations or wishlist).
+     */
+    private void setTitleText() {
         if (isWishlist) {
             titleText.setText("Your Wishlist: ");
         } else if (isRecommendations) {
@@ -103,52 +112,72 @@ public class WineCategoryDisplayController {
         } else {
             titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle());
         }
+    }
+
+    /**
+     * Handles the case where there are no wines to display and displays the correct message
+     * depending on the category type.
+     */
+    private void handleEmptyDisplayWines() {
         if (displayWines.isEmpty()) {
             if (isWishlist) {
                 titleText.setText("Your Wishlist: \n\nYou have no saved wines...\nGo to home or search pages to discover new wines!");
             } else if (isRecommendations) {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
-                titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle() +
-                        "\n\nThere was an issue fetching wines. \nPlease try restarting the app!");
+                titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle()
+                        + "\n\nThere was an issue fetching wines. \nPlease try restarting the app!"); //TODO: DO WE WANT THEM TO RESTART OR JUST REFRESH SELECTION?
             }
             leftArrowButton.setDisable(true);
             leftArrowButton.setVisible(false);
             rightArrowButton.setDisable(true);
             rightArrowButton.setVisible(false);
-        } else if (displayWines.size() <= 5) {
-            fiveOrLess();
-        } else {
-            if (displayWines.size() == 6) {
-                for (int i = 0; i < 6; i++) {
-                    displayWines.addLast(displayWines.get(i));
-                }
-            }
-            if (displayWines.size() == 7) {
-                leftDisplay = 0;
-            }
-            if (displayWines.size() < MAXWINES) {
-                MAXWINES = displayWines.size();
-                rightDisplay = MAXWINES - 1;
+        }
+    }
+
+    /**
+     * Handles the display of wines in the category depending on the number of wines.
+     */
+    private void handleDisplayWines() {
+        if (!displayWines.isEmpty()) {
+            if (displayWines.size() <= 5) {
+                fiveOrLess();
             } else {
-                rightDisplay = 6;
-            }
-            for (int i = 0; i < MAXWINES; i++) {
-                SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
-                    wineDisplays.add(loader.load());
-                } catch (IOException e) {
-                    LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getWineId());
+                if (displayWines.size() == 6) {
+                    for (int i = 0; i < 6; i++) {
+                        displayWines.addLast(displayWines.get(i));
+                    }
                 }
+                if (displayWines.size() == 7) {
+                    leftDisplay = 0;
+                }
+                if (displayWines.size() < MAXWINES) {
+                    MAXWINES = displayWines.size();
+                    rightDisplay = MAXWINES - 1;
+                } else {
+                    rightDisplay = 6;
+                }
+                loadWineDisplays();
             }
-            mainWine0.getChildren().add(wineDisplays.get(0));
-            mainWine1.getChildren().add(wineDisplays.get(1));
-            mainWine2.getChildren().add(wineDisplays.get(2));
-            mainWine3.getChildren().add(wineDisplays.get(3));
-            mainWine4.getChildren().add(wineDisplays.get(4));
-            mainWine5.getChildren().add(wineDisplays.get(5));
-            mainWine6.getChildren().add(wineDisplays.get(6));
+        }
+    }
+
+    /**
+     * Loads in the wine mini displays (wine tiles) for the category display.
+     */
+    private void loadWineDisplays() {
+        for (int i = 0; i < MAXWINES; i++) {
+            SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
+                wineDisplays.add(loader.load());
+            } catch (IOException e) {
+                LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getWineId());
+            }
+        }
+        ArrayList<AnchorPane> mainWines = new ArrayList<>(List.of(mainWine0, mainWine1, mainWine2, mainWine3, mainWine4, mainWine5, mainWine6));
+        for (int i = 0; i < mainWines.size(); i++) {
+            mainWines.get(i).getChildren().add(wineDisplays.get(i));
         }
     }
 
@@ -158,7 +187,6 @@ public class WineCategoryDisplayController {
     @FXML
     public void onRefresh() {
         rightArrowButton.setOnMouseClicked(event -> transitionRight());
-
         leftArrowButton.setOnMouseClicked(event -> transitionLeft());
     }
 
@@ -180,17 +208,19 @@ public class WineCategoryDisplayController {
             wineDisplay.setDisable(true);
         }
 
-        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(2)));
         TranslateTransition transition1 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(1)));
+        TranslateTransition transition2 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(2)));
         TranslateTransition transition3 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(3)));
         TranslateTransition transition4 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(4)));
         TranslateTransition transition5 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(5)));
         TranslateTransition transition6;
+
         if (posOrNeg == 1) {
             transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(0)));
         } else {
             transition6 = new TranslateTransition(Duration.seconds(TRANSITIONDURATION), wineViews.get(getId(6)));
         }
+
         List<TranslateTransition> wineTransitions = List.of(transition1, transition2, transition3, transition4, transition5, transition6);
         for (TranslateTransition wineTransition : wineTransitions) {
             wineTransition.setByX(posOrNeg * DISTANCEBETWEEN);
@@ -324,16 +354,18 @@ public class WineCategoryDisplayController {
     /**
      * Takes the user to the search page with search parameters of {@link WineCategoryDisplayController#tags}.
      */
+    //TODO DO WE HAVE SEE MORE FOR RECOMMENDATIONS?
     @FXML
     public void seeMore()
     {
         navigationController.executeWithLoadingScreen(() -> {
             String subpage;
             if (isWishlist) {
+                SearchWineService.getInstance().setCurrentMethod("notRecommended");
                 subpage = "wishlist";
             } else if (isRecommendations) {
-                SearchWineService.getInstance().searchWinesByRecommend(120);
-                subpage = "searchWine";
+                SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 120);
+                subpage = "wishlist";
             } else {
                 SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
                 subpage = "searchWine";
@@ -343,7 +375,7 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * Displays the wines in the category if there are 4 or fewer wines.
+     * Displays the wines in the category if there are 4 or fewer wines, removes arrows.
      */
     public void fiveOrLess() {
         for (Wine displaywine : displayWines) {
@@ -376,7 +408,6 @@ public class WineCategoryDisplayController {
 
     /**
      * Create new category display using searchString as the search parameter
-     *
      * @param searchString A String that contains the tags to search by seperated by commas
      *                     If string is "wishlist" or "recommend", the corresponding search will be done instead
      * @return the parent of the new category
@@ -386,7 +417,7 @@ public class WineCategoryDisplayController {
             if (searchString.equalsIgnoreCase("wishlist")) {
                 SearchWineService.getInstance().searchWinesByWishlist(User.getCurrentUser().getId());
             } else if (searchString.equalsIgnoreCase("recommend")) {
-                SearchWineService.getInstance().searchWinesByRecommend(10);
+                SearchWineService.getInstance().searchWinesByRecommend(User.getCurrentUser().getId(), 10);
             } else {
                 SearchWineService.getInstance().searchWinesByTags(searchString, 10);
             }

@@ -13,7 +13,6 @@ import java.util.Random;
 
 /**
  * Service class for the quiz feature.
- * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
  */
 public class QuizService {
     private Wine wine = null;
@@ -115,7 +114,7 @@ public class QuizService {
 
     /**
      * The getter for the record of answers.
-     * @return The record of answers
+     * @return {@link ArrayList<Integer>} record of answers
      */
     public ArrayList<Integer> getRecordOfAnswers() {
         return recordOfAnswers;
@@ -169,22 +168,22 @@ public class QuizService {
         ArrayList<Wine> possibleWines = new ArrayList<>();
         switch (earliestYear) {
             case "1990":
-                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
                         0, 100, 1990, 1999, 0, 3300, "", "wine_name");
                 break;
 
             case "2000":
-                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
                         0, 100, 2000, 2004,0, 3300, "", "wine_name");
                 break;
 
             case "2005":
-                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
                         0, 100, 2005, 2010, 0, 3300,"", "wine_name");
                 break;
 
             case "2010":
-                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(List.of(country)),
+                possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(List.of(country)),
                         0, 100, 2010, 2014,0, 3300, null, "wine_name");
                 break;
             default:
@@ -193,7 +192,7 @@ public class QuizService {
         }
 
         if (possibleWines.isEmpty()) {
-            possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<String>(),
+            possibleWines = SearchDAO.getInstance().searchWineByTagsAndFilter(new ArrayList<>(),
                     0, 100, 2000, 2014,0, 3300, null, "wine_name");
         }
 

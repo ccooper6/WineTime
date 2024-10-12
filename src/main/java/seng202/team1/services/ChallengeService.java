@@ -8,7 +8,6 @@ import java.util.*;
 
 /**
  * Service class for the challenge tracker feature.
- * @author Lydia Jackson
  */
 public class ChallengeService {
 
@@ -47,6 +46,7 @@ public class ChallengeService {
      */
     public void startChallengeReds()
     {
+        reds.clear();
         ArrayList<String> redsList = new ArrayList<>(wineVarietyService.getReds());
         for (int i = 0; i < 5; i++) {
             reds.add(redsList.get(i));
@@ -58,11 +58,12 @@ public class ChallengeService {
     }
 
     /**
-     * calls the challengeDAO to make white challenge an active challege, sets the name.
+     * calls the challengeDAO to make white challenge an active challenge, sets the name.
      */
 
     public void startChallengeWhites()
     {
+        whites.clear();
         ArrayList<String> whitesList = new ArrayList<>(wineVarietyService.getWhites());
         for (int i = 0; i < 5; i++) {
             whites.add(whitesList.get(i));
@@ -77,6 +78,7 @@ public class ChallengeService {
 
     public void startChallengeRose()
     {
+        rose.clear();
         ArrayList<String> roseList = new ArrayList<>(wineVarietyService.getRose());
         for (int i = 0; i < 5; i++) {
             rose.add(roseList.get(i));
@@ -87,7 +89,7 @@ public class ChallengeService {
 
     /**
      * calls the challenge complete method in the challenge dao.
-     * @param cname the name of the challenge.
+     * @param cname the name of the challenge completed.
      */
     public void challengeCompleted(String cname)
     {
@@ -96,8 +98,8 @@ public class ChallengeService {
 
     /**
      * chose 5 random wines of the set type and returns there ids in an array list.
-     * @param types is an array list of strings that are the type of wines for the challenge.
-     * @return ArrayList<Integer> list of wine ids </Integer>
+     * @param types is an {@link ArrayList<String>} that are the type of wines for the challenge.
+     * @return {@link ArrayList<Integer>} of wine ids
      */
     public ArrayList<Integer> getWinesforChallenge(ArrayList<String> types)
     {
@@ -129,7 +131,7 @@ public class ChallengeService {
 
     /**
      * Checks to see if user has an active challenge.
-     * @return true if the user has the variety challenge.
+     * @return boolean, true if the user has an active challenge.
      */
     public boolean activeChallenge() {
         return challengeDAO.getChallengeForUser(User.getCurrentUser().getId()) != null;
@@ -137,7 +139,7 @@ public class ChallengeService {
 
     /**
      * Gets the wines for the challenge that the user has active.
-     * @return arraylist of the wines for the challenge the user is participating in.
+     * @return {@link ArrayList<Wine>} of the wines for the challenge the user is participating in.
      */
     public ArrayList<Wine> challengeWines() {
         return challengeDAO.getWinesInChallenge(challengeDAO.getChallengeForUser(User.getCurrentUser().getId()), User.getCurrentUser().getId());

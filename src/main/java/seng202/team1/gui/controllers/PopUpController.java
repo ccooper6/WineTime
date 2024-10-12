@@ -5,8 +5,8 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -40,13 +40,20 @@ import java.util.regex.Pattern;
 
 /**
  * Controller class for the popup.fxml popup.
- * @author Caleb Cooper, Elise Newman, Yuhao Zhang, Wen Sheng Thong
  */
 public class PopUpController {
-    public TextFlow valueDisplay;
-    public TextFlow pointsDisplay;
-    public Button helpButton;
-    public TextFlow helpText;
+    @FXML
+    private TextFlow valueDisplay;
+    @FXML
+    private TextFlow pointsDisplay;
+    @FXML
+    private Button helpButton;
+    @FXML
+    private TextFlow helpText;
+    @FXML
+    private Button tagsHelpButton;
+    @FXML
+    private TextFlow tagsHelpText;
     @FXML
     private AnchorPane linkAndIcon;
     @FXML
@@ -81,6 +88,10 @@ public class PopUpController {
     private Button wineSearchLink;
     @FXML
     private FontAwesomeIconView logWineIcon;
+    @FXML
+    private Tooltip reviewTooltip;
+    @FXML
+    private Tooltip heartTooltip;
 
     private ArrayList<Button> tagButtons;
 
@@ -100,7 +111,6 @@ public class PopUpController {
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         popUpCloseButton.setOnAction(actionEvent -> closePopUp());
         logWine.setOnAction(actionEvent -> loadWineLoggingPopUp());
-
         wine = navigationController.getWine();
         if (wine == null) {
             LOG.error("Error in PopUpController.initialize(): Wine is null");
@@ -114,8 +124,10 @@ public class PopUpController {
         FontAwesomeIconView icon = (FontAwesomeIconView) addToWishlist.getGraphic();
         if (inWishlist) {
             icon.setFill(Color.web("#70171e"));
+            heartTooltip.setText("Remove this wine from your likes");
         } else {
             icon.setFill(Color.web("#c0c0c0"));
+            heartTooltip.setText("Add this wine to your likes");
         }
 
         PauseTransition pause = new PauseTransition(Duration.millis(100));
@@ -127,7 +139,7 @@ public class PopUpController {
         Text value = new Text(String.valueOf(wine.getPrice()));
         if (!"0".equals(value.getText())) {
             value.setStyle("-fx-font-size: 18;");
-            Text currency = new Text(" NZD");
+            Text currency = new Text(" USD");
             currency.setStyle("-fx-font-size: 10;");
             valueDisplay.getChildren().addAll(dollarSign, value, currency);
         } else {
@@ -149,6 +161,10 @@ public class PopUpController {
         secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
         helpText.getChildren().addAll(firstLine, secondLine);
 
+        firstLine = new Text("\nTags categorize the wine and allow users to find similar wines.\n\nTry clicking the tags to discover more wines with these attributes!\n");
+        secondLine.setStyle("-fx-font-size: 12; -fx-text-fill: #f0f0f0");
+        tagsHelpText.getChildren().add(firstLine);
+
         Wine finalWine = wine;
         addToWishlist.setOnAction(actionEvent -> {
             //checks existence in wishlist table and toggles existence
@@ -160,9 +176,11 @@ public class PopUpController {
                     throw new RuntimeException(e);
                 }
                 icon.setFill(Color.web("#c0c0c0"));
+                heartTooltip.setText("Add this wine to your likes");
             } else {
                 WishlistService.addToWishlist(wineID, currentUserUid);
                 icon.setFill(Color.web("#70171e"));
+                heartTooltip.setText("Remove this wine from your likes");
             }
             if (navigationController.getCurrentPage().equals("wishlist")) { // refresh the wishlist page behind the popup
                 navigationController.closePopUp();
@@ -246,6 +264,9 @@ public class PopUpController {
         });
         helpButton.setOnMouseEntered(event -> helpText.setVisible(true));
         helpButton.setOnMouseExited(event -> helpText.setVisible(false));
+
+        tagsHelpButton.setOnMouseEntered(event -> tagsHelpText.setVisible(true));
+        tagsHelpButton.setOnMouseExited(event -> tagsHelpText.setVisible(false));
     }
 
     /**
@@ -293,8 +314,11 @@ public class PopUpController {
 
         if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
             logWineIcon.setFill(Color.web("#333333"));
+            reviewTooltip.setText("Edit your review");
+
         } else {
             logWineIcon.setFill(Color.web("#c0c0c0"));
+            reviewTooltip.setText("Write a review for this wine");
         }
     }
 
@@ -326,9 +350,9 @@ public class PopUpController {
     }
 
     /**
-     * This method takes the user to a web browsers with results in wine-searcher for the wine belonging to the popup
+     * This method takes the user to a web browsers with results in wine-searcher for the wine displayed on the popup
+     * when the link is clicked.
      */
-    // TODO do we keep this?
     public void onWineSearchLinkClicked() {
         java.awt.Desktop.getDesktop();
         String query = wineName.getText();
@@ -349,7 +373,6 @@ public class PopUpController {
                         LOG.error("Error in PopupController.onWineSearchLinkClicked(): Default browser could not be launched");
                     }
                 };
-
                 Thread thread = new Thread(browseRunnable);
                 thread.start();
             }

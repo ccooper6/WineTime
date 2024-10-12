@@ -17,7 +17,7 @@ public class CategoryService {
     private static String[] generatedTags;
 
     /**
-     * Returns a list of generated wine categories.w
+     * Returns a list of generated wine categories.
      * @return List of Parent objects representing wine categories.
      */
     public static List<Parent> getAllCategories() {
@@ -25,8 +25,7 @@ public class CategoryService {
     }
 
     /**
-     *
-     * @return
+     *generates the tags for the categories.
      */
     public static void generateTags() {
         String[] tags = {
@@ -41,7 +40,7 @@ public class CategoryService {
                 "Chianti Classico, Sangiovese",
                 "Champagne, Pinot Meunier",
                 "Provence, Rosé",
-                "Veneto, Prosecco",
+                "Prosecco",
                 "Hunter Valley, Semillon",
                 "Willamette Valley, Pinot Gris",
                 "Burgundy, Chardonnay",
@@ -51,20 +50,33 @@ public class CategoryService {
                 "Alsace, Gewurztraminer",
                 "Tuscany, Vermentino",
                 "Loire Valley, Sauvignon Blanc",
-                "Wairarapa, Pinot Noir"
+                "Barossa Valley, Shiraz",
+                "Champagne, Chardonnay",
+                "Côtes de Provence, Rosé",
+                "Finger Lakes, Riesling",
+                "Portuguese Sparkling",
+                "New Zealand"
         };
 
-        List<String> tagsList = Arrays.asList(tags);
+        List<String> tagsList = new ArrayList<>(Arrays.asList(tags));
         Collections.shuffle(tagsList);
         tags = tagsList.toArray(new String[0]);
         generatedTags = tags;
         tagsGenerated = true;
     }
 
+    /**
+     * gets the generated tag
+     * @return the generated tags
+     */
     public static String[] getGeneratedTags() {
         return generatedTags;
     }
 
+    /**
+     * gets if the tags are generated
+     * @return boolean, true if the tags are generated.
+     */
     public static boolean areTagsGenerated() {
         return tagsGenerated;
     }

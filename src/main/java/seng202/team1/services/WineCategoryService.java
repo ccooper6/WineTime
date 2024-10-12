@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 /**
  * Service class for the wine category feature.
- * @author Isaac Macdonald
  */
 public class WineCategoryService {
     private String currentCategoryTitle;
@@ -13,7 +12,6 @@ public class WineCategoryService {
 
     /**
      Returns the instance and creates one if none exists.
-
      @return {@link WineCategoryService instance}
      */
     public static WineCategoryService getInstance()

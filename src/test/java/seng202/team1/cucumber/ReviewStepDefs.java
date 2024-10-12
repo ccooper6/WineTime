@@ -26,6 +26,7 @@ public class ReviewStepDefs {
     private int wid;
     private boolean isEditing;
     private Review review;
+
     private void initialize() throws InstanceAlreadyExistsException {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.REMOVE_INSTANCE();
@@ -37,6 +38,7 @@ public class ReviewStepDefs {
         currentUser = 0;
         resetReviewValues();
     }
+
     public void resetReviewValues() {
         review = null;
         isEditing = false;
@@ -70,14 +72,9 @@ public class ReviewStepDefs {
         if (noneSelected) {
             tagsToLiked = wineTags;
         }
-        if (isEditing) {
-            Review existingReview = reviewService.getReview(currentUser, wid);
-            ArrayList<String> oldTags = existingReview.getTagsLiked();
-            int oldRating = existingReview.getRating();
-            reviewService.updateTagLikes(currentUser, tagsToLiked, oldTags, rating, oldRating);
-        } else {
-            reviewService.updateTagLikes(currentUser, tagsToLiked, new ArrayList<>(), rating, 0);
-        }
+
+        reviewService.updateTagLikes(currentUser, wid, tagsToLiked, rating);
+
         reviewService.submitLog(rating, currentUser, wid, selectedTags, tagsToLiked, noneSelected, description );
         resetReviewValues();
     }
@@ -127,18 +124,22 @@ public class ReviewStepDefs {
     public void viewingReview(int uid, int wid) {
         this.review = reviewService.getReview(uid, wid);
     }
+
     @Then("{int} out of five stars are filled")
     public void checkStars(int numStars) {
         Assertions.assertEquals(review.getRating(), numStars);
     }
+
     @Then("no tags are indicated to be liked")
     public void noTagsSelected() {
         Assertions.assertTrue(review.getTagsSelected().isEmpty());
     }
+
     @Then("tags liked are {listOfTags}")
     public void checkTags(ArrayList<String> tagsToCheck) {
         Assertions.assertArrayEquals(review.getTagsSelected().toArray(),tagsToCheck.toArray());
     }
+
     @Then("description says {string}")
     public void checkReviewDesc(String desc) {
         Assertions.assertEquals(review.getReviewDescription(), desc);

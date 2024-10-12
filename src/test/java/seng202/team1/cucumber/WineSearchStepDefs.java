@@ -4,7 +4,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import javafx.collections.ArrayChangeListener;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.Wine;
@@ -12,8 +11,7 @@ import seng202.team1.repository.DatabaseManager;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
 
-import static org.apache.commons.collections.CollectionUtils.size;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -34,8 +32,9 @@ public class WineSearchStepDefs {
 
     @When("The user searches for wines with {string} {string}")
     public void userSearches(String type, String filter) {
+        SearchWineService.getInstance().resetFilters();
         if (type.equals("name"))
-            searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
+            searchWineService.searchWinesByName(filter);
         else if (type.equals("tags"))
             searchWineService.searchWinesByTags(filter, SearchDAO.UNLIMITED);
         else
@@ -108,7 +107,7 @@ public class WineSearchStepDefs {
         searchWineService.setCurrentMinYear(minYear);
         searchWineService.setCurrentMaxYear(maxYear);
         FXWrapper.getInstance().setCurrentPage("searchWine");
-        searchWineService.searchWinesByName(filter, SearchDAO.UNLIMITED);
+        searchWineService.searchWinesByName(filter);
         wineList = searchWineService.getWineList();
     }
 
@@ -130,30 +129,24 @@ public class WineSearchStepDefs {
 
     @Then("The wine list should have {int} wines and all wines should have {string} in their name and tags between {string} {int} and {int}")
     public void winesMatchTheSearchNameAndRange(int size, String filter, String type, int lowerBound, int upperBound) {
-        boolean didPass = size == wineList.size();
+        assertEquals(size, wineList.size());
+
         filter = Normalizer.normalize(filter, Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
 
-        for (Wine wine : wineList) {
+        String finalFilter = filter;
+
+        assertTrue(wineList.stream().allMatch(wine -> {
             String wineName = Normalizer.normalize(wine.getName(), Normalizer.Form.NFD).replaceAll("^\\p{M}", "").toLowerCase();
-            if (!wineName.contains(filter)) {
-                didPass = false;
-                break;
-            }
-            if (Objects.equals(type, "year")) {
-                if (wine.getVintage() < lowerBound || wine.getVintage() > upperBound) {
-                    didPass = false;
-                    break;
-                }
-//            } else if (Objects.equals(type, "points")) {
-//                if (wine.getPoint() < lowerBound || wine.getVintage() > upperBound) {
-//                    didPass = false;
-//                    break;
-//                }
-            } else {
-                throw new IllegalArgumentException(type + " must be 'year' or 'points'");
-            }
-        }
-        assertTrue(didPass);
+
+            return wineName.contains(finalFilter);
+        }));
+//
+//        if (type.equals("year"))
+//            assertTrue(wineList.stream().allMatch(wine -> (wine.getVintage() >= lowerBound && wine.getVintage() <= upperBound)));
+//        else if (type.equals("points"))
+//            assertTrue(wineList.stream().allMatch(wine -> (wine.getPoints() >= lowerBound && wine.getPoints() <= upperBound)));
+//        else
+//            fail(type + " must be 'year' or 'points'");
     }
 
 

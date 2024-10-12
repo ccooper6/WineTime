@@ -1,6 +1,3 @@
-# Created by Lydia at 09/10/2024
-
-
 Feature: Participate in Challenge
   Scenario: User starts the variety challenge
     Given the user has no active challenges
@@ -37,6 +34,13 @@ Feature: Participate in Challenge
     When the user completes challenge
     Then challenge is removed from the users active challenges
 
+
+
+  Scenario: Other users challenge not affecting each others challenges
+    Given User 1 and User 2 have accounts
+    When User 1 starts variety challenge
+    And User 2 starts reds challenge
+    Then User 1 active challenge variety challenge
 
 
 

@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Builder class for the Wine object.
- * @author Yuhao Zhang
  */
 public class WineBuilder {
     private int id;
@@ -84,8 +83,7 @@ public class WineBuilder {
     }
 
     /**
-     *
-     *
+     * sets the tag
      * @param type The type of tag to set
      * @param value The value to set the tag to
      */

@@ -85,5 +85,22 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <Button graphicTextGap="0.0" layoutX="1241.0" style="-fx-background-color: none;">
+         <graphic>
+            <FontAwesomeIconView fx:id="closeButton" fill="#d0d0d0" glyphName="CLOSE" onMouseClicked="#closeApp" size="30">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontAwesomeIconView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Save and Exit" />
+         </tooltip>
+      </Button>
+      <Text fx:id="passwordInfoText" layoutX="788.0" layoutY="457.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Password must be at least 8 characters long with both letters and digits)" visible="false" wrappingWidth="173.0">
+         <font>
+            <Font name="Noto Serif Regular" size="13.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

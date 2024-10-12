@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 /**
  * Data Access Object for the Wishlist functionality.
- * Author: Elise Newman and Yuhao Zhang
  */
 public class WishlistDAO {
 
@@ -35,8 +34,7 @@ public class WishlistDAO {
 
     /**
      * Selects wine elements from copy.db where the userid maps to the wine's wineid in the wishlist table.
-     *
-     * @param userId is the ID of the active user
+     * @param userId is the ID of the current user
      * @return wineList array containing all wines in the user's wishlist
      */
     public ArrayList<Wine> fetchWines(int userId) {
@@ -103,10 +101,10 @@ public class WishlistDAO {
     }
 
     /**
-     * Checks if a wine is in the wishlist table in the database.
+     * Checks if a wine is in the wishlist table in the database for the current user.
      * @param wineID the id of the wine to be checked
-     * @param userID the id of the user checking the wine
-     * @return true if the wine is in the wishlist
+     * @param userID the id of the current user
+     * @return true if the wine is in the users wishlist
      */
     public boolean checkWine(int wineID, int userID) {
         String sql = "SELECT COUNT(*) "

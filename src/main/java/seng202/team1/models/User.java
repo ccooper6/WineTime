@@ -2,12 +2,11 @@ package seng202.team1.models;
 
 /**
  * The User class that contains the attributes of a user.
- * @author Caleb Cooper, Wen Sheng Thong, Isaac Macdonald
  */
 public class User {
     private int id;
     private String name;
-    private final String encryptedUserName;
+    private final int hashedUsername;
     private int hashedPassword;
 
     private static User currenUser;
@@ -15,20 +14,20 @@ public class User {
     /**
      * Constructor for User.
      * @param name The name of the user
-     * @param userName The encrypted username of the user
+     * @param userName The hashed username of the user
      * @param id The id of the user
      */
-    public User(int id, String name, String userName) {
+    public User(int id, String name, int userName) {
         this.id = id;
         this.name = name;
-        this.encryptedUserName = userName;
+        this.hashedUsername = userName;
     }
 
     /**
      * Sets the current user of the application to the user provided
      * @param user the current user
      */
-    public static void setCurrenUser(User user)
+    public static void setCurrentUser(User user)
     {
         currenUser = user;
     }
@@ -54,12 +53,12 @@ public class User {
     /**
      * Constructor for User.
      * @param name The name of the user
-     * @param userName The encrypted username of the user
+     * @param hashedUsername The hashed username of the user
      * @param hashedPassword The hashed password of the user
      */
-    public User(String name, String userName, int hashedPassword) {
+    public User(String name, int hashedUsername, int hashedPassword) {
         this.name = name;
-        this.encryptedUserName = userName;
+        this.hashedUsername = hashedUsername;
         this.hashedPassword = hashedPassword;
     }
 
@@ -80,11 +79,11 @@ public class User {
     }
 
     /**
-     * Returns the encrypted username of the user.
-     * @return The encrypted username of the user
+     * Returns the hashed username of the user.
+     * @return The hashed username of the user
      */
-    public String getEncryptedUserName() {
-        return encryptedUserName;
+    public int getHashedUsername() {
+        return hashedUsername;
     }
 
     /**

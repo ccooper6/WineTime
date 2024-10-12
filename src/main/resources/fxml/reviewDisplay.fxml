@@ -15,28 +15,34 @@
     <FontAwesomeIconView fx:id="star3" fill="#e1b12c" glyphName="STAR_ALT" layoutX="72.0" layoutY="172.0" size="30" />
     <FontAwesomeIconView fx:id="star4" fill="#e1b12c" glyphName="STAR_ALT" layoutX="102.0" layoutY="172.0" size="30" text="" />
     <FontAwesomeIconView fx:id="star5" fill="#e1b12c" glyphName="STAR_ALT" layoutX="132.0" layoutY="172.0" size="30" />
-    <Text fx:id="reviewDate" fill="#707070" layoutX="1013.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review Date" textAlignment="RIGHT">
+    <Text fx:id="reviewDate" fill="#707070" layoutX="1005.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Review Date" textAlignment="RIGHT">
         <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="Noto Serif Bold" size="16.0" />
         </font>
     </Text>
-    <Text fx:id="reviewDescription" layoutX="215.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Line1&#10;Line2&#10;Line3" wrappingWidth="778.0000610351562">
+    <Text fx:id="reviewDescription" layoutX="215.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Line1&#10;Line2&#10;Line3" wrappingWidth="760.0">
         <font>
-            <Font size="16.0" />
+            <Font name="Noto Serif Regular" size="16.0" />
         </font>
     </Text>
-      <Text fx:id="tagsLiked" layoutX="215.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags liked: " wrappingWidth="890.0">
+    <Text fx:id="tagsLiked" layoutX="215.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags liked: " wrappingWidth="890.0">
          <font>
-            <Font size="16.0" />
+            <Font name="Noto Serif Regular" size="16.0" />
          </font>
-      </Text>
+    </Text>
 
-
-    <FontAwesomeIconView fill="#d0d0d0" layoutX="1150.0" layoutY="150.0" glyphName="TRASH" onMouseClicked="#onDeletePressed" size="30">
-        <cursor>
-            <Cursor fx:constant="HAND" />
-        </cursor>
-    </FontAwesomeIconView>
+    <Button layoutX="1150.0" layoutY="150.0" style="-fx-background-color: none;">
+        <graphic>
+            <FontAwesomeIconView fx:id="deleteReviewIcon" fill="#d0d0d0" glyphName="TRASH" layoutX="1150.0" layoutY="150.0" onMouseClicked="#onDeletePressed" size="30">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </FontAwesomeIconView>
+        </graphic>
+        <tooltip>
+            <Tooltip text="Delete permanently" />
+        </tooltip>
+    </Button>
 
     <Line endX="1076.4000244140625" endY="1.52587890625E-5" layoutX="112.0" layoutY="193.0" startX="-100.0" stroke="#d0d0d0" strokeWidth="1.5" />
 </children>

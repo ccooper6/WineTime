@@ -13,49 +13,57 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.services.UserLoginService;
 
+import java.util.regex.*;
+
 /**
- * Controller class to look after the login.fxml page.
- * @author Isaac Macdonald, Caleb Cooper, Yuhao Zhang
+ * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
 public class LoginController {
+    public FontAwesomeIconView closeButton;
     @FXML
-    Text usernameText;
+    private Text usernameText;
     @FXML
-    TextField userNameTextField;
+    private TextField userNameTextField;
     @FXML
-    Text passwordText;
+    private Text passwordText;
     @FXML
-    PasswordField passwordField;
+    private PasswordField passwordField;
     @FXML
-    FontAwesomeIconView passwordVisibilityToggle;
+    private FontAwesomeIconView passwordVisibilityToggle;
     @FXML
-    TextField visiblePasswordTextField;
+    private TextField visiblePasswordTextField;
     @FXML
-    Button registerButton;
+    private Button registerButton;
     @FXML
-    Button logInButton;
+    private Button logInButton;
     @FXML
-    Text errorText;
+    private Text errorText;
     @FXML
-    Text nameText;
+    private Text nameText;
     @FXML
-    TextField nameTextField;
+    private TextField nameTextField;
     @FXML
-    Text confirmPasswordText;
+    private Text passwordInfoText;
     @FXML
-    PasswordField confirmPasswordField;
+    private Text confirmPasswordText;
     @FXML
-    Button goBackButton;
+    private PasswordField confirmPasswordField;
     @FXML
-    Button createUserButton;
+    private Button goBackButton;
+    @FXML
+    private Button createUserButton;
+
+    private Pattern PASSWORDPATTERN;
 
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     /**
-     * Initialises the login page.
+     * Initialises the login page by adding observers to text fields
      */
     @FXML
     public void initialize() {
+        PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$");
+
         // check on enter
         setCheckOnEnterListeners();
 
@@ -66,6 +74,13 @@ public class LoginController {
 
         visiblePasswordTextField.textProperty().bindBidirectional(passwordField.textProperty());
         visiblePasswordTextField.setVisible(false);
+        closeButton.setOnMouseEntered(event -> {
+            closeButton.setFill(Paint.valueOf("#909090"));
+        });
+        closeButton.setOnMouseExited(event -> {
+            closeButton.setFill(Paint.valueOf("#b0b0b0"));
+        });
+
     }
 
     /**
@@ -75,26 +90,12 @@ public class LoginController {
     private void setRegisterFieldListeners() {
         // check passwords match
         confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals(passwordField.getText()) && !newValue.isEmpty()) {
-                passwordField.setStyle("-fx-border-color: GREEN");
-                confirmPasswordField.setStyle("-fx-border-color: GREEN");
-            } else {
-                passwordField.setStyle("-fx-border-color: RED");
-                confirmPasswordField.setStyle("-fx-border-color: RED");
-            }
-            setRegisterButton();
+            checkPassword(newValue, passwordField.getText());
         });
 
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (confirmPasswordField.isVisible()) {
-                if (newValue.equals(confirmPasswordField.getText()) && !newValue.isEmpty()) {
-                    passwordField.setStyle("-fx-border-color: GREEN");
-                    confirmPasswordField.setStyle("-fx-border-color: GREEN");
-                } else {
-                    passwordField.setStyle("-fx-border-color: RED");
-                    confirmPasswordField.setStyle("-fx-border-color: RED");
-                }
-                setRegisterButton();
+                checkPassword(newValue, confirmPasswordField.getText());
             }
         });
 
@@ -113,6 +114,25 @@ public class LoginController {
                 userNameTextField.setStyle("-fx-border-color: None");
             }
         });
+    }
+
+    /**
+     * Checks to ensure the password the user has entered is accepted and matches the other password field
+     * If password is acceptable, highlight both fields green. Otherwise, highlight them red.
+     * Then checks to set the register button enabled or disabled
+     *
+     * @param newValue The new updated value that has just been inputted by the user
+     * @param otherValue The value in the other password field
+     */
+    private void checkPassword(String newValue, String otherValue) {
+        if (newValue.equals(otherValue) && !newValue.isEmpty() && PASSWORDPATTERN.matcher(newValue).matches()) {
+            passwordField.setStyle("-fx-border-color: GREEN");
+            confirmPasswordField.setStyle("-fx-border-color: GREEN");
+        } else {
+            passwordField.setStyle("-fx-border-color: RED");
+            confirmPasswordField.setStyle("-fx-border-color: RED");
+        }
+        setRegisterButton();
     }
 
     /**
@@ -175,16 +195,16 @@ public class LoginController {
     {
         boolean isNameEmpty = nameTextField.getText().trim().isEmpty();
         boolean isUsernameEmpty = userNameTextField.getText().trim().isEmpty();
-        boolean isPasswordEmpty = passwordField.getText().isEmpty();
+        boolean isPasswordGood = !PASSWORDPATTERN.matcher(passwordField.getText()).matches();
         boolean doesPasswordMatch = passwordField.getText().equals(confirmPasswordField.getText());
 
-        boolean isRegisterEnabled = !isNameEmpty && !isUsernameEmpty && !isPasswordEmpty && doesPasswordMatch;
+        boolean isRegisterEnabled = !isNameEmpty && !isUsernameEmpty && !isPasswordGood && doesPasswordMatch;
 
         createUserButton.setDisable(!isRegisterEnabled);
     }
 
     /**
-     * Very simple method to handle when the login button is pressed. Validates the user account using the inputs
+     * Simple method to handle when the login button is pressed. Validates the user account using the inputs
      * from the username and password text fields.
      */
     @FXML
@@ -205,7 +225,7 @@ public class LoginController {
     }
 
     /**
-     * Very simple method to handle when the register button is pressed. Creates a new user account using the inputs
+     * Simple method to handle when the register button is pressed. Creates a new user account using the inputs
      * from the username and password text fields.
      */
     @FXML
@@ -230,9 +250,9 @@ public class LoginController {
         if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
             int outcome = userLoginService.storeLogin(name, username, password);
             if (outcome == 1) {
-                LOG.info("Account created for user" + username);
+                LOG.info("Account created for user{}", username);
                 userLoginService.checkLogin(username, password);
-                LOG.info("Logged in as " + username);
+                LOG.info("Logged in as {}", username);
                 FXWrapper.getInstance().launchSubPage("mainpage");
             } else {
                 accountCreatedSuccessfully(outcome);
@@ -348,6 +368,8 @@ public class LoginController {
     private void toggleShowCreateAccount() {
         nameText.setVisible(true);
         nameTextField.setVisible(true);
+        passwordText.setText("Password:");
+        passwordInfoText.setVisible(true);
         confirmPasswordText.setVisible(true);
         confirmPasswordField.setVisible(true);
         goBackButton.setVisible(true);
@@ -378,5 +400,9 @@ public class LoginController {
 
         // Call setRegisterFieldListeners to handle further changes
         setRegisterFieldListeners();
+    }
+    @FXML
+    public void closeApp() {
+        FXWrapper.getInstance().closeApplication();
     }
 }

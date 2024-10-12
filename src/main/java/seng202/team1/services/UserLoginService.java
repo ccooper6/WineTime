@@ -5,24 +5,14 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.models.User;
 import seng202.team1.repository.DAOs.UserDAO;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Objects;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.regex.*;
 
 /**
- * Class to handle user login and register requests. Stores username as an encrypted value using AES encryption
- * and stores password as a hashed value as it is more secure.
- * @author Caleb Cooper
+ * Class to handle user login and register requests. Stores username and password as a hashed value as it
+ * is more secure. Stores name as plain text.
  */
 public class UserLoginService {
-    private static final byte[] KEY = "1234567891112131".getBytes();
-    private static final String ALGORITHM = "AES";
     private static final Logger LOG = LogManager.getLogger(UserLoginService.class);
     private final UserDAO userDAO = new UserDAO();
 
@@ -33,11 +23,20 @@ public class UserLoginService {
      * @param name name value to be stored
      * @return 1 if the account was successfully created, 0 if the username already exists, 2 if an error occurred
      */
-    // TODO whats actually happening here?
     public int storeLogin(String name, String username, String password) {
+        // check password requirements (8 chars min, letters and digits required)
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$";
+        Pattern p = Pattern.compile(regex);
 
-            User newUser = new User(name, encrypt(username), Objects.hash(password));
-            return userDAO.add(newUser);
+        if (name == null || name.isEmpty() ||
+            username == null || username.isEmpty() ||
+            password == null || !p.matcher(password).matches()) {
+            System.out.println("oooh u made a mistake some where");
+            return 2;
+        }
+
+        User newUser = new User(name, Objects.hash(username), Objects.hash(password));
+        return userDAO.add(newUser);
     }
 
     /**
@@ -47,9 +46,9 @@ public class UserLoginService {
      * @return true if the value returned by getPassword(username) is equal to the hashed value of password
      */
     public boolean checkLogin(String username, String password) {
-        User user =  userDAO.tryLogin(encrypt(username), Objects.hash(password));
+        User user = userDAO.tryLogin(Objects.hash(username), Objects.hash(password));
         if (user != null) {
-            User.setCurrenUser(user);
+            User.setCurrentUser(user);
         }
 
         return user != null;
@@ -61,26 +60,6 @@ public class UserLoginService {
      * @return the name of the user
      */
     public String getName(String username) {
-        return userDAO.getName(encrypt(username));
-    }
-
-    /**
-     * Method that takes a string as input, for example a username, and returns a string that is no longer readable.
-     * Uses a fixed key. Functionality
-     * @param text The text that needs to be encrypted
-     * @return A string that contains the encrypted text
-     */
-    public String encrypt(String text) {
-        try {
-            SecretKeySpec key = new SecretKeySpec(KEY, ALGORITHM);
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encrypted = cipher.doFinal(text.getBytes());
-            return Base64.getEncoder().encodeToString(encrypted);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
-                 | InvalidKeyException e) {
-            LOG.error("Error: could not encrypt text {}", e.getMessage());
-        }
-        return null;
+        return userDAO.getName(Objects.hash(username));
     }
 }

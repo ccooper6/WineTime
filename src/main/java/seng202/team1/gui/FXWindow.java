@@ -12,12 +12,11 @@ import java.util.Objects;
 
 /**
  * Creates the window for the scene, loads the login page and initiates the FXWrapper.
- * @author Elise Newman, Caleb Cooper
  */
 public class FXWindow extends Application {
 
     /**
-     * Creates a login page and initialises fxWrapper.
+     * Creates a login page and initializes fxWrapper.
      * @param primaryStage is the first stage initialised
      * @throws IOException when
      */
