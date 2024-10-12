@@ -60,7 +60,6 @@ public class HelpController {
                     imageView.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePaths.get(imageView)))));
                 } catch (NullPointerException e) {
                     LOG.error("Error: Could not load image {}, {}", imagePaths.get(imageView), e.getMessage());
-                    // TODO maybe add text for user?
                 }
             }
         });

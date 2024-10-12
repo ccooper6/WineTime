@@ -88,7 +88,11 @@ public class NavigationController {
     private void initialiseSearchBar()
     {
         if (FXWrapper.getInstance().getCurrentPage().equals("searchWine")) {
-            searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+            if (SearchWineService.getInstance().getCurrentSearch() == null) {
+                searchBar.setText("");
+            } else {
+                searchBar.setText(SearchWineService.getInstance().getCurrentSearch());
+            }
         }
 
         searchBar.setOnAction(e -> launchSearchWineLoadingScreen());
