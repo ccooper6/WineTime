@@ -85,5 +85,17 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <Button graphicTextGap="0.0" layoutX="1241.0" style="-fx-background-color: none;">
+         <graphic>
+            <FontAwesomeIconView fx:id="closeButton" fill="#d0d0d0" glyphName="CLOSE" onMouseClicked="#closeApp" size="30">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </FontAwesomeIconView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Save and Exit" />
+         </tooltip>
+      </Button>
    </children>
 </Pane>
