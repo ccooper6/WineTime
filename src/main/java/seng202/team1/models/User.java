@@ -9,7 +9,7 @@ public class User {
     private final int hashedUsername;
     private int hashedPassword;
 
-    private static User currenUser;
+    private static User currentUser;
 
     /**
      * Constructor for User.
@@ -29,7 +29,7 @@ public class User {
      */
     public static void setCurrentUser(User user)
     {
-        currenUser = user;
+        currentUser = user;
     }
 
     /**
@@ -38,7 +38,7 @@ public class User {
      */
     public static User getCurrentUser()
     {
-        return currenUser;
+        return currentUser;
     }
 
     /**
