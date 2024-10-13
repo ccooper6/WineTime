@@ -6,7 +6,7 @@ package seng202.team1.models;
 public class User {
     private int id;
     private String name;
-    private final int hashedUsername;
+    private int hashedUsername;
     private int hashedPassword;
 
     private static User currentUser;

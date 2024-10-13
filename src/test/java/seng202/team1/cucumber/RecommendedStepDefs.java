@@ -3,7 +3,6 @@ package seng202.team1.cucumber;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.eo.Se;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
@@ -22,7 +21,7 @@ public class RecommendedStepDefs {
     @Given("The database is reset")
     public void reset()
     {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         try {
             DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         } catch (InstanceAlreadyExistsException e) {
@@ -84,7 +83,7 @@ public class RecommendedStepDefs {
         assertTrue(recommendedWines.get(userID).stream().allMatch(wine -> hasLikedTag(wine, tags)));
 
         for (int wineID : wineIDs) {
-            assertTrue(recommendedWines.get(userID).stream().noneMatch(wine -> wine.getWineId() == wineID));
+            assertTrue(recommendedWines.get(userID).stream().noneMatch(wine -> wine.getID() == wineID));
         }
     }
 

@@ -28,8 +28,8 @@ public class ReviewStepDefs {
     private Review review;
 
     private void initialize() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
@@ -112,7 +112,7 @@ public class ReviewStepDefs {
     public void checkReviewExist(int uid, int wid, String desc) {
         Review review = reviewService.getReview(uid, wid);
         Assertions.assertNotNull(review);
-        Assertions.assertEquals(desc, review.getReviewDescription());
+        Assertions.assertEquals(desc, review.getDescription());
     }
 
     @Then("User {int} has no review with wine #{int}")
@@ -142,6 +142,6 @@ public class ReviewStepDefs {
 
     @Then("description says {string}")
     public void checkReviewDesc(String desc) {
-        Assertions.assertEquals(review.getReviewDescription(), desc);
+        Assertions.assertEquals(review.getDescription(), desc);
     }
 }

@@ -18,7 +18,7 @@ public class QuizStepDefs {
     private QuizService quizService;
 
     public void initialise() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         quizService = new QuizService();

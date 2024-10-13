@@ -14,8 +14,8 @@ public class Review {
     private int uid;
     private int wid;
     private int rating;
-    private String reviewDescription;
-    private String reviewDate;
+    private String description;
+    private String date;
     private ArrayList<String> tagsSelected;
     private ArrayList<String> tagsLiked;
 
@@ -33,8 +33,8 @@ public class Review {
         this.uid = uid;
         this.wid = wid;
         this.rating = rating;
-        this.reviewDescription = reviewDescription;
-        this.reviewDate = reviewDate;
+        this.description = reviewDescription;
+        this.date = reviewDate;
         this.tagsSelected = Objects.requireNonNullElseGet(tagsSelected, ArrayList::new);
         this.tagsLiked = Objects.requireNonNullElseGet(tagsLiked, ArrayList::new);
     }
@@ -91,16 +91,16 @@ public class Review {
      * Getter for reviewDescription.
      * @return The description of the review.
      */
-    public String getReviewDescription() {
-        return reviewDescription;
+    public String getDescription() {
+        return description;
     }
 
     /**
      * Getter for reviewDate.
      * @return The date the review was made.
      */
-    public String getReviewDate() {
-        return reviewDate;
+    public String getDate() {
+        return date;
     }
 
     /**

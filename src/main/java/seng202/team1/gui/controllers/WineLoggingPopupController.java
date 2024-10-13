@@ -46,7 +46,7 @@ public class WineLoggingPopupController {
     private Wine currentWine;
     private ReviewService reviewService;
     private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
-    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+    private final NavigationController NAVIGATIONCONTROLLER = FXWrapper.getInstance().getNavigationController();
     private Review existingReview;
 
     /**
@@ -81,7 +81,7 @@ public class WineLoggingPopupController {
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
-        existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getID());
         if (existingReview != null) {
             deleteReviewButton.setDisable(false);
             deleteReviewButton.setOpacity(1);
@@ -108,7 +108,7 @@ public class WineLoggingPopupController {
      */
     private void populateReviewData(Review review) {
         ratingSlider.setValue(review.getRating());
-        descriptionTextArea.setText(review.getReviewDescription());
+        descriptionTextArea.setText(review.getDescription());
 
         ArrayList<String> likedTags = review.getTagsSelected();
         for (int i = 0; i < tagNameArray.size(); i++) {
@@ -225,7 +225,7 @@ public class WineLoggingPopupController {
     private void submitLog() {
         int rating = (int) ratingSlider.getValue();
         int currentUserUid = User.getCurrentUser().getId();
-        int currentWineId = currentWine.getWineId();
+        int currentWineId = currentWine.getID();
         String description = descriptionTextArea.getText();
         ArrayList<String> selectedTags = new ArrayList<>();
         ArrayList<String> tagsToLike = new ArrayList<>();
@@ -242,7 +242,7 @@ public class WineLoggingPopupController {
         boolean noneSelected = selectedTags.isEmpty();
 
         ArrayList<String> finalTagsToLike = tagsToLike;
-        navigationController.executeWithLoadingScreen(() -> {
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
             reviewService.updateTagLikes(currentUserUid, currentWineId, finalTagsToLike, rating);
 
             reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);

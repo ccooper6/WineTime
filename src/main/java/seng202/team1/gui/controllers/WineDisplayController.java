@@ -32,7 +32,7 @@ public class WineDisplayController {
     private FontAwesomeIconView wineReviewed;
 
     private Wine wine;
-    private final ReviewService reviewService = new ReviewService();
+    private final ReviewService REVIEWSERVICE = new ReviewService();
 
     /**
      * Default constructor for WineDisplayController
@@ -53,8 +53,8 @@ public class WineDisplayController {
         winePane.setOnMouseEntered(event -> darkenPane());
         winePane.setOnMouseExited(event -> lightenPane());
 
-        wineReviewed.setVisible(reviewService.reviewExists(User.getCurrentUser().getId(), wine.getWineId()));
-        wineLiked.setVisible(WishlistService.checkInWishlist(wine.getWineId(), User.getCurrentUser().getId()));
+        wineReviewed.setVisible(REVIEWSERVICE.reviewExists(User.getCurrentUser().getId(), wine.getID()));
+        wineLiked.setVisible(WishlistService.checkInWishlist(wine.getID(), User.getCurrentUser().getId()));
     }
 
     /**

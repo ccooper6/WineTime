@@ -24,7 +24,7 @@ public class WishlistStepDefs {
 
     private void initialize() throws InstanceAlreadyExistsException {
 
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
 

@@ -22,7 +22,7 @@ public class ReviewServiceTest {
 
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
@@ -43,8 +43,8 @@ public class ReviewServiceTest {
         assertEquals(userReviews.getFirst().getUid(), testUserId);
         assertEquals(userReviews.getFirst().getWid(), 1);
         assertEquals(userReviews.getFirst().getRating(), 5);
-        assertEquals(userReviews.getFirst().getReviewDescription(), "Great wine!");
-        assertEquals(userReviews.getFirst().getReviewDate(), "12/12/12");
+        assertEquals(userReviews.getFirst().getDescription(), "Great wine!");
+        assertEquals(userReviews.getFirst().getDate(), "12/12/12");
         assertEquals(userReviews.getFirst().getTagsSelected(), new ArrayList<>(List.of("fruity", "smooth")));
     }
 
@@ -111,7 +111,7 @@ public class ReviewServiceTest {
 
         reviewService.setCurrentReview(testReview);
         Wine wine =  ReviewService.getCurrentWine();
-        assertEquals(wine.getWineId(), 3);
+        assertEquals(wine.getID(), 3);
         assertEquals(wine.getName(), "Rainstorm 2013 Pinot Gris (Willamette Valley)");
         assertEquals(wine.getVintage(), 2013);
         assertEquals(wine.getCountry(), "US");

@@ -27,7 +27,7 @@ public class ChallengeStepDefs {
 
 
     public void initialise() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         challengeService = new ChallengeService();

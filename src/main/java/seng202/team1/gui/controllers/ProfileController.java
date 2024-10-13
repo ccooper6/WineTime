@@ -63,9 +63,9 @@ public class ProfileController {
     private Label noPieChartLabel;
 
     int completedWineCount = 0;
-    private final ChallengeService challengeService = new ChallengeService();
-    private final ReviewService reviewService = new ReviewService();
-    private final TagRankingService tagRankingService = new TagRankingService();
+    private final ChallengeService CHALLENGESERVICE = new ChallengeService();
+    private final ReviewService REVIEWSERVICE = new ReviewService();
+    private final TagRankingService TAGRANKINGSERVICE = new TagRankingService();
 
     private static final Logger LOG = LogManager.getLogger(ProfileController.class);
 
@@ -82,7 +82,7 @@ public class ProfileController {
      */
     public void initialize() {
         challengePane.setVisible(false);
-        if (challengeService.activeChallenge()) {
+        if (CHALLENGESERVICE.activeChallenge()) {
             moveWinesPane();
             activateChallenge();
             displayChallenge();
@@ -96,7 +96,7 @@ public class ProfileController {
      */
     private void displayTagRankings() {
         int uid = User.getCurrentUser().getId();
-        if (tagRankingService.hasEnoughLikedTags(uid) || tagRankingService.hasEnoughDislikedTags(uid)) {
+        if (TAGRANKINGSERVICE.hasEnoughLikedTags(uid) || TAGRANKINGSERVICE.hasEnoughDislikedTags(uid)) {
             noPieChartLabel.setVisible(false);
             likedTagPieChart.setStyle("-fx-border-color: #3f0202");
             hateTagPieChart.setStyle("-fx-border-color: #3f0202");
@@ -126,16 +126,16 @@ public class ProfileController {
      * @param uid is the current users id
      */
     private void displayPieCharts(int uid) {
-        if (tagRankingService.hasEnoughLikedTags(uid)) {
+        if (TAGRANKINGSERVICE.hasEnoughLikedTags(uid)) {
             notEnoughLikedLabel.setVisible(false);
-            createPie(likedTagPieChart, tagRankingService.getTopTagData(uid, 5), "Your top 5 liked tags");
+            createPie(likedTagPieChart, TAGRANKINGSERVICE.getTopTagData(uid, 5), "Your top 5 liked tags");
         } else {
             notEnoughLikedLabel.setVisible(true);
             createEmptyPie(likedTagPieChart,"Your top 5 liked tags");
         }
-        if (tagRankingService.hasEnoughDislikedTags(uid)) {
+        if (TAGRANKINGSERVICE.hasEnoughDislikedTags(uid)) {
             notEnoughDislikedLabel.setVisible(false);
-            createPie(hateTagPieChart, tagRankingService.getLowestTagData(uid, 5), "Your top 5 disliked tags");
+            createPie(hateTagPieChart, TAGRANKINGSERVICE.getLowestTagData(uid, 5), "Your top 5 disliked tags");
         } else {
             notEnoughDislikedLabel.setVisible(true);
             createEmptyPie(hateTagPieChart, "Your top 5 disliked tags");
@@ -199,17 +199,17 @@ public class ProfileController {
      */
     public void displayChallenge() {
         List<AnchorPane> wineViews = List.of(challengeWineAnchorPane1, challengeWineAnchorPane2, challengeWineAnchorPane3, challengeWineAnchorPane4, challengeWineAnchorPane5);
-        ArrayList<Wine> challengeWines = challengeService.challengeWines();
+        ArrayList<Wine> challengeWines = CHALLENGESERVICE.challengeWines();
         completedWineCount = 0;
         int currentUserUid = User.getCurrentUser().getId();
-        String cname = challengeService.usersChallenge();
+        String cname = CHALLENGESERVICE.usersChallenge();
         for (int i = 0; i < wineViews.size(); i++) {
             SearchWineService.getInstance().setCurrentWine(challengeWines.get(i));
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 wineViews.get(i).getChildren().add(loader.load());
                 WineDisplayController wineDisplayController = loader.getController();
-                if (reviewService.reviewExists(currentUserUid, challengeWines.get(i).getWineId())) {
+                if (REVIEWSERVICE.reviewExists(currentUserUid, challengeWines.get(i).getID())) {
                     wineDisplayController.completedChallengeWine();
                     completedWineCount += 1;
                 }
@@ -255,8 +255,8 @@ public class ProfileController {
         winesPane.setLayoutY(winesPane.getLayoutY() - 90);
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
-        completeChallengeLabel.setText("Congratulations you completed the " + challengeService.usersChallenge() + "!");
-        challengeService.challengeCompleted(cname);
+        completeChallengeLabel.setText("Congratulations you completed the " + CHALLENGESERVICE.usersChallenge() + "!");
+        CHALLENGESERVICE.challengeCompleted(cname);
     }
 
     /**
@@ -267,8 +267,8 @@ public class ProfileController {
         winesPane.setLayoutY(winesPane.getLayoutY() - 90);
         challengePane.setVisible(false);
         completedChalPane.setVisible(true);
-        completeChallengeLabel.setText("You quit the " + challengeService.usersChallenge() + ".");
-        challengeService.challengeCompleted(challengeService.usersChallenge());
+        completeChallengeLabel.setText("You quit the " + CHALLENGESERVICE.usersChallenge() + ".");
+        CHALLENGESERVICE.challengeCompleted(CHALLENGESERVICE.usersChallenge());
     }
 
     /**
