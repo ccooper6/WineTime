@@ -223,6 +223,8 @@ public class WineLoggingPopupController {
      * selected different tags.
      */
     private void submitLog() {
+        submitLogButton.setDisable(true);
+
         int rating = (int) ratingSlider.getValue();
         int currentUserUid = User.getCurrentUser().getId();
         int currentWineId = currentWine.getID();
