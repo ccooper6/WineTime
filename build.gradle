@@ -7,7 +7,7 @@ plugins {
 
 archivesBaseName = 'WineTime'
 group = 'seng202.team1'
-version = "WineTime"
+version = "3.0"
 mainClassName = 'seng202.team1.App'
 
 def javaVersion = '21'
