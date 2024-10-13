@@ -114,7 +114,7 @@ Due to constraints in development time, some minor low priority bugs were left i
 - Special characters encodings are not properly encoded to display on Windows System resulting in some text appearing jargled in the app
 - The font used in the css files are not displayed on Windows System.
 ### Functional related bugs:
-- Due to difference in encoding, categories with special characters will return no wines on Windows
+- Due to difference in encoding, categories with special characters will return no wines on Windows, this will also result in some unit tests failing
 - 5 wines have been incorrectly added to the database. These wines are not found on `WineSearcher` and have a space in front of their name.
 This results in them appearing first when sorting by name in the search result page.
 - The quiz page does not have a 'close app' button
