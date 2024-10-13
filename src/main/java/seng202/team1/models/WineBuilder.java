@@ -30,7 +30,7 @@ public class WineBuilder {
     /**
      * Returns the built Wine object using the values stored in this class as arguments.
      * Returns null if name is not assigned
-     * @return {@link Wine} the built wine object, null if wine has no name
+     * @return Wine the built wine object, null if wine has no name
      */
     public Wine build() {
         if (name == null || name.isEmpty()) {
@@ -49,7 +49,7 @@ public class WineBuilder {
      * @param description The description of the wine
      * @param price       The price of the wine
      * @param points      The points out of 100 that has been given to the wine
-     * @return {@link WineBuilder} with id, name, description and price setup
+     * @return WineBuilder with id, name, description and price setup
      */
     public static WineBuilder genericSetup(int id, String name, String description, int price, int points)
     {

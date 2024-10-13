@@ -26,7 +26,7 @@ public class ReviewService {
 
     /**
      * Returns an instance of the ReviewService.
-     * @return {@link ReviewService}
+     * @return ReviewService
      */
     public static ReviewService getInstance() {
         if (instance == null) {
@@ -91,7 +91,7 @@ public class ReviewService {
     }
 
     /**
-     * Uses {@link LogWineDao} to submit the liked tags and review to the database.
+     * Uses LogWineDao to submit the liked tags and review to the database.
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
      * value to the tag, whilst a 4-5 will add a positive value to the tag.
      * @param rating rating of the log
@@ -120,7 +120,7 @@ public class ReviewService {
     }
 
     /**
-     * Uses {@link LogWineDao} to get the review of a wine.
+     * Uses LogWineDao to get the review of a wine.
      * @param uid the user id
      * @param wid the wine id
      * @return the corresponding review object
@@ -130,7 +130,7 @@ public class ReviewService {
     }
 
     /**
-     * Uses {@link LogWineDao} to update the tags liked by the user.
+     * Uses LogWineDao to update the tags liked by the user.
      * @param uid the user id
      * @param wid the wine id
      * @param tagsToAdd an ArrayList of strings, containing tag names to add

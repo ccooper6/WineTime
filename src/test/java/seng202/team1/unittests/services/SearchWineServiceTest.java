@@ -239,8 +239,6 @@ public class SearchWineServiceTest {
         }
     }
 
-    // TODO exceptional flows for recommendation search?
-
     @Test
     public void testSetCurrentSearch() {
         SearchWineService.getInstance().setCurrentSearch("Tags");

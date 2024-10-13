@@ -28,7 +28,6 @@ import java.util.ArrayList;
 /**
  * Controller for the SearchWines.fxml Page.
  */
-// TODO: If time, try make the validation into a single modular method
 public class SearchWineController {
     @FXML
     private Pane greyScreen;
