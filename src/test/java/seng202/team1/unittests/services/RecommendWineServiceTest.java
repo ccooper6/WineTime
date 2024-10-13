@@ -75,7 +75,7 @@ public class RecommendWineServiceTest {
     }
 
     @Test
-    public void testHasEnoughFavTag() {
+    public void testHasEnoughLikedTag() {
         String[] tags = {"2012", "2004", "2006", "2005", "2003"};
         for (String tag : tags) {
             logWineDao.likes(1, tag, 5);

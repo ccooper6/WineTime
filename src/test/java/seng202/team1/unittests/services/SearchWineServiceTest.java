@@ -96,7 +96,7 @@ public class SearchWineServiceTest {
     }
 
     @Test
-    public void searchWinesByTag2TagsWeirdText()
+    public void searchWinesByTag2TagsWeirdFormat()
     {
         String tags = "  oRÉGon  , pinót Noir  ";
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
@@ -136,7 +136,7 @@ public class SearchWineServiceTest {
     }
 
     @Test
-    public void searchWinesByNameWeirdName() {
+    public void searchWinesByNameWeirdFormat() {
         String name = "ChardóNnAy";
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();

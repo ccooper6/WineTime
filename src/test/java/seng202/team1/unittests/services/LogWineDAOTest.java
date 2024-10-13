@@ -188,7 +188,7 @@ public class LogWineDAOTest {
     }
 
     @Test
-    public void testGetFavouritedTags() {
+    public void testGetFavoritedTags() {
         String[] tags = {"2006", "2005", "2004"};
         for (String tag : tags) {
             logWineDao.likes(1,tag, 100);

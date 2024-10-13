@@ -140,13 +140,7 @@ public class WineSearchStepDefs {
 
             return wineName.contains(finalFilter);
         }));
-//
-//        if (type.equals("year"))
-//            assertTrue(wineList.stream().allMatch(wine -> (wine.getVintage() >= lowerBound && wine.getVintage() <= upperBound)));
-//        else if (type.equals("points"))
-//            assertTrue(wineList.stream().allMatch(wine -> (wine.getPoints() >= lowerBound && wine.getPoints() <= upperBound)));
-//        else
-//            fail(type + " must be 'year' or 'points'");
+
     }
 
 
