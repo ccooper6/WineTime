@@ -23,9 +23,9 @@ public class FXWrapper {
     private static final Logger LOG = LogManager.getLogger(FXWrapper.class);
 
     /**
-     * Default constructor for FXWrapper
+     * Default constructor for FXWrapper.
      */
-    public FXWrapper(){}
+    public FXWrapper() {}
 
     /**
      * Gets the singleton.

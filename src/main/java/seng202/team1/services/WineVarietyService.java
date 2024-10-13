@@ -16,7 +16,7 @@ public class WineVarietyService {
     private static WineVarietyService instance;
 
     /**
-     * gets the set of red wines
+     * Gets the set of red wines.
      * @return the red hash set
      */
     public HashSet<String> getReds() {
@@ -24,7 +24,7 @@ public class WineVarietyService {
     }
 
     /**
-     * gets the set of white wines
+     * Gets the set of white wines.
      * @return the white hash set
      */
     public HashSet<String> getWhites() {
@@ -32,7 +32,7 @@ public class WineVarietyService {
     }
 
     /**
-     * gets the set of rosé wines
+     * Gets the set of rosé wines.
      * @return the rose hash set
      */
     public HashSet<String> getRose() {

@@ -25,9 +25,9 @@ public class ChallengeService {
 
 
     /**
-     * Default constructor for ChallengeService
+     * Default constructor for ChallengeService.
      */
-    public ChallengeService(){}
+    public ChallengeService() {}
 
     /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.

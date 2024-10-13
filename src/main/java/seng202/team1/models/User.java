@@ -24,7 +24,7 @@ public class User {
     }
 
     /**
-     * Sets the current user of the application to the user provided
+     * Sets the current user of the application to the user provided.
      * @param user the current user
      */
     public static void setCurrentUser(User user)
@@ -33,7 +33,7 @@ public class User {
     }
 
     /**
-     * Returns the current user stored
+     * Returns the current user stored.
      * @return the current user
      */
     public static User getCurrentUser()
@@ -42,7 +42,7 @@ public class User {
     }
 
     /**
-     * The getter method for users id
+     * The getter method for users id.
      * @return the users id
      */
     public int getId()

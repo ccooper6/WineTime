@@ -8,9 +8,9 @@ public class WineCategoryService {
     private static WineCategoryService instance;
 
     /**
-     * Default constructor for WineCategoryService
+     * Default constructor for WineCategoryService.
      */
-    public WineCategoryService(){}
+    public WineCategoryService() {}
 
     /**
      Returns the instance and creates one if none exists.

@@ -31,9 +31,9 @@ public class MainController {
     private FontAwesomeIconView refreshIcon;
 
     /**
-     * Default constructor for MainController
+     * Default constructor for MainController.
      */
-    public MainController(){}
+    public MainController() {}
 
     /**
      * Initializes the main page view, sets the greeting message.

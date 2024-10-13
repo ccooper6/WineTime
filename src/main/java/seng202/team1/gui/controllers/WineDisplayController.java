@@ -35,9 +35,9 @@ public class WineDisplayController {
     private final ReviewService REVIEWSERVICE = new ReviewService();
 
     /**
-     * Default constructor for WineDisplayController
+     * Default constructor for WineDisplayController.
      */
-    public WineDisplayController(){}
+    public WineDisplayController() {}
 
     /**
      * Initializes the controller and displays the wine card using SearchWineService instances' current wine.
