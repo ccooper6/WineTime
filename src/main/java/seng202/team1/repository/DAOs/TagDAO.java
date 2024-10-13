@@ -24,7 +24,7 @@ import java.util.HashSet;
 public class TagDAO {
 
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
-    private final DatabaseManager databaseManager;
+    private final DatabaseManager DATABASEMANAGER;
     private static TagDAO instance;
 
     /**
@@ -32,7 +32,7 @@ public class TagDAO {
      */
     public TagDAO()
     {
-        databaseManager = DatabaseManager.getInstance();
+        DATABASEMANAGER = DatabaseManager.getInstance();
     }
 
     /**
@@ -89,7 +89,7 @@ public class TagDAO {
     {
         ArrayList<String> results = new ArrayList<>();
 
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement tagPS = conn.prepareStatement(sql)) {
             tagPS.setString(1, TagType.toString(type));
             ResultSet rs = tagPS.executeQuery();
@@ -175,7 +175,7 @@ public class TagDAO {
      */
     private int getIntTag(String sql, TagType type)
     {
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement tagPS = conn.prepareStatement(sql)) {
             if (type == TagType.VINTAGE) {
                 tagPS.setString(1, TagType.toString(type));

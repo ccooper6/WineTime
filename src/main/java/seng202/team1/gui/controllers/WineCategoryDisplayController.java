@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -172,7 +171,7 @@ public class WineCategoryDisplayController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 wineDisplays.add(loader.load());
             } catch (IOException e) {
-                LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getWineId());
+                LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getID());
             }
         }
         ArrayList<AnchorPane> mainWines = new ArrayList<>(List.of(mainWine0, mainWine1, mainWine2, mainWine3, mainWine4, mainWine5, mainWine6));
@@ -395,7 +394,7 @@ public class WineCategoryDisplayController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 wineDisplays.add(loader.load());
             } catch (IOException e) {
-                LOG.error("Error in WineCategoryDisplayController.fourOrLess: Could not load fxml content for wine ID {}.", displaywine.getWineId());
+                LOG.error("Error in WineCategoryDisplayController.fourOrLess: Could not load fxml content for wine ID {}.", displaywine.getID());
             }
         }
         mainWine1.getChildren().add(wineDisplays.get(0));

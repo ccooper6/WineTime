@@ -11,7 +11,6 @@ import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
 
 
-import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,15 +42,15 @@ public class WineLoggingServiceTest {
 
     @Test
     public void testSubmitLog() {
-        ArrayList<String> selectedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
-        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        ArrayList<String> selectedTags = new ArrayList<>(Arrays.asList("seng202 teaching team", "red wine"));
+        ArrayList<String> likedTags = new ArrayList<>(Arrays.asList("seng202 teaching team", "red wine"));
         reviewService.submitLog(5,1,69, selectedTags, likedTags, false, "I      love them");
         ArrayList<Review> reviews = logWineDao.getUserReview(1,1, true);
         assertEquals(1,reviews.getFirst().getUid());
         assertEquals(69,reviews.getFirst().getWid());
         assertEquals(5,reviews.getFirst().getRating());
         //whitespace removed
-        assertEquals("I love them",reviews.getFirst().getReviewDescription());
+        assertEquals("I love them",reviews.getFirst().getDescription());
         assertEquals(1, reviews.size());
     }
 
@@ -70,8 +69,8 @@ public class WineLoggingServiceTest {
         assertEquals(testReview.getUid(), 1);
         assertEquals(testReview.getWid(), 1);
         assertEquals(testReview.getRating(), 5);
-        assertEquals(testReview.getReviewDate(), "12/12/12");
-        assertEquals(testReview.getReviewDescription(), "Great wine!");
+        assertEquals(testReview.getDate(), "12/12/12");
+        assertEquals(testReview.getDescription(), "Great wine!");
         assertEquals(testReview.getTagsSelected(), new ArrayList<>(List.of("fruity", "smooth")));
     }
 

@@ -104,13 +104,13 @@ public class LogWineDAOTest {
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(2,reviews.getFirst().getWid());
         Assertions.assertEquals(3,reviews.getFirst().getRating());
-        Assertions.assertEquals("I like wine",reviews.getFirst().getReviewDescription());
-        Assertions.assertEquals("2024-09-15 14:59:51",reviews.getFirst().getReviewDate());
+        Assertions.assertEquals("I like wine",reviews.getFirst().getDescription());
+        Assertions.assertEquals("2024-09-15 14:59:51",reviews.getFirst().getDate());
     }
 
     @Test
     public void testAddingGettingDiffReview() {
-        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        ArrayList<String> likedTags = new ArrayList<>(Arrays.asList("seng202 teaching team", "red wine"));
         logWineDao.doReview(1,2,3,"I like wine", "2024-09-15 14:59:51", likedTags, likedTags, false);
         logWineDao.doReview(2,6,3,"I really like wine", "2025-09-15 14:59:51", likedTags, likedTags, false);
         ArrayList<Review> reviews = logWineDao.getUserReview(1, SearchDAO.UNLIMITED, false);
@@ -118,18 +118,18 @@ public class LogWineDAOTest {
         Assertions.assertEquals(1, reviews.getFirst().getUid());
         Assertions.assertEquals(2, reviews.getFirst().getWid());
         Assertions.assertEquals(3, reviews.getFirst().getRating());
-        Assertions.assertEquals("I like wine", reviews.getFirst().getReviewDescription());
-        Assertions.assertEquals("2024-09-15 14:59:51", reviews.getFirst().getReviewDate());
+        Assertions.assertEquals("I like wine", reviews.getFirst().getDescription());
+        Assertions.assertEquals("2024-09-15 14:59:51", reviews.getFirst().getDate());
         Assertions.assertEquals(2, reviews2.getFirst().getUid());
         Assertions.assertEquals(6, reviews2.getFirst().getWid());
         Assertions.assertEquals(3, reviews2.getFirst().getRating());
-        Assertions.assertEquals("I really like wine", reviews2.getFirst().getReviewDescription());
-        Assertions.assertEquals("2025-09-15 14:59:51", reviews2.getFirst().getReviewDate());
+        Assertions.assertEquals("I really like wine", reviews2.getFirst().getDescription());
+        Assertions.assertEquals("2025-09-15 14:59:51", reviews2.getFirst().getDate());
     }
 
     @Test
     public void testGettingOneRecentReview() {
-        ArrayList<String> likedTags = new ArrayList<String>(Arrays.asList("seng202 teaching team", "red wine"));
+        ArrayList<String> likedTags = new ArrayList<>(Arrays.asList("seng202 teaching team", "red wine"));
         logWineDao.doReview(1,3,-1,"I hate wine", "2023-09-15 14:59:51", likedTags, likedTags, false);
         logWineDao.doReview(1,5,-1,"I hate 5 wine", "2022-09-15 14:59:51", likedTags, likedTags, false);
         logWineDao.doReview(1,6,-1,"I hate 6 wine", "2022-09-15 14:59:51", likedTags, likedTags, false);
@@ -138,8 +138,8 @@ public class LogWineDAOTest {
         Assertions.assertEquals(1, reviews.getFirst().getUid());
         Assertions.assertEquals(2, reviews.getFirst().getWid());
         Assertions.assertEquals(3, reviews.getFirst().getRating());
-        Assertions.assertEquals("I like wine", reviews.getFirst().getReviewDescription());
-        Assertions.assertEquals("2024-09-15 14:59:51", reviews.getFirst().getReviewDate());
+        Assertions.assertEquals("I like wine", reviews.getFirst().getDescription());
+        Assertions.assertEquals("2024-09-15 14:59:51", reviews.getFirst().getDate());
         Assertions.assertEquals(1, reviews.size());
     }
 
@@ -152,8 +152,8 @@ public class LogWineDAOTest {
         Assertions.assertEquals(1, reviews.getFirst().getUid());
         Assertions.assertEquals(2, reviews.getFirst().getWid());
         Assertions.assertEquals(-10, reviews.getFirst().getRating());
-        Assertions.assertEquals("I no longer like wine", reviews.getFirst().getReviewDescription());
-        Assertions.assertEquals("2024-10-15 14:59:51", reviews.getFirst().getReviewDate());
+        Assertions.assertEquals("I no longer like wine", reviews.getFirst().getDescription());
+        Assertions.assertEquals("2024-10-15 14:59:51", reviews.getFirst().getDate());
         Assertions.assertEquals(1, reviews.size());
     }
 
@@ -167,18 +167,18 @@ public class LogWineDAOTest {
         Assertions.assertEquals(1,reviews.getFirst().getUid());
         Assertions.assertEquals(4,reviews.getFirst().getWid());
         Assertions.assertEquals(10,reviews.getFirst().getRating());
-        Assertions.assertEquals("I can travel to future",reviews.getFirst().getReviewDescription());
-        Assertions.assertEquals("2026-10-15 14:59:51",reviews.getFirst().getReviewDate());
+        Assertions.assertEquals("I can travel to future",reviews.getFirst().getDescription());
+        Assertions.assertEquals("2026-10-15 14:59:51",reviews.getFirst().getDate());
         Assertions.assertEquals(1,reviews.get(1).getUid());
         Assertions.assertEquals(3,reviews.get(1).getWid());
         Assertions.assertEquals(-10,reviews.get(1).getRating());
-        Assertions.assertEquals("I no longer like wine",reviews.get(1).getReviewDescription());
-        Assertions.assertEquals("2025-10-15 14:59:51",reviews.get(1).getReviewDate());
+        Assertions.assertEquals("I no longer like wine",reviews.get(1).getDescription());
+        Assertions.assertEquals("2025-10-15 14:59:51",reviews.get(1).getDate());
         Assertions.assertEquals(1,reviews.get(2).getUid());
         Assertions.assertEquals(2,reviews.get(2).getWid());
         Assertions.assertEquals(3,reviews.get(2).getRating());
-        Assertions.assertEquals("I like wine",reviews.get(2).getReviewDescription());
-        Assertions.assertEquals("2024-09-15 14:59:51",reviews.get(2).getReviewDate());
+        Assertions.assertEquals("I like wine",reviews.get(2).getDescription());
+        Assertions.assertEquals("2024-09-15 14:59:51",reviews.get(2).getDate());
     }
 
     @Test

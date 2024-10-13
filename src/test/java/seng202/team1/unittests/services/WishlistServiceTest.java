@@ -67,20 +67,20 @@ public class WishlistServiceTest {
     }
 
     @Test
-    public void testGetWishlistWinesEmpty() throws SQLException {
+    public void testGetWishlistWinesEmpty() {
         ArrayList<Wine> testNull = new ArrayList<>();
         ArrayList<Wine> myWines = WishlistService.getWishlistWines(1);
         assertEquals(testNull, myWines);
     }
     @Test
-    public void testGetWishlistWinesFull() throws SQLException {
+    public void testGetWishlistWinesFull() {
         WishlistService.addToWishlist(4, 1);
         WishlistService.addToWishlist(5, 1);
         WishlistService.addToWishlist(6, 1);
         ArrayList<Wine> myWines = WishlistService.getWishlistWines(1);
-        assertEquals(myWines.get(0).getWineId(), 4);
-        assertEquals(myWines.get(1).getWineId(), 5);
-        assertEquals(myWines.get(2).getWineId(), 6);
+        assertEquals(myWines.get(0).getID(), 4);
+        assertEquals(myWines.get(1).getID(), 5);
+        assertEquals(myWines.get(2).getID(), 6);
     }
 
     @Test

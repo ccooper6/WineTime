@@ -1,7 +1,5 @@
 package seng202.team1.models;
 
-import javax.swing.text.html.HTML;
-
 /**
  * Enum that defines the available tag types sored in the database.
  */

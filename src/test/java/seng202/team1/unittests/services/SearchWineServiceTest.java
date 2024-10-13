@@ -9,7 +9,6 @@ import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
 import seng202.team1.repository.DAOs.LogWineDao;
 import seng202.team1.repository.DAOs.SearchDAO;
-import seng202.team1.repository.DAOs.TagDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.SearchWineService;
@@ -18,10 +17,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -198,7 +195,7 @@ public class SearchWineServiceTest {
                 WHERE wine.id = ?;""";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(psString)) {
-                ps.setInt(1, wine.getWineId());
+                ps.setInt(1, wine.getID());
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     wineTags.add(rs.getString(1));
@@ -232,7 +229,7 @@ public class SearchWineServiceTest {
         String[] dislikedTags = new String[]{};
         Integer[] wineIdsToAvoid = new Integer[]{5};
 
-        assertTrue(recommendedWines.stream().noneMatch(wine -> Arrays.asList(wineIdsToAvoid).contains(wine.getWineId())));
+        assertTrue(recommendedWines.stream().noneMatch(wine -> Arrays.asList(wineIdsToAvoid).contains(wine.getID())));
 
         for (Wine wine : recommendedWines) {
             ArrayList<String> wineTags = getWineTags(wine);
@@ -265,7 +262,7 @@ public class SearchWineServiceTest {
     public void testSearchWineByWishlist() {
         WishlistDAO.getInstance().addWine(1,1);
         SearchWineService.getInstance().searchWinesByWishlist(1);
-        assertEquals(1,SearchWineService.getInstance().getWineList().getFirst().getWineId());
+        assertEquals(1,SearchWineService.getInstance().getWineList().getFirst().getID());
     }
     @Test
     public void testSetCurrentWine() {

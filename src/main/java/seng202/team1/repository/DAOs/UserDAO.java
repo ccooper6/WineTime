@@ -13,14 +13,14 @@ import java.util.Objects;
  */
 public class UserDAO {
 
-    private final DatabaseManager databaseManager;
+    private final DatabaseManager DATABASEMANAGER;
     private static final Logger LOG = LogManager.getLogger(UserDAO.class);
 
     /**
      * Constructor for UserDAO.
      */
     public UserDAO() {
-        databaseManager = DatabaseManager.getInstance();
+        DATABASEMANAGER = DatabaseManager.getInstance();
     }
 
     /**
@@ -32,7 +32,7 @@ public class UserDAO {
      */
     public User tryLogin(int username, int password) {
         String sql = "SELECT * FROM user WHERE username = ?";
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
             userPS.setString(1, String.valueOf(username));
             ResultSet rs = userPS.executeQuery();
@@ -63,7 +63,7 @@ public class UserDAO {
      */
     public int add(User toAdd) {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, toAdd.getHashedUsername());
             ps.setInt(2, toAdd.getHashedPassword());
@@ -87,7 +87,7 @@ public class UserDAO {
      */
     public String getName(int username) {
         String sql = "SELECT name FROM user WHERE username = ?";
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement userPS = conn.prepareStatement(sql)) {
             userPS.setInt(1, username);
             ResultSet rs = userPS.executeQuery();

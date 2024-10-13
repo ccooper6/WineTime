@@ -48,8 +48,8 @@ public class WineDisplayController {
         winePane.setOnMouseEntered(event -> darkenPane());
         winePane.setOnMouseExited(event -> lightenPane());
 
-        wineReviewed.setVisible(reviewService.reviewExists(User.getCurrentUser().getId(), wine.getWineId()));
-        wineLiked.setVisible(WishlistService.checkInWishlist(wine.getWineId(), User.getCurrentUser().getId()));
+        wineReviewed.setVisible(reviewService.reviewExists(User.getCurrentUser().getId(), wine.getID()));
+        wineLiked.setVisible(WishlistService.checkInWishlist(wine.getID(), User.getCurrentUser().getId()));
     }
 
     /**

@@ -4,8 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWindow;
 
-import java.io.IOException;
-
 /**
  * Default entry point class.
  */

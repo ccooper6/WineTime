@@ -19,7 +19,7 @@ import java.util.ArrayList;
 // TODO LOG after update
 public class ChallengeDAO {
     private static final Logger LOG = LogManager.getLogger(ChallengeDAO.class);
-    private final DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private final DatabaseManager DATABASEMANAGER = DatabaseManager.getInstance();
 
     /**
      * Inserts challenge wine into the database.
@@ -28,7 +28,7 @@ public class ChallengeDAO {
      */
     public void insertChallenge(int wineID, int uid, String cname) {
         String sql = "INSERT INTO challenge_wine (wineID, cname, uid) VALUES (?, ?, ?)";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
                 challengePS.setInt(1, wineID);
                 challengePS.setString(2, cname);
@@ -47,7 +47,7 @@ public class ChallengeDAO {
      */
     public void startChallenge(int uid, String cname) {
         String sql = "INSERT INTO active_challenge (userID, cname) VALUES (?, ?)";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
                 challengePS.setInt(1, uid);
                 challengePS.setString(2, cname);
@@ -64,7 +64,7 @@ public class ChallengeDAO {
      */
     private Boolean challengeHasWines(String cname, int uid) {
         String sql = "SELECT * FROM challenge_wine WHERE cname = ? AND uid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
                 challengePS.setString(1, cname);
                 challengePS.setInt(2, uid);
@@ -85,7 +85,7 @@ public class ChallengeDAO {
      */
     private Boolean userHasChallenge(int uid, String cname) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ? AND cname = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
                 challengePS.setInt(1, uid);
                 challengePS.setString(2, cname);
@@ -105,7 +105,7 @@ public class ChallengeDAO {
      */
     public String getChallengeForUser(int uid) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
                 challengePS.setInt(1, uid);
                 ResultSet rs = challengePS.executeQuery();
@@ -166,7 +166,7 @@ public class ChallengeDAO {
                    JOIN tag ON owned_by.tname = tag.name
                    ORDER BY id;""";
 
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement challengePS = conn.prepareStatement(sql)) {
             challengePS.setString(1, cname);
             challengePS.setInt(2, uid);
@@ -188,7 +188,7 @@ public class ChallengeDAO {
     public void challengeCompleted(int uid, String cname)
     {
         String activeChallengeSQL = "DELETE FROM active_challenge WHERE userID = ? AND cname = ?;";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(activeChallengeSQL)) {
                 challengePS.setInt(1, uid);
                 challengePS.setString(2, cname);
@@ -199,7 +199,7 @@ public class ChallengeDAO {
             throw new RuntimeException(e);
         }
         String challengeWineSQL = "DELETE FROM challenge_wine WHERE cname = ? AND uid = ?;";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(challengeWineSQL)) {
                 challengePS.setString(1, cname);
                 challengePS.setInt(2, uid);

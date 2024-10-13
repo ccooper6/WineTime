@@ -202,7 +202,7 @@ public class ProfileController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
                 wineViews.get(i).getChildren().add(loader.load());
                 WineDisplayController wineDisplayController = loader.getController();
-                if (reviewService.reviewExists(currentUserUid, challengeWines.get(i).getWineId())) {
+                if (reviewService.reviewExists(currentUserUid, challengeWines.get(i).getID())) {
                     wineDisplayController.completedChallengeWine();
                     completedWineCount += 1;
                 }

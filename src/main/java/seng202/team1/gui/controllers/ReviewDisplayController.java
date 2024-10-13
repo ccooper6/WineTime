@@ -55,7 +55,7 @@ public class ReviewDisplayController {
     @FXML
     public void initialize() {
         Review review = ReviewService.getCurrentReview();
-        reviewDate.setText(review.getReviewDate());
+        reviewDate.setText(review.getDate());
 
         setReviewDescription(review);
         setStarRatings(review);
@@ -72,8 +72,8 @@ public class ReviewDisplayController {
      * @param review The review object to get the description from.
      */
     private void setReviewDescription(Review review) {
-        if (!review.getReviewDescription().isEmpty()) {
-            reviewDescription.setText('"' + " " + review.getReviewDescription() + " " + '"');
+        if (!review.getDescription().isEmpty()) {
+            reviewDescription.setText('"' + " " + review.getDescription() + " " + '"');
         } else {
             reviewDescription.setText("No Description");
         }

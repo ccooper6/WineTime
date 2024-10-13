@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ChallengeServiceTest {
 
@@ -42,81 +41,81 @@ public class ChallengeServiceTest {
     }
 
     @Test
-    public void varietyChallengeStarts() throws DuplicateEntryException {
+    public void varietyChallengeStarts() {
         userDAO.add(user);
         challengeService.startChallengeVariety();
         assertEquals("Variety Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     @Test
-    public void decadesChallengeStarts() throws DuplicateEntryException {
+    public void decadesChallengeStarts() {
         userDAO.add(user);
         challengeService.startChallengeYears();
         assertEquals("Time Travelling Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     @Test
-    public void redsChallengeStarts() throws DuplicateEntryException {
+    public void redsChallengeStarts() {
         userDAO.add(user);
         challengeService.startChallengeReds();
         assertEquals("Red Roulette Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     @Test
-    public void whitesChallengeStarts() throws DuplicateEntryException {
+    public void whitesChallengeStarts() {
         userDAO.add(user);
         challengeService.startChallengeWhites();
         assertEquals("Great White Challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     @Test
-    public void roseChallengeStarts() throws DuplicateEntryException {
+    public void roseChallengeStarts() {
         userDAO.add(user);
         challengeService.startChallengeRose();
         assertEquals("Rosè challenge", challengeDAO.getChallengeForUser(user.getId()));
     }
 
     @Test
-    public void noActiveChallengeTest() throws DuplicateEntryException {
+    public void noActiveChallengeTest() {
         userDAO.add(user);
-        assertEquals(false, challengeService.activeChallenge());
+        assertFalse(challengeService.activeChallenge());
     }
 
     @Test
-    public void activeChallengeTest() throws DuplicateEntryException {
+    public void activeChallengeTest() {
         userDAO.add(user);
         challengeDAO.startChallenge(0, "Variety Challenge");
-        assertEquals(true, challengeService.activeChallenge());
+        assertTrue(challengeService.activeChallenge());
     }
 
     @Test
-    public void usersActiveChallengesNullTests() throws DuplicateEntryException {
+    public void usersActiveChallengesNullTests() {
         userDAO.add(user);
-        assertEquals(null, challengeService.usersChallenge());
+        assertNull(challengeService.usersChallenge());
     }
 
     @Test
-    public void challengeCompleteTest() throws DuplicateEntryException {
+    public void challengeCompleteTest() {
         userDAO.add(user);
         challengeService.startChallengeVariety();
         challengeService.challengeCompleted("Variety Challenge");
-        assertEquals(null, challengeDAO.getChallengeForUser(user.getId()));
+        assertNull(challengeDAO.getChallengeForUser(user.getId()));
 
     }
 
     @Test
-    public void challengeWinesTest() throws DuplicateEntryException {
+    public void challengeWinesTest() {
         userDAO.add(user);
-        ArrayList<Integer> wineids = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+        ArrayList<Integer> wineIDs = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
 
-        challengeDAO.userActivatesChallenge(user.getId(), "test", wineids);
+        challengeDAO.userActivatesChallenge(user.getId(), "test", wineIDs);
 
         List<Wine> wines = challengeService.challengeWines();
 
         assertNotNull(wines);
         assertEquals(4, wines.size());
         for (int i= 0; i < wines.size(); i++) {
-            assertEquals(i + 1, wines.get(i).getWineId());
+            assertEquals(i + 1, wines.get(i).getID());
         }
     }
 }

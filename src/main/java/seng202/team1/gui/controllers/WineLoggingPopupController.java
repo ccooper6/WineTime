@@ -76,7 +76,7 @@ public class WineLoggingPopupController {
         submitLogButton.setOnAction(actionEvent -> submitLog());
         monitorRating();
 
-        existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getWineId());
+        existingReview = reviewService.getReview(User.getCurrentUser().getId(), currentWine.getID());
         if (existingReview != null) {
             deleteReviewButton.setDisable(false);
             deleteReviewButton.setOpacity(1);
@@ -103,7 +103,7 @@ public class WineLoggingPopupController {
      */
     private void populateReviewData(Review review) {
         ratingSlider.setValue(review.getRating());
-        descriptionTextArea.setText(review.getReviewDescription());
+        descriptionTextArea.setText(review.getDescription());
 
         ArrayList<String> likedTags = review.getTagsSelected();
         for (int i = 0; i < tagNameArray.size(); i++) {
@@ -220,7 +220,7 @@ public class WineLoggingPopupController {
     private void submitLog() {
         int rating = (int) ratingSlider.getValue();
         int currentUserUid = User.getCurrentUser().getId();
-        int currentWineId = currentWine.getWineId();
+        int currentWineId = currentWine.getID();
         String description = descriptionTextArea.getText();
         ArrayList<String> selectedTags = new ArrayList<>();
         ArrayList<String> tagsToLike = new ArrayList<>();

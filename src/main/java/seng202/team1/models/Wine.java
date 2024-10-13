@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 
 public class Wine {
-    private final int wineId;
+    private final int ID;
     private String name;
     private String description;
     private int price;
@@ -41,7 +41,7 @@ public class Wine {
      * @param region2 String {@link Wine#region2}
      * @param variety String {@link Wine#variety}
      * @param winery String {@link Wine#winery}
-     * @param wineId int {@link Wine#wineId}
+     * @param wineId int {@link Wine#ID}
      */
     public Wine(int wineId, String name, String description, int price, int points, int vintage, String country, String province, String region1,
                 String region2, String variety, String winery) {
@@ -56,7 +56,7 @@ public class Wine {
         this.region2 = region2;
         this.variety = variety;
         this.winery = winery;
-        this.wineId = wineId;
+        this.ID = wineId;
 
     }
 
@@ -261,8 +261,8 @@ public class Wine {
      * Returns the wine's wine id.
      * @return wine id
      */
-    public int getWineId() {
-        return this.wineId;
+    public int getID() {
+        return this.ID;
     }
 
     /**
