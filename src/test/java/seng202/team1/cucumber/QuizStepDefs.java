@@ -32,8 +32,8 @@ public class QuizStepDefs {
 
     @When("The user gets their recommended wine")
     public void iGetMyRecommendedWine() {
-        quizService.setRecordOfAnswers(answers);
-        quizService.wineAlgorithm();
+        quizService.setUserAnswers(answers);
+        quizService.getQuizWine();
         recommendedWine = quizService.getWine();
     }
 

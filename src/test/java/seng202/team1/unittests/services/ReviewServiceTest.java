@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ReviewServiceTest {
     static ReviewService reviewService;
-    static LogWineDao logWineDao;
+    static LogWineDAO logWineDao;
     static UserDAO userDAO;
 
     @BeforeEach
@@ -26,7 +26,7 @@ public class ReviewServiceTest {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         userDAO = new UserDAO();
     }
 

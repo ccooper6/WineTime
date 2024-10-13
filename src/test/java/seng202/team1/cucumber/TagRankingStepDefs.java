@@ -8,7 +8,7 @@ import javafx.scene.chart.PieChart;
 import org.junit.jupiter.api.Assertions;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
 import seng202.team1.services.TagRankingService;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class TagRankingStepDefs {
     static ReviewService reviewService;
-    static LogWineDao logWineDao;
+    static LogWineDAO logWineDao;
     static TagRankingService tagRankingService;
     private int currentUser;
     private void initialize() throws InstanceAlreadyExistsException {
@@ -25,7 +25,7 @@ public class TagRankingStepDefs {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         tagRankingService = new TagRankingService();
         currentUser = 0;
     }

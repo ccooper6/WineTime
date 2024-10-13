@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.TagRankingService;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class TagRankingServiceTest {
     static DatabaseManager databaseManager;
-    static LogWineDao logWineDao;
+    static LogWineDAO logWineDao;
     static TagRankingService tagRankingService;
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException
@@ -22,7 +22,7 @@ public class TagRankingServiceTest {
         DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         tagRankingService = new TagRankingService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         DatabaseManager.getInstance().forceReset();
     }
     @Test

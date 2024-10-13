@@ -3,23 +3,23 @@ package seng202.team1.services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 
 import java.util.HashMap;
 
 /**
- * The service class responsible for using LogWineDao to get the required data for
+ * The service class responsible for using LogWineDAO to get the required data for
  * seng202.team1.gui.controllers.ProfileController's pie charts. Handles the checks if the user has enough
  * liked/disliked tags for the respective pie charts to be shown
  */
 public class TagRankingService {
-    private final LogWineDao logWineDao;
+    private final LogWineDAO logWineDao;
 
     /**
      * Initialises a TagRankingService with a LogWineDAO
      */
     public TagRankingService() {
-        this.logWineDao = new LogWineDao();
+        this.logWineDao = new LogWineDAO();
     }
 
     /**
