@@ -33,7 +33,7 @@ public class FXWindow extends Application {
 
         Parent root = loader.load();
         Scene scene = new Scene(root, 1280, 720);
-        primaryStage.setTitle("Wine Time");
+        primaryStage.setTitle("WineTime");
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/images/logo.png")).toExternalForm()));
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
