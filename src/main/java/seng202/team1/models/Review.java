@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * The review class that contains the attributes of a user review.
- * Used by LogWineDao to return a user's
+ * Used by LogWineDAO to return a user's
  * review.
  */
 public class Review {

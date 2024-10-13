@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.UserDAO;
 import seng202.team1.repository.DatabaseManager;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WineLoggingServiceTest {
     static ReviewService reviewService;
-    static LogWineDao logWineDao;
+    static LogWineDAO logWineDao;
     static UserDAO userDAO;
 
     @BeforeEach
@@ -36,7 +36,7 @@ public class WineLoggingServiceTest {
         }
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         userDAO = new UserDAO();
     }
 

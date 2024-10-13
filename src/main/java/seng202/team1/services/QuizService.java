@@ -17,28 +17,28 @@ import java.util.Random;
 public class QuizService {
     private Wine wine = null;
 
-    private final ArrayList<String> questions = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> QUESTIONS = new ArrayList<>(Arrays.asList(
             "Pick a movie from this great selection",
             "What is your go to food",
             "If you could only pick one fruit for the rest of your life what would it be?",
             "What is the coolest bird.",
             "What Hogwarts house are you?"
     ));
-    private final ArrayList<String> answer1answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> QUESTION1ANSWERS = new ArrayList<>(Arrays.asList(
             "The Shawshank Redemption",
             "Steak",
             "Banana",
             "Bald Eagle",
             "Hufflepuff"
     ));
-    private final ArrayList<String> answer2answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> QUESTION2ANSWERS = new ArrayList<>(Arrays.asList(
             "The Incredibles",
             "Fish",
             "Pear",
             "Kiwi",
             "Ravenclaw"
     ));
-    private final ArrayList<String> answer3answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> QUESTION3ANSWERS = new ArrayList<>(Arrays.asList(
             "The Dark Knight",
             "Cheesecake",
             "Plum",
@@ -46,7 +46,7 @@ public class QuizService {
             "Gryffindor"
 
     ));
-    private final ArrayList<String> answer4answers = new ArrayList<>(Arrays.asList(
+    private final ArrayList<String> QUESTION4ANSWERS = new ArrayList<>(Arrays.asList(
             "Whiplash",
             "Sushi",
             "Peach",
@@ -54,7 +54,7 @@ public class QuizService {
             "Slytherin"
     ));
 
-    private ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
+    private ArrayList<Integer> USERANSWERS = new ArrayList<>(Arrays.asList(null, null, null, null, null));
 
     /**
      * Default constructor for QuizService
@@ -65,48 +65,48 @@ public class QuizService {
      * The getter for the question labels.
      * @return The question labels
      */
-    public ArrayList<String> getQuestions() {
-        return questions;
+    public ArrayList<String> getQUESTIONS() {
+        return QUESTIONS;
     }
 
     /**
      * The getter for the answer 1 labels.
      * @return The answer 1 labels
      */
-    public ArrayList<String> getAnswer1answers() {
-        return answer1answers;
+    public ArrayList<String> getQUESTION1ANSWERS() {
+        return QUESTION1ANSWERS;
     }
 
     /**
      * The getter for the answer 2 labels.
      * @return The answer labels
      */
-    public ArrayList<String> getAnswer2answers() {
-        return answer2answers;
+    public ArrayList<String> getQUESTION2ANSWERS() {
+        return QUESTION2ANSWERS;
     }
 
     /**
      * The getter for the answer 3 labels.
      * @return The answer 3 labels
      */
-    public ArrayList<String> getAnswer3answers() {
-        return answer3answers;
+    public ArrayList<String> getQUESTION3ANSWERS() {
+        return QUESTION3ANSWERS;
     }
 
     /**
      * The getter for the answer 4 labels.
      * @return The answer labels
      */
-    public ArrayList<String> getAnswer4answers() {
-        return answer4answers;
+    public ArrayList<String> getQUESTION4ANSWERS() {
+        return QUESTION4ANSWERS;
     }
 
     /**
      * The setter for the record of answers.
      * @param answers The record of answers
      */
-    public void setRecordOfAnswers(ArrayList<Integer> answers) {
-        recordOfAnswers = answers;
+    public void setUserAnswers(ArrayList<Integer> answers) {
+        USERANSWERS = answers;
     }
 
     /**
@@ -121,8 +121,8 @@ public class QuizService {
      * The getter for the record of answers.
      * @return ArrayList&lt;Integer&gt; record of answers
      */
-    public ArrayList<Integer> getRecordOfAnswers() {
-        return recordOfAnswers;
+    public ArrayList<Integer> getUserAnswers() {
+        return USERANSWERS;
     }
 
     /**
@@ -133,7 +133,7 @@ public class QuizService {
         NavigationController nav = FXWrapper.getInstance().getNavigationController();
         FXWrapper.getInstance().launchSubPage("profile");
         nav.executeWithLoadingScreen(() -> {
-            wineAlgorithm();
+            getQuizWine();
             Platform.runLater(() -> {
                 NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
                 navigationController.initPopUp(wine);
@@ -144,9 +144,9 @@ public class QuizService {
     /**
      * Method to run the wine algorithm.
      */
-    public void wineAlgorithm() {
+    public void getQuizWine() {
 
-        String earliestYear = switch (getRecordOfAnswers().getFirst()) {
+        String earliestYear = switch (getUserAnswers().getFirst()) {
             case 1 -> "1990";
             case 2 -> "2000";
             case 3 -> "2005";
@@ -154,7 +154,7 @@ public class QuizService {
             default -> "1990";
         };
 
-        String type = switch (getRecordOfAnswers().get(1)) {
+        String type = switch (getUserAnswers().get(1)) {
             case 1 -> "pinot noir";
             case 2 -> "chardonnay";
             case 3 -> "rose";
@@ -162,7 +162,7 @@ public class QuizService {
             default -> "pinot noir";
         };
 
-        String country = switch (getRecordOfAnswers().get(3)) {
+        String country = switch (getUserAnswers().get(3)) {
             case 1 -> "us";
             case 2 -> "new zealand";
             case 3 -> "spain";

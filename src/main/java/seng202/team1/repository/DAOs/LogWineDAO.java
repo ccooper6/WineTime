@@ -14,18 +14,18 @@ import java.util.HashMap;
  * The class containing the functions to add and retrieve entries to the "Likes" and "Reviews" table,
  * mainly called by the WineLoggingPopupController when the user logs a wine.
  */
-public class LogWineDao {
-    private final DatabaseManager databaseManager = DatabaseManager.getInstance();
-    private static final Logger LOG = LogManager.getLogger(LogWineDao.class);
+public class LogWineDAO {
+    private final DatabaseManager DATABASEMANAGER = DatabaseManager.getInstance();
+    private static final Logger LOG = LogManager.getLogger(LogWineDAO.class);
 
     /**
      * Default constructor for LogWineDAO
      */
-    public LogWineDao(){}
+    public LogWineDAO(){}
 
     /**
-     * Calls {@link LogWineDao#alreadyLikeExists(int, String)} to see if the user has already liked the tag. If so
-     * calls {@link LogWineDao#updateLikesValue(int, String, int)} to update the liked tag's value. Else if it doesn't
+     * Calls {@link LogWineDAO#alreadyLikeExists(int, String)} to see if the user has already liked the tag. If so
+     * calls {@link LogWineDAO#updateLikesValue(int, String, int)} to update the liked tag's value. Else if it doesn't
      * exist, add a new entry to the 'LIKES' table
      *
      * @param uid     the UID of the current user
@@ -37,7 +37,7 @@ public class LogWineDao {
             updateLikesValue(uid, tagName, value);
         } else {
             String likesSql = "INSERT INTO likes (uid, tname, value) VALUES (?,?,?)";
-            try (Connection conn = databaseManager.connect()) {
+            try (Connection conn = DATABASEMANAGER.connect()) {
                 try (PreparedStatement likesPs = conn.prepareStatement(likesSql)) {
                     likesPs.setInt(1, uid);
                     likesPs.setString(2, tagName);
@@ -63,7 +63,7 @@ public class LogWineDao {
         int prevValue;
         String getPrevValueSql = "SELECT value FROM likes WHERE uid = ? AND tname = ?";
         String updateValueSql = "UPDATE likes SET value = ? WHERE uid = ? AND tname = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement getPrevValuePS = conn.prepareStatement(getPrevValueSql)) {
                 getPrevValuePS.setInt(1, uid);
                 getPrevValuePS.setString(2, tagName);
@@ -91,7 +91,7 @@ public class LogWineDao {
      */
     public Boolean alreadyLikeExists(int uid, String tagName) {
         String sql = "SELECT * FROM likes WHERE uid = ? AND tname = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 loggingPS.setString(2, tagName);
@@ -113,7 +113,7 @@ public class LogWineDao {
     public ArrayList<String> getSelectedTags(int uid, int wid) {
         String tags;
         String getSelectedTags = "SELECT selectedtags FROM reviews WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(getSelectedTags)) {
                 loggingPS.setInt(1, uid);
                 loggingPS.setInt(2, wid);
@@ -141,7 +141,7 @@ public class LogWineDao {
     public ArrayList<String> getWineLikedTags(int uid, int wid) {
         String tags;
         String getSelectedTags = "SELECT tagsliked FROM reviews WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(getSelectedTags)) {
                 ps.setInt(1, uid);
                 ps.setInt(2, wid);
@@ -173,7 +173,7 @@ public class LogWineDao {
         if (orderByValue) {
             sql = "SELECT tname, value FROM likes WHERE uid = ? ORDER BY value DESC";
         }
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
@@ -201,7 +201,7 @@ public class LogWineDao {
     public ArrayList<String> getFavouritedTags(int uid, int maximumTag) {
         ArrayList<String> likedTags = new ArrayList<>();
         String sql = "SELECT tname, value FROM likes WHERE uid = ? AND value >= 1 ORDER BY value DESC";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
@@ -228,7 +228,7 @@ public class LogWineDao {
     public ArrayList<String> getDislikedTags(int uid) {
         ArrayList<String> dislikedTags = new ArrayList<>();
         String sql = "SELECT tname FROM likes WHERE uid = ? AND value < 0";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
@@ -252,7 +252,7 @@ public class LogWineDao {
     public HashMap<String, Integer> getMostDislikedTags(int uid, int limit) {
         HashMap<String, Integer> likedTags = new HashMap<>();
         String likePs = "SELECT tname, value FROM likes WHERE uid = ? AND value < 0 ORDER BY value LIMIT ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(likePs)) {
                 ps.setInt(1, uid);
                 ps.setInt(2, limit);
@@ -275,7 +275,7 @@ public class LogWineDao {
      */
     public Boolean reviewAlreadyExists(int uid, int wid) {
         String sql = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 loggingPS.setInt(2, wid);
@@ -289,7 +289,7 @@ public class LogWineDao {
     }
 
     /**
-     * Checks to see if the user has already reviewed the wine by calling {@link LogWineDao#reviewAlreadyExists(int, int)}.
+     * Checks to see if the user has already reviewed the wine by calling {@link LogWineDAO#reviewAlreadyExists(int, int)}.
      * If it does, it updates the current review, otherwise inserts a new review into the database
      * @param uid          the int user id
      * @param wid          the int wine id
@@ -321,7 +321,7 @@ public class LogWineDao {
     private void createReview(int uid, int wid, int rating, String description, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected)
     {
         String sql = "INSERT INTO reviews (uid, wid, rating, description, date, selectedtags, tagsLiked) VALUES (?,?,?,?,?,?,?)";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 loggingPS.setInt(2, wid);
@@ -354,7 +354,7 @@ public class LogWineDao {
      */
     private void updateReview(int uid, int wid, int rating, String newDescription, String date, ArrayList<String> selectedTags, ArrayList<String> tagsLiked, boolean noneSelected) {
         String sql = "UPDATE reviews SET description = ?, rating = ?, date = ?, selectedtags = ?, tagsliked = ? WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setString(1, newDescription);
                 loggingPS.setInt(2, rating);
@@ -387,7 +387,7 @@ public class LogWineDao {
         if (orderByDate) {
             sql = "SELECT * FROM reviews WHERE uid = ? ORDER BY date DESC";
         }
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
@@ -421,7 +421,7 @@ public class LogWineDao {
     public ArrayList<Integer> getReviewedWines(int uid) {
         ArrayList<Integer> userReviews = new ArrayList<>();
         String sql = "SELECT wid FROM reviews WHERE uid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
@@ -443,7 +443,7 @@ public class LogWineDao {
      */
     public void deleteReview(int uid, int wid) {
         String sql = "DELETE FROM reviews WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement loggingPS = conn.prepareStatement(sql)) {
                 loggingPS.setInt(1, uid);
                 loggingPS.setInt(2, wid);
@@ -462,7 +462,7 @@ public class LogWineDao {
      */
     public Review getReview(int uid, int wid) {
         String sql = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement loggingPS = conn.prepareStatement(sql)) {
             loggingPS.setInt(1, uid);
             loggingPS.setInt(2, wid);

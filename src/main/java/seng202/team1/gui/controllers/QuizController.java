@@ -60,11 +60,11 @@ public class QuizController {
             button.setOpacity(1);
         }
 
-        this.questions = QUIZSERVICE.getQuestions();
-        this.answer1answers = QUIZSERVICE.getAnswer1answers();
-        this.answer2answers = QUIZSERVICE.getAnswer2answers();
-        this.answer3answers = QUIZSERVICE.getAnswer3answers();
-        this.answer4answers = QUIZSERVICE.getAnswer4answers();
+        this.questions = QUIZSERVICE.getQUESTIONS();
+        this.answer1answers = QUIZSERVICE.getQUESTION1ANSWERS();
+        this.answer2answers = QUIZSERVICE.getQUESTION2ANSWERS();
+        this.answer3answers = QUIZSERVICE.getQUESTION3ANSWERS();
+        this.answer4answers = QUIZSERVICE.getQUESTION4ANSWERS();
 
         setLabels();
     }
@@ -116,7 +116,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer1Clicked() {
-        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 1);
+        QUIZSERVICE.getUserAnswers().set(questionNumber++, 1);
         setLabels();
     }
 
@@ -125,7 +125,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer2Clicked() {
-        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 2);
+        QUIZSERVICE.getUserAnswers().set(questionNumber++, 2);
         setLabels();
     }
 
@@ -134,7 +134,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer3Clicked() {
-        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 3);
+        QUIZSERVICE.getUserAnswers().set(questionNumber++, 3);
         setLabels();
     }
 
@@ -143,7 +143,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer4Clicked() {
-        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 4);
+        QUIZSERVICE.getUserAnswers().set(questionNumber++, 4);
         setLabels();
     }
 
