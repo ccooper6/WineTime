@@ -48,7 +48,7 @@ public class UserRegistersStepDefs {
     }
 
     @When("The user tries to re register with the same username")
-    public void iReregistersWithUsernameAndPassword() {
+    public void iReRegisterWithUsernameAndPassword() {
         userLoginService.storeLogin(name, username, password);
 
     }

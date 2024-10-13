@@ -39,12 +39,12 @@ public class ChallengeStepDefs {
     }
 
     @Given("the user has no active challenges")
-    public void iHasNoActiveChallenge() throws InstanceAlreadyExistsException {
+    public void iHaveNoActiveChallenge() throws InstanceAlreadyExistsException {
         initialise();
         assertFalse(challengeService.activeChallenge()); }
 
     @Given("user has an active challenge")
-    public void iHasActiveChallenge() throws InstanceAlreadyExistsException {
+    public void iHaveActiveChallenge() throws InstanceAlreadyExistsException {
         initialise();
         challengeService.startChallengeVariety();
         assertTrue(challengeService.activeChallenge());
