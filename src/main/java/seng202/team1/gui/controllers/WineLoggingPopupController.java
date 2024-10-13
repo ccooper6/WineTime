@@ -50,6 +50,11 @@ public class WineLoggingPopupController {
     private Review existingReview;
 
     /**
+     * Default constructor for WineLogginPopupController
+     */
+    public WineLoggingPopupController(){}
+
+    /**
      * initializes the various GUI elements for the wine logging popup.
      */
     public void initialize() {

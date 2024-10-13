@@ -11,6 +11,11 @@ public class WineCategoryService {
     private static WineCategoryService instance;
 
     /**
+     * Default constructor for WineCategoryService
+     */
+    public WineCategoryService(){}
+
+    /**
      Returns the instance and creates one if none exists.
      @return {@link WineCategoryService instance}
      */

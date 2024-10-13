@@ -105,6 +105,11 @@ public class PopUpController {
     private int currentUserUid;
 
     /**
+     * Default constructor for PopupController
+     */
+    public PopUpController(){}
+
+    /**
      * Initializes the controller.
      */
     @FXML

@@ -45,6 +45,11 @@ public class WishlistController {
     private boolean isRecc;
 
     /**
+     * Default constructor for WishlistController
+     */
+    public WishlistController(){}
+
+    /**
      * initializes the controller
      * Selects all wine objects from the database where the int userID matches the current user.
      */

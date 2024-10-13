@@ -105,6 +105,7 @@ public class UserDAO {
     /**
      * Checks whether the given user exists in the database
      * @param id is the users id
+     * @return whether the user exists
      */
     public boolean userExists(int id)
     {
