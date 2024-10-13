@@ -54,7 +54,7 @@ public class LoginController {
     @FXML
     private Button createUserButton;
 
-    private Pattern PASSWORDPATTERN;
+    private final Pattern PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$");
 
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
@@ -64,9 +64,6 @@ public class LoginController {
     @FXML
     public void initialize() {
         // allow enter key to be used to login/register
-        PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$");
-
-        // check on enter
         setCheckOnEnterListeners();
 
         // check on text update if the register button should be enabled
