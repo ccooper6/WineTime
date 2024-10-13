@@ -309,7 +309,7 @@ public class SearchWineServiceTest {
     @Test
     public void testTagsFromStringGeneral() {
         String tags = "New Zealand, 2017, Central Otago";
-        String[] expected = new String[] {"New Zealand", "2017", "Central Otago"};
+        String[] expected = new String[] {"new zealand", "2017", "central otago"};
 
         ArrayList<String> received = SearchWineService.getInstance().getTagsFromString(tags);
         String[] actual = received.toArray(new String[0]);
@@ -320,7 +320,7 @@ public class SearchWineServiceTest {
     @Test
     public void testTagsFromStringTrailingSpaces() {
         String tags = "   New Zealand, 2017  ,  Central Otago   ";
-        String[] expected = new String[] {"New Zealand", "2017", "Central Otago"};
+        String[] expected = new String[] {"new zealand", "2017", "central otago"};
 
         ArrayList<String> received = SearchWineService.getInstance().getTagsFromString(tags);
         String[] actual = received.toArray(new String[0]);

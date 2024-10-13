@@ -127,7 +127,7 @@ public class SearchWineService {
 
         ArrayList<String> tagList = new ArrayList<>();
         for (String tag : tagsArray) {
-            tagList.add(tag.trim());
+            tagList.add(tag.toLowerCase().trim());
         }
 
         return tagList;
