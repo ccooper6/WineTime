@@ -41,9 +41,9 @@ public class QuizController {
     private static final Logger LOG = LogManager.getLogger(QuizController.class);
 
     /**
-     * Default constructor for QuizController
+     * Default constructor for QuizController.
      */
-    public QuizController(){}
+    public QuizController() {}
 
     /**
      * Initializes the quiz controller.
@@ -60,11 +60,11 @@ public class QuizController {
             button.setOpacity(1);
         }
 
-        this.questions = QUIZSERVICE.getQUESTIONS();
-        this.answer1answers = QUIZSERVICE.getQUESTION1ANSWERS();
-        this.answer2answers = QUIZSERVICE.getQUESTION2ANSWERS();
-        this.answer3answers = QUIZSERVICE.getQUESTION3ANSWERS();
-        this.answer4answers = QUIZSERVICE.getQUESTION4ANSWERS();
+        this.questions = QUIZSERVICE.getQuestions();
+        this.answer1answers = QUIZSERVICE.getQuestion1Answers();
+        this.answer2answers = QUIZSERVICE.getQuestion2Answers();
+        this.answer3answers = QUIZSERVICE.getQuestion3Answers();
+        this.answer4answers = QUIZSERVICE.getQuestion4Answers();
 
         setLabels();
     }

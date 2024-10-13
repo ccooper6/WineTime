@@ -5,40 +5,40 @@ package seng202.team1.models;
  */
 public enum TagType {
     /**
-     * Variety
+     * Variety.
      */
     VARIETY,
     /**
-     * Province
+     * Province.
      */
     PROVINCE,
     /**
-     * Region
+     * Region.
      */
     REGION,
     /**
-     * Vintage
+     * Vintage.
      */
     VINTAGE,
     /**
-     * Country
+     * Country.
      */
     COUNTRY,
     /**
-     * Winery
+     * Winery.
      */
     WINERY,
     /**
-     * Points
+     * Points.
      */
     POINTS,
     /**
-     * Price
+     * Price.
      */
     PRICE;
 
     /**
-     * Returns the corresponding TagType given a string
+     * Returns the corresponding TagType given a string.
      * @param string The string to match tag type to
      * @return A corresponding TagType or null if string is invalid
      */
@@ -57,7 +57,7 @@ public enum TagType {
     }
 
     /**
-     * Returns the string of the tag the same way it is stored in the database
+     * Returns the string of the tag the same way it is stored in the database.
      * @param tagType The TagType to convert to string
      * @return The string value of the tag
      */

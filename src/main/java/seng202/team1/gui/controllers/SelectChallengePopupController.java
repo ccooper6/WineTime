@@ -14,9 +14,9 @@ public class SelectChallengePopupController {
     private final NavigationController NAVIGATIONCONTROLLER = FXWrapper.getInstance().getNavigationController();
 
     /**
-     * Default constructor for SelectChallengePopupController
+     * Default constructor for SelectChallengePopupController.
      */
-    public SelectChallengePopupController(){}
+    public SelectChallengePopupController() {}
 
     /**
      * Calls challenge service method to start the variety challenge, closes select challenge popup

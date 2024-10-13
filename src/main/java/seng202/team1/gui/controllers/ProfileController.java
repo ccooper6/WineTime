@@ -71,9 +71,9 @@ public class ProfileController {
 
 
     /**
-     * Default constructor for ProfileController
+     * Default constructor for ProfileController.
      */
-    public ProfileController(){}
+    public ProfileController() {}
 
 
     /**
@@ -184,7 +184,7 @@ public class ProfileController {
     }
 
     /**
-     * Displays the wishlist on the profile using category display
+     * Displays the wishlist on the profile using category display.
      */
     @FXML
     public void displayWishlist() {

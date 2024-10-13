@@ -20,9 +20,9 @@ public class ReviewService {
     private static ReviewService instance;
 
     /**
-     * Default constructor for ReviewService
+     * Default constructor for ReviewService.
      */
-    public ReviewService(){}
+    public ReviewService() {}
 
     /**
      * Returns an instance of the ReviewService.

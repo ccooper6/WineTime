@@ -75,9 +75,9 @@ public class WineCategoryDisplayController {
     private static final NavigationController navigationController = new NavigationController();
 
     /**
-     * Default constructor for WineCategoryDisplayController
+     * Default constructor for WineCategoryDisplayController.
      */
-    public WineCategoryDisplayController(){}
+    public WineCategoryDisplayController() {}
 
     /**
      * Only initializes on login.
@@ -421,7 +421,7 @@ public class WineCategoryDisplayController {
     }
 
     /**
-     * Create new category display using searchString as the search parameter
+     * Create new category display using searchString as the search parameter.
      * @param searchString A String that contains the tags to search by seperated by commas
      *                     If string is "wishlist" or "recommend", the corresponding search will be done instead
      * @return the parent of the new category

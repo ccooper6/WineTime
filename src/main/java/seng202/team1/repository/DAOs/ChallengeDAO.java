@@ -21,9 +21,9 @@ public class ChallengeDAO {
     private final DatabaseManager DATABASEMANAGER = DatabaseManager.getInstance();
 
     /**
-     * Default constructor for ChallengeDAO
+     * Default constructor for ChallengeDAO.
      */
-    public ChallengeDAO(){}
+    public ChallengeDAO() {}
 
     /**
      * Inserts challenge wine into the database.
@@ -65,6 +65,8 @@ public class ChallengeDAO {
 
     /**
      * Checks to see if there are wines for the challenge for the user in database.
+     * @param cname challenge name
+     * @param uid user id
      * @return boolean, true if wine in challenge_wine.
      */
     public Boolean challengeHasWines(String cname, int uid) {
@@ -142,7 +144,7 @@ public class ChallengeDAO {
                    ORDER BY id;""";
 
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement challengePS = conn.prepareStatement(sql)) {
+                PreparedStatement challengePS = conn.prepareStatement(sql)) {
             challengePS.setString(1, cname);
             challengePS.setInt(2, uid);
             try (ResultSet rs = challengePS.executeQuery()) {

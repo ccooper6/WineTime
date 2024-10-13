@@ -69,9 +69,9 @@ public class NavigationController {
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     /**
-     * Default constructor for NavigationController
+     * Default constructor for NavigationController.
      */
-    public NavigationController(){}
+    public NavigationController() {}
 
      /**
      * Initializes the controller.
@@ -373,6 +373,7 @@ public class NavigationController {
                 searchLogic.run();
                 return null;
             }
+
             @Override
             protected void succeeded() {
                 Platform.runLater(navigationController::hideLoadingScreen);

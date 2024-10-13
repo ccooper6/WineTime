@@ -102,9 +102,9 @@ public class PopUpController {
     private int currentUserUid;
 
     /**
-     * Default constructor for PopupController
+     * Default constructor for PopupController.
      */
-    public PopUpController(){}
+    public PopUpController() {}
 
     /**
      * Initializes the controller.
@@ -252,6 +252,9 @@ public class PopUpController {
         });
     }
 
+    /**
+     * Initialises the on tag clicked functionality for the tags in the popup.
+     */
     private void initialiseOnTagClicked()
     {
         ArrayList<Button> tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));

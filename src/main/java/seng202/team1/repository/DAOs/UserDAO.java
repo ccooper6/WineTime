@@ -33,7 +33,7 @@ public class UserDAO {
     public User tryLogin(int username, int password) {
         String sql = "SELECT * FROM user WHERE username = ?";
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement userPS = conn.prepareStatement(sql)) {
+                PreparedStatement userPS = conn.prepareStatement(sql)) {
             userPS.setString(1, String.valueOf(username));
             ResultSet rs = userPS.executeQuery();
 
@@ -57,14 +57,14 @@ public class UserDAO {
     }
 
     /**
-     * Adds a new user to the database
+     * Adds a new user to the database.
      * @param toAdd The user to add. Must contain username, hashed password and name
      * @return The result of the sql query. 0 if user already exists, 1 if successful, 2 if an error occurred
      */
     public int add(User toAdd) {
         String sql = "INSERT INTO user (username, password, name) VALUES (?, ?, ?)";
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, toAdd.getHashedUsername());
             ps.setInt(2, toAdd.getHashedPassword());
             ps.setString(3, toAdd.getName());
@@ -88,7 +88,7 @@ public class UserDAO {
     public String getName(int username) {
         String sql = "SELECT name FROM user WHERE username = ?";
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement userPS = conn.prepareStatement(sql)) {
+                PreparedStatement userPS = conn.prepareStatement(sql)) {
             userPS.setInt(1, username);
             ResultSet rs = userPS.executeQuery();
 
@@ -103,7 +103,7 @@ public class UserDAO {
     }
 
     /**
-     * Checks whether the given user exists in the database
+     * Checks whether the given user exists in the database.
      * @param id is the users id
      * @return whether the user exists
      */
@@ -111,7 +111,7 @@ public class UserDAO {
     {
         String sql = "SELECT id FROM user WHERE id = ?";
         try (Connection conn = DatabaseManager.getInstance().connect();
-             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+                PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
             wishlistPS.setInt(1, id);
             try (ResultSet rs = wishlistPS.executeQuery()) {
                 return rs.next();

@@ -9,7 +9,7 @@ import seng202.team1.repository.DAOs.SearchDAO;
 import java.util.ArrayList;
 
 /**
- * The service class which handles getting wine recommendations from the database
+ * The service class which handles getting wine recommendations from the database.
  * as well as containing methods that handles the logic on whether to recommend wines
  * based on the amount of data we have on the user
  */
@@ -31,15 +31,15 @@ public class RecommendWineService {
     }
 
     /**
-     * constructor for RecommendWineService
+     * Constructor for RecommendWineService.
      */
-    public RecommendWineService () {
+    public RecommendWineService() {
         this.logWineDAO = new LogWineDAO();
         this.searchDAO = new SearchDAO();
     }
 
     /**
-     * Returns a Boolean on whether the user has liked enough tags to start recommending wines to them
+     * Returns a Boolean on whether the user has liked enough tags to start recommending wines to them.
      * @param uid the user id
      * @return a Boolean. True if the user has positively liked 5 tags.
      */

@@ -103,9 +103,9 @@ public class SearchWineController {
     private static final NavigationController navigationController = new NavigationController();
 
     /**
-     * Default constructor for SearchWineController
+     * Default constructor for SearchWineController.
      */
-    public SearchWineController(){}
+    public SearchWineController() {}
 
     /**
      * Initializes the controller using wines from SearchWineService instance.
@@ -369,6 +369,7 @@ public class SearchWineController {
      * @param textField the text field to validate the value of
      * @param min the minimum value of the slider
      * @param max the maximum value of the slider
+     * @param sliderType what type of slider the slider is (price, points or vintage)
      */
     private void validateAndSetSliderLowValue(RangeSlider slider, TextField textField, int min, int max, String sliderType) {
         try {
@@ -426,6 +427,8 @@ public class SearchWineController {
             case "winery":
                 searchWineService.setCurrentWineryFilter(value);
                 break;
+            default:
+                LOG.error("Error in SearchWineController.updateSearchWineService(): Invalid filter type");
         }
     }
 
@@ -462,6 +465,8 @@ public class SearchWineController {
                     searchWineService.setCurrentMaxYear(value);
                 }
                 break;
+            default:
+                LOG.error("Error in SearchWineController.updateSearchWineService(): Invalid slider type");
         }
     }
 
@@ -551,7 +556,7 @@ public class SearchWineController {
             if (SearchWineService.getInstance().getSortDirection()) {
                 SearchWineService.getInstance().setCurrentWine(allWines.get(start + i));
             } else {
-                SearchWineService.getInstance().setCurrentWine(allWines.get(allWines.size() - start - i -1));
+                SearchWineService.getInstance().setCurrentWine(allWines.get(allWines.size() - start - i - 1));
             }
 
             int currentRow = i / columns;
@@ -683,7 +688,7 @@ public class SearchWineController {
     }
 
     /**
-     * Sets up the filter values according to previously saved ones
+     * Sets up the filter values according to previously saved ones.
      */
     private void setUpFilterValues() {
         countryComboBox.setValue(SearchWineService.getInstance().getCurrentCountryFilter());
@@ -751,6 +756,7 @@ public class SearchWineController {
                     sortDirection.setIcon(FontAwesomeIcon.valueOf("ARROW_UP"));
                     SearchWineService.getInstance().setSortDirection(true);
                 }
+                default -> LOG.error("Error in SearchWineController.dropDownClicked(): Invalid sort option selected");
             }
             String finalColumnName = columnName;
             navigationController.executeWithLoadingScreen(() -> {

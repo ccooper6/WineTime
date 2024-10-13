@@ -110,7 +110,7 @@ public class Review {
     }
 
     /**
-     * Returns the liked tags of the review
+     * Returns the liked tags of the review.
      *
      * @return An ArrayList&lt;String&gt; of tags
      */

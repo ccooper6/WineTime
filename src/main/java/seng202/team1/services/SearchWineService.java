@@ -40,9 +40,9 @@ public class SearchWineService {
     private Logger LOG = LogManager.getLogger(SearchWineService.class);
 
     /**
-     * Default constructor for SearchWineService
+     * Default constructor for SearchWineService.
      */
-    public SearchWineService(){}
+    public SearchWineService() {}
 
     /**
      * Returns the instance and creates one if none exists.
@@ -113,7 +113,7 @@ public class SearchWineService {
     }
 
     /**
-     * Creates an ArrayList of the given tags
+     * Creates an ArrayList of the given tags.
      *
      * @param tags The string of the tags to convert separated by commas
      * @return An ArrayList of the tags given. If the given string tags is null, an empty ArrayList will be returned
@@ -160,7 +160,7 @@ public class SearchWineService {
     }
 
     /**
-     * Calls SearchDAO to search for wines by name and applying current filters
+     * Calls SearchDAO to search for wines by name and applying current filters.
      *
      * @param filterString The name string to match
      * @param tags An ArrayList of Strings containing tags for
@@ -190,7 +190,8 @@ public class SearchWineService {
     }
 
     /**
-     * Gets the non-null filter strings
+     * Gets the non-null filter strings.
+     * @return ArrayList of filter strings
      */
     private ArrayList<String> getFilterStrings() {
         ArrayList<String> results = new ArrayList<>();
@@ -213,7 +214,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets wineList to an ArrayList&lt;Wine&gt; of recommended wines
+     * Sets wineList to an ArrayList&lt;Wine&gt; of recommended wines.
      * @param limit an integer limit to the number of wines to recommend
      * @param userID the current users id
      */
@@ -263,7 +264,7 @@ public class SearchWineService {
     }
 
     /**
-     * Direction of the sort arrow as a boolean value
+     * Direction of the sort arrow as a boolean value.
      * @return boolean, true = up, false = down
      */
     public boolean getSortDirection() {
@@ -271,7 +272,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the direction to up depending on the bool
+     * Sets the direction to up depending on the bool.
      * @param isUp boolean, true to set it to up
      */
     public void setSortDirection(boolean isUp) {
@@ -279,7 +280,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current country filter
+     * Sets the current country filter.
      * @param countryFilter the country filter
      */
     public void setCurrentCountryFilter(String countryFilter) {
@@ -287,7 +288,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current winery filter
+     * Sets the current winery filter.
      * @param wineryFilter the winery filter
      */
     public void setCurrentWineryFilter(String wineryFilter) {
@@ -295,7 +296,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current variety filter
+     * Sets the current variety filter.
      * @param varietyFilter the variety filter
      */
     public void setCurrentVarietyFilter(String varietyFilter) {
@@ -303,7 +304,7 @@ public class SearchWineService {
     }
 
     /**
-     * Gets the current country filter
+     * Gets the current country filter.
      * @return the country filter
      */
     public String getCurrentCountryFilter() {
@@ -311,7 +312,7 @@ public class SearchWineService {
     }
 
     /**
-     * Gets the current winery filter
+     * Gets the current winery filter.
      * @return the winery filter
      */
     public String getCurrentWineryFilter() {
@@ -319,7 +320,7 @@ public class SearchWineService {
     }
 
     /**
-     * Gets the current variety filter
+     * Gets the current variety filter.
      * @return the variety filter
      */
     public String getCurrentVarietyFilter() {
@@ -327,7 +328,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current minimum year
+     * Sets the current minimum year.
      * @param minYear the minimum year
      */
     public void setCurrentMinYear(int minYear) {
@@ -335,7 +336,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current maximum year
+     * Sets the current maximum year.
      * @param maxYear the maximum year
      */
     public void setCurrentMaxYear(int maxYear) {
@@ -343,7 +344,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current minimum points
+     * Sets the current minimum points.
      * @param minPoints the minimum points
      */
     public void setCurrentMinPoints(int minPoints) {
@@ -351,7 +352,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current max points
+     * Sets the current max points.
      * @param maxPoints the max points
      */
     public void setCurrentMaxPoints(int maxPoints) {
@@ -359,7 +360,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current minimum price
+     * Sets the current minimum price.
      * @param minPrice the minimum price
      */
     public void setCurrentMinPrice(int minPrice) {
@@ -367,7 +368,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets the current max price
+     * Sets the current max price.
      * @param maxPrice the max price
      */
     public void setCurrentMaxPrice(int maxPrice) {
@@ -380,7 +381,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current min year
+     * Returns the current min year.
      * @return the min year
      */
     public int getCurrentMinYear() {
@@ -388,7 +389,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current max year
+     * Returns the current max year.
      * @return the max year
      */
     public int getCurrentMaxYear() {
@@ -396,7 +397,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current min points
+     * Returns the current min points.
      * @return the min points
      */
     public int getCurrentMinPoints() {
@@ -404,7 +405,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current max points
+     * Returns the current max points.
      * @return the max points
      */
     public int getCurrentMaxPoints() {
@@ -412,7 +413,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current min price
+     * Returns the current min price.
      * @return the min price
      */
     public int getCurrentMinPrice() {
@@ -420,7 +421,7 @@ public class SearchWineService {
     }
 
     /**
-     * Returns the current max price
+     * Returns the current max price.
      * @return the max price
      */
     public int getCurrentMaxPrice() {
@@ -428,7 +429,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets search order var and re-queries using previous query
+     * Sets search order var and re-queries using previous query.
      * Triggered by sort-by dropdown in search page
      * @param searchOrder is the ORDER BY param which is the column name
      */
@@ -438,7 +439,7 @@ public class SearchWineService {
     }
 
     /**
-     * Stores the dropdown sort by for later
+     * Stores the dropdown sort by for later.
      * @param prevDropDown is the name of the dropdown title: "Name" etc.
      */
     public void setDropDown(String prevDropDown) {
@@ -446,7 +447,7 @@ public class SearchWineService {
     }
 
     /**
-     * gets the previous dropdown
+     * Gets the previous dropdown.
      * @return previous dropdown
      */
     public String getPrevDropDown() {

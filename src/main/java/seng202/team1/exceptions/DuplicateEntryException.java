@@ -6,7 +6,7 @@ package seng202.team1.exceptions;
 public class DuplicateEntryException extends Exception {
 
     /**
-     * Simple constructor for DuplicateEntryException that passes to parent class
+     * Simple constructor for DuplicateEntryException that passes to parent class.
      * @param message the error message
      */
     public DuplicateEntryException(String message) {

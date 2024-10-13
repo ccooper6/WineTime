@@ -16,14 +16,14 @@ public class TagRankingService {
     private final LogWineDAO logWineDao;
 
     /**
-     * Initialises a TagRankingService with a LogWineDAO
+     * Initialises a TagRankingService with a LogWineDAO.
      */
     public TagRankingService() {
         this.logWineDao = new LogWineDAO();
     }
 
     /**
-     * Checks if the user has 5 tags whose rating &lt; 0
+     * Checks if the user has 5 tags whose rating &lt; 0,
      * @param uid user id
      * @return boolean, true if the user has 5 tags with negative ratings
      */
@@ -32,7 +32,7 @@ public class TagRankingService {
     }
 
     /**
-     * Checks if the user has 5 tags whose rating > 0
+     * Checks if the user has 5 tags whose rating > 0.
      * @param uid user id
      * @return boolean, true if the user has 5 tags with positive ratings
      */
@@ -41,7 +41,7 @@ public class TagRankingService {
     }
 
     /**
-     * Fetches the top numTags positively rated tags of the user and returns it to be used as data for pie charts
+     * Fetches the top numTags positively rated tags of the user and returns it to be used as data for pie charts.
      * @param uid user id
      * @param numTags the limit on the number of data to return
      * @return an ObservableList of PieChart.Data
@@ -56,7 +56,7 @@ public class TagRankingService {
     }
 
     /**
-     * Fetches the top numTags negatively rated tags of the user and returns it to be used as data for pie charts
+     * Fetches the top numTags negatively rated tags of the user and returns it to be used as data for pie charts.
      * @param uid user id
      * @param numTags the limit on the number of data to return
      * @return an  ObservableList of  PieChart.Data

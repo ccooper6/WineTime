@@ -37,6 +37,7 @@ public class TagDAO {
 
     /**
      * Returns the instance for TagDAO class.
+     *
      * <p>If there is no instance, it will create one and fill the database manager variable
      * @return TagDAO the TagDA0 instance
      */
@@ -70,7 +71,7 @@ public class TagDAO {
     }
 
     /**
-     * gets arraylist of names of wineries
+     * gets arraylist of names of wineries.
      * @return ArrayList&lt;String&gt; of names of wineries.
      */
     public ArrayList<String> getWineries() {
@@ -83,14 +84,14 @@ public class TagDAO {
      * Fetches a list of all tag names that matches a tag type stored in the database
      * @param sql The sql query to execute with parameters for tag type
      * @param type The type of tag to search for
-     * @return An ArrayList<String> of all tags with the matching type
+     * @return An ArrayList of all tags with the matching type
      */
     private ArrayList<String> getStringTags(String sql, TagType type)
     {
         ArrayList<String> results = new ArrayList<>();
 
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement tagPS = conn.prepareStatement(sql)) {
+                PreparedStatement tagPS = conn.prepareStatement(sql)) {
             tagPS.setString(1, TagType.toString(type));
             ResultSet rs = tagPS.executeQuery();
 
@@ -108,7 +109,7 @@ public class TagDAO {
     }
 
     /**
-     * Gets the min vintage in the wines
+     * Gets the min vintage in the wines.
      * @return the lowest value for wine vintage in database.
      */
     public int getMinVintage() {
@@ -118,7 +119,7 @@ public class TagDAO {
     }
 
     /**
-     * Gets the max vintage in the wines
+     * Gets the max vintage in the wines.
      * @return the highest value for wine vintage in database
      */
     public int getMaxVintage() {
@@ -128,7 +129,7 @@ public class TagDAO {
     }
 
     /**
-     * Gets the min point score in the wines
+     * Gets the min point score in the wines.
      * @return the minimum point score for wine in database
      */
     public int getMinPoints() {
@@ -138,7 +139,7 @@ public class TagDAO {
     }
 
     /**
-     * Gets the max point score in the wines
+     * Gets the max point score in the wines.
      * @return the maximum point score for wine in database
      */
     public int getMaxPoints() {
@@ -148,7 +149,7 @@ public class TagDAO {
     }
 
     /**
-     * Gets the min price in the wines
+     * Gets the min price in the wines.
      * @return the lowest price of wine stored in the database
      */
     public int getMinPrice() {
@@ -158,7 +159,7 @@ public class TagDAO {
     }
 
     /**
-     * Gets the max price in the wines
+     * Gets the max price in the wines.
      * @return the highest price of wine stored in the database
      */
     public int getMaxPrice() {
@@ -168,7 +169,7 @@ public class TagDAO {
     }
 
     /**
-     * Returns a tag with an integer name
+     * Returns a tag with an integer name.
      * @param sql the string sql query to fetch the tag
      * @param type the type of tag it is
      * @return an integer tag name
@@ -176,7 +177,7 @@ public class TagDAO {
     private int getIntTag(String sql, TagType type)
     {
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement tagPS = conn.prepareStatement(sql)) {
+                PreparedStatement tagPS = conn.prepareStatement(sql)) {
             if (type == TagType.VINTAGE) {
                 tagPS.setString(1, TagType.toString(type));
             }
