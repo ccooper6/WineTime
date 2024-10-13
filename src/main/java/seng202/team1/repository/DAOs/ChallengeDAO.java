@@ -67,7 +67,7 @@ public class ChallengeDAO {
      * Checks to see if there are wines for the challenge for the user in database.
      * @return boolean, true if wine in challenge_wine.
      */
-    private Boolean challengeHasWines(String cname, int uid) {
+    public Boolean challengeHasWines(String cname, int uid) {
         String sql = "SELECT * FROM challenge_wine WHERE cname = ? AND uid = ?";
         try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
@@ -88,7 +88,7 @@ public class ChallengeDAO {
      * @param cname challenge name
      * @return boolean, true if the user has started a challenge.
      */
-    private Boolean userHasChallenge(int uid, String cname) {
+    public Boolean userHasChallenge(int uid, String cname) {
         String sql = "SELECT * FROM active_challenge WHERE userID = ? AND cname = ?";
         try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement challengePS = conn.prepareStatement(sql)) {
@@ -119,36 +119,6 @@ public class ChallengeDAO {
         } catch (SQLException e) {
             LOG.error("Error: Could not get challenges for user, {}", e.getMessage());
             throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Inserts the wine into the challenge.
-     * @param wineIds an array list of integer wine id
-     * @param challengeName the name of the challenge
-     * @param uid current user uid
-     */
-    public void addWineToChallenge(ArrayList<Integer> wineIds, int uid, String challengeName) {
-        if (!challengeHasWines(challengeName, uid)) {
-            for (Integer wineId : wineIds) {
-                insertChallenge(wineId, uid, challengeName);
-            }
-        }
-    }
-
-    /**
-     * Checks the user already has the challenge active, if not calls a method to update the database.
-     * @param uid user id
-     * @param cname challenge name
-     * @param wineIds arraylist of integer wine ids
-     */
-    public void userActivatesChallenge(int uid, String cname, ArrayList<Integer> wineIds) {
-        // add challenge if user does not already have this challenge already
-        if (!userHasChallenge(uid, cname)) {
-            startChallenge(uid, cname);
-            addWineToChallenge(wineIds, uid, cname);
-        } else {
-            LOG.error("Error: Could not activate challenge for user since user has already started that challenge");
         }
     }
 
