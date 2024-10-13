@@ -301,7 +301,7 @@ public class SearchWineController {
         slider.setLabelFormatter(new StringConverter<>() {
             // Show only specific labels for min, max, and every 5 years (or any desired interval)
             public String toString(Number value) {
-                int interval = value.intValue() % 25; // Default case (price)
+                int interval = value.intValue() % 50; // Default case (price)
                 if (sliderType.equals("vintage")) {
                     interval = (value.intValue() - 21) % 50;
                 } else if (sliderType.equals("points")) {
@@ -332,6 +332,9 @@ public class SearchWineController {
             maxTextField.setText(String.valueOf(newValue.intValue()));
             updateSearchWineService(sliderType, "max", newValue.intValue());
             resetText.setVisible(slider.getLowValue() != min || newValue.intValue() != max);
+            if (sliderType.equals("price")) {
+                pricePlusLabel.setVisible(newValue.intValue() == max);
+            }
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
