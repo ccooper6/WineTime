@@ -8,8 +8,8 @@ import seng202.team1.repository.DAOs.LogWineDao;
 import java.util.HashMap;
 
 /**
- * The service class responsible for using {@link LogWineDao} to get the required data for
- * {@link seng202.team1.gui.controllers.ProfileController}'s pie charts. Handles the checks if the user has enough
+ * The service class responsible for using LogWineDao to get the required data for
+ * seng202.team1.gui.controllers.ProfileController's pie charts. Handles the checks if the user has enough
  * liked/disliked tags for the respective pie charts to be shown
  */
 public class TagRankingService {
@@ -44,7 +44,7 @@ public class TagRankingService {
      * Fetches the top numTags positively rated tags of the user and returns it to be used as data for pie charts
      * @param uid user id
      * @param numTags the limit on the number of data to return
-     * @return an {@link ObservableList} of {@link PieChart.Data}
+     * @return an ObservableList of PieChart.Data
      */
     public ObservableList<PieChart.Data> getTopTagData(int uid, int numTags) {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
@@ -59,7 +59,7 @@ public class TagRankingService {
      * Fetches the top numTags negatively rated tags of the user and returns it to be used as data for pie charts
      * @param uid user id
      * @param numTags the limit on the number of data to return
-     * @return an {@link ObservableList} of {@link PieChart.Data}
+     * @return an  ObservableList of  PieChart.Data
      */
     public ObservableList<PieChart.Data> getLowestTagData(int uid, int numTags) {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();

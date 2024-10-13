@@ -42,7 +42,7 @@ public class WineVarietyService {
 
     /**
      Returns the instance and creates one if none exists.
-     @return {@link WineVarietyService instance}
+     @return WineVarietyService instance
      */
     public static WineVarietyService getInstance() {
         if (instance == null) {

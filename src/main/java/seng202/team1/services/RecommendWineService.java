@@ -21,7 +21,7 @@ public class RecommendWineService {
 
     /**
      * Returns an instance of the RecommendWineService.
-     * @return {@link RecommendWineService}
+     * @return RecommendWineService
      */
     public static RecommendWineService getInstance() {
         if (instance == null) {
@@ -39,9 +39,9 @@ public class RecommendWineService {
     }
 
     /**
-     * Returns a {@link Boolean} on whether the user has liked enough tags to start recommending wines to them
+     * Returns a Boolean on whether the user has liked enough tags to start recommending wines to them
      * @param uid the user id
-     * @return a {@link Boolean}. True if the user has positively liked 5 tags.
+     * @return a Boolean. True if the user has positively liked 5 tags.
      */
     public Boolean hasEnoughFavouritesTag(int uid) {
         ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 5);
@@ -49,11 +49,11 @@ public class RecommendWineService {
     }
 
     /**
-     * Returns an {@link ArrayList<Wine>} of wines that are recommended to the user. If no wines are recommended
+     * Returns an ArrayList&lt;Wine&gt; of wines that are recommended to the user. If no wines are recommended
      * then it will ignore the user's disliked tags and resend another recommendation request.
      * @param uid the user id
      * @param limit the limit on the number of wines to recommend
-     * @return an {@link ArrayList<Wine>} of {@link Wine}
+     * @return an ArrayList &lt;Wine&gt; of Wine
      */
     public ArrayList<Wine> getRecommendedWines(int uid, int limit) {
         ArrayList<Integer> winesToAvoid = logWineDao.getReviewedWines(uid);

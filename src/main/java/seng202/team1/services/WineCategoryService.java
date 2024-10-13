@@ -1,8 +1,5 @@
 package seng202.team1.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * Service class for the wine category feature.
  */
@@ -17,7 +14,7 @@ public class WineCategoryService {
 
     /**
      Returns the instance and creates one if none exists.
-     @return {@link WineCategoryService instance}
+     @return  WineCategoryService instance
      */
     public static WineCategoryService getInstance()
     {

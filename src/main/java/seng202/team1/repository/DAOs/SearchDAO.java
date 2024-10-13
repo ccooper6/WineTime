@@ -26,7 +26,7 @@ public class SearchDAO {
 
     /**
      * Constructor class for SearchDAO.
-     * <p>Please use the static {@link SearchDAO#getInstance()} function instead.
+     * <p>Please use the static SearchDAO#getInstance() function instead.
      */
     public SearchDAO()
     {
@@ -36,7 +36,7 @@ public class SearchDAO {
     /**
      * Returns the instance for SearchDAO class.
      * <p>If there is no instance, it will create one and fill the database manager variable
-     * @return {@link SearchDAO} the SearchDAO instance
+     * @return SearchDAO the SearchDAO instance
      */
     public static SearchDAO getInstance()
     {
@@ -48,11 +48,11 @@ public class SearchDAO {
 
     /**
      * Takes a result set of wines with its tags and process them into an ArrayList of wines.
-     * @param rs {@link ResultSet} the result set received after a SELECT statement in the
+     * @param rs ResultSet the result set received after a SELECT statement in the
      *                                   database. Each row should contain the wine id, name, description
      *                                   and price and the tag name and type. Rows are seperated by tags.
      *                                   The result set must be ordered by wine id.
-     * @return {@link ArrayList} of wines containing all wines in the result set
+     * @return ArrayList of wines containing all wines in the result set
      * @throws SQLException when a column mentioned in result set is not provided.
      */
     public static ArrayList<Wine> processResultSetIntoWines(ResultSet rs) throws SQLException
@@ -130,9 +130,9 @@ public class SearchDAO {
 
     /**
      * Searches for wines given a String of tags.
-     * @param tagList {@link String} of tag names seperated by commas. Must be normalised and lower case.
-     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
-     * @return {@link ArrayList} of Wine objects for all wines that matched the given string
+     * @param tagList String of tag names seperated by commas. Must be normalised and lower case.
+     * @param limit The number of wines to select using SearchDAO#UNLIMITED for no limit
+     * @return ArrayList of Wine objects for all wines that matched the given string
      */
     public ArrayList<Wine> searchWineByTags(ArrayList<String> tagList, int limit)
     {
@@ -275,11 +275,11 @@ public class SearchDAO {
      * that have already been reviewed, to avoid recommending wines that the user has already tried. It will sort the wines by
      * number of tags matched
      *
-     * @param tagsLiked An {@link ArrayList<String>} of the liked tag names
-     * @param tagsToAvoid An {@link ArrayList<String>} of tag names to avoid.
-     * @param wineIdToAvoid An {@link ArrayList<Integer>} of the wine ids that have already been added to the recommended list.
-     * @param limit The number of wines to select using {@link SearchDAO#UNLIMITED} for no limit
-     * @return {@link ArrayList} of Wine objects for all wines that matched the given condition
+     * @param tagsLiked An ArrayList&lt;String&gt; of the liked tag names
+     * @param tagsToAvoid An ArrayList&lt;String&gt; of tag names to avoid.
+     * @param wineIdToAvoid An ArrayList&lt;Integer&gt; of the wine ids that have already been added to the recommended list.
+     * @param limit The number of wines to select using SearchDAO#UNLIMITED for no limit
+     * @return ArrayList of Wine objects for all wines that matched the given condition
      */
     public ArrayList<Wine> getRecommendedWines(ArrayList<String> tagsLiked, ArrayList<String> tagsToAvoid, ArrayList<Integer> wineIdToAvoid, int limit)
     {
@@ -310,10 +310,10 @@ public class SearchDAO {
 
     /**
      * Sets the respective tag names and wine id to their respective slot in the prepared statement
-     * @param tagsLiked an {@link ArrayList<String>} of liked tag names
-     * @param tagsToAvoid an {@link ArrayList<String>} of disliked tag names
-     * @param wineIdToAvoid an {@link ArrayList<Integer>} of wine id to avoid
-     * @param searchPS the {@link PreparedStatement} to be executed
+     * @param tagsLiked an ArrayList<String> of liked tag names
+     * @param tagsToAvoid an ArrayList<String> of disliked tag names
+     * @param wineIdToAvoid an ArrayList<Integer> of wine id to avoid
+     * @param searchPS the PreparedStatement to be executed
      * @throws SQLException when values cannot be set in the prepared statement
      */
     @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
@@ -336,7 +336,7 @@ public class SearchDAO {
     /**
      * Adds the required ? for the wine id to avoid
      * @param numOfWineToAvoid number of wine id to avoid
-     * @param sqlBuilder the {@link StringBuilder} of the prepared statement
+     * @param sqlBuilder the StringBuilder of the prepared statement
      */
     private static void addWineIdToAvoidToPs(int numOfWineToAvoid, StringBuilder sqlBuilder) {
         sqlBuilder.append(" AND id NOT IN (");
@@ -371,7 +371,7 @@ public class SearchDAO {
     /**
      * Adds enough ? to the PS string builder to fit all the liked tags
      * @param numOfTagsLiked number of liked tags
-     * @param sqlBuilder the {@link StringBuilder} for the prepared statement
+     * @param sqlBuilder the StringBuilder for the prepared statement
      */
     private static void addLikedTagsToPs(int numOfTagsLiked, StringBuilder sqlBuilder) {
         sqlBuilder.append("      WHERE tag.name IN (");
@@ -398,10 +398,10 @@ public class SearchDAO {
 
     /**
      * Creates the recommendation sql prepared statement string
-     * @param sqlBuilder the {@link StringBuilder} that builds the PS string.
-     * @param tagsLiked {@link ArrayList<String>} of tags liked by user.
-     * @param dislikedTags {@link ArrayList<String>} of tags disliked by user.
-     * @param winesToAvoid {@link ArrayList<Integer>} of the ids of wines to avoid.
+     * @param sqlBuilder the StringBuilder that builds the PS string.
+     * @param tagsLiked ArrayList<String> of tags liked by user.
+     * @param dislikedTags ArrayList<String> of tags disliked by user.
+     * @param winesToAvoid ArrayList<Integer> of the ids of wines to avoid.
      */
     private static void initializeSqlRecommendedString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid) {
         sqlBuilder.append("""
@@ -444,7 +444,7 @@ public class SearchDAO {
     /**
      * Returns a specific wine object using the specified wine id.
      * @param wid the wine id
-     * @return a {@link Wine} object
+     * @return a Wine object
      */
     public Wine getWine(int wid) {
         String sql = "SELECT id, wine.name as wine_name, description, points, price, tag.type as tag_type, tag.name as tag_name FROM wine "
