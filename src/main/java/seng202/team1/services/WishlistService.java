@@ -1,6 +1,5 @@
 package seng202.team1.services;
 
-import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.UserDAO;
@@ -15,9 +14,9 @@ import java.util.ArrayList;
 public class WishlistService {
 
     /**
-     * Default constructor for WishlistService
+     * Default constructor for WishlistService.
      */
-    public WishlistService(){}
+    public WishlistService() {}
 
     /**
      * Checks the existence of a wine in the wishlist.

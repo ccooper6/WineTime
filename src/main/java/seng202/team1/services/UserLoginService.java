@@ -17,9 +17,9 @@ public class UserLoginService {
     private final UserDAO userDAO = new UserDAO();
 
     /**
-     * Default constructor for UserLoginService
+     * Default constructor for UserLoginService.
      */
-    public UserLoginService(){}
+    public UserLoginService() {}
 
     /**
      * Takes a username and password input and stores it as long as the username is unique.
@@ -33,9 +33,9 @@ public class UserLoginService {
         String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$";
         Pattern p = Pattern.compile(regex);
 
-        if (name == null || name.isEmpty() ||
-            username == null || username.isEmpty() ||
-            password == null || !p.matcher(password).matches()) {
+        if (name == null || name.isEmpty()
+                || username == null || username.isEmpty()
+                || password == null || !p.matcher(password).matches()) {
             System.out.println("oooh u made a mistake some where");
             return 2;
         }

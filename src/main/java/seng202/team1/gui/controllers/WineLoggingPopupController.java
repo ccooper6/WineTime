@@ -50,12 +50,12 @@ public class WineLoggingPopupController {
     private Review existingReview;
 
     /**
-     * Default constructor for WineLogginPopupController
+     * Default constructor for WineLoggingPopupController.
      */
-    public WineLoggingPopupController(){}
+    public WineLoggingPopupController() {}
 
     /**
-     * initializes the various GUI elements for the wine logging popup.
+     * Initializes the various GUI elements for the wine logging popup.
      */
     public void initialize() {
         deleteReviewButton.setOpacity(0);
@@ -93,7 +93,7 @@ public class WineLoggingPopupController {
     }
 
     /**
-     * Deletes the review that is being edited
+     * Deletes the review that is being edited.
      */
     public void onDeleteReviewPushed() {
         LOG.info("Deleting review with ID {}", existingReview);

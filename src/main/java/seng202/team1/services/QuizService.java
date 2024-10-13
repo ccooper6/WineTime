@@ -57,15 +57,15 @@ public class QuizService {
     private ArrayList<Integer> USERANSWERS = new ArrayList<>(Arrays.asList(null, null, null, null, null));
 
     /**
-     * Default constructor for QuizService
+     * Default constructor for QuizService.
      */
-    public QuizService(){}
+    public QuizService() {}
 
     /**
      * The getter for the question labels.
      * @return The question labels
      */
-    public ArrayList<String> getQUESTIONS() {
+    public ArrayList<String> getQuestions() {
         return QUESTIONS;
     }
 
@@ -73,7 +73,7 @@ public class QuizService {
      * The getter for the answer 1 labels.
      * @return The answer 1 labels
      */
-    public ArrayList<String> getQUESTION1ANSWERS() {
+    public ArrayList<String> getQuestion1Answers() {
         return QUESTION1ANSWERS;
     }
 
@@ -81,7 +81,7 @@ public class QuizService {
      * The getter for the answer 2 labels.
      * @return The answer labels
      */
-    public ArrayList<String> getQUESTION2ANSWERS() {
+    public ArrayList<String> getQuestion2Answers() {
         return QUESTION2ANSWERS;
     }
 
@@ -89,7 +89,7 @@ public class QuizService {
      * The getter for the answer 3 labels.
      * @return The answer 3 labels
      */
-    public ArrayList<String> getQUESTION3ANSWERS() {
+    public ArrayList<String> getQuestion3Answers() {
         return QUESTION3ANSWERS;
     }
 
@@ -97,7 +97,7 @@ public class QuizService {
      * The getter for the answer 4 labels.
      * @return The answer labels
      */
-    public ArrayList<String> getQUESTION4ANSWERS() {
+    public ArrayList<String> getQuestion4Answers() {
         return QUESTION4ANSWERS;
     }
 

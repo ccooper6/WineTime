@@ -48,9 +48,9 @@ public class ReviewDisplayController {
     private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
 
     /**
-     * Default constructor for ReviewDisplayController
+     * Default constructor for ReviewDisplayController.
      */
-    public ReviewDisplayController(){}
+    public ReviewDisplayController() {}
 
     /**
      * Initializes the controller.

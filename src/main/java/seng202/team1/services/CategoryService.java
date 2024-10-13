@@ -17,9 +17,9 @@ public class CategoryService {
     private static String[] generatedTags;
 
     /**
-     * Default constructor for CategoryService
+     * Default constructor for CategoryService.
      */
-    public CategoryService(){}
+    public CategoryService() {}
 
     /**
      * Returns a list of generated wine categories.
@@ -71,7 +71,7 @@ public class CategoryService {
     }
 
     /**
-     * gets the generated tag
+     * Gets the generated tag.
      * @return the generated tags
      */
     public static String[] getGeneratedTags() {
@@ -79,7 +79,7 @@ public class CategoryService {
     }
 
     /**
-     * gets if the tags are generated
+     * Gets whether the tags are generated.
      * @return boolean, true if the tags are generated.
      */
     public static boolean areTagsGenerated() {

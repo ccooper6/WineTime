@@ -21,9 +21,9 @@ public class WishlistDAO {
     private static WishlistDAO instance;
 
     /**
-     * Default constructor for WishlistDAO
+     * Default constructor for WishlistDAO.
      */
-    public WishlistDAO(){}
+    public WishlistDAO() {}
 
     /**
      * Returns the singleton of the WishlistDAO if it exists, else one is created.
@@ -55,7 +55,7 @@ public class WishlistDAO {
                 ORDER BY id;""";
 
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+                PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
             wishlistPS.setInt(1, userId);
             try (ResultSet rs = wishlistPS.executeQuery()) {
                 wineList = SearchDAO.processResultSetIntoWines(rs);
@@ -116,7 +116,7 @@ public class WishlistDAO {
                       + "FROM wishlist "
                       + "WHERE wineID = ? AND userID = ? ";
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+                PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
             wishlistPS.setInt(1, wineID);
             wishlistPS.setInt(2, userID);
             try (ResultSet rs = wishlistPS.executeQuery()) {

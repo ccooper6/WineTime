@@ -19,6 +19,7 @@ public class SearchDAO {
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
     private final DatabaseManager DATABASEMANAGER;
     private static SearchDAO instance;
+
     /**
      * The upper limit for a search query, used to perform a search when no limit is needed.
      */
@@ -26,6 +27,7 @@ public class SearchDAO {
 
     /**
      * Constructor class for SearchDAO.
+     *
      * <p>Please use the static SearchDAO#getInstance() function instead.
      */
     public SearchDAO()
@@ -35,6 +37,7 @@ public class SearchDAO {
 
     /**
      * Returns the instance for SearchDAO class.
+     *
      * <p>If there is no instance, it will create one and fill the database manager variable
      * @return SearchDAO the SearchDAO instance
      */
@@ -93,7 +96,7 @@ public class SearchDAO {
     }
 
     /**
-     * Dynamically builds the string used for searching for wines by tags given a variable amount of tags
+     * Dynamically builds the string used for searching for wines by tags given a variable amount of tags.
      * @param numTags The number of tags the SQL statement should support
      * @return The SQL query as a string
      */
@@ -147,7 +150,7 @@ public class SearchDAO {
 
         // get results
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement searchPS = conn.prepareStatement(sql)) {
+                PreparedStatement searchPS = conn.prepareStatement(sql)) {
             for (int i = 0; i < tagList.size(); i++) {
                 searchPS.setString(i + 1, tagList.get(i));
             }
@@ -163,7 +166,7 @@ public class SearchDAO {
     }
 
     /**
-     * Builds the SQL query required to search by tags and filter
+     * Builds the SQL query required to search by tags and filter.
      * @param numTags the number of tags to accommodate for
      * @param orderBy string of column name to order by
      * @param checkVintage boolean, if vintage is set
@@ -247,7 +250,7 @@ public class SearchDAO {
 
         // get results
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement searchPS = conn.prepareStatement(sql)) {
+                PreparedStatement searchPS = conn.prepareStatement(sql)) {
             for (int i = 0; i < tagList.size(); i++) {
                 searchPS.setString(i + 1, tagList.get(i));
             }
@@ -295,7 +298,7 @@ public class SearchDAO {
         ArrayList<Wine> wineList = new ArrayList<>();
         String sql = sqlBuilder.toString();
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement searchPS = conn.prepareStatement(sql)) {
+                PreparedStatement searchPS = conn.prepareStatement(sql)) {
             setTagAndWineIDValueToPs(tagsLiked,tagsToAvoid, wineIdToAvoid, searchPS);
             searchPS.setInt(tagsToAvoid.size() + 1 + tagsLiked.size() + wineIdToAvoid.size(), limit);
 
@@ -309,14 +312,13 @@ public class SearchDAO {
     }
 
     /**
-     * Sets the respective tag names and wine id to their respective slot in the prepared statement
-     * @param tagsLiked an ArrayList<String> of liked tag names
-     * @param tagsToAvoid an ArrayList<String> of disliked tag names
-     * @param wineIdToAvoid an ArrayList<Integer> of wine id to avoid
+     * Sets the respective tag names and wine id to their respective slot in the prepared statement.
+     * @param tagsLiked an ArrayList&lt;String&gt; of liked tag names
+     * @param tagsToAvoid an ArrayList&lt;String&gt; of disliked tag names
+     * @param wineIdToAvoid an ArrayList&lt;Integer&gt; of wine id to avoid
      * @param searchPS the PreparedStatement to be executed
      * @throws SQLException when values cannot be set in the prepared statement
      */
-    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     private static void setTagAndWineIDValueToPs(ArrayList<String> tagsLiked, ArrayList<String> tagsToAvoid, ArrayList<Integer> wineIdToAvoid, PreparedStatement searchPS) throws SQLException {
         for (int i = 0; i < tagsLiked.size(); i++) {
             searchPS.setString(i + 1, tagsLiked.get(i));
@@ -334,7 +336,7 @@ public class SearchDAO {
     }
 
     /**
-     * Adds the required ? for the wine id to avoid
+     * Adds the required ? for the wine id to avoid.
      * @param numOfWineToAvoid number of wine id to avoid
      * @param sqlBuilder the StringBuilder of the prepared statement
      */
@@ -352,7 +354,7 @@ public class SearchDAO {
     }
 
     /**
-     * Adds the ? reserved for the tags to avoid in the search query
+     * Adds the ? reserved for the tags to avoid in the search query.
      * @param numTagsToAvoid the number of tags to avoid
      * @param sqlBuilder the PS string builder
      */
@@ -369,7 +371,7 @@ public class SearchDAO {
     }
 
     /**
-     * Adds enough ? to the PS string builder to fit all the liked tags
+     * Adds enough ? to the PS string builder to fit all the liked tags.
      * @param numOfTagsLiked number of liked tags
      * @param sqlBuilder the StringBuilder for the prepared statement
      */
@@ -397,11 +399,11 @@ public class SearchDAO {
     }
 
     /**
-     * Creates the recommendation sql prepared statement string
+     * Creates the recommendation sql prepared statement string.
      * @param sqlBuilder the StringBuilder that builds the PS string.
-     * @param tagsLiked ArrayList<String> of tags liked by user.
-     * @param dislikedTags ArrayList<String> of tags disliked by user.
-     * @param winesToAvoid ArrayList<Integer> of the ids of wines to avoid.
+     * @param tagsLiked ArrayList&lt;String&gt; of tags liked by user.
+     * @param dislikedTags ArrayList&lt;String&gt; of tags disliked by user.
+     * @param winesToAvoid ArrayList&lt;Integer&gt; of the ids of wines to avoid.
      */
     private static void initializeSqlRecommendedString(StringBuilder sqlBuilder, ArrayList<String> tagsLiked, ArrayList<String> dislikedTags, ArrayList<Integer> winesToAvoid) {
         sqlBuilder.append("""
@@ -430,7 +432,7 @@ public class SearchDAO {
     public boolean checkWineExists(int wineID) {
         String sql = "SELECT id FROM wine WHERE wine.id = ?";
         try (Connection conn = DatabaseManager.getInstance().connect();
-             PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
+                PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
             wishlistPS.setInt(1, wineID);
             try (ResultSet rs = wishlistPS.executeQuery()) {
                 return rs.next();
@@ -447,12 +449,13 @@ public class SearchDAO {
      * @return a Wine object
      */
     public Wine getWine(int wid) {
-        String sql = "SELECT id, wine.name as wine_name, description, points, price, tag.type as tag_type, tag.name as tag_name FROM wine "
-                + "JOIN owned_by ON id = owned_by.wid "
-                + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
+        String sql = """
+                SELECT id, wine.name as wine_name, description, points, price, tag.type as tag_type, tag.name as tag_name FROM wine
+                JOIN owned_by ON id = owned_by.wid
+                JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;""";
         WineBuilder wineBuilder = null;
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement loggingPS = conn.prepareStatement(sql)) {
+                PreparedStatement loggingPS = conn.prepareStatement(sql)) {
             loggingPS.setInt(1, wid);
             try (ResultSet rs = loggingPS.executeQuery()) {
                 while (rs.next()) {

@@ -19,9 +19,9 @@ public class LogWineDAO {
     private static final Logger LOG = LogManager.getLogger(LogWineDAO.class);
 
     /**
-     * Default constructor for LogWineDAO
+     * Default constructor for LogWineDAO.
      */
-    public LogWineDAO(){}
+    public LogWineDAO() {}
 
     /**
      * Calls {@link LogWineDAO#alreadyLikeExists(int, String)} to see if the user has already liked the tag. If so
@@ -193,10 +193,10 @@ public class LogWineDAO {
     }
 
     /**
-     * Returns the top tags that have a positive rating by the user
+     * Returns the top tags that have a positive rating by the user.
      * @param uid the user uid
      * @param maximumTag the maximum number of tags to return
-     * @return An {@link ArrayList<String>} of tag names
+     * @return An ArrayList of tag names
      */
     public ArrayList<String> getFavouritedTags(int uid, int maximumTag) {
         ArrayList<String> likedTags = new ArrayList<>();
@@ -206,8 +206,9 @@ public class LogWineDAO {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
                 for (int i = 0; i < maximumTag; i++) {
-                    if (!rs.next())
+                    if (!rs.next()) {
                         break;
+                    }
 
                     likedTags.add(rs.getString(1));
                 }
@@ -223,7 +224,7 @@ public class LogWineDAO {
     /**
      * Returns all the negatively rated tags
      * @param uid the current user uid
-     * @return An {@link ArrayList<String>} of disliked tag names
+     * @return An ArrayList of disliked tag names
      */
     public ArrayList<String> getDislikedTags(int uid) {
         ArrayList<String> dislikedTags = new ArrayList<>();
@@ -392,8 +393,9 @@ public class LogWineDAO {
                 loggingPS.setInt(1, uid);
                 ResultSet rs = loggingPS.executeQuery();
                 for (int i = 0; i < maxNumbers; i++) {
-                    if (!rs.next())
+                    if (!rs.next()) {
                         break;
+                    }
 
                     userReviews.add(new Review(
                             rs.getInt(1),
@@ -414,7 +416,7 @@ public class LogWineDAO {
     }
 
     /**
-     * Returns an array of all the wine id that the user has reviewed before
+     * Returns an array of all the wine id that the user has reviewed before.
      * @param uid the current user's uid
      * @return an ArrayList&lt;Integer&gt; of the user's reviewed wine ids
      */
@@ -463,7 +465,7 @@ public class LogWineDAO {
     public Review getReview(int uid, int wid) {
         String sql = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";
         try (Connection conn = DATABASEMANAGER.connect();
-             PreparedStatement loggingPS = conn.prepareStatement(sql)) {
+                PreparedStatement loggingPS = conn.prepareStatement(sql)) {
             loggingPS.setInt(1, uid);
             loggingPS.setInt(2, wid);
             try (ResultSet rs = loggingPS.executeQuery()) {

@@ -23,9 +23,9 @@ public class WineBuilder {
     private static final Logger LOG = LogManager.getLogger(WineBuilder.class);
 
     /**
-     * Default constructor for WineBuilder
+     * Default constructor for WineBuilder.
      */
-    public WineBuilder(){}
+    public WineBuilder() {}
 
     /**
      * Returns the built Wine object using the values stored in this class as arguments.
@@ -88,7 +88,7 @@ public class WineBuilder {
     }
 
     /**
-     * sets the tag
+     * Sets the tag.
      * @param type The type of tag to set
      * @param value The value to set the tag to
      */

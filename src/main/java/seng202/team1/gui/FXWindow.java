@@ -16,9 +16,9 @@ import java.util.Objects;
 public class FXWindow extends Application {
 
     /**
-     * Default constructor for FXWindow
+     * Default constructor for FXWindow.
      */
-    public FXWindow(){}
+    public FXWindow() {}
 
     /**
      * Creates a login page and initializes fxWrapper.

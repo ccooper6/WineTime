@@ -46,9 +46,9 @@ public class ReviewsController {
     private static final Logger LOG = LogManager.getLogger(ReviewsController.class);
 
     /**
-     * Default constructor for ReviewsController
+     * Default constructor for ReviewsController.
      */
-    public ReviewsController(){}
+    public ReviewsController() {}
 
     /**
      * Selects all review objects from the database where the int userID matches the current user.
