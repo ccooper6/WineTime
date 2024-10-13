@@ -30,7 +30,8 @@ import java.util.ArrayList;
  */
 // TODO: If time, try make the validation into a single modular method
 public class SearchWineController {
-    public Pane greyScreen;
+    @FXML
+    private Pane greyScreen;
     @FXML
     private FontAwesomeIconView sortDirection;
     @FXML
@@ -101,6 +102,11 @@ public class SearchWineController {
     private int currentPage = 0;
     private static final Logger LOG = LogManager.getLogger(SearchWineController.class);
     private static final NavigationController navigationController = new NavigationController();
+
+    /**
+     * Default constructor for SearchWineController
+     */
+    public SearchWineController(){}
 
     /**
      * Initializes the controller using wines from SearchWineService instance.

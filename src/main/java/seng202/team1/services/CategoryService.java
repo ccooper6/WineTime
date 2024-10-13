@@ -17,6 +17,11 @@ public class CategoryService {
     private static String[] generatedTags;
 
     /**
+     * Default constructor for CategoryService
+     */
+    public CategoryService(){}
+
+    /**
      * Returns a list of generated wine categories.
      * @return List of Parent objects representing wine categories.
      */

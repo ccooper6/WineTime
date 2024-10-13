@@ -23,6 +23,11 @@ public class WineBuilder {
     private static final Logger LOG = LogManager.getLogger(WineBuilder.class);
 
     /**
+     * Default constructor for WineBuilder
+     */
+    public WineBuilder(){}
+
+    /**
      * Returns the built Wine object using the values stored in this class as arguments.
      * Returns null if name is not assigned
      * @return {@link Wine} the built wine object, null if wine has no name

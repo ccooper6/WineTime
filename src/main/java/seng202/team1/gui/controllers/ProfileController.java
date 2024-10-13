@@ -69,6 +69,13 @@ public class ProfileController {
 
     private static final Logger LOG = LogManager.getLogger(ProfileController.class);
 
+
+    /**
+     * Default constructor for ProfileController
+     */
+    public ProfileController(){}
+
+
     /**
      * Initializes the controller checks if user has is participating in a challenge, calls
      * methods to appropriately alter screens.

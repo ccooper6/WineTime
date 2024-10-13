@@ -40,6 +40,11 @@ public class SearchWineService {
     private Logger LOG = LogManager.getLogger(SearchWineService.class);
 
     /**
+     * Default constructor for SearchWineService
+     */
+    public SearchWineService(){}
+
+    /**
      * Returns the instance and creates one if none exists.
      * @return {@link SearchWineService instance}
      */

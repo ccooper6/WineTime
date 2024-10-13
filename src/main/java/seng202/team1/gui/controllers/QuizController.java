@@ -41,6 +41,11 @@ public class QuizController {
     private static final Logger LOG = LogManager.getLogger(QuizController.class);
 
     /**
+     * Default constructor for QuizController
+     */
+    public QuizController(){}
+
+    /**
      * Initializes the quiz controller.
      */
     @FXML

@@ -23,7 +23,7 @@ public class TagRankingService {
     }
 
     /**
-     * Checks if the user has 5 tags whose rating < 0
+     * Checks if the user has 5 tags whose rating &lt; 0
      * @param uid user id
      * @return boolean, true if the user has 5 tags with negative ratings
      */

@@ -19,6 +19,11 @@ public class LogWineDao {
     private static final Logger LOG = LogManager.getLogger(LogWineDao.class);
 
     /**
+     * Default constructor for LogWineDAO
+     */
+    public LogWineDao(){}
+
+    /**
      * Calls {@link LogWineDao#alreadyLikeExists(int, String)} to see if the user has already liked the tag. If so
      * calls {@link LogWineDao#updateLikesValue(int, String, int)} to update the liked tag's value. Else if it doesn't
      * exist, add a new entry to the 'LIKES' table
@@ -244,7 +249,7 @@ public class LogWineDao {
      * Returns a hashmap of &lt;tagName, tagValue&gt; of the most negatively rated tags belonging to the user.
      * @param uid user id
      * @param limit number of tags to return
-     * @return  a hashmap of &lt;tagName, tagValue&gt
+     * @return  a hashmap of &lt;tagName, tagValue&gt;
      */
     public HashMap<String, Integer> getMostDislikedTags(int uid, int limit) {
         HashMap<String, Integer> likedTags = new HashMap<>();

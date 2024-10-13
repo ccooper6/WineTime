@@ -13,6 +13,11 @@ public class App {
     private static final Logger LOG = LogManager.getLogger(App.class);
 
     /**
+     * Default constructor for App
+     */
+    public App(){}
+
+    /**
      * Entry point which runs the javaFX application.
      * Also shows off some different logging levels
      * @param args program arguments from command line
