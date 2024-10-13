@@ -44,7 +44,7 @@ public class ReviewDisplayController {
     private FontAwesomeIconView deleteReviewIcon;
 
     private Review review;
-    private final ReviewService reviewService = new ReviewService();
+    private final ReviewService REVIEWSERVICE = new ReviewService();
     private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
 
     /**
@@ -147,7 +147,7 @@ public class ReviewDisplayController {
      */
     @FXML
     public void onDeletePressed() {
-        reviewService.deleteReview(review);
+        REVIEWSERVICE.deleteReview(review);
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 
