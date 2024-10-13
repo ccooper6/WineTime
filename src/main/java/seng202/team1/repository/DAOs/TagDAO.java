@@ -38,7 +38,7 @@ public class TagDAO {
     /**
      * Returns the instance for TagDAO class.
      * <p>If there is no instance, it will create one and fill the database manager variable
-     * @return {@link TagDAO} the TagDA0 instance
+     * @return TagDAO the TagDA0 instance
      */
     public static TagDAO getInstance()
     {
@@ -50,7 +50,7 @@ public class TagDAO {
 
     /**
      * gets the names of wine varieties.
-     * @return {@link ArrayList<String>} names of wine varieties
+     * @return ArrayList&lt;String&gt; names of wine varieties
      */
     public ArrayList<String> getVarieties() {
         String sql = "SELECT name FROM tag WHERE type = ?";
@@ -61,7 +61,7 @@ public class TagDAO {
 
     /**
      * gets arraylist of names of countries.
-     * @return {@link ArrayList<String>} names of countries
+     * @return ArrayList&lt;String&gt; names of countries
      */
     public ArrayList<String> getCountries() {
         String sql = "SELECT name FROM tag WHERE type = ?";
@@ -71,7 +71,7 @@ public class TagDAO {
 
     /**
      * gets arraylist of names of wineries
-     * @return {@link ArrayList<String>} of names of wineries.
+     * @return ArrayList&lt;String&gt; of names of wineries.
      */
     public ArrayList<String> getWineries() {
         String sql = "SELECT name FROM tag WHERE type = ?";
@@ -83,7 +83,7 @@ public class TagDAO {
      * Fetches a list of all tag names that matches a tag type stored in the database
      * @param sql The sql query to execute with parameters for tag type
      * @param type The type of tag to search for
-     * @return An {@link ArrayList<String>} of all tags with the matching type
+     * @return An ArrayList<String> of all tags with the matching type
      */
     private ArrayList<String> getStringTags(String sql, TagType type)
     {

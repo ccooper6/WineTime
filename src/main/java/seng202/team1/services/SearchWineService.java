@@ -46,7 +46,7 @@ public class SearchWineService {
 
     /**
      * Returns the instance and creates one if none exists.
-     * @return {@link SearchWineService instance}
+     * @return SearchWineService instance
      */
     public static SearchWineService getInstance() {
         if (instance == null) {
@@ -72,7 +72,7 @@ public class SearchWineService {
 
     /**
      * Returns the current wine.
-     * @return {@link Wine} currentWine
+     * @return Wine currentWine
      */
     public Wine getCurrentWine() {
         return currentWine;
@@ -80,7 +80,7 @@ public class SearchWineService {
 
     /**
      * Sets the current wine.
-     * @param currentWine {@link Wine} currentWine
+     * @param currentWine Wine currentWine
      */
     public void setCurrentWine(Wine currentWine) {
         this.currentWine = currentWine;
@@ -88,7 +88,7 @@ public class SearchWineService {
 
     /**
      * Returns the stored wines list.
-     * @return {@link ArrayList<Wine>} of stored wines
+     * @return ArrayList&lt;Wine&lt; of stored wines
      */
     public ArrayList<Wine> getWineList() {
         return wineList;
@@ -97,7 +97,7 @@ public class SearchWineService {
     /**
      * Searches the database for wines that matches all tags provided and sets
      * it to the wineList variable.
-     * @param tags  A {@link String} of tags seperated by commas
+     * @param tags  A String of tags seperated by commas
      * @param limit The number of wines to select using -1 for no limit
      */
     public void searchWinesByTags(String tags, int limit) {
@@ -138,7 +138,7 @@ public class SearchWineService {
      * the normalised name from the wines table in database and sets it to
      * the wineList variable.
      *
-     * @param filterString A normalised {@link String} that contains what to search by
+     * @param filterString A normalised String that contains what to search by
      */
     public void searchWinesByName(String filterString) {
         if (filterString == null) {
@@ -213,7 +213,7 @@ public class SearchWineService {
     }
 
     /**
-     * Sets wineList to an {@link ArrayList<Wine>} of recommended wines
+     * Sets wineList to an ArrayList&lt;Wine&gt; of recommended wines
      * @param limit an integer limit to the number of wines to recommend
      * @param userID the current users id
      */
@@ -224,7 +224,7 @@ public class SearchWineService {
 
     /**
      * Sets the current search.
-     * @param currentSearch {@link String} currentSearch
+     * @param currentSearch String currentSearch
      */
     public void setCurrentSearch(String currentSearch) {
         this.currentSearch = currentSearch;
@@ -232,7 +232,7 @@ public class SearchWineService {
 
     /**
      * Returns the current search.
-     * @return {@link String} currentSearch
+     * @return String currentSearch
      */
     public String getCurrentSearch() {
         return currentSearch;
@@ -240,7 +240,7 @@ public class SearchWineService {
 
     /**
      * Sets the current method.
-     * @param currentMethod {@link String} currentMethod
+     * @param currentMethod String currentMethod
      */
     public void setCurrentMethod(String currentMethod) {
         this.currentMethod = currentMethod;
@@ -248,7 +248,7 @@ public class SearchWineService {
 
     /**
      * Returns the current method.
-     * @return {@link String} currentMethod
+     * @return String currentMethod
      */
     public String getCurrentMethod() {
         return currentMethod;

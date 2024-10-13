@@ -85,7 +85,6 @@ public class LogWineDao {
 
     /**
      * Returns a boolean indicating if the user is already in a 'like' relationship with the specified tag.
-     *
      * @param uid     the user id
      * @param tagName the tag name
      * @return Boolean indicating if the user has already liked the tag
@@ -163,7 +162,6 @@ public class LogWineDao {
 
     /**
      * Returns a hashmap of tagName, tagValue of the likedTags by the user.
-     *
      * @param uid          the current user int id
      * @param maximumTag   the maximum number of tags to return
      * @param orderByValue set to true to return the highest valued tags
@@ -381,7 +379,7 @@ public class LogWineDao {
      * @param uid         the int user id
      * @param maxNumbers  the maximum number of reviews to return
      * @param orderByDate a boolean value to return the most recent reviews
-     * @return an ArrayList of {@link Review}
+     * @return an ArrayList of Review
      */
     public ArrayList<Review> getUserReview(int uid, int maxNumbers, Boolean orderByDate) {
         ArrayList<Review> userReviews = new ArrayList<>();
@@ -418,7 +416,7 @@ public class LogWineDao {
     /**
      * Returns an array of all the wine id that the user has reviewed before
      * @param uid the current user's uid
-     * @return an {@link ArrayList<Integer>} of the user's reviewed wine ids
+     * @return an ArrayList&lt;Integer&gt; of the user's reviewed wine ids
      */
     public ArrayList<Integer> getReviewedWines(int uid) {
         ArrayList<Integer> userReviews = new ArrayList<>();
@@ -460,7 +458,7 @@ public class LogWineDao {
      * Returns a review object using the specified user id and wine id.
      * @param uid the user id
      * @param wid the wine id
-     * @return a {@link Review} object
+     * @return a Review object
      */
     public Review getReview(int uid, int wid) {
         String sql = "SELECT * FROM reviews WHERE uid = ? AND wid = ?";

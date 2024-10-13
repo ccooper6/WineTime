@@ -130,7 +130,7 @@ public class WineCategoryDisplayController {
                 titleText.setText("Recommendations for you: \n\nThere are currently no recommendations for you...");
             } else {
                 titleText.setText(WineCategoryService.getInstance().getCurrentCategoryTitle()
-                        + "\n\nThere was an issue fetching wines. \nPlease try restarting the app!"); //TODO: DO WE WANT THEM TO RESTART OR JUST REFRESH SELECTION?
+                        + "\n\nThere was an issue fetching wines. \nPlease try refreshing the page or restarting the app!");
             }
             leftArrowButton.setDisable(true);
             leftArrowButton.setVisible(false);
@@ -358,7 +358,6 @@ public class WineCategoryDisplayController {
     /**
      * Takes the user to the search page with search parameters of {@link WineCategoryDisplayController#tags}.
      */
-    //TODO DO WE HAVE SEE MORE FOR RECOMMENDATIONS?
     @FXML
     public void seeMore()
     {
