@@ -19,6 +19,7 @@ import java.util.regex.*;
  * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
 public class LoginController {
+    @FXML
     public FontAwesomeIconView closeButton;
     @FXML
     private Text usernameText;
