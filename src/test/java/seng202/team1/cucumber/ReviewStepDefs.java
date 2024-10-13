@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Review;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class ReviewStepDefs {
     static ReviewService reviewService;
-    static LogWineDao logWineDao;
+    static LogWineDAO logWineDao;
     static TagRankingService tagRankingService;
     private int currentUser;
     private ArrayList<String> wineTags;
@@ -33,7 +33,7 @@ public class ReviewStepDefs {
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         reviewService = new ReviewService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         tagRankingService = new TagRankingService();
         currentUser = 0;
         resetReviewValues();
