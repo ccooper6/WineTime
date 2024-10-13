@@ -17,6 +17,11 @@ public class UserLoginService {
     private final UserDAO userDAO = new UserDAO();
 
     /**
+     * Default constructor for UserLoginService
+     */
+    public UserLoginService(){}
+
+    /**
      * Takes a username and password input and stores it as long as the username is unique.
      * @param username username value to be stored
      * @param password password value to be stored

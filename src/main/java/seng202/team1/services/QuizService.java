@@ -57,6 +57,11 @@ public class QuizService {
     private ArrayList<Integer> recordOfAnswers = new ArrayList<>(Arrays.asList(null, null, null, null, null));
 
     /**
+     * Default constructor for QuizService
+     */
+    public QuizService(){}
+
+    /**
      * The getter for the question labels.
      * @return The question labels
      */

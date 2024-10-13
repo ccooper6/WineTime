@@ -76,6 +76,11 @@ public class WineCategoryDisplayController {
     private static final NavigationController navigationController = new NavigationController();
 
     /**
+     * Default constructor for WineCategoryDisplayController
+     */
+    public WineCategoryDisplayController(){}
+
+    /**
      * Only initializes on login.
      * Creates an array of the anchor panes (len = 6)
      * Fetches the number of wine objects from the database and stores them in another array (len = MAXWINES)

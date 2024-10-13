@@ -21,6 +21,11 @@ public class WishlistDAO {
     private static WishlistDAO instance;
 
     /**
+     * Default constructor for WishlistDAO
+     */
+    public WishlistDAO(){}
+
+    /**
      * Returns the singleton of the WishlistDAO if it exists, else one is created.
      * @return Singleton of the WishlistDAO
      */
