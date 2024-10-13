@@ -108,7 +108,7 @@ public class ChallengeServiceTest {
         userDAO.add(user);
         ArrayList<Integer> wineIDs = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
 
-        challengeDAO.userActivatesChallenge(user.getId(), "test", wineIDs);
+        challengeService.userActivatesChallenge(user.getId(), "test", wineIDs);
 
         List<Wine> wines = challengeService.challengeWines();
 
