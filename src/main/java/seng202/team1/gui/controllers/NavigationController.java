@@ -68,6 +68,11 @@ public class NavigationController {
 
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
+    /**
+     * Default constructor for NavigationController
+     */
+    public NavigationController(){}
+
      /**
      * Initializes the controller.
      */

@@ -22,6 +22,10 @@ public class ChallengeService {
 
     private Random random = new Random();
 
+    /**
+     * Default constructor for ChallengeService
+     */
+    public ChallengeService(){}
 
     /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.

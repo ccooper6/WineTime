@@ -23,6 +23,11 @@ public class FXWrapper {
     private static final Logger LOG = LogManager.getLogger(FXWrapper.class);
 
     /**
+     * Default constructor for FXWrapper
+     */
+    public FXWrapper(){}
+
+    /**
      * Gets the singleton.
      * @return the FXWrapper singleton
      */

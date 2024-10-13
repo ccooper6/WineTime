@@ -19,7 +19,8 @@ import java.util.regex.*;
  * Controller class for user login and register. Handles getting user input and displaying information to application.
  */
 public class LoginController {
-    public FontAwesomeIconView closeButton;
+    @FXML
+    private FontAwesomeIconView closeButton;
     @FXML
     private Text usernameText;
     @FXML
@@ -56,6 +57,11 @@ public class LoginController {
     private Pattern PASSWORDPATTERN;
 
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
+
+    /**
+     * Default constructor for LoginController
+     */
+    public LoginController(){}
 
     /**
      * Initialises the login page by adding observers to text fields

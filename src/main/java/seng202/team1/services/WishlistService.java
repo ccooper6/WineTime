@@ -15,6 +15,11 @@ import java.util.ArrayList;
 public class WishlistService {
 
     /**
+     * Default constructor for WishlistService
+     */
+    public WishlistService(){}
+
+    /**
      * Checks the existence of a wine in the wishlist.
      * @param wineID int of the wine object to check
      * @param userID user id for user to add wishlist to
