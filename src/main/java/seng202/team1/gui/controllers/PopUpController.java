@@ -170,7 +170,7 @@ public class PopUpController {
             Text buffer = new Text(" ");
             buffer.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 18;");
             Text unknown = new Text("Price Unknown");
-            unknown.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 14;");
+            unknown.setStyle("-fx-font-family: 'Noto Serif'; -fx-font-size: 10;");
             valueDisplay.getChildren().addAll(buffer, unknown);
         }
     }
