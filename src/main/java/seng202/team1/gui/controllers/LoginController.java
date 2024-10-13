@@ -393,7 +393,7 @@ public class LoginController {
         String username = userNameTextField.getText().toLowerCase();
         String password = passwordField.getText();
         String name = nameTextField.getText();
-        if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty()) {
+        if (!username.isEmpty() && PASSWORDPATTERN.matcher(password).matches() && !name.isEmpty() && password.equals(confirmPasswordField.getText())) {
             int outcome = userLoginService.storeLogin(name, username, password);
             if (outcome == 1) {
                 LOG.info("Account created for user{}", username);
@@ -404,6 +404,7 @@ public class LoginController {
                 accountCreatedSuccessfully(outcome);
             }
         }
+        checkPassword(password, confirmPasswordField.getText());
     }
 
     /**
