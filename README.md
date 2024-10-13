@@ -36,7 +36,7 @@ Open a command line interface inside the project directory and run:
 ./gradlew build
 ```
 
-The built `WineTime.jar` file will be located in the `build/libs` directory within the project directory.
+The built `WineTime-3.0.jar` file will be located in the `build/libs` directory within the project directory.
 
 
 ## Running the Project
@@ -49,10 +49,10 @@ The built `WineTime.jar` file will be located in the `build/libs` directory with
 ```
 
 ### From a built .jar file
-- Open a command line interface into the directory where the built `WineTime.jar` file is located and run:
+- Open a command line interface into the directory where the built `WineTime-3.0.jar` file is located and run:
 
 ```sh
-java -jar WineTime.jar
+java -jar WineTime-3.0.jar
 ```
 
 The WineTime application will launch and you can begin your wine journey! On the first launch, a copy database will be generated in the same directory
@@ -119,6 +119,8 @@ Due to constraints in development time, some minor low priority bugs were left i
 This results in them appearing first when sorting by name in the search result page.
 - The quiz page does not have a 'close app' button
 - The loading screen sometimes only waits for the SQL query to be performed and not the loading of the fxml. This leads to the loading animation to freeze for a few seconds which may be misinterpreted by the user as a crash.
+- Spam clicking buttons can can cause app to crash from heap overflow if you are clicking fast enough. Just click buttons once, they work.
+
 
 ## Credit
 - Red, White, Rosé and Sparkling Wine Icons - https://www.flaticon.com/free-icon/wine-glass_763048

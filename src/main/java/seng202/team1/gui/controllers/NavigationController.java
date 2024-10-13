@@ -66,6 +66,8 @@ public class NavigationController {
     private boolean dropdownLocked = false;
     private int openPopups = 0; // Counter for open popups
 
+    private static boolean canLoad = true;
+
     private static final Logger LOG = LogManager.getLogger(NavigationController.class);
 
     /**
@@ -365,6 +367,12 @@ public class NavigationController {
      * @param searchLogic the logic to be executed behind a loading screen
      */
     public void executeWithLoadingScreen(Runnable searchLogic) {
+        if (!canLoad){
+            return;
+        }
+
+        canLoad = false;
+
         NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
         Platform.runLater(navigationController::showLoadingScreen);
         Task<Void> task = new Task<>() {
@@ -386,6 +394,8 @@ public class NavigationController {
         };
 
         new Thread(task).start();
+
+        Platform.runLater(() -> canLoad = true);
     }
 
     /**
