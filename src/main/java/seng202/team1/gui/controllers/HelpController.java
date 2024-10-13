@@ -37,6 +37,11 @@ public class HelpController {
     private static final Logger LOG = LogManager.getLogger(HelpController.class);
 
     /**
+     * Default constructor for HelpController
+     */
+    public HelpController(){}
+
+    /**
      * Initializes the help screen by loading the images for the help screen.
      */
     public void initialize() {

@@ -114,7 +114,7 @@ public class Review {
     /**
      * Returns the liked tags of the review
      *
-     * @return An ArrayList<String> of tags
+     * @return An ArrayList&lt;String&gt; of tags
      */
     public ArrayList<String> getTagsLiked() {
         return tagsLiked;

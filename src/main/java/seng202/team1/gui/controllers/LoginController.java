@@ -59,6 +59,11 @@ public class LoginController {
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     /**
+     * Default constructor for LoginController
+     */
+    public LoginController(){}
+
+    /**
      * Initialises the login page by adding observers to text fields
      */
     @FXML

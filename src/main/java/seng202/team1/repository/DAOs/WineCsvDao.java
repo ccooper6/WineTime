@@ -23,6 +23,11 @@ public class WineCsvDao {
     private static final Logger LOG = LogManager.getLogger(WineCsvDao.class);
 
     /**
+     * Default constructor for WineCsvDao
+     */
+    public WineCsvDao(){}
+
+    /**
      * Adds a wine into the database as well as its associated tags if there are any new tags. It then links
      * the wine to the tag using the owned_by relationship. Returns the next wine numeric id upon successful addition.
      * @param wineValues a string array of wine attributes from the wine csv file
