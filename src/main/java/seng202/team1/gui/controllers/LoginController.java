@@ -68,7 +68,7 @@ public class LoginController {
      */
     @FXML
     public void initialize() {
-        // allow enter key to be used to login/register
+        // allow enter key to be used to log in/register
         setCheckOnEnterListeners();
 
         // check on text update if the register button should be enabled
