@@ -28,7 +28,7 @@ public class RecommendWineServiceTest {
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException
     {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         recommendWineService = new RecommendWineService();
         logWineDao = new LogWineDao();
@@ -49,7 +49,7 @@ public class RecommendWineServiceTest {
                 WHERE wine.id = ?""";
         try (Connection conn = databaseManager.connect()) {
             try (PreparedStatement ps = conn.prepareStatement(psString)) {
-                ps.setInt(1, wine.getWineId());
+                ps.setInt(1, wine.getID());
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     wineTags.add(rs.getString(1));
@@ -123,7 +123,7 @@ public class RecommendWineServiceTest {
         Integer[] wineIdsToAvoid = new Integer[]{5};
 
         for (Wine wine : recommendedWines) {
-            assertTrue(Arrays.stream(wineIdsToAvoid).noneMatch(wineId -> wineId.equals(wine.getWineId())));
+            assertTrue(Arrays.stream(wineIdsToAvoid).noneMatch(wineId -> wineId.equals(wine.getID())));
         }
 
         assertTrue(recommendedWines.stream().allMatch(wine -> verifyWine(likedTags, wine, dislikedTags)));

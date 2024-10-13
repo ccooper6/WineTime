@@ -22,7 +22,6 @@ import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
-import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.ReviewService;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WishlistService;
@@ -92,12 +91,10 @@ public class PopUpController {
     private Tooltip reviewTooltip;
     @FXML
     private Tooltip heartTooltip;
-
+    @FXML
     private FontAwesomeIconView wishlistIcon;
 
-    private ArrayList<Button> tagButtons;
-
-    private final ReviewService reviewService = new ReviewService();
+    private final ReviewService REVIEWSERVICE = new ReviewService();
     private NavigationController navigationController;
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
     private Wine wine;
@@ -125,7 +122,7 @@ public class PopUpController {
         }
 
         currentUserUid = User.getCurrentUser().getId();
-        wineID = wine.getWineId();
+        wineID = wine.getID();
 
         setUpWishlistIcon();
 
@@ -257,7 +254,8 @@ public class PopUpController {
 
     private void initialiseOnTagClicked()
     {
-        tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
+        ArrayList<Button> tagButtons = new ArrayList<>(List.of(vintageTag, varietyTag, countryTag, provinceTag, wineryTag, regionTag));
+
         for (Button button : tagButtons) {
             button.setOnAction(actionEvent -> {
                 String buttonName = button.getText();
@@ -284,9 +282,7 @@ public class PopUpController {
         linkAndIcon.setOnMouseEntered(event -> showWineSearchLink());
         linkAndIcon.setOnMouseExited(event -> hideWineSearchLink());
 
-        addToWishlist.setOnMouseEntered(event -> {
-            ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(Paint.valueOf("#A05252"));
-        });
+        addToWishlist.setOnMouseEntered(event -> ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(Paint.valueOf("#A05252")));
         addToWishlist.setOnMouseExited(event -> {
             Paint paint;
             if (WishlistService.checkInWishlist(wineID, currentUserUid)) {
@@ -297,12 +293,10 @@ public class PopUpController {
             ((FontAwesomeIconView) addToWishlist.getGraphic()).setFill(paint);
         });
 
-        logWine.setOnMouseEntered(event -> {
-            ((FontAwesomeIconView) logWine.getGraphic()).setFill(Paint.valueOf("#808080"));
-        });
+        logWine.setOnMouseEntered(event -> ((FontAwesomeIconView) logWine.getGraphic()).setFill(Paint.valueOf("#808080")));
 
         logWine.setOnMouseExited(event -> {
-            if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
+            if (REVIEWSERVICE.reviewExists(currentUserUid, wine.getID())) {
                 logWineIcon.setFill(Color.web("#333333"));
             } else {
                 logWineIcon.setFill(Color.web("#c0c0c0"));
@@ -358,7 +352,7 @@ public class PopUpController {
 
         int currentUserUid = User.getCurrentUser().getId();
 
-        if (reviewService.reviewExists(currentUserUid, wine.getWineId())) {
+        if (REVIEWSERVICE.reviewExists(currentUserUid, wine.getID())) {
             logWineIcon.setFill(Color.web("#333333"));
             reviewTooltip.setText("Edit your review");
 

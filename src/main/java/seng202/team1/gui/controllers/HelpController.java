@@ -15,7 +15,6 @@ import java.util.Objects;
  * through descriptive tutorials and GIFs.
  */
 public class HelpController {
-
     @FXML
     private ImageView homePageHelp;
     @FXML

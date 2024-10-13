@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class SearchDAO {
     private static final Logger LOG = LogManager.getLogger(SearchDAO.class);
-    private final DatabaseManager databaseManager;
+    private final DatabaseManager DATABASEMANAGER;
     private static SearchDAO instance;
     /**
      * The upper limit for a search query, used to perform a search when no limit is needed.
@@ -30,7 +30,7 @@ public class SearchDAO {
      */
     public SearchDAO()
     {
-        databaseManager = DatabaseManager.getInstance();
+        DATABASEMANAGER = DatabaseManager.getInstance();
     }
 
     /**
@@ -146,7 +146,7 @@ public class SearchDAO {
         String sql = buildSearchByTagsString(tagList.size());
 
         // get results
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement searchPS = conn.prepareStatement(sql)) {
             for (int i = 0; i < tagList.size(); i++) {
                 searchPS.setString(i + 1, tagList.get(i));
@@ -246,7 +246,7 @@ public class SearchDAO {
         String sql = buildSearchByFilterString(tagList.size(), orderBy, checkVintage);
 
         // get results
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement searchPS = conn.prepareStatement(sql)) {
             for (int i = 0; i < tagList.size(); i++) {
                 searchPS.setString(i + 1, tagList.get(i));
@@ -294,7 +294,7 @@ public class SearchDAO {
 
         ArrayList<Wine> wineList = new ArrayList<>();
         String sql = sqlBuilder.toString();
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement searchPS = conn.prepareStatement(sql)) {
             setTagAndWineIDValueToPs(tagsLiked,tagsToAvoid, wineIdToAvoid, searchPS);
             searchPS.setInt(tagsToAvoid.size() + 1 + tagsLiked.size() + wineIdToAvoid.size(), limit);
@@ -451,7 +451,7 @@ public class SearchDAO {
                 + "JOIN owned_by ON id = owned_by.wid "
                 + "JOIN tag ON owned_by.tname = tag.name WHERE wine.id = ?;";
         WineBuilder wineBuilder = null;
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement loggingPS = conn.prepareStatement(sql)) {
             loggingPS.setInt(1, wid);
             try (ResultSet rs = loggingPS.executeQuery()) {

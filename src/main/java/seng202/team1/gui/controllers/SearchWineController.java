@@ -218,8 +218,6 @@ public class SearchWineController {
                 resetVintage,
                 TagDAO.getInstance().getMinVintage(),
                 TagDAO.getInstance().getMaxVintage(),
-                SearchWineService.getInstance().getCurrentMinYear(),
-                SearchWineService.getInstance().getCurrentMaxYear(),
                 "vintage"
         );
     }
@@ -237,8 +235,6 @@ public class SearchWineController {
                 resetPoints,
                 TagDAO.getInstance().getMinPoints(),
                 TagDAO.getInstance().getMaxPoints(),
-                SearchWineService.getInstance().getCurrentMinPoints(),
-                SearchWineService.getInstance().getCurrentMaxPoints(),
                 "points"
         );
     }
@@ -255,8 +251,6 @@ public class SearchWineController {
                 resetPrice,
                 4, // We set minimum and max to specific values to avoid slider from being unnecessarily large, 200 represents 200+
                 200,
-                SearchWineService.getInstance().getCurrentMinPrice(),
-                SearchWineService.getInstance().getCurrentMaxPrice(),
                 "price"
         );
     }
@@ -289,11 +283,9 @@ public class SearchWineController {
      * @param resetText the text to show when the slider is not at its default value
      * @param min the minimum value of the slider
      * @param max the maximum value of the slider
-     * @param currentMin the current minimum value of the slider
-     * @param currentMax the current maximum value of the slider
      * @param sliderType what type of slider the slider is (price, points or vintage)
      */
-    private void initializeSlider(RangeSlider slider, TextField minTextField, TextField maxTextField, Text resetText, int min, int max, int currentMin, int currentMax, String sliderType) {
+    private void initializeSlider(RangeSlider slider, TextField minTextField, TextField maxTextField, Text resetText, int min, int max, String sliderType) {
         // Initialize slider
         slider.setMin(min);
         slider.setMax(max);
@@ -307,7 +299,7 @@ public class SearchWineController {
         slider.setLabelFormatter(new StringConverter<>() {
             // Show only specific labels for min, max, and every 5 years (or any desired interval)
             public String toString(Number value) {
-                int interval = value.intValue() % 25; // Default case (price)
+                int interval = value.intValue() % 50; // Default case (price)
                 if (sliderType.equals("vintage")) {
                     interval = (value.intValue() - 21) % 50;
                 } else if (sliderType.equals("points")) {
@@ -338,6 +330,9 @@ public class SearchWineController {
             maxTextField.setText(String.valueOf(newValue.intValue()));
             updateSearchWineService(sliderType, "max", newValue.intValue());
             resetText.setVisible(slider.getLowValue() != min || newValue.intValue() != max);
+            if (sliderType.equals("price")) {
+                pricePlusLabel.setVisible(newValue.intValue() == max);
+            }
         });
 
         // TextFields -> Slider (on Enter key or focus loss)
@@ -478,16 +473,12 @@ public class SearchWineController {
      */
     private String getCurrentFilterValue(String filterType) {
         SearchWineService service = SearchWineService.getInstance();
-        switch (filterType) {
-            case "country":
-                return service.getCurrentCountryFilter();
-            case "variety":
-                return service.getCurrentVarietyFilter();
-            case "winery":
-                return service.getCurrentWineryFilter();
-            default:
-                return null;
-        }
+        return switch (filterType) {
+            case "country" -> service.getCurrentCountryFilter();
+            case "variety" -> service.getCurrentVarietyFilter();
+            case "winery" -> service.getCurrentWineryFilter();
+            default -> null;
+        };
     }
 
     /**
@@ -572,7 +563,7 @@ public class SearchWineController {
                 Parent parent = fxmlLoader.load();
                 wineGrid.add(parent, currentCol, currentRow);
             } catch (IOException e) {
-                LOG.error("Error in SearchWineController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i).getWineId());
+                LOG.error("Error in SearchWineController.displayCurrentPage(): Could not load fxml content for wine ID {}.", allWines.get(start + i).getID());
             }
         }
     }

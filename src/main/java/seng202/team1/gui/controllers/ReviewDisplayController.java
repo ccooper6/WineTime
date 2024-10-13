@@ -44,7 +44,7 @@ public class ReviewDisplayController {
     private FontAwesomeIconView deleteReviewIcon;
 
     private Review review;
-    private final ReviewService reviewService = new ReviewService();
+    private final ReviewService REVIEWSERVICE = new ReviewService();
     private final Logger LOG = LogManager.getLogger(ReviewDisplayController.class);
 
     /**
@@ -60,7 +60,7 @@ public class ReviewDisplayController {
     @FXML
     public void initialize() {
         Review review = ReviewService.getCurrentReview();
-        reviewDate.setText(review.getReviewDate());
+        reviewDate.setText(review.getDate());
 
         setReviewDescription(review);
         setStarRatings(review);
@@ -77,8 +77,8 @@ public class ReviewDisplayController {
      * @param review The review object to get the description from.
      */
     private void setReviewDescription(Review review) {
-        if (!review.getReviewDescription().isEmpty()) {
-            reviewDescription.setText('"' + " " + review.getReviewDescription() + " " + '"');
+        if (!review.getDescription().isEmpty()) {
+            reviewDescription.setText('"' + " " + review.getDescription() + " " + '"');
         } else {
             reviewDescription.setText("No Description");
         }
@@ -147,7 +147,7 @@ public class ReviewDisplayController {
      */
     @FXML
     public void onDeletePressed() {
-        reviewService.deleteReview(review);
+        REVIEWSERVICE.deleteReview(review);
         FXWrapper.getInstance().launchSubPage("wineReviews");
     }
 

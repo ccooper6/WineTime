@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class WishlistDAO {
 
-    private final DatabaseManager databaseManager = DatabaseManager.getInstance();
+    private final DatabaseManager DATABASEMANAGER = DatabaseManager.getInstance();
     private static final Logger LOG = LogManager.getLogger(WishlistDAO.class);
     private static WishlistDAO instance;
 
@@ -54,7 +54,7 @@ public class WishlistDAO {
                 JOIN tag ON owned_by.tname = tag.name
                 ORDER BY id;""";
 
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
             wishlistPS.setInt(1, userId);
             try (ResultSet rs = wishlistPS.executeQuery()) {
@@ -74,7 +74,7 @@ public class WishlistDAO {
      */
     public void addWine(int wineID, int userID) {
         String sql = "INSERT INTO wishlist (userID, wineID) VALUES (?,?)";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
                 wishlistPS.setInt(1, userID);
                 wishlistPS.setInt(2, wineID);
@@ -93,7 +93,7 @@ public class WishlistDAO {
      */
     public void removeWine(int wineID, int userID) {
         String sql = "DELETE FROM wishlist WHERE userID = ? AND wineID = ?";
-        try (Connection conn = databaseManager.connect()) {
+        try (Connection conn = DATABASEMANAGER.connect()) {
             try (PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
                 wishlistPS.setInt(1, userID);
                 wishlistPS.setInt(2, wineID);
@@ -115,7 +115,7 @@ public class WishlistDAO {
         String sql = "SELECT COUNT(*) "
                       + "FROM wishlist "
                       + "WHERE wineID = ? AND userID = ? ";
-        try (Connection conn = databaseManager.connect();
+        try (Connection conn = DATABASEMANAGER.connect();
              PreparedStatement wishlistPS = conn.prepareStatement(sql)) {
             wishlistPS.setInt(1, wineID);
             wishlistPS.setInt(2, userID);

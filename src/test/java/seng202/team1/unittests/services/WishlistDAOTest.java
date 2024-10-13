@@ -15,7 +15,7 @@ public class WishlistDAOTest {
     public static DatabaseManager databaseManager;
     @BeforeEach
     void setUp() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         wishlistDAO = new WishlistDAO();
         UserLoginService userLoginService = new UserLoginService();

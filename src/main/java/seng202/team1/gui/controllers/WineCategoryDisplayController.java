@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import seng202.team1.gui.FXWrapper;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.services.SearchWineService;
 import seng202.team1.services.WineCategoryService;
 
@@ -64,7 +63,7 @@ public class WineCategoryDisplayController {
     private boolean isWishlist = false;
     private boolean isRecommendations = false;
 
-    private final ArrayList<Parent> wineDisplays = new ArrayList<>();
+    private final ArrayList<Parent> WINEDISPLAYS = new ArrayList<>();
     private ArrayList<Wine> displayWines;
 
     private static ArrayList<Wine> savedWineList;
@@ -175,14 +174,14 @@ public class WineCategoryDisplayController {
             SearchWineService.getInstance().setCurrentWine(displayWines.get(i));
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
-                wineDisplays.add(loader.load());
+                WINEDISPLAYS.add(loader.load());
             } catch (IOException e) {
-                LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getWineId());
+                LOG.error("Error in WineCategoryDisplayController.initialize: Could not load fxml content for wine ID {}.", displayWines.get(i).getID());
             }
         }
         ArrayList<AnchorPane> mainWines = new ArrayList<>(List.of(mainWine0, mainWine1, mainWine2, mainWine3, mainWine4, mainWine5, mainWine6));
         for (int i = 0; i < mainWines.size(); i++) {
-            mainWines.get(i).getChildren().add(wineDisplays.get(i));
+            mainWines.get(i).getChildren().add(WINEDISPLAYS.get(i));
         }
     }
 
@@ -209,7 +208,7 @@ public class WineCategoryDisplayController {
      * @param posOrNeg is the direction of the translation (right = positive)
      */
     public void shift(int posOrNeg) {
-        for (Parent wineDisplay : wineDisplays) { // Temporarily disables each wine tile
+        for (Parent wineDisplay : WINEDISPLAYS) { // Temporarily disables each wine tile
             wineDisplay.setDisable(true);
         }
 
@@ -234,7 +233,7 @@ public class WineCategoryDisplayController {
         }
 
         wineTransitions.getLast().setOnFinished(event -> { // Un-disables the wine tiles
-            for (Parent wineDisplay : wineDisplays) {
+            for (Parent wineDisplay : WINEDISPLAYS) {
                 wineDisplay.setDisable(false);
             }
         });
@@ -292,7 +291,7 @@ public class WineCategoryDisplayController {
      * @param frame is the teleporting frame (0 or 5)
      */
     public void resetFirstRight(int frame) {
-        wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(leftDisplay));
+        wineViews.get(getId(frame)).getChildren().set(0, WINEDISPLAYS.get(leftDisplay));
         leftDisplay = (leftDisplay + 1) % MAXWINES;
         rightDisplay = (rightDisplay + 1) % MAXWINES;
 
@@ -309,7 +308,7 @@ public class WineCategoryDisplayController {
      * @param frame is the teleporting frame (0 or 5)
      */
     public void resetFirstLeft(int frame) {
-        wineViews.get(getId(frame)).getChildren().set(0, wineDisplays.get(rightDisplay));
+        wineViews.get(getId(frame)).getChildren().set(0, WINEDISPLAYS.get(rightDisplay));
         if (leftDisplay <= 0) {
             leftDisplay = MAXWINES - 1;
         } else {
@@ -398,23 +397,23 @@ public class WineCategoryDisplayController {
             SearchWineService.getInstance().setCurrentWine(displaywine);
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/wineMiniDisplay.fxml"));
-                wineDisplays.add(loader.load());
+                WINEDISPLAYS.add(loader.load());
             } catch (IOException e) {
-                LOG.error("Error in WineCategoryDisplayController.fourOrLess: Could not load fxml content for wine ID {}.", displaywine.getWineId());
+                LOG.error("Error in WineCategoryDisplayController.fourOrLess: Could not load fxml content for wine ID {}.", displaywine.getID());
             }
         }
-        mainWine1.getChildren().add(wineDisplays.get(0));
+        mainWine1.getChildren().add(WINEDISPLAYS.get(0));
         if (displayWines.size() >= 2) {
-            mainWine2.getChildren().add(wineDisplays.get(1));
+            mainWine2.getChildren().add(WINEDISPLAYS.get(1));
         }
         if (displayWines.size() >= 3) {
-            mainWine3.getChildren().add(wineDisplays.get(2));
+            mainWine3.getChildren().add(WINEDISPLAYS.get(2));
         }
         if (displayWines.size() >= 4) {
-            mainWine4.getChildren().add(wineDisplays.get(3));
+            mainWine4.getChildren().add(WINEDISPLAYS.get(3));
         }
         if (displayWines.size() == 5) {
-            mainWine5.getChildren().add(wineDisplays.get(4));
+            mainWine5.getChildren().add(WINEDISPLAYS.get(4));
         }
         leftArrowButton.setDisable(true);
         leftArrowButton.setVisible(false);
