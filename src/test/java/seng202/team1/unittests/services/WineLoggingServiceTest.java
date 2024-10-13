@@ -29,7 +29,7 @@ public class WineLoggingServiceTest {
 
     @BeforeEach
     public void setUp() {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         try {
             DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         } catch (InstanceAlreadyExistsException e) {

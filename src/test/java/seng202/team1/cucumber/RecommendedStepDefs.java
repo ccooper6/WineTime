@@ -22,7 +22,7 @@ public class RecommendedStepDefs {
     @Given("The database is reset")
     public void reset()
     {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         try {
             DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         } catch (InstanceAlreadyExistsException e) {

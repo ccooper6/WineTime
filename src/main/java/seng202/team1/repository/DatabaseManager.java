@@ -19,7 +19,7 @@ import java.util.Objects;
 public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger LOG = LogManager.getLogger(DatabaseManager.class);
-    private final String databasePath;
+    private final String DATABASEPATH;
     private boolean reset = false;
 
     /**
@@ -28,7 +28,7 @@ public class DatabaseManager {
      * @param urlIn string url of database to load (if applicable)
      */
     private DatabaseManager(String urlIn) {
-        this.databasePath = Objects.requireNonNullElseGet(urlIn, this::getDatabasePath);
+        this.DATABASEPATH = Objects.requireNonNullElseGet(urlIn, this::getDatabasePath);
         initialiseDB();
     }
 
@@ -70,7 +70,7 @@ public class DatabaseManager {
     /**
      *  WARNING Sets the current singleton instance to null.
      */
-    public static void REMOVE_INSTANCE() {
+    public static void removeInstance() {
         instance = null;
     }
 
@@ -81,7 +81,7 @@ public class DatabaseManager {
     public Connection connect() {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(this.databasePath);
+            conn = DriverManager.getConnection(this.DATABASEPATH);
         } catch (SQLException e) {
             LOG.error("Error in DatabaseManager.connect(): SQLException {}", e.getMessage());
         }
@@ -106,7 +106,7 @@ public class DatabaseManager {
      */
     public void initialiseDB() {
         // removes "jdbc:sqlite:"
-        String copyPath = this.databasePath.substring(12);
+        String copyPath = this.DATABASEPATH.substring(12);
         Path copy = Paths.get(copyPath);
 
         if (reset) {

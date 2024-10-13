@@ -20,7 +20,7 @@ import java.util.regex.*;
  */
 public class LoginController {
     @FXML
-    public FontAwesomeIconView closeButton;
+    private FontAwesomeIconView closeButton;
     @FXML
     private Text usernameText;
     @FXML

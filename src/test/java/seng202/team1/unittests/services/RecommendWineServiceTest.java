@@ -28,7 +28,7 @@ public class RecommendWineServiceTest {
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException
     {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         recommendWineService = new RecommendWineService();
         logWineDao = new LogWineDao();

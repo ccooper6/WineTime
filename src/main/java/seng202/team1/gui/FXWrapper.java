@@ -121,7 +121,7 @@ public class FXWrapper {
     }
 
     /**
-     * closes the application by calling system exit
+     * Closes the application by calling system exit.
      */
     public void closeApplication() {
         System.exit(0);
