@@ -29,7 +29,7 @@ public class TagLikesStepDefs {
     private List<String> currentTagsLiked;
 
     public void initialise() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         userLoginService = new UserLoginService();

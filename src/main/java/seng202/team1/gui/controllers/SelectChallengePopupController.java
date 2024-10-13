@@ -10,8 +10,13 @@ import seng202.team1.services.ChallengeService;
  */
 public class SelectChallengePopupController {
 
-    private final ChallengeService challengeService = new ChallengeService();
-    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+    private final ChallengeService CHALLENGESERVICE = new ChallengeService();
+    private final NavigationController NAVIGATIONCONTROLLER = FXWrapper.getInstance().getNavigationController();
+
+    /**
+     * Default constructor for SelectChallengePopupController
+     */
+    public SelectChallengePopupController(){}
 
     /**
      * Calls challenge service method to start the variety challenge, closes select challenge popup
@@ -19,8 +24,8 @@ public class SelectChallengePopupController {
      */
     @FXML
     public void startVarietyChallenge() {
-        navigationController.executeWithLoadingScreen(() -> {
-            challengeService.startChallengeVariety();
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
+            CHALLENGESERVICE.startChallengeVariety();
             Platform.runLater(this::launchProfile);
         });
     }
@@ -31,8 +36,8 @@ public class SelectChallengePopupController {
      */
     @FXML
     public void startYearsChallenge() {
-        navigationController.executeWithLoadingScreen(() -> {
-            challengeService.startChallengeYears();
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
+            CHALLENGESERVICE.startChallengeYears();
             Platform.runLater(this::launchProfile);
         });
     }
@@ -43,8 +48,8 @@ public class SelectChallengePopupController {
      */
     @FXML
     public void startRedsChallenge() {
-        navigationController.executeWithLoadingScreen(() -> {
-            challengeService.startChallengeReds();
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
+            CHALLENGESERVICE.startChallengeReds();
             Platform.runLater(this::launchProfile);
         });
     }
@@ -55,8 +60,8 @@ public class SelectChallengePopupController {
      */
     @FXML
     public void startWhitesChallenge() {
-        navigationController.executeWithLoadingScreen(() -> {
-            challengeService.startChallengeWhites();
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
+            CHALLENGESERVICE.startChallengeWhites();
             Platform.runLater(this::launchProfile);
         });
     }
@@ -67,8 +72,8 @@ public class SelectChallengePopupController {
      */
     @FXML
     public void startRoseChallenge() {
-        navigationController.executeWithLoadingScreen(() -> {
-            challengeService.startChallengeRose();
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
+            CHALLENGESERVICE.startChallengeRose();
             Platform.runLater(this::launchProfile);
         });
     }

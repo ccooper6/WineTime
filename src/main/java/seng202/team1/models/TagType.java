@@ -4,13 +4,37 @@ package seng202.team1.models;
  * Enum that defines the available tag types sored in the database.
  */
 public enum TagType {
+    /**
+     * Variety
+     */
     VARIETY,
+    /**
+     * Province
+     */
     PROVINCE,
+    /**
+     * Region
+     */
     REGION,
+    /**
+     * Vintage
+     */
     VINTAGE,
+    /**
+     * Country
+     */
     COUNTRY,
+    /**
+     * Winery
+     */
     WINERY,
+    /**
+     * Points
+     */
     POINTS,
+    /**
+     * Price
+     */
     PRICE;
 
     /**

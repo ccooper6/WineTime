@@ -29,7 +29,7 @@ public class ChallengeServiceTest {
 
     @BeforeEach
     public void setUp() throws InstanceAlreadyExistsException, DuplicateEntryException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         user = new User(0, "test", Objects.hash("test"));

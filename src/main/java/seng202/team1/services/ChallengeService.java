@@ -21,6 +21,11 @@ public class ChallengeService {
     private final WineVarietyService WINEVARIETYSERVICE = new WineVarietyService();
 
     /**
+     * Default constructor for ChallengeService
+     */
+    public ChallengeService(){}
+
+    /**
      * Calls the challengeDAO to update the database so that the user has the variety challenge as an active challenge.
      */
     public void startChallengeVariety()

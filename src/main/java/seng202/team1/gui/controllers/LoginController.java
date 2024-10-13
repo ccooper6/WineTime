@@ -20,7 +20,7 @@ import java.util.regex.*;
  */
 public class LoginController {
     @FXML
-    public FontAwesomeIconView closeButton;
+    private FontAwesomeIconView closeButton;
     @FXML
     private Text usernameText;
     @FXML
@@ -57,6 +57,11 @@ public class LoginController {
     private final Pattern PASSWORDPATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\W]{8,}$");
 
     private static final Logger LOG = LogManager.getLogger(LoginController.class);
+
+    /**
+     * Default constructor for LoginController
+     */
+    public LoginController(){}
 
     /**
      * Initialises the login page by adding observers to text fields

@@ -24,7 +24,7 @@ public class WineSearchStepDefs {
 
     @Given("Wines are stored correctly")
     public void winesAreStoredCorrectly() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         DatabaseManager.getInstance().forceReset();
         searchWineService = new SearchWineService();

@@ -91,15 +91,20 @@ public class PopUpController {
     private Tooltip reviewTooltip;
     @FXML
     private Tooltip heartTooltip;
-
+    @FXML
     private FontAwesomeIconView wishlistIcon;
 
-    private final ReviewService reviewService = new ReviewService();
+    private final ReviewService REVIEWSERVICE = new ReviewService();
     private NavigationController navigationController;
     private static final Logger LOG = LogManager.getLogger(PopUpController.class);
     private Wine wine;
     private int wineID;
     private int currentUserUid;
+
+    /**
+     * Default constructor for PopupController
+     */
+    public PopUpController(){}
 
     /**
      * Initializes the controller.
@@ -291,7 +296,7 @@ public class PopUpController {
         logWine.setOnMouseEntered(event -> ((FontAwesomeIconView) logWine.getGraphic()).setFill(Paint.valueOf("#808080")));
 
         logWine.setOnMouseExited(event -> {
-            if (reviewService.reviewExists(currentUserUid, wine.getID())) {
+            if (REVIEWSERVICE.reviewExists(currentUserUid, wine.getID())) {
                 logWineIcon.setFill(Color.web("#333333"));
             } else {
                 logWineIcon.setFill(Color.web("#c0c0c0"));
@@ -347,7 +352,7 @@ public class PopUpController {
 
         int currentUserUid = User.getCurrentUser().getId();
 
-        if (reviewService.reviewExists(currentUserUid, wine.getID())) {
+        if (REVIEWSERVICE.reviewExists(currentUserUid, wine.getID())) {
             logWineIcon.setFill(Color.web("#333333"));
             reviewTooltip.setText("Edit your review");
 

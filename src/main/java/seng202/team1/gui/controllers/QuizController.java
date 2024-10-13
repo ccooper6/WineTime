@@ -30,7 +30,7 @@ public class QuizController {
     @FXML
     private Button backButton;
 
-    private final QuizService quizService = new QuizService();
+    private final QuizService QUIZSERVICE = new QuizService();
     private ArrayList<String> questions;
     private ArrayList<String> answer1answers;
     private ArrayList<String> answer2answers;
@@ -39,6 +39,11 @@ public class QuizController {
     private int questionNumber = 0;
 
     private static final Logger LOG = LogManager.getLogger(QuizController.class);
+
+    /**
+     * Default constructor for QuizController
+     */
+    public QuizController(){}
 
     /**
      * Initializes the quiz controller.
@@ -55,11 +60,11 @@ public class QuizController {
             button.setOpacity(1);
         }
 
-        this.questions = quizService.getQuestions();
-        this.answer1answers = quizService.getAnswer1answers();
-        this.answer2answers = quizService.getAnswer2answers();
-        this.answer3answers = quizService.getAnswer3answers();
-        this.answer4answers = quizService.getAnswer4answers();
+        this.questions = QUIZSERVICE.getQuestions();
+        this.answer1answers = QUIZSERVICE.getAnswer1answers();
+        this.answer2answers = QUIZSERVICE.getAnswer2answers();
+        this.answer3answers = QUIZSERVICE.getAnswer3answers();
+        this.answer4answers = QUIZSERVICE.getAnswer4answers();
 
         setLabels();
     }
@@ -103,7 +108,7 @@ public class QuizController {
         LOG.info("Showing quiz wine for user {}", User.getCurrentUser().getName());
         questionLabel.setOpacity(0);
         showWineButton.setDisable(true);
-        quizService.launchWinePopup();
+        QUIZSERVICE.launchWinePopup();
     }
 
     /**
@@ -111,7 +116,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer1Clicked() {
-        quizService.getRecordOfAnswers().set(questionNumber++, 1);
+        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 1);
         setLabels();
     }
 
@@ -120,7 +125,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer2Clicked() {
-        quizService.getRecordOfAnswers().set(questionNumber++, 2);
+        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 2);
         setLabels();
     }
 
@@ -129,7 +134,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer3Clicked() {
-        quizService.getRecordOfAnswers().set(questionNumber++, 3);
+        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 3);
         setLabels();
     }
 
@@ -138,7 +143,7 @@ public class QuizController {
      */
     @FXML
     public void onAnswer4Clicked() {
-        quizService.getRecordOfAnswers().set(questionNumber++, 4);
+        QUIZSERVICE.getRecordOfAnswers().set(questionNumber++, 4);
         setLabels();
     }
 

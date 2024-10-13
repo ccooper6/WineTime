@@ -31,7 +31,7 @@ public class SearchWineServiceTest {
     @BeforeAll
     static void setUp() throws InstanceAlreadyExistsException
     {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         logWineDao = new LogWineDao();
         DatabaseManager.getInstance().forceReset();

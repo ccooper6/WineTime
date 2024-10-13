@@ -16,6 +16,11 @@ import java.util.Objects;
 public class FXWindow extends Application {
 
     /**
+     * Default constructor for FXWindow
+     */
+    public FXWindow(){}
+
+    /**
      * Creates a login page and initializes fxWrapper.
      * @param primaryStage is the first stage initialised
      * @throws IOException when

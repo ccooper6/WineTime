@@ -19,7 +19,7 @@ public class WishlistServiceTest {
     public static DatabaseManager databaseManager;
     @BeforeEach
     void setUp() throws InstanceAlreadyExistsException {
-        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         databaseManager.forceReset();
         wishlistDAO = new WishlistDAO();

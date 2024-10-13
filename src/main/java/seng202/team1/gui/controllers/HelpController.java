@@ -15,7 +15,6 @@ import java.util.Objects;
  * through descriptive tutorials and GIFs.
  */
 public class HelpController {
-
     @FXML
     private ImageView homePageHelp;
     @FXML
@@ -36,6 +35,11 @@ public class HelpController {
     private ImageView wineTimeLogo;
 
     private static final Logger LOG = LogManager.getLogger(HelpController.class);
+
+    /**
+     * Default constructor for HelpController
+     */
+    public HelpController(){}
 
     /**
      * Initializes the help screen by loading the images for the help screen.

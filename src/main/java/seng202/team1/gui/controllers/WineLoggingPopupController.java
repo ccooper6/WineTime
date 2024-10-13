@@ -46,8 +46,13 @@ public class WineLoggingPopupController {
     private Wine currentWine;
     private ReviewService reviewService;
     private final Logger LOG = LogManager.getLogger(WineLoggingPopupController.class);
-    private final NavigationController navigationController = FXWrapper.getInstance().getNavigationController();
+    private final NavigationController NAVIGATIONCONTROLLER = FXWrapper.getInstance().getNavigationController();
     private Review existingReview;
+
+    /**
+     * Default constructor for WineLogginPopupController
+     */
+    public WineLoggingPopupController(){}
 
     /**
      * initializes the various GUI elements for the wine logging popup.
@@ -237,7 +242,7 @@ public class WineLoggingPopupController {
         boolean noneSelected = selectedTags.isEmpty();
 
         ArrayList<String> finalTagsToLike = tagsToLike;
-        navigationController.executeWithLoadingScreen(() -> {
+        NAVIGATIONCONTROLLER.executeWithLoadingScreen(() -> {
             reviewService.updateTagLikes(currentUserUid, currentWineId, finalTagsToLike, rating);
 
             reviewService.submitLog(rating, currentUserUid, currentWineId, selectedTags, finalTagsToLike, noneSelected, description);

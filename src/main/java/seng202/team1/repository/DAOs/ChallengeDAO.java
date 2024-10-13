@@ -22,8 +22,14 @@ public class ChallengeDAO {
     private final DatabaseManager DATABASEMANAGER = DatabaseManager.getInstance();
 
     /**
+     * Default constructor for ChallengeDAO
+     */
+    public ChallengeDAO(){}
+
+    /**
      * Inserts challenge wine into the database.
      * @param wineID wine id
+     * @param uid user id
      * @param cname challenge name
      */
     public void insertChallenge(int wineID, int uid, String cname) {
