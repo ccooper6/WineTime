@@ -7,7 +7,7 @@ import seng202.team1.models.TagType;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.models.WineBuilder;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DAOs.WishlistDAO;
 import seng202.team1.repository.DatabaseManager;
@@ -26,14 +26,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SearchWineServiceTest {
 
     private static DatabaseManager databaseManager;
-    private static LogWineDao logWineDao;
+    private static LogWineDAO logWineDao;
 
     @BeforeAll
     static void setUp() throws InstanceAlreadyExistsException
     {
         DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         DatabaseManager.getInstance().forceReset();
     }
 
@@ -96,7 +96,7 @@ public class SearchWineServiceTest {
     }
 
     @Test
-    public void searchWinesByTag2TagsWeirdText()
+    public void searchWinesByTag2TagsWeirdFormat()
     {
         String tags = "  oRÉGon  , pinót Noir  ";
         SearchWineService.getInstance().searchWinesByTags(tags, SearchDAO.UNLIMITED);
@@ -136,7 +136,7 @@ public class SearchWineServiceTest {
     }
 
     @Test
-    public void searchWinesByNameWeirdName() {
+    public void searchWinesByNameWeirdFormat() {
         String name = "ChardóNnAy";
         SearchWineService.getInstance().searchWinesByName(name);
         ArrayList<Wine> fromDB = SearchWineService.getInstance().getWineList();

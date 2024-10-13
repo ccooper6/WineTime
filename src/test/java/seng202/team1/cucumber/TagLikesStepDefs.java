@@ -5,13 +5,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
-import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.ReviewService;
 import seng202.team1.services.UserLoginService;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TagLikesStepDefs {
     private UserLoginService userLoginService;
     private ReviewService reviewService;
-    private LogWineDao logWineDao;
+    private LogWineDAO logWineDao;
     private ArrayList<String> wineTags;
     private int wineId;
     private int currentUserId;
@@ -34,7 +32,7 @@ public class TagLikesStepDefs {
         DatabaseManager.getInstance().forceReset();
         userLoginService = new UserLoginService();
         reviewService = new ReviewService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
     }
 
     @Given("The user with name {string}, username {string} and password {string} is currently logged in. Their user id is {int}")

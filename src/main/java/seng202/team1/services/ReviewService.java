@@ -3,7 +3,7 @@ package seng202.team1.services;
 import org.jetbrains.annotations.NotNull;
 import seng202.team1.models.Review;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.time.ZoneId;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Contains methods for handling reviews. Used by the controllers to interact with the database.
  */
 public class ReviewService {
-    private static final LogWineDao logWineDao = new LogWineDao();
+    private static final LogWineDAO LOGWINEDAO = new LogWineDAO();
     private static Review currentReview;
     private static ReviewService instance;
 
@@ -41,7 +41,7 @@ public class ReviewService {
      * @return An ArrayList of all the reviews for the current user.
      */
     public static ArrayList<Review> getUserReviews(int currentUserUid) {
-        return logWineDao.getUserReview(currentUserUid, SearchDAO.UNLIMITED, true);
+        return LOGWINEDAO.getUserReview(currentUserUid, SearchDAO.UNLIMITED, true);
     }
 
     /**
@@ -51,7 +51,7 @@ public class ReviewService {
      * @return True if a review exists, false otherwise.
      */
     public boolean reviewExists(int currentUserUid, int wineToCheck) {
-        return logWineDao.reviewAlreadyExists(currentUserUid, wineToCheck);
+        return LOGWINEDAO.reviewAlreadyExists(currentUserUid, wineToCheck);
     }
 
     /**
@@ -87,11 +87,11 @@ public class ReviewService {
         int wid = review.getWid();
 
         updateTagLikes(uid, wid, new ArrayList<>(), 0);
-        logWineDao.deleteReview(uid, wid);
+        LOGWINEDAO.deleteReview(uid, wid);
     }
 
     /**
-     * Uses LogWineDao to submit the liked tags and review to the database.
+     * Uses LogWineDAO to submit the liked tags and review to the database.
      * If no tags have been selected, it will add all the tags to the 'Likes' table. A rating of 1-2 will add a negative
      * value to the tag, whilst a 4-5 will add a positive value to the tag.
      * @param rating rating of the log
@@ -105,9 +105,9 @@ public class ReviewService {
     public void submitLog(int rating, int currentUserUid, int currentWine, @NotNull ArrayList<String> selectedTags, @NotNull ArrayList<String> tagsLiked, boolean noneSelected, String description) {
         if (!description.isBlank()) {
             String desc = description.replaceAll("\\s+", " ");
-            logWineDao.doReview(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
+            LOGWINEDAO.doReview(currentUserUid, currentWine, rating, desc, getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         } else {
-            logWineDao.doReview(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
+            LOGWINEDAO.doReview(currentUserUid, currentWine, rating, "", getCurrentTimeStamp(), selectedTags, tagsLiked, noneSelected);
         }
     }
 
@@ -120,17 +120,17 @@ public class ReviewService {
     }
 
     /**
-     * Uses LogWineDao to get the review of a wine.
+     * Uses LogWineDAO to get the review of a wine.
      * @param uid the user id
      * @param wid the wine id
      * @return the corresponding review object
      */
     public Review getReview(int uid, int wid) {
-        return logWineDao.getReview(uid, wid);
+        return LOGWINEDAO.getReview(uid, wid);
     }
 
     /**
-     * Uses LogWineDao to update the tags liked by the user.
+     * Uses LogWineDAO to update the tags liked by the user.
      * @param uid the user id
      * @param wid the wine id
      * @param tagsToAdd an ArrayList of strings, containing tag names to add
@@ -151,11 +151,11 @@ public class ReviewService {
         int scaledOldRating = getRatingWeight(oldRating);
 
         for (String tag : oldTags) {
-            logWineDao.likes(uid, tag, -scaledOldRating);
+            LOGWINEDAO.likes(uid, tag, -scaledOldRating);
         }
 
         for (String tag : tagsToAdd) {
-            logWineDao.likes(uid, tag, scaledNewRating);
+            LOGWINEDAO.likes(uid, tag, scaledNewRating);
         }
     }
 

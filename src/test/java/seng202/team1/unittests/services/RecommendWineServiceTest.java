@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team1.exceptions.InstanceAlreadyExistsException;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.SearchDAO;
 import seng202.team1.repository.DatabaseManager;
 import seng202.team1.services.RecommendWineService;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RecommendWineServiceTest {
     static DatabaseManager databaseManager;
-    static LogWineDao logWineDao;
+    static LogWineDAO logWineDao;
     static RecommendWineService recommendWineService;
 
     @BeforeEach
@@ -31,7 +31,7 @@ public class RecommendWineServiceTest {
         DatabaseManager.removeInstance();
         databaseManager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:./src/test/resources/test_database.db");
         recommendWineService = new RecommendWineService();
-        logWineDao = new LogWineDao();
+        logWineDao = new LogWineDAO();
         DatabaseManager.getInstance().forceReset();
     }
 
@@ -75,7 +75,7 @@ public class RecommendWineServiceTest {
     }
 
     @Test
-    public void testHasEnoughFavTag() {
+    public void testHasEnoughLikedTag() {
         String[] tags = {"2012", "2004", "2006", "2005", "2003"};
         for (String tag : tags) {
             logWineDao.likes(1, tag, 5);

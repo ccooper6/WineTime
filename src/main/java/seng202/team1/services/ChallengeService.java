@@ -1,5 +1,7 @@
 package seng202.team1.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team1.models.User;
 import seng202.team1.models.Wine;
 import seng202.team1.repository.DAOs.ChallengeDAO;
@@ -19,6 +21,8 @@ public class ChallengeService {
 
     private final ChallengeDAO CHALLENGEDAO = new ChallengeDAO();
     private final WineVarietyService WINEVARIETYSERVICE = new WineVarietyService();
+    private static final Logger LOG = LogManager.getLogger(ChallengeService.class);
+
 
     /**
      * Default constructor for ChallengeService
@@ -31,7 +35,7 @@ public class ChallengeService {
     public void startChallengeVariety()
     {
         ArrayList<Integer> wineIDs = getWinesForChallenge(VARIETIES);
-        CHALLENGEDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineIDs);
+        userActivatesChallenge(User.getCurrentUser().getId(), "Variety Challenge", wineIDs);
     }
 
     /**
@@ -40,7 +44,7 @@ public class ChallengeService {
     public void startChallengeYears()
     {
         ArrayList<Integer> wineIDs = getWinesForChallenge(YEARS);
-        CHALLENGEDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Time Travelling Challenge", wineIDs);
+        userActivatesChallenge(User.getCurrentUser().getId(), "Time Travelling Challenge", wineIDs);
     }
 
     /**
@@ -54,7 +58,7 @@ public class ChallengeService {
             REDS.add(redsList.get(i));
         }
         ArrayList<Integer> wineIDs = getWinesForChallenge(REDS);
-        CHALLENGEDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Red Roulette Challenge", wineIDs);
+        userActivatesChallenge(User.getCurrentUser().getId(), "Red Roulette Challenge", wineIDs);
 
 
     }
@@ -71,7 +75,7 @@ public class ChallengeService {
             WHITES.add(whitesList.get(i));
         }
         ArrayList<Integer> wineIDs = getWinesForChallenge(WHITES);
-        CHALLENGEDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Great White Challenge", wineIDs);
+        userActivatesChallenge(User.getCurrentUser().getId(), "Great White Challenge", wineIDs);
     }
 
     /**
@@ -86,7 +90,7 @@ public class ChallengeService {
             ROSE.add(roseList.get(i));
         }
         ArrayList<Integer> wineIDs = getWinesForChallenge(ROSE);
-        CHALLENGEDAO.userActivatesChallenge(User.getCurrentUser().getId(), "Rosè challenge", wineIDs);
+        userActivatesChallenge(User.getCurrentUser().getId(), "Rosè challenge", wineIDs);
     }
 
     /**
@@ -127,6 +131,36 @@ public class ChallengeService {
             wines.add(wine);
         }
         return wines;
+    }
+
+    /**
+     * Inserts the wine into the challenge.
+     * @param wineIds an array list of integer wine id
+     * @param challengeName the name of the challenge
+     * @param uid current user uid
+     */
+    public void addWineToChallenge(ArrayList<Integer> wineIds, int uid, String challengeName) {
+        if (!CHALLENGEDAO.challengeHasWines(challengeName, uid)) {
+            for (Integer wineId : wineIds) {
+                CHALLENGEDAO.insertChallenge(wineId, uid, challengeName);
+            }
+        }
+    }
+
+    /**
+     * Checks the user already has the challenge active, if not calls a method to update the database.
+     * @param uid user id
+     * @param cname challenge name
+     * @param wineIds arraylist of integer wine ids
+     */
+    public void userActivatesChallenge(int uid, String cname, ArrayList<Integer> wineIds) {
+        // add challenge if user does not already have this challenge already
+        if (!CHALLENGEDAO.userHasChallenge(uid, cname)) {
+            CHALLENGEDAO.startChallenge(uid, cname);
+            addWineToChallenge(wineIds, uid, cname);
+        } else {
+            LOG.error("Error: Could not activate challenge for user since user has already started that challenge");
+        }
     }
 
 

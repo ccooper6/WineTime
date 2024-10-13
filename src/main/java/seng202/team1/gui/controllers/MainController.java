@@ -74,7 +74,7 @@ public class MainController {
 
             generateAllCategories();
 
-            Boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
+            boolean hasRecommended = RecommendWineService.getInstance().hasEnoughFavouritesTag(User.getCurrentUser().getId());
             if (hasRecommended) {
                 displayCategoriesWithRec();
             } else {
