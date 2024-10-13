@@ -19,7 +19,7 @@ import java.util.Objects;
 public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger LOG = LogManager.getLogger(DatabaseManager.class);
-    public String databasePath;
+    private final String databasePath;
     private boolean reset = false;
 
     /**
