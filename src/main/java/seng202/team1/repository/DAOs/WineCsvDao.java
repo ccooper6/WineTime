@@ -5,7 +5,6 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team1.repository.DatabaseManager;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -298,7 +297,7 @@ public class WineCsvDao {
     }
 
     /**
-     * Called upon first run of jar, fills the database created by {@link DatabaseManager} with the initial
+     * Called upon first run of jar, fills the database created by DatabaseManager with the initial
      * 130k wines.
      */
     public void initializeAllWines() {
