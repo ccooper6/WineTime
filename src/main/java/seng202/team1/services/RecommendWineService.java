@@ -3,7 +3,7 @@ package seng202.team1.services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team1.models.Wine;
-import seng202.team1.repository.DAOs.LogWineDao;
+import seng202.team1.repository.DAOs.LogWineDAO;
 import seng202.team1.repository.DAOs.SearchDAO;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class RecommendWineService {
     private static final Logger LOG = LogManager.getLogger(RecommendWineService.class);
     private static RecommendWineService instance;
     private final SearchDAO searchDAO;
-    private final LogWineDao logWineDao;
+    private final LogWineDAO logWineDAO;
 
     /**
      * Returns an instance of the RecommendWineService.
@@ -34,7 +34,7 @@ public class RecommendWineService {
      * constructor for RecommendWineService
      */
     public RecommendWineService () {
-        this.logWineDao = new LogWineDao();
+        this.logWineDAO = new LogWineDAO();
         this.searchDAO = new SearchDAO();
     }
 
@@ -43,8 +43,8 @@ public class RecommendWineService {
      * @param uid the user id
      * @return a Boolean. True if the user has positively liked 5 tags.
      */
-    public Boolean hasEnoughFavouritesTag(int uid) {
-        ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 5);
+    public boolean hasEnoughFavouritesTag(int uid) {
+        ArrayList<String> likedTags = logWineDAO.getFavouritedTags(uid, 5);
         return likedTags.size() == 5;
     }
 
@@ -56,10 +56,10 @@ public class RecommendWineService {
      * @return an ArrayList &lt;Wine&gt; of Wine
      */
     public ArrayList<Wine> getRecommendedWines(int uid, int limit) {
-        ArrayList<Integer> winesToAvoid = logWineDao.getReviewedWines(uid);
+        ArrayList<Integer> winesToAvoid = logWineDAO.getReviewedWines(uid);
         ArrayList<Wine> recommendedWines;
-        ArrayList<String> likedTags = logWineDao.getFavouritedTags(uid, 5);
-        ArrayList<String> dislikedTags = logWineDao.getDislikedTags(uid);
+        ArrayList<String> likedTags = logWineDAO.getFavouritedTags(uid, 5);
+        ArrayList<String> dislikedTags = logWineDAO.getDislikedTags(uid);
         recommendedWines = searchDAO.getRecommendedWines(likedTags,dislikedTags,winesToAvoid,limit);
         if (recommendedWines.isEmpty()) {
             dislikedTags = new ArrayList<>();
