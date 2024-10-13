@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * updates the database with information on user and challenge, and gets information
  * from the database.
  */
-// TODO LOG after update
 public class ChallengeDAO {
     private static final Logger LOG = LogManager.getLogger(ChallengeDAO.class);
     private final DatabaseManager DATABASEMANAGER = DatabaseManager.getInstance();

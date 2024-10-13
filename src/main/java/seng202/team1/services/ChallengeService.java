@@ -100,8 +100,8 @@ public class ChallengeService {
 
     /**
      * chose 5 random wines of the set type and returns there ids in an array list.
-     * @param types is an {@link ArrayList<String>} that are the type of wines for the challenge.
-     * @return {@link ArrayList<Integer>} of wine ids
+     * @param types is an ArrayList&lt;String&gt; that are the type of wines for the challenge.
+     * @return ArrayList&lt;Integer&gt; of wine ids
      */
     public ArrayList<Integer> getWinesForChallenge(ArrayList<String> types)
     {
@@ -141,7 +141,7 @@ public class ChallengeService {
 
     /**
      * Gets the wines for the challenge that the user has active.
-     * @return {@link ArrayList<Wine>} of the wines for the challenge the user is participating in.
+     * @return ArrayList&lt;Wine&gt; of the wines for the challenge the user is participating in.
      */
     public ArrayList<Wine> challengeWines() {
         return CHALLENGEDAO.getWinesInChallenge(CHALLENGEDAO.getChallengeForUser(User.getCurrentUser().getId()), User.getCurrentUser().getId());

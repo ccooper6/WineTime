@@ -268,7 +268,7 @@ public class Wine {
     /**
      * Returns true if any regions / province / country is equal
      * to the supplied string.
-     * @param location A {@link String} for the location
+     * @param location A String for the location
      * @return boolean true if the wine contains the string in a location parameter, false otherwise
      */
     public boolean hasLocation(String location)

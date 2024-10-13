@@ -119,7 +119,7 @@ public class QuizService {
 
     /**
      * The getter for the record of answers.
-     * @return {@link ArrayList<Integer>} record of answers
+     * @return ArrayList&lt;Integer&gt; record of answers
      */
     public ArrayList<Integer> getRecordOfAnswers() {
         return recordOfAnswers;

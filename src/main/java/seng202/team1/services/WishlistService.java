@@ -60,7 +60,7 @@ public class WishlistService {
     /**
      * Gets the wines which match with the current user in the wishlist table as an array.
      * @param userID user id for user to add wishlist to
-     * @return {@link ArrayList<Wine>} of wines from the user's wishlist
+     * @return ArrayList&lt;Wine&gt; of wines from the user's wishlist
      */
     public static ArrayList<Wine> getWishlistWines(int userID) {
         return WishlistDAO.getInstance().fetchWines(userID);
